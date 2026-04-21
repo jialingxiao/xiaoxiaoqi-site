@@ -27,6 +27,7 @@
             overflow-x: hidden;
         }
         
+        /* Background Effect */
         .bg-noise {
             position: fixed;
             top: 0; left: 0;
@@ -47,6 +48,7 @@
                         radial-gradient(ellipse 60% 40% at 0% 80%, rgba(80, 120, 100, 0.05), transparent);
         }
         
+        /* Header */
         header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -78,6 +80,7 @@
         }
         nav a:hover { color: var(--accent); }
         
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -161,6 +164,7 @@
         }
         .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
         
+        /* Sections */
         section {
             padding: 120px 48px;
             max-width: 1400px;
@@ -186,6 +190,7 @@
         }
         .section-desc { color: var(--text-muted); max-width: 500px; margin: 0 auto; }
         
+        /* Cards Grid */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -258,6 +263,7 @@
             transform: translateX(4px);
         }
         
+        /* Daily News Banner */
         .daily-banner {
             background: linear-gradient(135deg, rgba(201, 169, 98, 0.1) 0%, rgba(201, 169, 98, 0.05) 100%);
             border: 1px solid rgba(201, 169, 98, 0.3);
@@ -278,6 +284,11 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
             margin-bottom: 8px;
+            color: var(--accent) !important;
+        }
+        .daily-banner a {
+            text-decoration: none;
+            color: inherit;
         }
         .daily-info p {
             color: var(--text-muted);
@@ -301,6 +312,7 @@
             transform: translateY(-2px);
         }
         
+        /* Footer */
         footer {
             padding: 80px 48px;
             border-top: 1px solid var(--border);
@@ -309,6 +321,7 @@
         footer p { color: var(--text-muted); font-size: 0.875rem; }
         footer a { color: var(--accent); text-decoration: none; }
         
+        /* Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -320,6 +333,7 @@
         }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
         
+        /* Responsive */
         @media (max-width: 768px) {
             header { padding: 16px 24px; }
             nav { display: none; }
@@ -358,6 +372,7 @@
         </div>
     </section>
     
+    <!-- Daily News Banner -->
     <section id="daily">
         <a href="daily/" style="text-decoration: none;">
             <div class="daily-banner">
@@ -376,30 +391,46 @@
             <h2 class="section-title">深度内容</h2>
             <p class="section-desc">系统化理解人生设计的核心知识体系</p>
         </div>
+        
         <div class="cards-grid">
             <a href="01-bilingual-booklet/" class="card fade-in">
                 <div class="card-icon">📖</div>
                 <h3>人生游戏电子手册</h3>
                 <p>完整的生活方式改造指南，包含身份循环、习惯设计、行为模式等核心内容。中英双语版本。</p>
-                <div class="card-meta"><span class="card-tag">电子书</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">电子书</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="03-mindmap/" class="card fade-in">
                 <div class="card-icon">🧠</div>
                 <h3>思维导图</h3>
-                <p>可视化呈现核心概念与知识点，帮助你建立系统化的认知框架。</p>
-                <div class="card-meta"><span class="card-tag">可视化</span><span class="card-arrow">→</span></div>
+                <p>可视化呈现核心概念与知识点，帮助你建立系统化的认知框架。一图看懂人生设计全貌。</p>
+                <div class="card-meta">
+                    <span class="card-tag">可视化</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="12-ebook/" class="card fade-in">
                 <div class="card-icon">📄</div>
                 <h3>双语速查手册</h3>
-                <p>便携版核心要点速查，中英对照。适合打印随身阅读。</p>
-                <div class="card-meta"><span class="card-tag">小册子</span><span class="card-arrow">→</span></div>
+                <p>便携版核心要点速查，中英对照。适合打印出来随身阅读，或者发给朋友作为入门资料。</p>
+                <div class="card-meta">
+                    <span class="card-tag">小册子</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="social-post.html" class="card fade-in">
                 <div class="card-icon">✍️</div>
                 <h3>社交媒体文案</h3>
-                <p>经过优化的小红书、朋友圈、公众号文案库可直接复制使用。</p>
-                <div class="card-meta"><span class="card-tag">文案</span><span class="card-arrow">→</span></div>
+                <p>经过优化的小红书、朋友圈、公众号文案库可直接复制使用，包含金句和话题标签。</p>
+                <div class="card-meta">
+                    <span class="card-tag">文案</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
         </div>
     </section>
@@ -410,30 +441,46 @@
             <h2 class="section-title">互动体验</h2>
             <p class="section-desc">亲身参与、主动探索的沉浸式工具</p>
         </div>
+        
         <div class="cards-grid">
             <a href="11-7day-challenge/" class="card fade-in">
                 <div class="card-icon">🎯</div>
                 <h3>7天改变计划</h3>
                 <p>循序渐进的实践任务，每天一个小挑战，7天建立新习惯的起点。</p>
-                <div class="card-meta"><span class="card-tag">挑战</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">挑战</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="09-consciousness-quiz/" class="card fade-in">
                 <div class="card-icon">🎯</div>
                 <h3>意识层次测评</h3>
                 <p>基于意识层次模型的个人评估工具，了解自己当前所处的成长阶段。</p>
-                <div class="card-meta"><span class="card-tag">测评</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">测评</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="10-rpg-dashboard/" class="card fade-in">
                 <div class="card-icon">⚔️</div>
                 <h3>RPG 人生仪表盘</h3>
                 <p>游戏化的人生进度追踪系统。把成长变成一场打怪升级的游戏。</p>
-                <div class="card-meta"><span class="card-tag">仪表盘</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">仪表盘</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="04-interactive-app/" class="card fade-in">
                 <div class="card-icon">🎮</div>
                 <h3>生活游戏</h3>
                 <p>模拟人生选择的互动体验，在游戏中体验不同决策带来的不同结果。</p>
-                <div class="card-meta"><span class="card-tag">游戏</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">游戏</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
         </div>
     </section>
@@ -444,18 +491,26 @@
             <h2 class="section-title">日常工具</h2>
             <p class="section-desc">融入日常的生活实践助手</p>
         </div>
+        
         <div class="cards-grid">
             <a href="05-daily-reminder/" class="card fade-in">
                 <div class="card-icon">🔔</div>
                 <h3>每日提醒</h3>
-                <p>每天自动弹出的成长小提示。可以设为浏览器主页。</p>
-                <div class="card-meta"><span class="card-tag">工具</span><span class="card-arrow">→</span></div>
+                <p>每天自动弹出的成长小提示。可以设为浏览器主页，每次打开都是一次自我提醒。</p>
+                <div class="card-meta">
+                    <span class="card-tag">工具</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="06-notion-template/" class="card fade-in">
                 <div class="card-icon">📋</div>
                 <h3>生活协议模板</h3>
                 <p>参考 Notion 模板设计的生活规划框架。可以直接复制到你的 Notion 中使用。</p>
-                <div class="card-meta"><span class="card-tag">模板</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">模板</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
         </div>
     </section>
@@ -466,30 +521,46 @@
             <h2 class="section-title">视觉内容</h2>
             <p class="section-desc">可直接用于社交媒体分享的视觉素材</p>
         </div>
+        
         <div class="cards-grid">
             <a href="13-quote-cards/" class="card fade-in">
                 <div class="card-icon">💬</div>
                 <h3>金句卡片</h3>
-                <p>精心设计的人生金句图片，一键保存分享。</p>
-                <div class="card-meta"><span class="card-tag">配图</span><span class="card-arrow">→</span></div>
+                <p>精心设计的人生金句图片，一键保存分享到朋友圈、小红书等平台。</p>
+                <div class="card-meta">
+                    <span class="card-tag">配图</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="14-ecards/" class="card fade-in">
                 <div class="card-icon">🎑</div>
                 <h3>电子贺卡</h3>
-                <p>特别时刻的精美电子贺卡，适合节日祝福等场景。</p>
-                <div class="card-meta"><span class="card-tag">贺卡</span><span class="card-arrow">→</span></div>
+                <p>特别时刻的精美电子贺卡，适合节日祝福、课程结业等场景使用。</p>
+                <div class="card-meta">
+                    <span class="card-tag">贺卡</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="07-posters/" class="card fade-in">
                 <div class="card-icon">🖼️</div>
                 <h3>海报设计</h3>
                 <p>高质感的主题海报，适合社群宣传、活动海报等场景。</p>
-                <div class="card-meta"><span class="card-tag">海报</span><span class="card-arrow">→</span></div>
+                <div class="card-meta">
+                    <span class="card-tag">海报</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
+            
             <a href="12-wallpaper-generator/" class="card fade-in">
                 <div class="card-icon">🖼️</div>
                 <h3>愿景壁纸生成器</h3>
-                <p>输入你的愿景目标，自动生成专属的励志壁纸。</p>
-                <div class="card-meta"><span class="card-tag">壁纸</span><span class="card-arrow">→</span></div>
+                <p>输入你的愿景目标，自动生成专属的励志壁纸。设为手机/电脑壁纸，每天激励自己。</p>
+                <div class="card-meta">
+                    <span class="card-tag">壁纸</span>
+                    <span class="card-arrow">→</span>
+                </div>
             </a>
         </div>
     </section>
@@ -499,6 +570,7 @@
             <span class="section-label">About</span>
             <h2 class="section-title">关于 Life Protocol</h2>
         </div>
+        
         <div style="max-width: 700px; margin: 0 auto; text-align: center;">
             <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 1.05rem; line-height: 1.8;">
                 Life Protocol 是一套系统化的人生成长工具集，融合了行为心理学、设计思维和游戏化理念，帮助你从认知到行动全面升级。
@@ -517,6 +589,7 @@
     </footer>
     
     <script>
+        // Scroll Animation
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
