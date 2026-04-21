@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 | 2026年4月22日</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --ai-color: #7c3aed;
+            --health-color: #059669;
+            --auto-color: #2563eb;
+            --security-color: #dc2626;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d44 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "🍞";
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            opacity: 0.15;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        .header .date {
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+        .header .tagline {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        .card-icon { font-size: 1.5rem; }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        /* Sections */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 20px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        /* Highlight box */
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+        .highlight h4 {
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        tr:hover { background: #f8f9fa; }
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 6px;
+        }
+        .tag-ai { background: #ede9fe; color: var(--ai-color); }
+        .tag-health { background: #d1fae5; color: var(--health-color); }
+        .tag-auto { background: #dbeafe; color: var(--auto-color); }
+        .tag-security { background: #fee2e2; color: var(--security-color); }
+        .tag-hot { background: #fee2e2; color: #dc2626; }
+        /* Data box */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .data-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .data-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .data-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        /* List items */
+        .item-list {
+            list-style: none;
+        }
+        .item-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border);
+            display: flex;
+            gap: 10px;
+        }
+        .item-list li:last-child { border-bottom: none; }
+        .bullet {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        /* Quote */
+        blockquote {
+            background: #f1f5f9;
+            border-left: 3px solid var(--accent);
+            padding: 12px 16px;
+            margin: 12px 0;
+            border-radius: 0 6px 6px 0;
+            font-style: italic;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>吐司日报</h1>
+            <div class="date">2026年4月22日 星期三</div>
+            <div class="tagline">精选资讯 × 深度解读 × 关联洞察</div>
+        </header>
+
+        <!-- 封面 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🚀</span>
+                <span class="card-title">今日封面</span>
+                <span class="tag tag-ai">AI</span>
+            </div>
+            <h3 style="color: var(--primary); margin-bottom: 12px;">GPT-6发布：性能暴涨40%，AI竞赛进入新纪元</h3>
+            <p style="color: var(--text-light); margin-bottom: 15px;">OpenAI于本周正式发布GPT-6，再次刷新大模型性能上限。企业、开发者正疯狂抢测，这场AI军备竞赛正在加速。</p>
+            
+            <div class="highlight">
+                <h4>📌 核心升级</h4>
+                <ul style="margin-left: 20px; color: #78350f;">
+                    <li><strong>200万Token上下文</strong>：可一次性处理整本《红楼梦》并记住细节</li>
+                    <li><strong>5-6万亿MoE参数</strong>：代码、推理能力比上代强40%</li>
+                    <li><strong>多模态全面进化</strong>：文本、图像、视频、3D理解无缝衔接</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- AI科技 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🤖</span>
+                <span class="card-title">AI & 科技前沿</span>
+            </div>
+            
+            <h4 class="section-title">🤖 模型军备竞赛白热化</h4>
+            <table>
+                <tr><th>模型</th><th>发布方</th><th>核心亮点</th></tr>
+                <tr><td><strong>Claude Opus 4.7</strong></td><td>Anthropic</td><td>编码能力提升37%，支持4K图像分析</td></tr>
+                <tr><td><strong>Llama 4 Scout</strong></td><td>Meta</td><td>支持<strong style="color:var(--accent)">1000万Token</strong>上下文</td></tr>
+                <tr><td><strong>Qwen 3</strong></td><td>阿里</td><td>0.6B到72B全系列dual-mode thinking</td></tr>
+                <tr><td><strong>Gemini 3.1 Ultra</strong></td><td>Google</td><td>94.3% GPQA Diamond，超越GPT-5.4</td></tr>
+            </table>
+
+            <h4 class="section-title">💰 资本狂潮</h4>
+            <div class="highlight">
+                <h4>🏆 亚马逊250亿美元重仓Anthropic</h4>
+                <span class="badge">4月20日</span>
+                <ul style="margin: 10px 0 0 20px; color: #78350f;">
+                    <li>追加投资250亿美元，首期50亿美元已到账</li>
+                    <li>Anthropic承诺未来十年在AWS投入<strong>超1000亿美元</strong></li>
+                    <li>年化营收已突破<strong>300亿美元</strong></li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <span class="tag tag-ai">融资</span>
+                <strong>DeepSeek百亿估值融资</strong>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 5px;">首次外部融资，估值不低于100亿美元，国产大模型正式加入全球商业化竞争</p>
+            </div>
+
+            <h4 class="section-title">📉 Sora关停：算力与商业的博弈</h4>
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px; border-radius: 0 8px 8px 0; margin: 10px 0;">
+                <p style="margin-bottom: 8px;"><strong>OpenAI宣布关停Sora视频生成服务</strong></p>
+                <ul style="margin-left: 20px; color: #991b1b;">
+                    <li>每日算力成本：<strong>1500万美元</strong></li>
+                    <li>累计消费者收入：<strong>仅140万美元</strong></li>
+                    <li>投入产出比：<strong style="color: #dc2626;">2500:1</strong></li>
+                </ul>
+            </div>
+            <blockquote>这一幕让华尔街警醒：AI商业化，不能只靠技术想象力。</blockquote>
+        </div>
+
+        <!-- 医疗健康 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🏥</span>
+                <span class="card-title">医疗健康政策</span>
+                <span class="tag tag-health">政策</span>
+            </div>
+            
+            <h4 class="section-title">📋 国务院重磅：分级诊疗体系全面升级</h4>
+            <span class="badge">4月9日发布</span>
+            <p style="color: var(--text-light); margin: 10px 0;"><em>《关于加快建设分级诊疗体系的若干措施》</em></p>
+            
+            <table>
+                <tr><th>医院等级</th><th>门诊报销</th><th>住院报销</th><th>定位调整</th></tr>
+                <tr><td><strong>基层医疗</strong></td><td style="color: var(--health-color);">70-85%</td><td>90-95%</td><td>常见病、慢性病首诊</td></tr>
+                <tr><td><strong>二级医院</strong></td><td>60-70%</td><td>80-85%</td><td>转型康复、护理中心</td></tr>
+                <tr><td><strong>三甲医院</strong></td><td style="color: #ef4444;">50-65%</td><td>75-80%</td><td>聚焦急危重症</td></tr>
+            </table>
+
+            <div class="highlight" style="border-color: var(--health-color); background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);">
+                <h4 style="color: #065f46;">💡 关键举措</h4>
+                <ul style="margin-left: 20px; color: #065f46;">
+                    <li>基层可开<strong>12周长期处方</strong></li>
+                    <li>慢病患者<strong>免起付线</strong></li>
+                    <li>转诊起付线连续计算</li>
+                    <li>药品与三甲<strong>同目录</strong></li>
+                </ul>
+            </div>
+
+            <h4 class="section-title">💊 药品价格形成机制改革</h4>
+            <span class="badge">4月14日</span>
+            <p style="color: var(--text-light); margin: 8px 0;"><em>《关于健全药品价格形成机制的若干意见》</em></p>
+            <ul class="item-list">
+                <li><span class="bullet">●</span>高水平创新药享<strong>3-5年价格稳定期</strong></li>
+                <li><span class="bullet">●</span>支持创新药多元支付（商业保险）</li>
+                <li><span class="bullet">●</span>短缺药保供稳价</li>
+                <li><span class="bullet">●</span>中药材优质优价</li>
+            </ul>
+
+            <h4 class="section-title">🌊 创新药出海加速</h4>
+            <p style="color: var(--text-light); margin-bottom: 10px;">2026年Q1数据</p>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-value">602亿</div>
+                    <div class="data-label">出海授权总额(美元)</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">185亿</div>
+                    <div class="data-label">石药+阿斯利康</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">110亿+</div>
+                    <div class="data-label">科伦博泰+默沙东</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 智能汽车 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🚗</span>
+                <span class="card-title">智能汽车</span>
+                <span class="tag tag-auto">行业</span>
+            </div>
+            
+            <h4 class="section-title">🏭 留给车企的时间不多了</h4>
+            <p style="color: var(--text-light); margin-bottom: 15px;">虎嗅汽车盘点2026年六大AI核心技术拐点</p>
+            
+            <table>
+                <tr><th>技术</th><th>成熟度</th><th>商业进度</th><th>关键问题</th></tr>
+                <tr><td>L3城市自动驾驶</td><td>⭐⭐⭐</td><td>数据积累年</td><td>渗透率仅1%</td></tr>
+                <tr><td>智驾平权</td><td>⭐⭐⭐⭐</td><td>规模放量</td><td>比亚迪256万辆已部署</td></tr>
+                <tr><td>人形机器人</td><td>⭐⭐</td><td>B端试点</td><td>工业落地ROI算不过来</td></tr>
+                <tr><td>舱驾一体芯片</td><td>⭐⭐⭐</td><td>量产爬坡</td><td>国产进击深水区</td></tr>
+                <tr><td>AI大模型上车</td><td>⭐⭐⭐</td><td>合规调整期</td><td>渗透率38%但同质化</td></tr>
+                <tr><td>线控底盘</td><td>⭐⭐⭐</td><td>量产元年</td><td>安全底线vs成本极限</td></tr>
+            </table>
+            
+            <blockquote>虎嗅判断：2026不是L3放量年，是数据储备年。真正的战争在2027。</blockquote>
+        </div>
+
+        <!-- 安全警示 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🔐</span>
+                <span class="card-title">安全警示</span>
+                <span class="tag tag-security">警示</span>
+            </div>
+            
+            <h4 class="section-title">⚠️ Claude Mythos引爆安全恐慌</h4>
+            <p style="margin-bottom: 12px;">Anthropic新模型Claude Mythos展现惊人「黑客」能力，引发资本市场震荡。</p>
+            
+            <div style="background: #fef2f2; padding: 15px; border-radius: 8px; margin: 12px 0;">
+                <ul style="margin-left: 20px; color: #991b1b;">
+                    <li>Cybench测试<strong>100%满分</strong></li>
+                    <li>数小时完成模拟渗透测试</li>
+                    <li>独立发现多个<strong>零日漏洞</strong></li>
+                    <li>Cloudflare单日暴跌<strong style="color: #dc2626;">13.5%</strong></li>
+                </ul>
+            </div>
+
+            <h4 style="color: var(--security-color); margin: 15px 0 10px;">🛡️ Anthropic建议</h4>
+            <ul class="item-list">
+                <li><span class="bullet">1</span>放弃C/C++，转向<strong>Rust/Go</strong></li>
+                <li><span class="bullet">2</span>零信任架构 + <strong>FIDO2硬件认证</strong></li>
+                <li><span class="bullet">3</span>AI驱动自动化防御成唯一出路</li>
+            </ul>
+        </div>
+
+        <!-- 深度洞察 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">💡</span>
+                <span class="card-title">深度洞察</span>
+            </div>
+            
+            <h4 style="color: var(--accent); margin-bottom: 12px;">今日关键词：算力焦虑与商业觉醒</h4>
+            <p style="color: var(--text-light); margin-bottom: 15px;">三条主线清晰可见：</p>
+            
+            <ul class="item-list">
+                <li><span class="bullet">●</span><strong>模型军备竞赛：</strong>GPT-6、Claude 4.7、Llama 4同台角力</li>
+                <li><span class="bullet">●</span><strong>资本押注AI基础设施：</strong>亚马逊250亿美元不是终点</li>
+                <li><span class="bullet">●</span><strong>商业化反思：</strong>Sora的失败提醒AI不能只靠技术理想</li>
+            </ul>
+
+            <h4 class="section-title">🔗 关联洞察</h4>
+            <table>
+                <tr><th>领域</th><th>事件</th><th>关联逻辑</th></tr>
+                <tr><td>AI视频</td><td>Sora关停 vs 中国厂商狂飙</td><td>生态闭环vs纯技术路线</td></tr>
+                <tr><td>医疗</td><td>分级诊疗 + 药品定价</td><td>强基层 + 鼓励创新双轨并行</td></tr>
+                <tr><td>汽车</td><td>L3元年变数据积累年</td><td>技术ready ≠ 市场ready</td></tr>
+            </table>
+        </div>
+
+        <!-- 今日数据 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📊</span>
+                <span class="card-title">今日数据</span>
+            </div>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-value">250亿</div>
+                    <div class="data-label">亚马逊投资Anthropic(美元)</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">≥100亿</div>
+                    <div class="data-label">DeepSeek估值(美元)</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">602亿</div>
+                    <div class="data-label">创新药Q1出海(美元)</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">2500:1</div>
+                    <div class="data-label">Sora投入产出比</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">1%</div>
+                    <div class="data-label">L3渗透率预测</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>吐司日报 | 精选资讯 × 深度解读 × 关联洞察</p>
+            <p style="margin-top: 5px;">Powered by AI | Made by 吐司🍞</p>
+        </footer>
+    </div>
+</body>
+</html>
