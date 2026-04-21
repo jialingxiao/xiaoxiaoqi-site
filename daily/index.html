@@ -17,7 +17,11 @@
             margin: 0 auto;
             padding: 60px 24px;
         }
-        header { margin-bottom: 40px; }
+        
+        /* 头部 */
+        header {
+            margin-bottom: 40px;
+        }
         .page-title {
             font-family: Georgia, serif;
             font-size: 2rem;
@@ -28,7 +32,10 @@
             padding-bottom: 12px;
             margin-bottom: 12px;
         }
-        .page-desc { font-size: 0.9rem; color: #888; }
+        .page-desc {
+            font-size: 0.9rem;
+            color: #888;
+        }
         .back-link {
             display: inline-block;
             margin-top: 20px;
@@ -37,7 +44,11 @@
             font-size: 0.85rem;
         }
         .back-link:hover { text-decoration: underline; }
-        .daily-list { margin-top: 30px; }
+        
+        /* 日报列表 */
+        .daily-list {
+            margin-top: 30px;
+        }
         .daily-item {
             background: #fff;
             border: 1px solid #E8E4DA;
@@ -48,7 +59,9 @@
             align-items: center;
             transition: box-shadow 0.2s;
         }
-        .daily-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .daily-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
         .daily-date {
             font-family: Georgia, serif;
             font-size: 1rem;
@@ -60,6 +73,8 @@
             font-size: 0.85rem;
         }
         .daily-link:hover { text-decoration: underline; }
+        
+        /* 底部 */
         footer {
             margin-top: 60px;
             text-align: center;
@@ -75,12 +90,18 @@
             <p class="page-desc">AI科技 · 医疗健康 · 商业财经 · 科技人文</p>
             <a href="../" class="back-link">← 返回首页</a>
         </header>
+        
         <div class="daily-list">
+            <div class="daily-item">
+                <span class="daily-date">2026年4月22日 · 第002期</span>
+                <a href="2026-04-22.html" class="daily-link">阅读 →</a>
+            </div>
             <div class="daily-item">
                 <span class="daily-date">2026年4月21日 · 第001期</span>
                 <a href="2026-04-21.html" class="daily-link">阅读 →</a>
             </div>
         </div>
+        
         <footer>
             <p>© 2026 吐司日报 · 每日07:00更新</p>
         </footer>
