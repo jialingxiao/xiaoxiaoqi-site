@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 报纸头部 */
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        /* 头条区域 */
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 分栏区域 */
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        /* 快讯区域 */
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        /* 关联洞察 */
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年4月22日</span>
+        <span>|</span>
+        <span>第002期</span>
+        <span>|</span>
+        <span>阅读约7分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>开源技术</span>
+        <span>安全动态</span>
+        <span>开发者洞察</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="AI" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://www.johndcook.com/blog/2026/04/21/an-ai-odyssey-part-4-astounding-coding-agents/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">AI编程能力大爆发：第四波智能体革命来临</a></h2>
+    <p class="headline-summary">
+        继去年夏天和去年12月至今年1月两次重大升级后，AI编程智能体再次实现质的飞跃。根据最新评测体验，新一代模型在数学推理、代码生成、长文本理解、多模态能力等多个维度均实现了显著提升。本文深入分析了这波AI编程能力大爆发背后的技术演进，以及对开发者工作流的深远影响。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://www.johndcook.com/blog/2026/04/21/an-ai-odyssey-part-4-astounding-coding-agents/" target="_blank">John D. Cook</a> · 2026-04-22 04:14
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI技术前沿 -->
+    <section class="column">
+        <h3 class="column-title">AI技术前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="Headless AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://simonwillison.net/2026/Apr/19/headless-everything/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">个人AI的"无头化"革命：智能体将成为服务入口</a></h4>
+                    <p class="column-item-summary">Matt Webb提出"无头服务"概念，认为个人AI代理将成为用户与在线服务之间的智能中间层。</p>
+                    <p class="column-item-source">Simon Willison · 331 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="ChatGPT Images" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://simonwillison.net/2026/Apr/21/gpt-image-2/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">ChatGPT Images 2.0实测：史上最强AI绘图模型</a></h4>
+                    <p class="column-item-summary">Sam Altman称这次升级等同于从GPT-3到GPT-5的跨越，实测体验究竟如何？</p>
+                    <p class="column-item-source">Simon Willison · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/NQT7FKqH7AA/" alt="Claude Token" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://simonwillison.net/2026/Apr/20/claude-token-counts/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">Claude Token Counter升级：首次支持模型对比分析</a></h4>
+                    <p class="column-item-summary">升级后支持跨模型Token计数对比，揭示Claude Opus 4.7新tokenizer的秘密。</p>
+                    <p class="column-item-source">Simon Willison · 131 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="Kimi K2.6" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.latent.space/p/ainews-moonshot-kimi-k26-the-worlds" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">Moonshot Kimi K2.6：开源模型王座挑战者</a></h4>
+                    <p class="column-item-summary">Kimi K2.6刷新开源模型榜单，性能逼近Opus 4.6，DeepSeek V4传闻再起。</p>
+                    <p class="column-item-source">Latent Space · 04-21</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 开发者工具 -->
+    <section class="column">
+        <h3 class="column-title">开发者工具</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="GitHub Copilot" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.wheresyoured.at/news-microsoft-to-shift-github-copilot-users-to-token-based-billing-reduce-rate-limits-2/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">独家：微软GitHub Copilot将转向Token计费模式</a></h4>
+                    <p class="column-item-summary">内部文件泄露：Copilot从"请求数"转向"Token用量"计费，同时暂停新用户注册。</p>
+                    <p class="column-item-source">Edward Zitron · 58 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="Datasette" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://simonwillison.net/2026/Apr/20/datasette-sql/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">Google Sheets调用Datasette：SQL函数集成实战</a></h4>
+                    <p class="column-item-summary">三种方法在Google Sheets中直接查询Datasette数据源，含API Token认证方案。</p>
+                    <p class="column-item-source">Simon Willison · 45 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="LLM OpenRouter" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://simonwillison.net/2026/Apr/20/llm-openrouter/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">llm-openrouter 0.6发布：模型列表刷新功能</a></h4>
+                    <p class="column-item-summary">新增refresh命令，无需等待缓存过期即可获取最新可用模型列表。</p>
+                    <p class="column-item-source">Simon Willison · 04-21</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/NQT7FKqH7AA/" alt="Test Minimization" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://matklad.github.io/2026/04/20/test-case-minimization.html" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">测试用例最小化：256行代码的Property Testing技巧</a></h4>
+                    <p class="column-item-summary">Alex Kladov分享Fuzzing测试用例精简的实用技巧，代码量不到256行。</p>
+                    <p class="column-item-source">matklad · 04-20</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 安全与系统 -->
+    <section class="column">
+        <h3 class="column-title">安全与系统</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="Scattered Spider" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://krebsonsecurity.com/2026/04/scattered-spider-member-tylerb-pleads-guilty/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">Scattered Spider成员"Tylerb"认罪：24岁英国黑客落网</a></h4>
+                    <p class="column-item-summary">参与2022年大规模短信钓鱼攻击的网络犯罪集团成员当庭认罪，面临最高20年监禁。</p>
+                    <p class="column-item-source">KrebsOnSecurity · 04-21</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="xor vs sub" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://devblogs.microsoft.com/oldnewthing/20260421-00/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">为什么x86用xor而非sub来清零寄存器？</a></h4>
+                    <p class="column-item-summary">Matt Godbolt与Raymond Chen深度解析编译器优化的经典案例。</p>
+                    <p class="column-item-source">Raymond Chen · 04-21</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 科技人文 -->
+    <section class="column">
+        <h3 class="column-title">科技人文</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="Living Now" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.joanwestenberg.com/how-we-lost-the-living-now/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">我们如何失去了"活着的当下"：时间的工业化简史</a></h4>
+                    <p class="column-item-summary">从1840年英国铁路引入"铁路时间"说起，探讨标准化时间如何重塑人类感知。</p>
+                    <p class="column-item-source">Joan Westenberg · 107 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="Millionaire" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://idiallo.com/blog/advice-from-a-millionaire" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">百万富翁的建议：咖啡馆里的财富对话</a></h4>
+                    <p class="column-item-summary">一个真实的咖啡馆故事，关于财富、时间和选择的深层思考。</p>
+                    <p class="column-item-source">Ibrahim Diallo · 30 👍</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="Prince" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://anildash.com/2026/04/20/prince-ten-years/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">王子十年祭：一位技术人眼中的音乐遗产</a></h4>
+                    <p class="column-item-summary">十年后的今天，重新审视Prince对数字音乐和创作者权益的深远影响。</p>
+                    <p class="column-item-source">Anil Dash · 04-20</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="Better TTS" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://shkspr.mobi/blog/2026/04/better-tts-on-linux/" style="color:#333;text-decoration:none;font-weight:500;" target="_blank">Linux TTS进化：让老旧eSpeak焕发新生</a></h4>
+                    <p class="column-item-summary">探索在Linux上获得更好文本转语音体验的实用方案。</p>
+                    <p class="column-item-source">edent · 04-21</p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">📰 快讯速览</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">AI观点</span>
+            <span class="breaking-news-text"><a href="https://simonwillison.net/2026/Apr/21/andreas-pahlsson-notini/" target="_blank">AI Agent已过于"人类"：缺乏严谨、耐心与专注</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">AI批判</span>
+            <span class="breaking-news-text"><a href="https://www.wheresyoured.at/four-horsemen-of-the-aipocalypse/" target="_blank">Edward Zitron：AI末日四骑士的终极警告</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">技术长文</span>
+            <span class="breaking-news-text"><a href="https://pluralistic.net/2026/04/21/torment-nexusism/" target="_blank">Cory Doctorow：评《Muskism》——火箭与人脸的永恒碰撞</a></span>
+            <span class="breaking-news-time">04-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">LLM训练</span>
+            <span class="breaking-news-text"><a href="https://www.gilesthomas.com/2026/04/llm-from-scratch-32m-interventions-conclusion" target="_blank">从零构建LLM 32m参数版完结：用干预技术逼近GPT-2水准</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">历史数学</span>
+            <span class="breaking-news-text"><a href="https://www.johndcook.com/blog/2026/04/20/newton-diameter-quintic/" target="_blank">牛顿直径定理的进一步探索：五次曲线的新发现</a></span>
+            <span class="breaking-news-time">04-20</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">技术FAQ</span>
+            <span class="breaking-news-text"><a href="https://entropicthoughts.com/spaced-repetition-beginner-guide-faq" target="_blank">间隔重复学习入门指南：高效记忆的科学原理</a></span>
+            <span class="breaking-news-time">04-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">编程语言</span>
+            <span class="breaking-news-text"><a href="https://buttondown.com/hillelwayne/archive/people-get-confused-when-language-implementations/" target="_blank">当语言实现打破直觉：TLA+中的赋值语义解析</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">科普新书</span>
+            <span class="breaking-news-text"><a href="https://shkspr.mobi/blog/2026/04/book-review-up-a-scientists-guide-to-the-magic-above-us-by-dr-lucy-rogers/" target="_blank">《Up》书评：科学家带你看懂头顶的天空</a></span>
+            <span class="breaking-news-time">04-20</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 吐司洞察</h3>
+    <div class="insights-content">
+        <p><strong>本期主题：AI编程智能体进入「第四波」爆发期</strong></p>
+        <p>从 John D. Cook 的深度分析来看，AI编程智能体正在经历第四次重大能力跃升。这次不同于以往的是：模型对复杂任务的处理范围大幅扩展，能够在更长的代码上下文中保持一致性，并且对开发者的意图理解更加精准。</p>
+        <p><strong>三个值得关注的趋势：</strong></p>
+        <p>① <strong>无头AI服务崛起</strong> - Matt Webb提出的"个人AI作为服务中间层"概念正在成为现实，未来你的AI代理可能比你自己更频繁地与网络服务交互。</p>
+        <p>② <strong>开源模型持续追赶</strong> - Kimi K2.6等开源模型正在缩小与顶级闭源模型的差距，这让本地部署和定制化成为可能。</p>
+        <p>③ <strong>商业化压力显现</strong> - GitHub Copilot转向Token计费只是开始，当AI工具从"新鲜感"走向"生产力刚需"，定价模型将经历深刻变革。</p>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 DAILY · BRIEFING | <a href="https://xiaoxiaoqi.coze.site/daily/" target="_blank">在线阅读</a> | <a href="https://github.com/jialingxiao/xiaoxiaoqi-site/tree/main/daily" target="_blank">GitHub存档</a></p>
+    <p>精选自 INKwell 信息源 · AI辅助筛选 · 2026年4月22日</p>
+</footer>
+
+</body>
+</html>
