@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小红书图文</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1080px;
+            height: 1440px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            font-family: 'Noto Sans SC', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        .title {
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            font-size: 26px;
+            color: rgba(255,255,255,0.9);
+            display: inline-block;
+            padding: 12px 28px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px 32px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .category-icon {
+            font-size: 40px;
+            width: 60px;
+            text-align: center;
+        }
+        .category-label {
+            font-size: 28px;
+            font-weight: 700;
+            width: 140px;
+            color: #ffd700;
+        }
+        .category-items {
+            flex: 1;
+            font-size: 24px;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .big-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 16px;
+        }
+        .big-text span {
+            color: #ffd700;
+        }
+        .url {
+            font-size: 22px;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.15em;
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 30px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">AI 真的神奇又有趣</div>
+        <div class="subtitle">Dan Koe 万字长文 · 1.7 亿阅读</div>
+    </div>
+    
+    <div class="content">
+        <div class="category">
+            <div class="category-icon">📖</div>
+            <div class="category-label">深度内容</div>
+            <div class="category-items">电子书 · 思维导图 · 双语手册 · 社交文案</div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🎮</div>
+            <div class="category-label">互动体验</div>
+            <div class="category-items">7天挑战 · 意识测评 · RPG仪表盘 · 生活游戏</div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🔧</div>
+            <div class="category-label">日常工具</div>
+            <div class="category-items">每日提醒 · Notion 模板</div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🎨</div>
+            <div class="category-label">视觉内容</div>
+            <div class="category-items">金句卡片 · 电子贺卡 · 海报 · 壁纸生成器</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="big-text">1 晚 <span>×</span> AI = <span>14</span> 个作品</div>
+        <div class="url">xiaoxiaoqi.netlify.app</div>
+    </div>
+</body>
+</html>

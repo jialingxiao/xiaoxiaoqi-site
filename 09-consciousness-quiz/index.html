@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>意识层次测评 | Consciousness Level Assessment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0ece4;
+    --text-muted: #888;
+    --accent: #c8a96e;
+    --accent2: #e8c88e;
+    --glow: rgba(200, 169, 110, 0.15);
+    --level-colors: #6b4c9a, #4a6fa5, #3a8a6e, #7ab33a, #d4b83a, #e07a3a, #c84a4a, #a03090, #e0d0ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(200,169,110,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(106,76,154,0.04) 0%, transparent 50%);
+    animation: bgShift 20s ease infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes bgShift {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(2%,2%); }
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .header .badge {
+    display: inline-block;
+    background: rgba(200,169,110,0.1);
+    border: 1px solid rgba(200,169,110,0.3);
+    color: var(--accent);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Progress bar */
+  .progress-section {
+    margin-bottom: 40px;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* Question card */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 24px;
+    animation: fadeSlideIn 0.4s ease;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-number {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .question-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* Options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .option:hover {
+    border-color: rgba(200,169,110,0.4);
+    background: rgba(200,169,110,0.05);
+    transform: translateX(4px);
+  }
+
+  .option.selected {
+    border-color: var(--accent);
+    background: rgba(200,169,110,0.1);
+  }
+
+  .option-letter {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .option.selected .option-letter {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .option-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .option-text .en {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  /* Navigation */
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    flex: 1;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(200,169,110,0.3);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+
+  /* Result section */
+  .result-section {
+    display: none;
+    animation: fadeSlideIn 0.6s ease;
+  }
+
+  .result-section.show { display: block; }
+
+  .result-hero {
+    text-align: center;
+    padding: 50px 30px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--level-gradient, linear-gradient(90deg, var(--accent), var(--accent2)));
+  }
+
+  .result-level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.1);
+    border: 1px solid rgba(200,169,110,0.3);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .level-icon {
+    font-size: 28px;
+  }
+
+  .result-level-num {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .result-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .result-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .result-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    max-width: 520px;
+    margin: 0 auto 32px;
+  }
+
+  /* Score breakdown */
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .score-card h3 {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .score-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .score-bar-label {
+    width: 120px;
+    font-size: 13px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .score-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease 0.3s;
+  }
+
+  .score-bar-value {
+    width: 36px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Recommendations */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  @media(max-width: 500px) { .rec-grid { grid-template-columns: 1fr; } }
+
+  .rec-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .rec-icon { font-size: 20px; margin-bottom: 8px; }
+  .rec-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .rec-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* Level map */
+  .level-map {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .level-map h3 {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .level-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .level-item:last-child { border-bottom: none; }
+
+  .level-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .level-item-num {
+    width: 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .level-item-text { flex: 1; }
+  .level-item-name { font-size: 14px; font-weight: 500; }
+  .level-item-en { font-size: 12px; color: var(--text-muted); }
+
+  .level-item.current .level-item-name { color: var(--accent); }
+  .level-item.current::after {
+    content: '← 你在这里';
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+
+  .retry-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.2s;
+    margin-top: 20px;
+  }
+
+  .retry-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Screens */
+  #quiz-section { display: block; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Dan Koe · 意识层次测评</div>
+    <h1>你处于哪个<br>意识发展阶段？</h1>
+    <p>基于 Dan Koe《如何在1天内改变你的人生》中的9阶段框架，通过18道问题诊断你当前的意识层次，并给出精准建议。</p>
+  </div>
+
+  <!-- Quiz section -->
+  <div id="quiz-section">
+    <div class="progress-section">
+      <div class="progress-info">
+        <span id="progress-text">第 1 题，共 18 题</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <div class="question-number" id="q-number">QUESTION 01</div>
+      <div class="question-text" id="q-text"></div>
+      <div class="question-sub" id="q-sub"></div>
+      <div class="options" id="options-container"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()">← 上一题</button>
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>下一题 →</button>
+    </div>
+  </div>
+
+  <!-- Result section -->
+  <div class="result-section" id="result-section">
+    <div class="result-hero" id="result-hero">
+      <div class="result-level-badge">
+        <span>意识层次</span>
+        <span id="result-level-icon">✦</span>
+        <span id="result-level-label">Level X</span>
+      </div>
+      <div class="result-level-num" id="result-num">5</div>
+      <div class="result-title" id="result-title">标题</div>
+      <div class="result-subtitle" id="result-subtitle">副标题</div>
+      <div class="result-desc" id="result-desc">描述</div>
+    </div>
+
+    <div class="score-card">
+      <h3>各维度得分</h3>
+      <div id="score-bars"></div>
+    </div>
+
+    <div class="level-map" id="level-map-section">
+      <h3>完整意识层次地图</h3>
+      <div id="level-map"></div>
+    </div>
+
+    <div class="score-card">
+      <h3>个性化建议</h3>
+      <div class="rec-grid" id="recommendations"></div>
+    </div>
+
+    <button class="retry-btn" onclick="resetQuiz()">↺ 重新测评</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  // Dimension 1: Self-Awareness 自我觉察
+  {
+    dim: "self_awareness",
+    text: "当你遇到挫折时，你的第一反应是？",
+    sub: "诚实回答，选择最接近你真实状态的选项",
+    options: [
+      { text: "怪别人或运气不好", en: "Blame others or bad luck", score: 1 },
+      { text: "感到沮丧，但很快就忘了", en: "Feel upset, but move on quickly", score: 3 },
+      { text: "反思自己哪里做错了", en: "Reflect on what I did wrong", score: 6 },
+      { text: "把它视为成长信号，主动分析根因", en: "See it as a growth signal, analyze root cause", score: 9 }
+    ]
+  },
+  {
+    dim: "self_awareness",
+    text: "你有多清楚自己的核心价值观（什么对你最重要）？",
+    sub: "不是别人认为你应该重视的，而是你真正在乎的",
+    options: [
+      { text: "从没认真想过", en: "Never really thought about it", score: 1 },
+      { text: "大概知道，但说不清楚", en: "Vaguely know, but can't articulate", score: 3 },
+      { text: "能写出3-5个核心价值", en: "Can list 3-5 core values", score: 6 },
+      { text: "价值观是我决策的明确指南针", en: "Values are my clear decision compass", score: 9 }
+    ]
+  },
+  // Dimension 2: Goals & Identity 目标与身份
+  {
+    dim: "goals_identity",
+    text: "你追求的目标，大多来自哪里？",
+    sub: "思考你过去一年最想实现的事情",
+    options: [
+      { text: "社会期待（工资、房、车）", en: "Social expectations (salary, house, car)", score: 1 },
+      { text: "看别人成功后产生的羡慕", en: "Envy from seeing others succeed", score: 3 },
+      { text: "自己想要的生活方式", en: "The lifestyle I genuinely want", score: 6 },
+      { text: "与我的身份认同和使命深度对齐", en: "Deeply aligned with my identity and mission", score: 9 }
+    ]
+  },
+  {
+    dim: "goals_identity",
+    text: "当你想象5年后的理想自己，你的感受是？",
+    sub: "注意你内心升起的第一个情绪",
+    options: [
+      { text: "感觉遥不可及，甚至有些恐惧", en: "Feels impossible, even scary", score: 1 },
+      { text: "有点模糊，不太确定", en: "Vague, not very sure", score: 3 },
+      { text: "兴奋，但有点焦虑", en: "Excited but a bit anxious", score: 6 },
+      { text: "清晰且充满期待，完全相信自己能到达", en: "Clear and hopeful, fully believe I'll get there", score: 9 }
+    ]
+  },
+  // Dimension 3: Fear & Resistance 恐惧与阻力
+  {
+    dim: "fear_resistance",
+    text: "当你离目标越来越近时，你会？",
+    sub: "这是一个很多人没有注意到的隐性模式",
+    options: [
+      { text: "不知不觉开始拖延或自我破坏", en: "Unconsciously start procrastinating or self-sabotage", score: 1 },
+      { text: "开始找各种理由说'还没准备好'", en: "Find reasons I'm 'not ready yet'", score: 3 },
+      { text: "感到既兴奋又不安，但继续前进", en: "Feel excited and uneasy, but keep going", score: 6 },
+      { text: "越来越有动力，清楚这是正确方向", en: "Get more motivated, know it's the right path", score: 9 }
+    ]
+  },
+  {
+    dim: "fear_resistance",
+    text: "对于"改变自己"这件事，你通常的模式是？",
+    sub: "观察自己过去的行为规律",
+    options: [
+      { text: "很少想过要改变", en: "Rarely think about changing", score: 1 },
+      { text: "每年年初立志，三个月后放弃", en: "New Year resolutions, give up in 3 months", score: 2 },
+      { text: "能坚持一些改变，但也经常半途而废", en: "Maintain some changes, but often quit halfway", score: 5 },
+      { text: "把改变视为持续的生活方式", en: "See change as a continuous lifestyle", score: 9 }
+    ]
+  },
+  // Dimension 4: Consciousness & Awareness 意识与觉察
+  {
+    dim: "consciousness",
+    text: "你在日常生活中有多少时间处于"自动驾驶"模式（无意识重复行为）？",
+    sub: "比如刷手机、重复相同的对话模式、按习惯做决定",
+    options: [
+      { text: "几乎全天都在，我很少主动思考", en: "Almost all day, I rarely think consciously", score: 1 },
+      { text: "大部分时间，偶尔会意识到", en: "Most of the time, occasionally aware", score: 3 },
+      { text: "约一半时间，我在努力提升觉察", en: "About half, I'm working on more awareness", score: 6 },
+      { text: "我经常处于当下觉察状态", en: "I'm often in present-moment awareness", score: 9 }
+    ]
+  },
+  {
+    dim: "consciousness",
+    text: "当你感到情绪激动（愤怒/焦虑/嫉妒）时，你能做到什么？",
+    sub: "情绪反应速度是意识层次的重要指标",
+    options: [
+      { text: "被情绪完全淹没，事后才意识到", en: "Completely swept away, only aware afterward", score: 1 },
+      { text: "能意识到但很难控制", en: "Aware of it but hard to control", score: 3 },
+      { text: "能在情绪中暂停，观察它", en: "Can pause and observe the emotion", score: 7 },
+      { text: "把情绪当作信息，迅速转化为洞察", en: "Treat emotions as data, quickly turn into insight", score: 9 }
+    ]
+  },
+  // Dimension 5: Agency & Responsibility 能动性与责任感
+  {
+    dim: "agency",
+    text: "对于你目前生活不满意的部分，你认为主要原因是？",
+    sub: "这道题没有标准答案，诚实回答",
+    options: [
+      { text: "外部环境和他人造成的", en: "Caused by environment and others", score: 1 },
+      { text: "一半是自己，一半是运气", en: "Half mine, half luck", score: 3 },
+      { text: "大部分是我自己的选择造成的", en: "Mostly my own choices", score: 7 },
+      { text: "完全是我的责任，我也有能力改变它", en: "Fully my responsibility, and I can change it", score: 9 }
+    ]
+  },
+  {
+    dim: "agency",
+    text: "在你的生活中，你有多少事情是"主动选择"而非"被迫接受"？",
+    sub: "包括工作、关系、居住地、生活方式等",
+    options: [
+      { text: "几乎都是被动接受", en: "Almost all passive acceptance", score: 1 },
+      { text: "少部分是主动的", en: "A small portion is active choice", score: 3 },
+      { text: "大约一半", en: "About half", score: 5 },
+      { text: "我有意识地设计了大部分生活", en: "I consciously designed most of my life", score: 9 }
+    ]
+  },
+  // Dimension 6: Wisdom & Learning 智慧与学习
+  {
+    dim: "wisdom",
+    text: "你上次学到真正改变你思维方式的东西是什么时候？",
+    sub: "不是新信息，而是改变了你看世界的方式",
+    options: [
+      { text: "想不起来了", en: "Can't remember", score: 1 },
+      { text: "很久以前了", en: "A long time ago", score: 2 },
+      { text: "最近几个月", en: "In the last few months", score: 6 },
+      { text: "最近几周，我持续在升级认知", en: "Recently, I continuously upgrade my thinking", score: 9 }
+    ]
+  },
+  {
+    dim: "wisdom",
+    text: "遇到不熟悉的领域或挑战，你的第一反应是？",
+    sub: "观察你的内心第一个冲动",
+    options: [
+      { text: "回避，这不适合我", en: "Avoid it, it's not for me", score: 1 },
+      { text: "感到不安，但勉强面对", en: "Feel uneasy, but reluctantly face it", score: 3 },
+      { text: "好奇，愿意尝试", en: "Curious, willing to try", score: 7 },
+      { text: "兴奋，不熟悉意味着成长机会", en: "Excited, unfamiliar means growth opportunity", score: 9 }
+    ]
+  },
+  // Dimension 7: Vision & Purpose 愿景与使命
+  {
+    dim: "vision",
+    text: "你有清晰的人生使命或长期愿景吗？",
+    sub: "不是目标，而是你存在的更大意义",
+    options: [
+      { text: "完全没有，每天走一步算一步", en: "None at all, just taking it day by day", score: 1 },
+      { text: "有一些模糊的方向", en: "Have some vague direction", score: 3 },
+      { text: "有比较清楚的愿景，正在努力实现", en: "Have fairly clear vision, working toward it", score: 7 },
+      { text: "我的使命感非常清晰，是我每天的驱动力", en: "My sense of mission is crystal clear, it drives me daily", score: 9 }
+    ]
+  },
+  {
+    dim: "vision",
+    text: "关于"你能创造多大影响力"，你的信念是？",
+    sub: "这反映了你对自身潜力的认知上限",
+    options: [
+      { text: "我只是普通人，影响不了什么", en: "I'm just ordinary, can't influence much", score: 1 },
+      { text: "或许能影响身边的人", en: "Maybe can influence people around me", score: 3 },
+      { text: "我能在某个领域做出贡献", en: "I can contribute in some domain", score: 6 },
+      { text: "我相信我能以某种方式影响大量人的生活", en: "I believe I can meaningfully impact many people's lives", score: 9 }
+    ]
+  },
+  // Dimension 8: Action & Consistency 行动与一致性
+  {
+    dim: "action",
+    text: "你的理想和你的日常行动之间，匹配程度如何？",
+    sub: "身份与行为的一致性是发展的核心指标",
+    options: [
+      { text: "几乎完全不一致", en: "Almost completely inconsistent", score: 1 },
+      { text: "偶尔一致，经常忘了", en: "Occasionally consistent, often forget", score: 3 },
+      { text: "大部分时间能保持一致", en: "Consistent most of the time", score: 7 },
+      { text: "我的生活就是我理想的具体体现", en: "My life is the concrete embodiment of my vision", score: 9 }
+    ]
+  },
+  {
+    dim: "action",
+    text: "你上一次做一件让自己不舒服但知道是对的事，是什么时候？",
+    sub: "走出舒适区是意识扩展的必要条件",
+    options: [
+      { text: "很久没有了，我尽量避免不舒服", en: "Not for a long time, I avoid discomfort", score: 1 },
+      { text: "偶尔，但需要很大压力才能行动", en: "Occasionally, but need lots of pressure", score: 3 },
+      { text: "最近几周内", en: "Within the last few weeks", score: 7 },
+      { text: "几乎每天都有意识地挑战自己", en: "Almost every day I consciously challenge myself", score: 9 }
+    ]
+  },
+  // Bonus questions
+  {
+    dim: "consciousness",
+    text: "你如何看待"痛苦和困难"在你人生中的角色？",
+    sub: "这反映了你对人生哲学的深度",
+    options: [
+      { text: "是需要避免的坏事", en: "Bad things to be avoided", score: 1 },
+      { text: "无法避免，只能忍受", en: "Can't be avoided, just endure", score: 2 },
+      { text: "是成长的代价，值得接受", en: "Worth accepting as the price of growth", score: 6 },
+      { text: "是信息和礼物，帮我看清什么是真正重要的", en: "Information and gifts that show what truly matters", score: 9 }
+    ]
+  },
+  {
+    dim: "vision",
+    text: "如果今天就是最后一天，你最大的遗憾会是什么？",
+    sub: "你的答案揭示了你内心真正在乎什么",
+    options: [
+      { text: "没有足够享受生活", en: "Not enjoying life enough", score: 2 },
+      { text: "没有达到别人期待的成就", en: "Not meeting others' expectations", score: 2 },
+      { text: "没有勇敢地追求自己真正想要的", en: "Not bravely pursuing what I truly wanted", score: 7 },
+      { text: "没有充分地帮助和影响他人", en: "Not sufficiently helping and influencing others", score: 9 }
+    ]
+  }
+];
+
+const levels = [
+  { num: 1, name: "无意识生存", en: "Unconscious Survival", icon: "😴", color: "#666",
+    desc: "处于完全的反应模式中。生活被外部事件驱动，很少主动思考。这是起点，不是终点。",
+    advice: "开始每天花5分钟写日记，记录你的想法和感受。觉察是一切改变的第一步。" },
+  { num: 2, name: "痛苦觉醒", en: "Pain Awakening", icon: "😣", color: "#8B4513",
+    desc: "开始意识到生活的某些部分让你不满足，但还在用旧的应对模式。痛苦是推动力。",
+    advice: "用你感受到的不满足作为燃料，问自己：'我真正想要的是什么？'" },
+  { num: 3, name: "探索觉察", en: "Exploration & Awareness", icon: "🔍", color: "#8B6914",
+    desc: "开始主动寻找答案，读书、听播客、探索新想法。这是知识积累阶段。",
+    advice: "建立每日阅读习惯，重点关注自我发展和心理学方面的内容。" },
+  { num: 4, name: "身份质疑", en: "Identity Questioning", icon: "🤔", color: "#2d6a4f",
+    desc: "开始挑战过去的信念和身份标签。这会带来混乱，但这是必经之路。",
+    advice: "列出你从小被灌输的3个关于'你是谁'的信念，挑战其中最受限的那个。" },
+  { num: 5, name: "整合转型", en: "Integration & Transformation", icon: "🌱", color: "#1d6fa8",
+    desc: "开始将新的认知整合进生活，形成更一致的行动。这是最艰难也最关键的阶段。",
+    advice: "建立每周回顾：每周天列出你的行动与价值观的匹配程度，找出差距并调整。" },
+  { num: 6, name: "有意设计", en: "Intentional Design", icon: "🎯", color: "#6a3d9a",
+    desc: "开始有意识地设计自己的生活、工作和关系。从被动接受转向主动创造。",
+    advice: "创建你的'人生操作系统'：明确的价值观、年度目标、每日仪式、能量管理策略。" },
+  { num: 7, name: "使命觉醒", en: "Mission Awakening", icon: "🔥", color: "#c0392b",
+    desc: "发现更大的使命感，行动不再只为自己。开始思考如何为世界创造价值。",
+    advice: "找到你独特的天赋与世界需求的交叉点，开始以创作者的身份分享你的洞见。" },
+  { num: 8, name: "影响力创造", en: "Impact Creation", icon: "🌟", color: "#d4ac0d",
+    desc: "清晰地知道自己能给世界带来什么，并持续地付诸行动。成为他人的灯塔。",
+    advice: "专注于建立杠杆式的影响力，用系统和内容让你的价值触达更多人。" },
+  { num: 9, name: "整合自由", en: "Integrated Freedom", icon: "∞", color: "#c8a96e",
+    desc: "内外高度一致，行动自由而有意义。你的存在本身就是对他人的启发。",
+    advice: "成为更多人的导师，你现在的角色是帮助其他人加速他们的旅程。" }
+];
+
+const dimLabels = {
+  self_awareness: "自我觉察",
+  goals_identity: "目标与身份",
+  fear_resistance: "恐惧与阻力",
+  consciousness: "意识状态",
+  agency: "能动性",
+  wisdom: "智慧成长",
+  vision: "愿景使命",
+  action: "行动一致性"
+};
+
+const dimColors = {
+  self_awareness: "#c8a96e",
+  goals_identity: "#6a9ecf",
+  fear_resistance: "#c87070",
+  consciousness: "#9a6ecf",
+  agency: "#6ecf9a",
+  wisdom: "#cfb06e",
+  vision: "#cf6e9a",
+  action: "#6ecfcf"
+};
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('progress-text').textContent = `第 ${current+1} 题，共 ${questions.length} 题`;
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('progress-percent').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-number').textContent = 'QUESTION ' + String(current+1).padStart(2,'0');
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-sub').textContent = q.sub;
+  document.getElementById('prev-btn').style.display = current === 0 ? 'none' : '';
+
+  const letters = ['A','B','C','D'];
+  const container = document.getElementById('options-container');
+  container.innerHTML = q.options.map((opt, i) => `
+    <div class="option ${answers[current] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+      <div class="option-letter">${letters[i]}</div>
+      <div class="option-text">
+        ${opt.text}
+        <span class="en">${opt.en}</span>
+      </div>
+    </div>
+  `).join('');
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.disabled = answers[current] === null;
+  nextBtn.textContent = current === questions.length - 1 ? '查看结果 →' : '下一题 →';
+
+  // Re-animate card
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeSlideIn 0.4s ease';
+}
+
+function selectOption(i) {
+  answers[current] = i;
+  document.querySelectorAll('.option').forEach((el, idx) => {
+    el.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('next-btn').disabled = false;
+}
+
+function nextQuestion() {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQuestion() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function showResult() {
+  // Calculate scores per dimension
+  const dimScores = {};
+  const dimMax = {};
+  questions.forEach((q, i) => {
+    if (!dimScores[q.dim]) { dimScores[q.dim] = 0; dimMax[q.dim] = 0; }
+    dimScores[q.dim] += q.options[answers[i]].score;
+    dimMax[q.dim] += 9;
+  });
+
+  // Total score
+  let total = 0, maxTotal = 0;
+  Object.values(dimScores).forEach(v => total += v);
+  Object.values(dimMax).forEach(v => maxTotal += v);
+
+  const pct = total / maxTotal;
+  const levelIdx = Math.min(8, Math.floor(pct * 9));
+  const level = levels[levelIdx];
+
+  // Show result UI
+  document.getElementById('quiz-section').style.display = 'none';
+  const rs = document.getElementById('result-section');
+  rs.classList.add('show');
+
+  document.getElementById('result-level-icon').textContent = level.icon;
+  document.getElementById('result-level-label').textContent = `Level ${level.num}`;
+  document.getElementById('result-num').textContent = level.num;
+  document.getElementById('result-title').textContent = level.name;
+  document.getElementById('result-subtitle').textContent = level.en;
+  document.getElementById('result-desc').textContent = level.desc;
+
+  // Score bars
+  const barsHtml = Object.entries(dimScores).map(([dim, score]) => {
+    const pctDim = Math.round((score / dimMax[dim]) * 100);
+    return `
+      <div class="score-bar-row">
+        <div class="score-bar-label">${dimLabels[dim]}</div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" style="width:0%; background:${dimColors[dim]}" data-target="${pctDim}"></div>
+        </div>
+        <div class="score-bar-value">${pctDim}%</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('score-bars').innerHTML = barsHtml;
+
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(el => {
+      el.style.width = el.dataset.target + '%';
+    });
+  }, 100);
+
+  // Level map
+  document.getElementById('level-map').innerHTML = levels.map(l => `
+    <div class="level-item ${l.num === level.num ? 'current' : ''}">
+      <div class="level-dot" style="background:${l.color}"></div>
+      <div class="level-item-num">${l.num}</div>
+      <div class="level-item-text">
+        <div class="level-item-name">${l.icon} ${l.name}</div>
+        <div class="level-item-en">${l.en}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Recommendations - find 2 lowest dims
+  const sortedDims = Object.entries(dimScores)
+    .sort((a,b) => (a[1]/dimMax[a[0]]) - (b[1]/dimMax[b[0]]))
+    .slice(0, 4);
+
+  const recIcons = { self_awareness:'🪞', goals_identity:'🎯', fear_resistance:'🦁', consciousness:'🧘', agency:'⚡', wisdom:'📚', vision:'🔭', action:'🚀' };
+  const recTexts = {
+    self_awareness: "每天晚上花10分钟写下今天的3个情绪和1个洞察",
+    goals_identity: "写出你的'真实自我宣言'——不是你应该成为的，而是你真正想成为的",
+    fear_resistance: "找出你一直在回避的那件事，今天迈出1%的步子",
+    consciousness: "设置每小时提醒，问自己：'我现在在做什么，为什么？'",
+    agency: "列出你生活中3件能改变但还没改变的事，选一件今天开始改变",
+    wisdom: "每周读1本扩展认知边界的书，不是同一类型的",
+    vision: "花30分钟写你的'反愿景'——你绝对不想成为的样子",
+    action: "设计你的'最小每日系统'——每天必须完成的3件核心行动"
+  };
+
+  document.getElementById('recommendations').innerHTML = sortedDims.map(([dim]) => `
+    <div class="rec-item">
+      <div class="rec-icon">${recIcons[dim]}</div>
+      <div class="rec-title">提升 ${dimLabels[dim]}</div>
+      <div class="rec-text">${recTexts[dim]}</div>
+    </div>
+  `).join('');
+
+  // Main advice
+  const heroEl = document.getElementById('result-hero');
+  heroEl.innerHTML += `<div style="margin-top:20px;padding:16px 24px;background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.2);border-radius:10px;font-size:14px;line-height:1.7;color:#e0d8cc;max-width:500px;margin-left:auto;margin-right:auto;">
+    <strong style="color:var(--accent);">下一步建议：</strong> ${level.advice}
+  </div>`;
+}
+
+function resetQuiz() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('quiz-section').style.display = 'block';
+  document.getElementById('result-section').classList.remove('show');
+  renderQuestion();
+  window.scrollTo(0,0);
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

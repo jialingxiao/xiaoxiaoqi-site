@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>如何在一天内改变你的人生 | Dan Koe</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+/* ============ BASE ============ */
+:root {
+  --paper: #fdfaf6;
+  --ink: #1a1a1a;
+  --ink2: #444;
+  --muted: #888;
+  --rule: #e2ddd6;
+  --accent: #b85c38;
+  --accent-light: #f5e8e2;
+  --accent2: #7a5c3a;
+  --gold: #c9922a;
+  --highlight: #fff9e6;
+  --sidebar-w: 260px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #d8d0c4;
+  font-family: 'Noto Serif SC', 'Noto Sans SC', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ============ LAYOUT ============ */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---- Sidebar TOC ---- */
+.toc-sidebar {
+  width: var(--sidebar-w);
+  background: #f5f0e8;
+  border-right: 1px solid var(--rule);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-header {
+  padding: 28px 20px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc-book-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.toc-book-author {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.toc-progress-wrap {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+
+.toc-progress-bar {
+  height: 3px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.toc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+.toc-nav {
+  flex: 1;
+  padding: 12px 0;
+}
+
+.toc-section {
+  margin-bottom: 4px;
+}
+
+.toc-section-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 20px 4px;
+  font-family: 'Inter', sans-serif;
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 20px;
+  font-size: 12px;
+  color: var(--ink2);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+}
+
+.toc-link:hover {
+  background: rgba(184,92,56,0.06);
+  color: var(--accent);
+}
+
+.toc-link.active {
+  border-left-color: var(--accent);
+  color: var(--accent);
+  background: rgba(184,92,56,0.07);
+  font-weight: 500;
+}
+
+.toc-link .toc-num {
+  font-size: 10px;
+  color: var(--muted);
+  min-width: 18px;
+}
+
+.toc-link.done .toc-num::before {
+  content: '✓';
+  color: var(--accent);
+}
+
+.toc-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---- Main book area ---- */
+.book-main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px 80px;
+}
+
+.book-pages {
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ============ PAGE STYLES ============ */
+.page {
+  background: var(--paper);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 40px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.page-inner {
+  padding: 64px 72px;
+}
+
+/* Page number */
+.page-num {
+  position: absolute;
+  bottom: 20px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
+}
+.page-num.left { left: 32px; }
+.page-num.right { right: 32px; }
+
+/* Running header */
+.running-header {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ============ COVER PAGE ============ */
+.cover-page .page-inner {
+  padding: 0;
+  min-height: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cover-top {
+  flex: 1;
+  background: linear-gradient(160deg, #2c1810 0%, #4a2818 40%, #6b3822 100%);
+  padding: 80px 72px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-top::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(201,146,42,0.12) 0%, transparent 60%);
+}
+
+.cover-ornament {
+  font-size: 48px;
+  margin-bottom: 32px;
+  opacity: 0.6;
+}
+
+.cover-subtitle-top {
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 20px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.cover-title-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+.cover-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin-bottom: 24px;
+}
+
+.cover-tagline {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+  max-width: 420px;
+}
+
+.cover-bottom {
+  background: #1a0e08;
+  padding: 28px 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cover-author {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+.cover-author strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.cover-badge {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+}
+
+/* ============ TYPOGRAPHY ============ */
+h1.chapter-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+h2.chapter-title-en {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.chapter-intro {
+  font-size: 18px;
+  color: var(--accent);
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  padding-left: 20px;
+  border-left: 3px solid var(--accent-light);
+}
+
+h3.section-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 36px 0 14px;
+  font-weight: 600;
+}
+
+p.body-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--ink2);
+  margin-bottom: 16px;
+  text-align: justify;
+  font-family: 'Noto Serif SC', serif;
+}
+
+p.body-text-en {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 20px;
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+}
+
+/* Pull quote */
+.pull-quote {
+  margin: 36px -16px;
+  padding: 28px 36px;
+  background: var(--accent-light);
+  border-radius: 2px;
+  position: relative;
+}
+
+.pull-quote::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 28px;
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  color: var(--accent);
+  line-height: 1;
+  opacity: 0.3;
+}
+
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.pull-quote .source {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+}
+
+/* Key insight box */
+.insight-box {
+  background: var(--highlight);
+  border: 1px solid #e8d98a;
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+
+.insight-box .insight-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.insight-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink2);
+}
+
+/* Numbered list */
+.numbered-list {
+  counter-reset: item;
+  list-style: none;
+  margin: 20px 0;
+}
+
+.numbered-list li {
+  counter-increment: item;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink2);
+}
+
+.numbered-list li::before {
+  content: counter(item);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  background: var(--accent);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+/* Chapter number display */
+.chapter-number-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  font-weight: 700;
+  color: var(--rule);
+  line-height: 1;
+  margin-bottom: -20px;
+}
+
+/* ============ EXERCISE PAGES ============ */
+.exercise-page-banner {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  padding: 28px 72px;
+  color: white;
+}
+
+.exercise-page-banner .ex-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 6px;
+}
+
+.exercise-page-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.exercise-page-content {
+  padding: 40px 72px 56px;
+}
+
+/* Exercise item */
+.exercise-item {
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.exercise-item:last-child {
+  border-bottom: none;
+}
+
+.exercise-num {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.exercise-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.exercise-desc {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* Write lines */
+.write-lines {
+  margin-top: 14px;
+}
+
+.write-line {
+  border-bottom: 1px solid var(--rule);
+  height: 32px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.write-line::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Checkbox list exercise */
+.check-list {
+  list-style: none;
+  margin: 12px 0;
+}
+
+.check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink2);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.check-box {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 1.5px solid var(--rule);
+  border-radius: 3px;
+  margin-top: 2px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.check-list li.checked .check-box {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.check-list li.checked span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* Rating scale */
+.rating-scale {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 14px 0;
+}
+
+.rating-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.rating-label.right {
+  text-align: right;
+}
+
+.rating-dots {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.rating-dot {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--rule);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rating-dot:hover, .rating-dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* ============ REFLECTION PAGES ============ */
+.reflection-banner {
+  background: linear-gradient(135deg, #2c3e50 0%, #3d5166 100%);
+  padding: 28px 72px;
+  color: white;
+}
+
+.reflection-banner .ref-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 6px;
+}
+
+.reflection-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+}
+
+.reflection-content {
+  padding: 40px 72px 56px;
+}
+
+.reflection-prompt {
+  margin-bottom: 32px;
+}
+
+.rp-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3d5166;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.rp-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+/* Diary area */
+.diary-area {
+  background: #f9f7f4;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 20px 24px;
+  min-height: 100px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: var(--ink2);
+  position: relative;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent calc(2.2em - 1px),
+    #e8e2d9 calc(2.2em - 1px),
+    #e8e2d9 2.2em
+  );
+  background-size: 100% 2.2em;
+  background-position: 0 20px;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+  resize: vertical;
+  cursor: text;
+}
+
+.diary-area:empty::before {
+  content: attr(data-placeholder);
+  color: #ccc;
+  pointer-events: none;
+}
+
+/* ============ CHAPTER DIVIDER ============ */
+.chapter-divider {
+  text-align: center;
+  padding: 36px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 40px 0;
+}
+
+.divider-ornament {
+  font-size: 24px;
+  color: var(--accent);
+  opacity: 0.4;
+  letter-spacing: 16px;
+}
+
+/* ============ TABLE OF CONTENTS PAGE ============ */
+.toc-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.toc-page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 48px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.toc-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.toc-entry-num {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--accent);
+  font-size: 14px;
+  min-width: 32px;
+}
+
+.toc-entry-title {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toc-entry-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--rule);
+  margin: 0 10px;
+  height: 14px;
+}
+
+.toc-entry-page {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+.toc-entry-sub {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 4px;
+  padding-left: 32px;
+}
+
+.toc-group-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  margin: 28px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ============ PREFACE PAGE ============ */
+.preface-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 40px 0 16px;
+  text-align: center;
+}
+
+.preface-quote-source {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* ============ TOOLBAR ============ */
+.toolbar {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  gap: 8px;
+  z-index: 200;
+}
+
+.tool-btn {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  color: var(--ink2);
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tool-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+  body { background: white; }
+  .toc-sidebar, .toolbar { display: none; }
+  .book-main { margin-left: 0; }
+  .page { box-shadow: none; margin-bottom: 0; page-break-after: always; }
+  .diary-area { min-height: 160px; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width: 900px) {
+  .toc-sidebar { display: none; }
+  .book-main { margin-left: 0; padding: 20px 10px 60px; }
+  .page-inner { padding: 40px 32px; }
+  .exercise-page-banner, .reflection-banner { padding: 24px 32px; }
+  .exercise-page-content, .reflection-content { padding: 28px 32px 44px; }
+  .cover-top, .cover-bottom { padding: 40px 32px; }
+  .cover-title { font-size: 38px; }
+}
+
+/* ============ HIGHLIGHT TOOL ============ */
+.highlightable {
+  cursor: text;
+}
+
+::selection {
+  background: rgba(201,146,42,0.25);
+}
+</style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <button class="tool-btn" onclick="window.print()">🖨 打印 / 导出PDF</button>
+  <button class="tool-btn" onclick="toggleFontSize()">Aa 字号</button>
+  <button class="tool-btn" onclick="saveProgress()">💾 保存进度</button>
+</div>
+
+<!-- TOC Sidebar -->
+<div class="toc-sidebar">
+  <div class="toc-header">
+    <div class="toc-book-title">如何在一天内<br>彻底改变你的生活</div>
+    <div class="toc-book-author">Dan Koe 原著 · 双语完整版</div>
+  </div>
+  <div class="toc-progress-wrap">
+    <div class="toc-progress-label">
+      <span>阅读进度</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="toc-progress-bar">
+      <div class="toc-progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+  <nav class="toc-nav">
+    <div class="toc-section">
+      <div class="toc-section-label">前言</div>
+      <a class="toc-link" onclick="scrollTo('#cover')"><span class="toc-num">—</span>封面</a>
+      <a class="toc-link" onclick="scrollTo('#toc-page')"><span class="toc-num">—</span>目录</a>
+      <a class="toc-link" onclick="scrollTo('#preface')"><span class="toc-num">—</span>作者的话</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-section-label">第一部分：认识自己</div>
+      <a class="toc-link" onclick="scrollTo('#ch1')"><span class="toc-num">1</span>身份决定行为</a>
+      <a class="toc-link" onclick="scrollTo('#ex1')"><span class="toc-num">✎</span>练习题一</a>
+      <a class="toc-link" onclick="scrollTo('#ref1')"><span class="toc-num">◇</span>反思页一</a>
+      <a class="toc-link" onclick="scrollTo('#ch2')"><span class="toc-num">2</span>你的目标是真的吗？</a>
+      <a class="toc-link" onclick="scrollTo('#ex2')"><span class="toc-num">✎</span>练习题二</a>
+      <a class="toc-link" onclick="scrollTo('#ref2')"><span class="toc-num">◇</span>反思页二</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-section-label">第二部分：超越恐惧</div>
+      <a class="toc-link" onclick="scrollTo('#ch3')"><span class="toc-num">3</span>你害怕成功</a>
+      <a class="toc-link" onclick="scrollTo('#ex3')"><span class="toc-num">✎</span>练习题三</a>
+      <a class="toc-link" onclick="scrollTo('#ch4')"><span class="toc-num">4</span>意识层次地图</a>
+      <a class="toc-link" onclick="scrollTo('#ex4')"><span class="toc-num">✎</span>练习题四</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-section-label">第三部分：重塑人生</div>
+      <a class="toc-link" onclick="scrollTo('#ch5')"><span class="toc-num">5</span>智慧是终极杠杆</a>
+      <a class="toc-link" onclick="scrollTo('#ch6')"><span class="toc-num">6</span>一日改变协议</a>
+      <a class="toc-link" onclick="scrollTo('#ex6')"><span class="toc-num">✎</span>练习题六</a>
+      <a class="toc-link" onclick="scrollTo('#ch7')"><span class="toc-num">7</span>把人生变成游戏</a>
+      <a class="toc-link" onclick="scrollTo('#ex7')"><span class="toc-num">✎</span>练习题七</a>
+      <a class="toc-link" onclick="scrollTo('#ref-final')"><span class="toc-num">◇</span>最终反思页</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-section-label">附录</div>
+      <a class="toc-link" onclick="scrollTo('#appendix')"><span class="toc-num">—</span>工具箱 &amp; 资源</a>
+    </div>
+  </nav>
+  <div class="toc-footer">
+    点击标题跳转 · 所有笔记自动保存
+  </div>
+</div>
+
+<!-- Book Pages -->
+<div class="book-main">
+<div class="book-pages">
+
+<!-- ===== COVER ===== -->
+<div class="page cover-page" id="cover">
+  <div class="page-inner">
+    <div class="cover-top">
+      <div class="cover-ornament">✦</div>
+      <div class="cover-subtitle-top">Dan Koe · 双语互动版 · 完整全文</div>
+      <h1 class="cover-title">如何在一天内<br>彻底改变你的生活</h1>
+      <div class="cover-title-en">How to Fix Your Entire Life in 1 Day</div>
+      <div class="cover-divider"></div>
+      <p class="cover-tagline">中英双语完整全文 · 身份转变、意识升级、游戏化人生——边读边做的深度自我改变指南</p>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-author">原著 <strong>Dan Koe</strong>  ·  双语互动版 · 完整全文</div>
+      <div class="cover-badge">互动练习电子书 · 2026版</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INTRODUCTION ===== -->
+<div class="page" id="intro">
+  <div class="page-inner">
+    <div class="running-header"><span>开场</span><span>Introduction</span></div>
+    <p class="preface-quote">"你可能会放弃你的新年决心。这没关系。大多数人都是如此。"</p>
+    <p class="preface-quote-source">— Dan Koe</p>
+
+    <p class="body-text">你很可能会放弃你的新年决心。</p>
+    <p class="body-text">这没什么。大多数人都是如此（研究显示失败率高达80-90%），因为大多数人在内心深处并不真正想要改变。也就是说，他们用完全错误的方式试图改变自己的生活。他们创建新年决心是因为其他人也这样做——人类想要给别人留下深刻印象的程度，超过想要给自己留下深刻印象。我们从地位游戏中创造出表面的意义——但他们没有满足真正改变的要求，这比说服自己今年要更自律或更有生产力要深得多。</p>
+
+    <p class="body-text">我不是在这里贬低你。我放弃的目标比设定的目标多十倍。我认为对大多数人来说应该也是如此。但人们试图改变自己的生活却几乎每次都失败，这是事实。健身房在一月拥挤然后在二月恢复正常，这就是一个梗。</p>
+
+    <p class="body-text">然而，尽管我认为新年决心很愚蠢，反思你讨厌的生活以便将自己推向更好的目标总是明智的，正如我们将讨论的。</p>
+
+    <p class="body-text">人性是个婊子，最糟糕的感觉是当你对自己做出承诺却不由得打破它。你开始感到无助，如果你不知道自己在做什么，你可能会年复一年地继续这个循环：总是想要改变，但永远无法做到。</p>
+
+    <p class="body-text">所以无论你想开始创业、改变身体，还是在没有两周后放弃的情况下冒险过更有意义的生活，我想与你分享七个你可能从未听说过的关于行为改变、心理和生产力的想法，这样你就可以在2026年做到这一点。</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 这将是全面的</div>
+      <p>这不是那种你读完就忘记的信件。这是值得你书签、记笔记并腾出时间思考的东西。</p>
+    </div>
+
+    <p class="body-text">最后那个协议——深入你的心理并发现你真正想要什么——完成它需要整整一天，效果持续的时间远比那更长。</p>
+
+    <p class="body-text">我所要求的只是你全身心的投入。如果你感到无聊，跳过下一节，需要时再回来填补空白。</p>
+
+    <p class="body-text">让我们开始吧。</p>
+    <p class="body-text-en">(如果你更喜欢看视频，我也会把这封信做成视频)</p>
+  </div>
+  <span class="page-num right">2</span>
+</div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="page" id="toc-page">
+  <div class="page-inner">
+    <h1 class="toc-page-title">目录</h1>
+    <p class="toc-page-sub">Contents</p>
+
+    <div class="toc-group-label">开场</div>
+    <div class="toc-entry"><span class="toc-entry-num">—</span><span class="toc-entry-title">致读者的信</span><span class="toc-entry-dots"></span><span class="toc-entry-page">2</span></div>
+
+    <div class="toc-group-label">前言</div>
+    <div class="toc-entry"><span class="toc-entry-num">—</span><span class="toc-entry-title">作者的话：为什么这本书不同</span><span class="toc-entry-dots"></span><span class="toc-entry-page">4</span></div>
+    <div class="toc-entry"><span class="toc-entry-num">—</span><span class="toc-entry-title">如何使用这本书</span><span class="toc-entry-dots"></span><span class="toc-entry-page">5</span></div>
+
+    <div class="toc-group-label">第一部分 · 认识自己</div>
+    <div class="toc-entry"><span class="toc-entry-num">1</span><span class="toc-entry-title">身份决定行为</span><span class="toc-entry-dots"></span><span class="toc-entry-page">8</span></div>
+    <div class="toc-entry-sub">✎ 练习一：身份挖掘工作坊</div>
+    <div class="toc-entry-sub">◇ 反思页一</div>
+    <div class="toc-entry"><span class="toc-entry-num">2</span><span class="toc-entry-title">你追求的目标，是你真正想要的吗？</span><span class="toc-entry-dots"></span><span class="toc-entry-page">14</span></div>
+    <div class="toc-entry-sub">✎ 练习二：愿景澄清练习</div>
+    <div class="toc-entry-sub">◇ 反思页二</div>
+
+    <div class="toc-group-label">第二部分 · 超越恐惧</div>
+    <div class="toc-entry"><span class="toc-entry-num">3</span><span class="toc-entry-title">你其实害怕成功</span><span class="toc-entry-dots"></span><span class="toc-entry-page">22</span></div>
+    <div class="toc-entry-sub">✎ 练习三：恐惧解构工作坊</div>
+    <div class="toc-entry"><span class="toc-entry-num">4</span><span class="toc-entry-title">意识层次地图</span><span class="toc-entry-dots"></span><span class="toc-entry-page">28</span></div>
+    <div class="toc-entry-sub">✎ 练习四：层次自评与跃迁计划</div>
+
+    <div class="toc-group-label">第三部分 · 重塑人生</div>
+    <div class="toc-entry"><span class="toc-entry-num">5</span><span class="toc-entry-title">智慧是你最重要的资产</span><span class="toc-entry-dots"></span><span class="toc-entry-page">36</span></div>
+    <div class="toc-entry"><span class="toc-entry-num">6</span><span class="toc-entry-title">一日改变协议</span><span class="toc-entry-dots"></span><span class="toc-entry-page">40</span></div>
+    <div class="toc-entry-sub">✎ 练习六：你的个人一日协议</div>
+    <div class="toc-entry"><span class="toc-entry-num">7</span><span class="toc-entry-title">把人生变成无限游戏</span><span class="toc-entry-dots"></span><span class="toc-entry-page">46</span></div>
+    <div class="toc-entry-sub">✎ 练习七：设计你的人生游戏</div>
+    <div class="toc-entry-sub">◇ 最终反思页</div>
+
+    <div class="toc-group-label">附录</div>
+    <div class="toc-entry"><span class="toc-entry-num">—</span><span class="toc-entry-title">工具箱：每日使用的资源与方法</span><span class="toc-entry-dots"></span><span class="toc-entry-page">54</span></div>
+  </div>
+  <span class="page-num right">3</span>
+</div>
+
+<!-- ===== PREFACE ===== -->
+<div class="page" id="preface">
+  <div class="page-inner">
+    <div class="running-header"><span>前言</span><span>作者的话</span></div>
+    <p class="preface-quote">"大多数人的新年决心失败，是因为他们试图改变行为，却没有先改变身份。"</p>
+    <p class="preface-quote-source">— Dan Koe</p>
+
+    <h3 class="section-heading">为什么这本书不同</h3>
+    <p class="body-text">大多数自我帮助的书籍告诉你该做什么。这本书不是。</p>
+    <p class="body-text">这本书邀请你去<strong>做</strong>。每一章之后，都有练习题和反思页，它们不是可选的装饰，而是内容的核心。如果你只是阅读而不做练习，你将得到书的10%的价值。</p>
+    <p class="body-text">Dan Koe 的原文揭示了一个反直觉的真理：新年决心之所以失败，不是因为缺乏动力，而是因为人们试图在不改变身份的情况下改变行为——这就像试图在不修改代码的情况下改变程序的输出一样。</p>
+
+    <p class="body-text-en">Most self-help books tell you what to do. This one asks you to do. If you just read without doing exercises, you'll get only 10% of the book's value.</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 核心洞察</div>
+      <p>真正的改变发生在身份层面。当你真正<em>成为</em>那个人，行为自然改变。在那之前，所有的努力都是在游泳池里逆流而行。</p>
+    </div>
+
+    <h3 class="section-heading">如何使用这本书</h3>
+    <ul class="numbered-list">
+      <li><strong>边读边写。</strong>练习页的空白处是为你准备的。不要留空。</li>
+      <li><strong>诚实作答。</strong>这本书没有"正确答案"。但有真实答案和虚假答案。</li>
+      <li><strong>慢下来。</strong>每章建议花20-30分钟。包括练习时间。</li>
+      <li><strong>重复阅读。</strong>三个月后再读一遍，你会有完全不同的收获。</li>
+      <li><strong>分享一个洞察。</strong>每章结束后，告诉一个人你学到了什么。</li>
+    </ul>
+
+    <p class="body-text">准备好了吗？让我们开始这段旅程。</p>
+    <p class="body-text-en">Ready? Let's begin.</p>
+  </div>
+  <span class="page-num right">5</span>
+</div>
+
+<!-- ===== CHAPTER 1 ===== -->
+<div class="page" id="ch1">
+  <div class="page-inner">
+    <div class="running-header"><span>第一章</span><span>第一部分：认识自己</span></div>
+    <div class="chapter-number-display">01</div>
+    <h1 class="chapter-title">你不是你想成为的那个人<br>是因为你还没有成为<br>能达到那个目标的人</h1>
+    <h2 class="chapter-title-en">You're Not Who You Want to Be Because You Haven't Become the Person Who Achieves That Goal</h2>
+
+    <p class="chapter-intro">关于新年决心，人们通常只关注成功的两个要求中的一个：</p>
+    <p class="body-text">1. 改变行动以取得进展（次要，第二顺序）</p>
+    <p class="body-text">2. 改变你是谁，让你的行为自然跟随（主要，第一顺序）</p>
+    <p class="body-text-en">When it comes to New Year's resolutions, people only focus on one of the two requirements for success: 1. Changing your actions to make progress toward the goal (least important, second order) 2. Changing who you are so that your behavior naturally follows (most important, first order)</p>
+
+    <p class="body-text">大多数人会设定一个表面目标，前几周保持自律，然后毫无困难地回到原来的方式——因为他们试图在一个腐烂的地基上建造美好的生活。</p>
+    <p class="body-text-en">Most people set a surface-level goal, hype themselves up to remain disciplined for the first few weeks, then go back to their old ways without much struggle, because they were trying to build a great life on a rotting foundation.</p>
+
+    <p class="body-text">如果这不太理解，让我们举一个例子。想想一个成功的人。可以是一个身材健美的健身者，一个价值数百万的创始人/CEO，或者一个魅力十足、能轻松与一群人聊天的家伙。</p>
+    <p class="body-text-en">If this doesn't make sense, let's run through an example. Think of somebody successful. It can be a bodybuilder with a great physique, a founder/CEO worth hundreds of millions, or a charismatic dude who can chat up a group without a shred of anxiety entering his mind space.</p>
+
+    <p class="body-text">你认为健身者需要"努力"吃健康食物吗？CEO需要强迫自己自律来领导团队吗？表面上你可能这么认为，但事实是他们无法想象自己以其他方式生活。健身者要努力吃那些不健康的食物。CEO要强迫自己睡过闹钟，然后每一秒都厌恶它。</p>
+    <p class="body-text-en">Do you think the bodybuilder has to "grind" to eat healthy? Does the CEO have to discipline themselves to show up and lead the team? To you, it may seem like that on the surface, but the truth is that they can't see themselves living any other way. The bodybuilder has to grind to eat unhealthily. The CEO has to force themself to lie in bed past their alarm clock, and they hate every second of it.</p>
+
+    <p class="body-text">对某些人来说，我的生活方式似乎有点极端和自律。对我来说，这是自然的，我这么说不是为了与任何其他生活方式对比。我只是喜欢这样生活。当我妈妈告诉我应该休息一下，出去玩，找点乐子……我忍者不告诉她："如果我不开心，我为什么要做我正在做的事？"</p>
+    <p class="body-text-en">To some people, my own lifestyle seems a bit extreme and disciplined. To me, it's natural, and I don't say that to contrast it with any other kind of lifestyle. I simply enjoy living this way. When my mom tells me that I should take a break, go out, and have some fun... I hold my tongue from telling her, "If I weren't having fun, why would I be doing what I'm doing?"</p>
+
+    <div class="pull-quote">
+      <p>不要轻看这句话。如果你想要生活中某个特定的结果，你必须在达到它之前很久就拥有创造那个结果的生活方式。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <p class="body-text">如果有人说他们想减掉30磅，我通常不相信他们。不是因为我不认为他们有能力，而是因为太多次同样的人说"他们迫不及待想瘦下来，这样就能重新开始享受生活了"。我必须告诉你，如果你不养成导致你减肥的生活方式，并找一个比你过去的方式更有吸引力的理由，你会直接回到原点，并且你可以沮丧地说你浪费了你永远不会回来的资源：时间。</p>
+    <p class="body-text-en">Do not take this next sentence lightly. If you want a specific outcome in life, you must have the lifestyle that creates that outcome long before you reach it. If someone says they want to lose 30 pounds, I often don't believe them. Not because I don't think they are capable, but because too many times that same person says "they can't wait until they're done losing weight so they can start to enjoy life again." I hate to break it to you, but if you don't adopt the lifestyle that led to you losing the weight, for life, and find a reason with a higher gravitational pull than the one tying you to your previous ways, then you will go straight back where you started, and you can unhappily say that you wasted the resource you will never get back: time.</p>
+
+    <p class="body-text">当你真正改变了自己，所有不能帮助你朝目标前进的习惯都会变得恶心——因为你对这些行为会导致什么样的生活有深刻而清醒的认识。你可以接受你当前的标准，因为你并不完全意识到它们是什么，或者它们会引向哪里。我们将讨论如何发现这些，但我们需要先建立一些基础。</p>
+    <p class="body-text-en">When you truly change yourself, all of your habits that don't move the needle toward your goal become disgusting, because you have a deep and profound awareness of what kind of life those actions compound into. You are okay with your current standards because you are not fully aware of what they are or what they lead to. We will discuss how to uncover this, but we need to build up to that.</p>
+
+    <h3 class="section-heading">身份 vs 行为</h3>
+    <p class="body-text">大多数人在新年立下决心：去健身房、读更多书、存更多钱。到了二月，大多数人已经回到了原来的模式。这不是因为懒惰，不是因为缺乏意志力。失败的真正原因是：他们试图扮演一个与自身身份不一致的角色。</p>
+    <p class="body-text-en">Most people fail at their New Year's resolutions because they're trying to change their behavior without changing their identity first.</p>
+
+    <p class="body-text">你不能长期维持一个与你身份认同不符的行为。就像水往低处流，你的行为总会回落到"你认为自己是谁"这个基准线。</p>
+    <p class="body-text-en">You can't sustain behavior that is incongruent with your identity for long. Like water flowing downhill, your behavior will always revert to your baseline identity.</p>
+
+    <p class="body-text">你说你想改变。你说你想"实现财务自由"和"变得健康"，但你的行为表明的事实并非如此——原因远比你想象的更深。</p>
+    <p class="body-text-en">You say you want to change. You say you want to "become financially free" and "get healthy," but your actions show otherwise for a reason. And it goes a lot deeper than you think.</p>
+
+    <h3 class="section-heading">你不想要你在的位置，是因为你实际上不想要到达那里</h3>
+    <p class="body-text-en">lI-You aren't where you want to be because you don't want to be there</p>
+
+    <div class="pull-quote">
+      <p>"只信任行动。生命发生在事件层面，而非言语层面。只信任行动。"</p>
+      <span class="source">— Alfred Adler</span>
+    </div>
+
+    <p class="body-text">如果你想改变你是谁，你必须理解大脑是如何运作的，这样你才能开始重新编程它。</p>
+    <p class="body-text-en">If you want to change who you are, you must understand how the mind works so that you can start to reprogram it.</p>
+
+    <p class="body-text">理解大脑的第一步是理解所有行为都是目标导向的。当你仔细想想，这很明显，但当我们深入挖掘时，大多数人不想听到这一点。</p>
+    <p class="body-text-en">The first step to understanding the mind is to understand that all behavior is goal-oriented. When you think about it, this is kinda obvious, but when we dig into it, most people don't want to hear it.</p>
+
+    <p class="body-text">你向前迈一步是因为你想到达某个地方。你挠鼻子是因为你想让瘙痒消失。这些很清楚，但大多数时候，你的目标是无意识的。你可能没有意识到，当你在中午坐在沙发上时，你是在消磨时间，直到下一个责任到来，作为一个简单的例子。</p>
+    <p class="body-text-en">You take a step forward because you want to reach a certain location. You scratch your nose because you want to make the itch go away. Those ones are clear, but most of the time, your goals are unconscious. You may not realize that when you sit on the couch in the middle of the day, you are trying to burn time before your next responsibility, as one simple example.</p>
+
+    <p class="body-text">在更无意识和复杂的层面上，你追求的目标可能会伤害你，但你以社会可接受的方式为你的行为辩护，使其看起来你不是一个失败者。</p>
+    <p class="body-text-en">On an even more unconscious and complex level, you pursue goals that can harm you, but you justify your actions in a way that is socially acceptable and doesn't make you seem like a loser.</p>
+
+    <p class="body-text">例如，如果你无法停止拖延工作，你可能会用"缺乏自律"来为自己开脱，但实际上，你一直在试图实现一个目标。在这种情况下，这个目标可能是保护自己免受完成和分享工作后的评判。</p>
+    <p class="body-text-en">As an example, if you can't stop procrastinating your work, you may justify it with the fact that you "lack discipline," but in reality, you are attempting to achieve a goal like you always are. In this case, that goal could be to protect yourself from the judgment that comes from finishing and sharing your work.</p>
+
+    <p class="body-text">如果你说你想辞掉那份死板的工作，但又留在那里没有任何真正的理由，你可能会开始认为自己没有足够的勇气，或者你从来不是一个真正的"冒险者"，但事实是你在追求安全、可预测的目标，以及一个借口，让自己看起来不像生活中其他也做着一份死板工作的人眼中的失败者。</p>
+    <p class="body-text-en">If you say you want to quit your dead-end job, but stay in it without any real reason, you may start to think you don't have enough courage, or that you were never really a "risk taker," but the truth is that you are pursuing the goal of safety, predictability, and an excuse to not look like a failure to everyone else in your life who also works a dead-end job.</p>
+
+    <p class="body-text">这里的教训是真正的改变需要改变你的目标。</p>
+    <p class="body-text-en">The lesson here is that real change requires changing your goals.</p>
+
+    <p class="body-text">我不是指设定一些表面层面的目标，因为这样做实际上服务于一个实际上在伤害你的潜意识目标。这在生产力领域已经被充分讨论过了。我指的是改变你的观点。因为这就是目标是什么。目标是对未来的投射，它作为一个感知透镜，让你注意到帮助你实现那个目标的信息、想法和资源。</p>
+    <p class="body-text-en">I don't mean setting some surface level goal because the act of doing that serves an unconscious goal that is actually harming you. That's been ran through enough in the productivity space. I mean changing your point of view. Because that's what a goal is. A goal is a projection into the future that acts as a lens of perception which allows you to notice information, ideas, and resources that aid in you achieving that goal.</p>
+
+    <p class="body-text">现在让我们再深入一点，因为如果你不理解这一点，脱身只会变得更加困难。</p>
+    <p class="body-text-en">Now let's dig a bit deeper, because if you don't understand this, it only becomes more difficult to get out.</p>
+
+    <h3 class="section-heading">身份循环：它如何把你锁死</h3>
+    <p class="body-text">Alfred Adler 有句名言："你的所有行为都服务于一个隐藏目标。"这句话的深层含义是：我们的大脑不是随机运作的——它是一个目标导向的系统，会自动优化你生活中的每一个选择，以服务于你最深层的身份认同。</p>
+    <p class="body-text-en">Alfred Adler: "Your behavior serves a hidden purpose." Our brain is a goal-oriented system that optimizes every choice to serve your deepest identity.</p>
+
+    <p class="body-text">身份形成的七步循环：</p>
+    <p class="body-text">1. 设定表层目标 → 2. 透过目标透镜看待现实 → 3. 只注意到帮助你实现目标的重要信息和想法（学习）→ 4. 朝着目标行动并获得正在进步的反馈 → 5. 重复这个行为直到它变得自动和无意识（条件作用）→ 6. 这个行为成为你认为你是谁的一部分（"我是那种会……的人"）→ 7. 捍卫你的身份以保持心理一致性 → 8. 你的身份塑造新目标，重新启动循环</p>
+    <p class="body-text-en">1. You want to achieve a goal 2. You perceive reality through the lens of that goal 3. You only notice "important" information and ideas that allows you to achieve that goal (learning) 4. You act toward that goal and receive feedback that you are progressing toward it 5. You repeat that behavior until it becomes automatic and unconscious (conditioning) 6. That behavior becomes a part of who you think you are ("I am the type of person who....") 7. You defend your identity to maintain psychological consistency 8. Your identity shapes new goals, restarting the cycle</p>
+
+    <p class="body-text">不幸的现实是，你必须在第6步和第7步之间打破这个循环，但这个过程始于你是一个孩子的时候。</p>
+    <p class="body-text-en">The unfortunate reality is that you must break the cycle between steps 6 and 7, but this process starts when you are a child.</p>
+
+    <p class="body-text">你有生存的目标。你依赖于你的父母教你如何生存。你必须顺从。而且因为大多数人的教育方式是通过奖励和惩罚，除非你接受他们的信念和价值观，否则你会被惩罚。在你看穿这一点之前，你不会真正为自己思考。</p>
+    <p class="body-text-en">You have the goal of survival. You are dependent on your parents to teach you how to survive. You had to conform. And since the way most people teach is through reward and punishment, unless you adopt their beliefs and values, you will be punished. You don't actually think for yourself until you see through this.</p>
+
+    <p class="body-text">但你的父母整个一生也经历了这个过程。这就危险了。你的父母，除非他们自己打破了这个模式，是被工业时代文化公认的成功观念所塑造的。他们也带着来自他们父母和祖父母最好和最坏的条件作用。</p>
+    <p class="body-text-en">But your parents have also gone through this process throughout their entire lives. That's where it can get dangerous. Your parents, unless they broke the pattern themselves, were conditioned by the culturally accepted ideas of success from the Industrial age. They also carry the best and worst conditioning from their parents and their parents' parents.</p>
+
+    <p class="body-text">再深入一层，一旦你满足了你的身体生存需求（在当今世界这很容易做到，你实际上是生在安全中），你开始在概念或意识形态层面生存。你可能不会试图保护和繁殖你的身体，但你绝对保护和繁殖你的思想。不难看到互联网上想法的战争，参与者是个人和群体身份。</p>
+    <p class="body-text-en">To take it a layer deeper, once you fulfill your physical survival needs (which is quite easy to do in today's world, you're practically born into safety), you start to survive on the conceptual or ideological level. You may not try to protect and reproduce your body, but you absolutely protect and reproduce your mind. It's not difficult to see the war of ideas on the internet, and the participants are individual and group identities.</p>
+
+    <p class="body-text">当你的身体感到威胁时，你会进入战或逃模式。当你的身份感到威胁时，同样的事情会发生。</p>
+    <p class="body-text-en">When your body feels threatened, you go into fight or flight. When your identity feels threatened, the same thing happens.</p>
+
+    <p class="body-text">如果你强烈认同一个政治意识形态（通过我们刚才讨论的过程），当有人挑战你的信念时，你会感到威胁。你literally感受到压力。你在情感上感觉就像被扇了一记耳光。</p>
+    <p class="body-text-en">If you are heavily identified with a political ideology (by the process we talked about just before), you will feel threatened when someone challenges your beliefs. You literally feel the stress. You feel, emotionally, like you were just slapped in the face.</p>
+
+    <p class="body-text">因为大多数人不分析他们的情感真相，你倾向于被困在回音室中，并加倍坚持那些伤害自己和他人的主张。如果你是在一个宗教家庭长大的，而且没有为自己思考，你会攻击那些威胁你心理安全的小泡泡中的其他人。</p>
+    <p class="body-text-en">Since most people don't analyze their emotions for truth, you tend to get stuck in echo chambers and double down on claims that harm yourself and others. If you were raised in a religious household, and did not think for yourself, you will fight and attack others who threaten your psychological safety within that little bubble.</p>
+
+    <p class="body-text">同样的事情发生在你无意识地将自己视为一个律师、一个游戏玩家，或者一个不会采取行动来实现更好生活的人。</p>
+    <p class="body-text-en">The same thing happens when you unconsciously see yourself as a lawyer, a gamer, or somebody else who would not take the actions to achieve a better life.</p>
+
+    <h3 class="section-heading">先成为，再行动</h3>
+    <p class="body-text">传统的改变模型是：目标 → 行动 → 成为新自己。但顺序是颠倒的。真正有效的模型是：先决定成为谁 → 从这个身份出发行动 → 行动巩固身份。</p>
+    <p class="body-text-en">The key insight: If you want a certain result, you must first cultivate the lifestyle that produces that result.</p>
+
+    <div class="pull-quote">
+      <p>"先假装自己已经是理想中的人，然后按照他的方式去生活。"</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 实践要点</div>
+      <p>今天开始，在做任何重要决定之前，先问自己：<em>"一个____（你想成为的人）会怎么做？"</em>然后那样去做。每次这样做，都是在向你的身份发送一个新的信号。</p>
+    </div>
+
+    <p class="body-text">Maxwell Maltz 在《心理控制论》中写道："人 会为了与自我形象一致而牺牲一切。" 这意味着什么？这意味着你生活中的一切——你的习惯、你的关系、你的事业——都是你自我认知的外部表现。</p>
+    <p class="body-text-en">Maxwell Maltz wrote in Psycho-Cybernetics: "Man will sacrifice everything to be consistent with his self-image."</p>
+
+    <p class="body-text">詹姆斯·克利尔在《原子习惯》中说：最持久的改变来自于身份的改变。你不是想要拥有一本书——你是一个读者。你不是想要跑马拉松——你是一个跑步者。</p>
+    <p class="body-text-en">James Clear said: The most effective changes come from identity change. You don't want to own a book—you are a reader.</p>
+    <p class="body-text">每一个微小的行为，都是你对自己身份的一次投票。你在今天投了多少票给你想成为的那个人？</p>
+  </div>
+  <span class="page-num right">9</span>
+</div>
+
+<!-- ===== EXERCISE 1 ===== -->
+<div class="page" id="ex1">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题一 · Exercise 01</div>
+    <h2>身份挖掘工作坊</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 1.1 — 当前身份清单</div>
+      <div class="exercise-question">写下5个你用来描述自己的身份标签（不论正面或负面）</div>
+      <div class="exercise-desc">例如：内向的人、拖延者、创意思维者、没有耐心的人……写下真实的，而非希望中的。</div>
+      <div class="write-lines" id="ex1-1">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 1.2 — 追溯起源</div>
+      <div class="exercise-question">选择一个负面的身份标签，追溯它的来源</div>
+      <div class="exercise-desc">问自己：这个信念从哪里来？是谁告诉我的？在几岁时形成的？当时发生了什么？</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 1.3 — 理想身份宣言</div>
+      <div class="exercise-question">写下你想成为的那个人的5个身份标签，用现在时态</div>
+      <div class="exercise-desc">不是"我想成为"，而是"我是"——写下目标身份，仿佛它已经是真实的。</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 1.4 — 今天的一票</div>
+      <div class="exercise-question">为你的新身份，今天你会投下什么行动之票？</div>
+      <ul class="check-list" id="vote-list">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>早起30分钟，像"早起者"一样行动</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>拒绝一件与新身份不符的事</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>大声说出你的身份宣言</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>写一个新行动（属于你的）：</span></li>
+      </ul>
+    </div>
+
+  </div>
+  <span class="page-num right">11</span>
+</div>
+
+<!-- ===== REFLECTION 1 ===== -->
+<div class="page" id="ref1">
+  <div class="reflection-banner">
+    <div class="ref-label">反思页一 · Reflection 01</div>
+    <h2>关于身份的深度反思</h2>
+  </div>
+  <div class="reflection-content">
+
+    <div class="reflection-prompt">
+      <div class="rp-label">反思提问 1</div>
+      <div class="rp-question">读完第一章，你最大的"啊哈！"时刻是什么？哪个观点打中了你？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="在这里写下你的思考……" data-key="ref1-q1"></div>
+    </div>
+
+    <div class="reflection-prompt">
+      <div class="rp-label">反思提问 2</div>
+      <div class="rp-question">你的现有身份，在哪些方面阻碍了你想要的改变？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="诚实地审视，不要评判自己……" data-key="ref1-q2"></div>
+    </div>
+
+    <div class="reflection-prompt">
+      <div class="rp-label">反思提问 3</div>
+      <div class="rp-question">如果你完全活在理想身份中，明天的一天会有什么不同？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="描述那一天：早晨，你会怎么开始？……" data-key="ref1-q3"></div>
+    </div>
+
+  </div>
+  <span class="page-num right">13</span>
+</div>
+
+<!-- ===== CHAPTER 2 ===== -->
+<div class="page" id="ch2">
+  <div class="page-inner">
+    <div class="running-header"><span>第二章</span><span>第一部分：认识自己</span></div>
+    <div class="chapter-number-display">02</div>
+    <h1 class="chapter-title">你不是你想要的那个样子<br>是因为你并不真正<br>想要那个目标</h1>
+    <h2 class="chapter-title-en">You're Not Who You Want to Be Because You Don't Actually Want That Goal</h2>
+
+    <p class="chapter-intro">所有行为都有目标导向，但很多目标是潜意识、自我保护型的。真正的改变需要改变目标——即改变视角。</p>
+
+    <p class="body-text">拖延可能是为了避免被评判。逃避成功可能是为了逃避随之而来的责任。真正的问题不在于你"应该"做什么，而在于你真正想要什么。</p>
+    <p class="body-text-en">Procrastination might be protection from judgment. Avoiding success might be avoiding the responsibility that comes with it.</p>
+
+    <h3 class="section-heading">你的目标是谁的？</h3>
+    <p class="body-text">理解大脑是如何运作的，是重新编程它的第一步。所有行为都有目标导向——这很明显，但深入挖掘时，大多数人不想听到这一点。</p>
+    <p class="body-text-en">All behavior is goal-oriented. When you think about it, this is kinda obvious, but when we dig into it, most people don't want to hear it.</p>
+
+    <p class="body-text">你向前迈一步是因为你想到达某个地方。你挠鼻子是因为你想让瘙痒消失。这些很清楚，但大多数时候，你的目标是无意识的。你可能没有意识到，当你在中午坐在沙发上时，你是在消磨时间，直到下一个责任到来。</p>
+    <p class="body-text-en">You take a step forward because you want to reach a certain location. You scratch your nose because you want to make the itch go away. Most of the time, your goals are unconscious.</p>
+
+    <p class="body-text">在更无意识和复杂的层面上，你追求的目标可能会伤害你，但你以社会可接受的方式为你的行为辩护，使其看起来你不是一个失败者。例如，如果你无法停止拖延工作，你可能会用"缺乏自律"来为自己开脱，但实际上，你一直在试图实现一个目标。在这种情况下，这个目标可能是保护自己免受完成和分享工作后的评判。</p>
+    <p class="body-text-en">On a more unconscious level, you pursue goals that can harm you, but you justify your actions in a way that's socially acceptable. If you can't stop procrastinating, you might justify it with "lack of discipline," but in reality you are trying to achieve a goal like protection from judgment.</p>
+
+    <p class="body-text">有多少人追求高薪工作，只是因为父母的期待？有多少人努力减肥，不是为了健康，而是为了得到别人的认可？有多少人创业，只是为了逃避他们厌恶的工作，而不是因为他们热爱创造价值？</p>
+    <p class="body-text-en">How many people pursue high-paying jobs just because of parental expectations? How many work out not for health but for validation from others? How many start businesses to escape a job they hate rather than create value?</p>
+
+    <div class="pull-quote">
+      <p>不知道自己真正想要什么，是人类最普遍的困境。我们花一生时间追求别人告诉我们应该想要的东西，然后在临终前感到空虚。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <h3 class="section-heading">如何找到真实愿望</h3>
+    <p class="body-text">问自己这些问题：如果没人知道你的选择，你还会做同样的事吗？如果这件事让你一辈子赚不到钱，你还愿意做吗？当你做这件事时，时间会飞逝吗？</p>
+    <p class="body-text-en">Ask yourself: If no one knew your choice, would you still do it? If this made you no money forever, would you still do it? Does time fly when you do it?</p>
+
+    <p class="body-text">真实愿望不来自"我想要"的念头，而来自更深处的共鸣感——那种无法解释但你就是知道"这是对的"的感觉。</p>
+    <p class="body-text-en">True desire doesn't come from "I want" thoughts—it comes from a deeper resonance, a knowing that this is right.</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 核心练习</div>
+      <p>拿一张纸，写下你所有的目标。然后在每个目标旁边写：<em>"这个目标来自哪里？是恐惧、是期待、还是真实的内在渴望？"</em>不要急于回答。让答案自然浮现。</p>
+    </div>
+  </div>
+  <span class="page-num right">15</span>
+</div>
+
+<!-- ===== EXERCISE 2 ===== -->
+<div class="page" id="ex2">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题二 · Exercise 02</div>
+    <h2>愿景澄清练习</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 2.1 — 目标来源审计</div>
+      <div class="exercise-question">列出你现在最重要的3个目标，并分析来源</div>
+      <div class="exercise-desc">对每个目标，标注它是：A（真实愿望）、B（社会压力）还是C（防御逃避）？</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 2.2 — 5年愿景</div>
+      <div class="exercise-question">用感官细节描述你5年后理想的一天（如果没有任何限制）</div>
+      <div class="exercise-desc">从早晨醒来开始写：你在哪里？身边有谁？你在做什么工作？你的感受如何？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="早上7点，我在……" data-key="ex2-vision" style="min-height: 130px;"></div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 2.3 — 反愿景（失败代价）</div>
+      <div class="exercise-question">如果5年后什么都没改变，你的一天会是怎样的？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="早上7点，我还是……" data-key="ex2-antivision" style="min-height: 100px;"></div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 2.4 — 自我评分</div>
+      <div class="exercise-question">你对实现愿景的信心程度？</div>
+      <div class="rating-scale">
+        <div class="rating-label">完全不信</div>
+        <div class="rating-dots" id="rating-confidence">
+          <div class="rating-dot" onclick="setRating('confidence',1)">1</div>
+          <div class="rating-dot" onclick="setRating('confidence',2)">2</div>
+          <div class="rating-dot" onclick="setRating('confidence',3)">3</div>
+          <div class="rating-dot" onclick="setRating('confidence',4)">4</div>
+          <div class="rating-dot" onclick="setRating('confidence',5)">5</div>
+          <div class="rating-dot" onclick="setRating('confidence',6)">6</div>
+          <div class="rating-dot" onclick="setRating('confidence',7)">7</div>
+          <div class="rating-dot" onclick="setRating('confidence',8)">8</div>
+          <div class="rating-dot" onclick="setRating('confidence',9)">9</div>
+          <div class="rating-dot" onclick="setRating('confidence',10)">10</div>
+        </div>
+        <div class="rating-label right">完全相信</div>
+      </div>
+    </div>
+
+  </div>
+  <span class="page-num right">17</span>
+</div>
+
+<!-- ===== REFLECTION 2 ===== -->
+<div class="page" id="ref2">
+  <div class="reflection-banner">
+    <div class="ref-label">反思页二 · Reflection 02</div>
+    <h2>关于愿景的深度对话</h2>
+  </div>
+  <div class="reflection-content">
+    <div class="reflection-prompt">
+      <div class="rp-label">反思提问 1</div>
+      <div class="rp-question">写下你今天最真实的一个愿望——那个你从未对别人说过的那个。</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="如果我真的可以选择……" data-key="ref2-q1"></div>
+    </div>
+    <div class="reflection-prompt">
+      <div class="rp-label">反思提问 2</div>
+      <div class="rp-question">你的"反愿景"让你感到了什么情绪？这种情绪是否有足够的力量推动你行动？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="当我想象那个失败的未来时，我感到……" data-key="ref2-q2"></div>
+    </div>
+  </div>
+  <span class="page-num right">21</span>
+</div>
+
+<!-- ===== CHAPTER 3 ===== -->
+<div class="page" id="ch3">
+  <div class="page-inner">
+    <div class="running-header"><span>第三章</span><span>第二部分：超越恐惧</span></div>
+    <div class="chapter-number-display">03</div>
+    <h1 class="chapter-title">你不是你想要的那个样子<br>是因为你害怕<br>达到你的目标</h1>
+    <h2 class="chapter-title-en">You're Not Who You Want to Be Because You're Afraid of Achieving Your Goals</h2>
+
+    <p class="chapter-intro">最奇怪的悖论：当人们接近他们渴望的成功时，他们会无意识地自我破坏。这不是偶然，这是设计好的。</p>
+
+    <p class="body-text">你有没有过这样的经历：眼看就要完成一个重要项目，却突然开始拖延？或者，一段关系越来越好，你却开始挑剔对方？或者，生意渐有起色，你却开始犯一些"莫名其妙"的错误？</p>
+    <p class="body-text">这不是巧合，也不是懒惰。这是你的身份在进行自我保护。</p>
+    <p class="body-text-en">Procrastination might be protection from judgment. Avoiding success might be avoiding the responsibility that comes with it.</p>
+
+    <h3 class="section-heading">身份形成循环</h3>
+    <p class="body-text">目标 → 感知现实 → 学习 → 行动 → 自动化 → 身份固化 → 身份防御</p>
+    <p class="body-text-en">Goal → Perceived Reality → Learning → Action → Automation → Identity Solidification → Identity Defense</p>
+
+    <p class="body-text">身份威胁会引发类似"战斗或逃跑"的反应，与面对身体危险时的反应相似。</p>
+    <p class="body-text-en">Identity threats trigger a "fight or flight" response similar to physical danger.</p>
+
+    <div class="pull-quote">
+      <p>害怕成功，本质上是害怕成为一个不同的人。你不确定那个成功的你是否还会被爱，是否还属于你的群体，是否还是你认识的自己。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <h3 class="section-heading">成功背后的真实恐惧</h3>
+    <p class="body-text">当你身体感受到威胁时，你会进入"战斗或逃跑"模式。当你的身份感受到威胁时，同样的事情会发生。如果你高度认同某个政治意识形态，当有人挑战你的信念时你会感到威胁。你会感到压力，情绪上就像被人扇了一巴掌。由于大多数人不分析他们的情感真相，你会陷入回音室并加倍坚持损害自己和他人的主张。</p>
+    <p class="body-text-en">When your body feels threatened, you go into fight or flight. When your identity feels threatened, the same thing happens. If you are heavily identified with a political ideology, you will feel threatened when someone challenges your beliefs.</p>
+
+    <p class="body-text">如果你在宗教家庭中长大，没有为自己思考，你会攻击那些威胁你心理安全的人。同样的事情也会发生在不自觉地认为自己是一个律师、游戏玩家或不会采取行动改善生活的人身上。</p>
+    <p class="body-text-en">The same thing happens when you unconsciously see yourself as a lawyer, a gamer, or somebody else who would not take the actions to achieve a better life.</p>
+
+    <ul class="numbered-list">
+      <li><strong>曝光恐惧：</strong>成功意味着更多人关注，更多人批评。"如果我失败了怎么办？"</li>
+      <li><strong>关系恐惧：</strong>"如果我成功了，我的朋友会嫉妒我吗？我会孤立吗？"</li>
+      <li><strong>自我价值恐惧：</strong>"我真的值得拥有这些吗？"</li>
+      <li><strong>身份失去恐惧：</strong>"如果我成功了，我还是我吗？"</li>
+    </ul>
+    <p class="body-text-en">Exposure fear → more attention brings more criticism. Relationship fear → will friends be jealous? Self-worth fear → do I deserve this? Identity fear → will I still be me?</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 关键认知</div>
+      <p>恐惧不是敌人。它是信息。当你感到恐惧，它在告诉你：这里有重要的事。这里有成长的机会。不是绕过它，而是穿越它。</p>
+    </div>
+
+    <p class="body-text">来自父母和文化的早期条件作用影响深远，决定了我们允许自己成为什么样的人。</p>
+    <p class="body-text-en">Early conditioning from parents and culture has profound effects on what we allow ourselves to become.</p>
+  </div>
+  <span class="page-num right">23</span>
+</div>
+
+<!-- ===== EXERCISE 3 ===== -->
+<div class="page" id="ex3">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题三 · Exercise 03</div>
+    <h2>恐惧解构工作坊</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 3.1 — 自我破坏行为清单</div>
+      <div class="exercise-question">写下你在接近目标时，会出现的3个"自我破坏"行为</div>
+      <div class="exercise-desc">观察，不要评判。例：突然刷手机、找借口推迟、寻找完美条件……</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 3.2 — 恐惧根源探索</div>
+      <div class="exercise-question">对最强烈的自我破坏行为，用5 Why's找到根源</div>
+      <div class="exercise-desc">连续问5次"为什么"，每次回答之后，再问一次。你会到达令人惊讶的深处。</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 3.3 — 对恐惧说话</div>
+      <div class="exercise-question">写一封信给你的恐惧，感谢它的保护，同时告诉它你要前行</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="亲爱的恐惧，感谢你一直以来保护我……但是……" data-key="ex3-letter" style="min-height: 120px;"></div>
+    </div>
+
+  </div>
+  <span class="page-num right">25</span>
+</div>
+
+<!-- ===== CHAPTER 4 ===== -->
+<div class="page" id="ch4">
+  <div class="page-inner">
+    <div class="running-header"><span>第四章</span><span>第二部分：超越恐惧</span></div>
+    <div class="chapter-number-display">04</div>
+    <h1 class="chapter-title">你的理想生活存在于<br>特定的意识层次</h1>
+    <h2 class="chapter-title-en">Your Ideal Life Exists at a Specific Level of Consciousness</h2>
+
+    <p class="chapter-intro">你目前的意识层次，决定了你能解决什么问题、能获得什么机会、能看见什么可能性。升级意识，是一切改变的基础设施。</p>
+
+    <p class="body-text">想象一下：一个在黑白世界生活了一生的人，突然看见了颜色。他不能"回去"了。意识的提升也是如此——一旦你看见了更高层次的可能性，你就无法再满足于更低的层次。</p>
+    <p class="body-text-en">Once you've seen color, you can't go back to black and white. The same applies to consciousness—once you see higher possibilities, you can't unsee them.</p>
+
+    <h3 class="section-heading">九个意识层次</h3>
+    <ul class="numbered-list">
+      <li><strong>1. 冲动型 Impulsive：</strong>行为与冲动之间没有分离，非黑即白的思维。一个孩子在愤怒时就会出手，因为感觉和行为是一回事。</li>
+      <li><strong>2. 自我保护型 Self-Protective：</strong>世界是危险的，你学会保护自己。孩子学会隐藏成绩单、对家务撒谎、揣摩大人想听什么。</li>
+      <li><strong>3. 遵从型 Conformist：</strong>你与你的群体融为一体，其规则就是现实本身。一个真诚无法理解为什么会有人投票与家人或群体不同。</li>
+      <li><strong>4. 自我觉醒型 Self-Aware：</strong>你注意到自己有一个与外表不匹配的内在生活。坐在教堂里意识到你不确定是否相信周围人相信的东西，但还不知道如何处理这种感受。</li>
+      <li><strong>5. 尽责型 Conscientious：</strong>你建立自己的原则体系并对自己负责。仔细研究后离开家庭宗教，采用你可以辩护的个人哲学，或因为相信正确的努力会带来正确的结果而制定有明确里程碑的职业规划。</li>
+      <li><strong>6. 个人主义者 Individualist：</strong>你意识到你的原则是由背景塑造的，开始更松散地持有它们。意识到你的政治观点与你成长的地方而非客观真理更相关，或者注意到你的职业雄心实际上是为了赢得父亲的认可。</li>
+      <li><strong>7. 战略家 Strategist：</strong>你与系统合作，同时意识到自己参与其中。领导一个组织同时积极质疑自己的盲点，或者参与政治时知道你的观点是片面的，是由你看不清的偏见塑造的。</li>
+      <li><strong>8. 建构觉醒型 Construct-Aware：</strong>你将所有框架，包括你的身份，视为有用的虚构。隐喻性地而非字面地持有你的精神信仰，知道地图不是领土，或者以一种温和的幽默感观察自己扮演"创始人"或"思想领袖"的角色。</li>
+      <li><strong>9. 合一型 Unitive：</strong>自我与生活之间的分离消融。存在即是教导。</li>
+    </ul>
+
+    <p class="body-text-en">The 9 levels: Impulse → Pain → Exploration → Questioning → Integration → Design → Mission → Influence → Integration (Freedom)</p>
+
+    <div class="pull-quote">
+      <p>你不能用你目前层次的思维，解决这个层次造成的问题。升级意识不是奢侈品，而是进步的必要条件。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <p class="body-text">大多数读者处于第4-8阶段。本文帮助你突破现有阶段。每个阶段都需要不同的技能和视角才能进阶到下一阶段。</p>
+    <p class="body-text-en">Most readers are at stages 4-8. This article helps you break through your current stage. Each stage requires different skills and perspectives.</p>
+
+    <p class="body-text">重要的是：这不是一个竞争性的阶梯，而是一个发展的旅程。每个层次都有其独特的礼物和挑战。你当前所在的层次，就是你应该在的地方——但你不必永远停在那里。</p>
+  </div>
+  <span class="page-num right">29</span>
+</div>
+
+<!-- ===== EXERCISE 4 ===== -->
+<div class="page" id="ex4">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题四 · Exercise 04</div>
+    <h2>层次自评与跃迁计划</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 4.1 — 我在哪里</div>
+      <div class="exercise-question">你认为自己目前处于哪个意识层次？（1-9）</div>
+      <div class="exercise-desc">不要高估或低估。想想你的日常行为模式，而不是偶尔的状态。</div>
+      <div class="rating-scale">
+        <div class="rating-label">层次1</div>
+        <div class="rating-dots" id="rating-level">
+          <div class="rating-dot" onclick="setRating('level',1)">1</div>
+          <div class="rating-dot" onclick="setRating('level',2)">2</div>
+          <div class="rating-dot" onclick="setRating('level',3)">3</div>
+          <div class="rating-dot" onclick="setRating('level',4)">4</div>
+          <div class="rating-dot" onclick="setRating('level',5)">5</div>
+          <div class="rating-dot" onclick="setRating('level',6)">6</div>
+          <div class="rating-dot" onclick="setRating('level',7)">7</div>
+          <div class="rating-dot" onclick="setRating('level',8)">8</div>
+          <div class="rating-dot" onclick="setRating('level',9)">9</div>
+        </div>
+        <div class="rating-label right">层次9</div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 4.2 — 跃迁的障碍</div>
+      <div class="exercise-question">要从你当前层次升到下一层，最大的心理障碍是什么？</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 4.3 — 下一层的思维</div>
+      <div class="exercise-question">下一个层次的你，会如何思考？写出3个思维转变</div>
+      <div class="exercise-desc">例：从"受害者"升级："我能改变这个情况"取代"这不是我的错"</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+  </div>
+  <span class="page-num right">31</span>
+</div>
+
+<!-- ===== CHAPTER 5 ===== -->
+<div class="page" id="ch5">
+  <div class="page-inner">
+    <div class="running-header"><span>第五章</span><span>第三部分：重塑人生</span></div>
+    <div class="chapter-number-display">05</div>
+    <h1 class="chapter-title">智慧是获得你生活中<br>想要的东西的能力</h1>
+    <h2 class="chapter-title-en">Wisdom Is the Ability to Get What You Want in Life</h2>
+
+    <p class="chapter-intro">成功公式：能动性 + 机会 + 智慧。大多数人努力提升前两者，却忽视了最重要的第三个。</p>
+
+    <h3 class="section-heading">三个维度</h3>
+    <ul class="numbered-list">
+      <li><strong>能动性（Agency）：</strong>你相信自己能改变现状吗？你愿意主动行动吗？没有能动性，机会和智慧都无用。</li>
+      <li><strong>机会（Opportunity）：</strong>你是否把自己置于正确的位置？你是否让对的人看到你？你是否在创造而非等待机会？</li>
+      <li><strong>智慧（Wisdom）：</strong>你是否在做正确的事，以正确的方式，在正确的时间？这需要深度的自我认知和对外部世界的理解。</li>
+    </ul>
+    <p class="body-text-en">Agency: Do you believe you can change? Opportunity: Are you in the right place? Wisdom: Are you doing the right thing, the right way, at the right time?</p>
+
+    <div class="pull-quote">
+      <p>智慧不是知识的积累。智慧是知道在特定情况下该做什么，以及为什么。知识给你选项，智慧帮你选择。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <h3 class="section-heading">智慧是迭代、坚持、大局观</h3>
+    <p class="body-text">从控制论的角度来看，智慧是迭代、坚持、大局观的能力。高智慧者相信，任何问题在足够长的时间内都可以解决。</p>
+    <p class="body-text-en">Wisdom is the ability to iterate, persist, and see the big picture. Highly wise people believe any problem can be solved given enough time.</p>
+
+    <h3 class="section-heading">如何培养智慧</h3>
+    <p class="body-text">智慧来自有意识地从经验中提炼意义。不是"我经历了什么"，而是"我从中学到了什么，这改变了我对世界的看法"。</p>
+    <p class="body-text">每次失败，都是智慧的原料。每次成功，也是。区别在于你是否愿意停下来，真正地思考：发生了什么？为什么？下次我会如何不同？</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 每日实践</div>
+      <p>每晚花10分钟回答：今天我学到了什么？这如何改变了我的世界观？这个洞察我将如何应用？持续90天，你的决策能力会发生质的飞跃。</p>
+    </div>
+  </div>
+  <span class="page-num right">37</span>
+</div>
+
+<!-- ===== CHAPTER 6 ===== -->
+<div class="page" id="ch6">
+  <div class="page-inner">
+    <div class="running-header"><span>第六章</span><span>第三部分：重塑人生</span></div>
+    <div class="chapter-number-display">06</div>
+    <h1 class="chapter-title">如何在一天内<br>彻底改变生活</h1>
+    <h2 class="chapter-title-en">The One-Day Protocol to Transform Your Life</h2>
+
+    <p class="chapter-intro">理论是地图，实践是旅程。这是一个你可以今天就开始执行的完整系统，将前五章的洞察转化为具体的日常行动。</p>
+
+    <h3 class="section-heading">早晨：心理挖掘</h3>
+    <p class="body-text">每天早晨，在接触任何外部信息（手机、新闻、社交媒体）之前，花15-30分钟思考并回答这些问题：</p>
+    <p class="body-text-en">Set aside 15-30 minutes to think about and answer these questions first thing in the morning:</p>
+
+    <p class="body-text"><strong>第一部分：识别当前的不满</strong></p>
+    <p class="body-text">1. 你已经学会忍受的那种 dull 且持续的不满是什么？不是深刻的痛苦，而是你学会容忍的东西。</p>
+    <p class="body-text">2. 你反复抱怨但从未真正改变的是什么？写下过去一年你最常说的三个抱怨。</p>
+    <p class="body-text">3. 对于每个抱怨：观察你行为（不是你的话）的人会得出什么结论——你实际上想要什么？</p>
+    <p class="body-text">4. 关于你当前的生活，有什么真相是你无法向你深爱的人承认的？</p>
+    <p class="body-text-en">1. What is the dull and persistent dissatisfaction you've learned to live with? (Not deep suffering but what you've learned to tolerate)</p>
+    <p class="body-text-en">2. What do you complain about repeatedly but never actually change? Write your three most common complaints.</p>
+    <p class="body-text-en">3. For each complaint: What would someone watching your behavior conclude you actually want?</p>
+    <p class="body-text-en">4. What truth about your current life would be unbearable to admit to someone you deeply respect?</p>
+
+    <p class="body-text"><strong>第二部分：构建反愿景</strong></p>
+    <p class="body-text">5. 如果接下来五年一切都、一成不变，描述一个普通的周二。你在哪里醒来？你的身体感觉怎么样？你第一个想法是什么？谁在你身边？9点到6点你做什么？晚上10点你感觉如何？</p>
+    <p class="body-text">6. 现在想象十年后。你错过了什么？什么机会关闭了？谁放弃了你？当你不不在房间时人们怎么评价你？</p>
+    <p class="body-text">7. 你在生命的尽头。你过了安全版本。从未打破模式。代价是什么？你从未让自己感受到、尝试或成为什么？</p>
+    <p class="body-text">8. 谁已经在过你刚才描述的未来？同一条路上领先你5年、10年、20年的人？当你想到成为他们时你有什么感受？</p>
+    <p class="body-text">9. 你必须放弃什么身份才能真正改变？（"我是那种人..."）不再成为那个人在社交上要付出什么代价？</p>
+    <p class="body-text">10. 你没有改变的最尴尬的原因是什么？那个让你听起来软弱、害怕或懒惰而不是合理的原因？</p>
+    <p class="body-text">11. 如果你当前的行为是一种自我保护，究竟在保护什么？那种保护让你付出了什么代价？</p>
+    <p class="body-text-en">5. If nothing changes for 5 years, describe an average Tuesday. Where do you wake up? How does your body feel? Who's around you?</p>
+    <p class="body-text-en">6. Now do it for 10 years. What have you missed? What opportunities closed? Who gave up on you?</p>
+    <p class="body-text-en">7. You're at the end of your life. You lived the safe version. What was the cost?</p>
+    <p class="body-text-en">8. Who in your life is already living the future you described? How do you feel about becoming them?</p>
+    <p class="body-text-en">9. What identity would you have to give up to actually change? What would it cost you socially?</p>
+    <p class="body-text-en">10. What is the most embarrassing reason you haven't changed?</p>
+    <p class="body-text-en">11. If your current behavior is self-protection, what are you protecting? What is that protection costing you?</p>
+
+    <p class="body-text"><strong>第三部分：最小可行愿景</strong></p>
+    <p class="body-text">12. 暂时忘记可行性。如果你能在三年内 snapping fingers 就生活在不同的生活中，不是现实的，而是你真正想要的，那是什么？普通的周二是什么样的？</p>
+    <p class="body-text">13. 你必须相信自己什么，才能让那种生活感觉自然而不是强迫？写下身份宣言："我是那种人..."</p>
+    <p class="body-text">14. 如果你已经是你想成为的那个人，这周你会做的一件事是什么？</p>
+    <p class="body-text-en">12. Forget practicality. If you could snap your fingers and be living a different life in 3 years, what do you actually want?</p>
+    <p class="body-text-en">13. What would you have to believe about yourself for that life to feel natural? Write: "I am the type of person who..."</p>
+    <p class="body-text-en">14. What is one thing you would do this week if you were already that person?</p>
+
+    <h3 class="section-heading">白天：打断自动模式</h3>
+    <p class="body-text">这些日记练习很可爱，但我们要真正的改变坦率地说，如果不打破让你保持不变的当前无意识模式，就不会发生真正的改变。</p>
+    <p class="body-text">全天下来，我希望你思考第一部分中你写的所有内容。除此之外，不要忘记思考。请认真对待这一点。你不会通过余生做同样的事情来改变。你需要有意识地强制打破模式。</p>
+    <p class="body-text-en">These journaling exercises are cute, but we want real change. That won't happen if you don't break the current unconscious patterns keeping you the same.</p>
+
+    <p class="body-text"><strong>现在就在手机上创建提醒或日历事件。包括提醒中的问题，这样你就可以立即开始思考。</strong></p>
+    <p class="body-text">越随机、越不与你的日程冲突越好。</p>
+    <p class="body-text-en">Take the time right now to create reminders or calendar events in your phone. Include the question in the reminder so you can immediately start thinking.</p>
+
+    <p class="body-text"><strong>白天提醒问题：</strong></p>
+    <p class="body-text">• 11:00 AM: 我现在在通过做什么来逃避什么？</p>
+    <p class="body-text">• 1:30 PM: 如果有人拍摄过去两小时，他们会得出什么结论——我想要从生活中得到什么？</p>
+    <p class="body-text">• 3:15 PM: 我是在走向我讨厌的生活，还是我想要的生活？</p>
+    <p class="body-text">• 5:00 PM: 我假装不重要的事情中，最重要的是什么？</p>
+    <p class="body-text">• 7:30 PM: 我今天做了什么是为了身份保护而不是真正的欲望？（提示：这是你做的大多数事情）</p>
+    <p class="body-text">• 9:00 PM: 我今天什么时候感觉最鲜活？什么时候感觉最死气沉沉？</p>
+    <p class="body-text-en">• 11:00am: What am I avoiding right now by doing what I'm doing?</p>
+    <p class="body-text-en">• 1:30pm: If someone filmed the last two hours, what would they conclude I want from my life?</p>
+    <p class="body-text-en">• 3:15pm: Am I moving toward the life I hate or the life I want?</p>
+    <p class="body-text-en">• 5:00pm: What's the most important thing I'm pretending isn't important?</p>
+    <p class="body-text-en">• 7:30pm: What did I do today out of identity protection rather than genuine desire?</p>
+    <p class="body-text-en">• 9:00pm: When did I feel most alive today? When did I feel most dead?</p>
+
+    <p class="body-text"><strong>额外燃料问题（在通勤、散步或躺着的时候）：</strong></p>
+    <p class="body-text">• 如果我不再需要人们把我看作[你在问题10中写的身份]，会改变什么？</p>
+    <p class="body-text">• 我在哪里用鲜活感换取安全感？</p>
+    <p class="body-text">• 我想成为的人的最小版本是什么，我明天就能成为？</p>
+    <p class="body-text-en">• What would change if I stopped needing people to see me as [identity from question 10]?</p>
+    <p class="body-text-en">• Where in my life am I trading aliveness for safety?</p>
+    <p class="body-text-en">• What's the smallest version of the person I want to become that I could be tomorrow?</p>
+
+    <div class="pull-quote">
+      <p>觉察本身就是改变。当你注意到自己在重复一个旧模式，那个模式已经开始失去力量。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <h3 class="section-heading">晚上：整合洞察</h3>
+    <p class="body-text">如果你遵循了这个过程，如果你没有至少一个可能改变你生活进程的深刻见解，我会感到惊讶。现在，我们需要让这些变得可见，将它们整合到我们是谁，并开始采取行动，以巩固我们通往新意识层次的旅程。</p>
+    <p class="body-text-en">If you followed that process, I would be surprised if you didn't have at least one profound insight that could alter the course of your life. Now, we need to make those known and integrate them into who we are.</p>
+
+    <p class="body-text"><strong>晚间整合问题：</strong></p>
+    <p class="body-text">15. 今天之后，关于你为什么一直停滞不前，感觉最真实的是什么？</p>
+    <p class="body-text">16. 真正的敌人是什么？清楚地命名它。不是环境。不是其他人。一直是主角的内部模式或信念。</p>
+    <p class="body-text">17. 写一个句子，捕捉你拒绝让你的生活变成的样子。这是你的反愿景压缩版。当你读它时，它应该让你有感觉。</p>
+    <p class="body-text">18. 写一个句子，捕捉你正在努力的方向，知道它会演变。这是你的愿景MVP。</p>
+    <p class="body-text-en">15. After today, what feels most true about why you've been stuck?</p>
+    <p class="body-text-en">16. What is the actual enemy? Name it clearly. Not circumstances. Not other people.</p>
+    <p class="body-text-en">17. Write a single sentence that captures what you refuse to let your life become. This is your anti-vision compressed.</p>
+    <p class="body-text-en">18. Write a single sentence that captures what you're building toward. This is your vision MVP.</p>
+
+    <p class="body-text"><strong>设定目标作为"视角"：</strong></p>
+    <p class="body-text">目标不是为成就而设定的，因为目标只是投射。它们不可靠，让你感觉被束缚在不可避免会改变的东西上。相反，把目标想成一个视角。一个你可以交换的镜头，以进入正确的精神状态，执行将带你远离你不想要的生活的行动。不要担心某种终点线，因为我们会发现它不存在。在进步中找到享受。</p>
+    <p class="body-text-en">Think of goals as a point of view. A lens that you can exchange to enter the right state of mind to perform the action that will lead away from the life you don't want.</p>
+
+    <p class="body-text">• <strong>一年视角：</strong>一年后，什么必须是真的，让你知道你已经打破了旧模式？一件具体的事情。</p>
+    <p class="body-text">• <strong>一个月视角：</strong>一个月后，什么必须是真的，才能让一年视角保持可能？</p>
+    <p class="body-text">• <strong>每日视角：</strong>明天你可以时间块化的2-3个行动是什么——那个正在成为的你会简单地去做的？</p>
+    <p class="body-text-en">• One-year lens: What would have to be true in one year for you to know you've broken the old pattern? One concrete thing.</p>
+    <p class="body-text-en">• One-month lens: What would have to be true in one month for the one-year lens to remain possible?</p>
+    <p class="body-text-en">• Daily lens: What are 2-3 actions you can timeblock tomorrow that the person you're becoming would simply do?</p>
+
+    <div class="insight-box">
+      <div class="insight-label">💡 关键原则</div>
+      <p>不要追求完美。这个协议的目标不是一天内改变一切，而是建立一个每天都在投票给新身份的习惯系统。一个月后，你会认不出自己。</p>
+    </div>
+  </div>
+  <span class="page-num right">41</span>
+</div>
+
+<!-- ===== EXERCISE 6 ===== -->
+<div class="page" id="ex6">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题六 · Exercise 06</div>
+    <h2>设计你的个人一日协议</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 6.1 — 我的晨间仪式</div>
+      <div class="exercise-question">设计你专属的早晨协议（5-10分钟内完成）</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="早上起来，我会先……然后……最后……" data-key="ex6-morning" style="min-height:100px;"></div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 6.2 — 我的白天提醒</div>
+      <div class="exercise-question">你会用什么方式提醒自己"打断自动驾驶"？</div>
+      <ul class="check-list">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>手机每2小时提醒</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>贴便利贴在电脑旁</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>手腕上戴橡皮筋提醒</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span>其他方式：</span></li>
+      </ul>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 6.3 — 我的晚间反思问题</div>
+      <div class="exercise-question">写下你最想每晚问自己的3个问题</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 6.4 — 承诺</div>
+      <div class="exercise-question">我承诺坚持这个协议至少___天，从今天开始。</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="我，[你的名字]，承诺……" data-key="ex6-pledge" style="min-height:60px;"></div>
+    </div>
+
+  </div>
+  <span class="page-num right">43</span>
+</div>
+
+<!-- ===== CHAPTER 7 ===== -->
+<div class="page" id="ch7">
+  <div class="page-inner">
+    <div class="running-header"><span>第七章</span><span>第三部分：重塑人生</span></div>
+    <div class="chapter-number-display">07</div>
+    <h1 class="chapter-title">将生活变成<br>电子游戏</h1>
+    <h2 class="chapter-title-en">Turn Your Life into a Video Game</h2>
+
+    <p class="chapter-intro">游戏是人类有史以来最强大的动机引擎之一。将人生游戏化，不是逃避现实，而是赋予现实更深的意义和更清晰的结构。</p>
+
+    <p class="body-text">为什么人们可以连续12小时玩游戏，却无法坚持一个月的新习惯？因为游戏提供了四个关键元素：清晰的目标、即时反馈、适当的挑战、掌控感。当你的人生缺少这四个元素，大脑就会去别处寻找满足感。</p>
+    <p class="body-text-en">Games provide: clear goals, immediate feedback, appropriate challenges, sense of control. When your life lacks these, your brain looks elsewhere for satisfaction.</p>
+
+    <h3 class="section-heading">你的人生游戏框架</h3>
+    <p class="body-text">现在你有所有导致美好生活的组件。现在，将你所有的洞察组织成一个连贯的计划可能会有帮助。拉出一张新纸，写下这六个组件：</p>
+    <p class="body-text-en">Now you have all the components that lead to a good life. Now it may be helpful to organize all of your insights into one coherent plan.</p>
+
+    <ul class="numbered-list">
+      <li><strong>反愿景（Anti-Vision）：</strong>失败代价——你绝对想要避免的结局</li>
+      <li><strong>愿景（Vision）：</strong>胜利条件——你的理想未来状态</li>
+      <li><strong>1年目标：</strong>主任务——你的总体目标</li>
+      <li><strong>1月项目：</strong>BOSS战——需要达成的重大里程碑</li>
+      <li><strong>每日杠杆：</strong>日常任务——每天的高影响力行动</li>
+      <li><strong>约束：</strong>规则——指导决策的边界</li>
+    </ul>
+    <p class="body-text-en">Anti-Vision = Failure Cost. Vision = Victory Condition. 1-Year Goal = Main Quest. 1-Month Project = Boss Battle. Daily Leverage = Daily Quest. Constraints = Rules.</p>
+
+    <p class="body-text">为什么这如此强大？因为这些组件 literally 创造了你自己的小世界。如果你注定在这个人生阶段追求这个目标层次，你将别无选择，只能变得痴迷。你会感受到对更大事物的拉力。你不会把任何其他东西看作一个选项。</p>
+    <p class="body-text-en">Why is this so powerful? Because these components literally create your own little world. You will feel the pull to something greater. You will not see anything else as an option.</p>
+
+    <p class="body-text">你把你的生活变成电子游戏。因为游戏是痴迷、享受和心流状态的典型代表。它们拥有导致专注和清晰的所有组件——所以如果我们 reverse engineer 那些组件是什么，我们可以生活在更深度享受、更少分心和更多成功的状态中。</p>
+    <p class="body-text-en">You turn your life into a video game. Games are the poster child for obsession, enjoyment, and flow states.</p>
+
+    <div class="pull-quote">
+      <p>你的愿景是你如何赢。至少直到游戏进化。你的反愿景是风险是什么。如果你输了或放弃会怎样。你的1年目标是任务。这是你生活中唯一的优先事项。你的1月项目是 boss 战斗。你如何获得经验和战利品。你的每日杠杆是任务。每天的过程，解锁新机会。你的约束是规则。鼓励创意的限制。所有这些就像同心圆集，像一个力场，保护你的思想免受干扰和闪亮物体的侵害。</p>
+    </div>
+
+    <p class="body-text">你玩这个游戏越多，这个力场就越强，很快它就成了你本来的样子，你不会想要它有任何不同。</p>
+    <p class="body-text-en">The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn't have it any other way.</p>
+
+    <div class="pull-quote">
+      <p>把改变变成游戏，不是为了让它变得更简单，而是为了让它变得有趣。当你享受过程，坚持就不再是意志力的问题，而是你想要继续玩下去。</p>
+      <span class="source">Dan Koe</span>
+    </div>
+
+    <p class="body-text">将所有元素组织成游戏化系统，创造专注、心流，防止分心。最重要的是：这是一个无限游戏。没有最终的"赢家"，只有不断地成长、探索和贡献。你的目标不是"到达"某个地方，而是成为那个不断在路上的人。</p>
+    <p class="body-text-en">Organize all elements into a gamified system to create focus, flow, and prevent distraction. This is an infinite game—no final winner, only continuous growth.</p>
+  </div>
+  <span class="page-num right">47</span>
+</div>
+
+<!-- ===== EXERCISE 7 ===== -->
+<div class="page" id="ex7">
+  <div class="exercise-page-banner">
+    <div class="ex-label">练习题七 · Exercise 07</div>
+    <h2>设计你的人生游戏</h2>
+  </div>
+  <div class="exercise-page-content">
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 7.1 — 游戏基础设定</div>
+      <div class="exercise-question">填写你人生游戏的核心要素</div>
+      <div class="exercise-desc">游戏名称（你的人生主题）：</div>
+      <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+      <div class="exercise-desc" style="margin-top:14px;">角色名与特质：</div>
+      <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+      <div class="exercise-desc" style="margin-top:14px;">胜利条件（一句话描述你的愿景）：</div>
+      <div class="write-lines"><div class="write-line"></div><div class="write-line"></div></div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 7.2 — 关卡地图</div>
+      <div class="exercise-question">把你的旅程分成5个关卡，每关有明确的完成标志</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-item">
+      <div class="exercise-num">练习 7.3 — 当前关卡任务</div>
+      <div class="exercise-question">关卡1的5个核心任务是什么？每完成一个，得多少XP？</div>
+      <div class="write-lines">
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+  </div>
+  <span class="page-num right">49</span>
+</div>
+
+<!-- ===== FINAL REFLECTION ===== -->
+<div class="page" id="ref-final">
+  <div class="reflection-banner">
+    <div class="ref-label">最终反思页 · Final Reflection</div>
+    <h2>旅程的起点，不是终点</h2>
+  </div>
+  <div class="reflection-content">
+
+    <div class="reflection-prompt">
+      <div class="rp-label">最终反思 1</div>
+      <div class="rp-question">读完这本书，你最重要的3个收获是什么？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="1. &#10;2. &#10;3. " data-key="final-q1" style="min-height:110px;"></div>
+    </div>
+
+    <div class="reflection-prompt">
+      <div class="rp-label">最终反思 2</div>
+      <div class="rp-question">你现在和3个月前的自己，最大的不同是什么（或者，你希望3个月后的区别是什么）？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="在这里写下你的对比……" data-key="final-q2"></div>
+    </div>
+
+    <div class="reflection-prompt">
+      <div class="rp-label">最终反思 3</div>
+      <div class="rp-question">从今天开始，你愿意做出的一个最重要的改变是？</div>
+      <div class="diary-area" contenteditable="true" data-placeholder="我承诺，从今天开始……" data-key="final-q3"></div>
+    </div>
+
+  </div>
+  <span class="page-num right">51</span>
+</div>
+
+<!-- ===== APPENDIX ===== -->
+<div class="page" id="appendix">
+  <div class="page-inner">
+    <div class="running-header"><span>附录</span><span>工具箱 &amp; 资源</span></div>
+
+    <h1 class="toc-page-title">工具箱</h1>
+    <p class="toc-page-sub">日常可用的核心资源</p>
+
+    <h3 class="section-heading">每日问题清单</h3>
+    <p class="body-text"><strong>晨间：</strong>今天，我想成为谁？今天最重要的一件事是什么？如果今天是我最后一天，我会如何度过？</p>
+    <p class="body-text"><strong>白天：</strong>我现在在自动驾驶吗？这个行为符合我的理想身份吗？我现在感受到什么情绪，它在告诉我什么？</p>
+    <p class="body-text"><strong>晚间：</strong>今天我活在了理想身份中的哪一刻？我学到了什么智慧？明天我要改变什么？</p>
+
+    <div class="chapter-divider"><div class="divider-ornament">· · ·</div></div>
+
+    <h3 class="section-heading">核心概念速查</h3>
+    <ul class="numbered-list">
+      <li><strong>身份优先原则：</strong>先成为你想成为的人，行为会自然跟随。</li>
+      <li><strong>愿景-反愿景框架：</strong>同时想象最佳和最差结果，激活深层动机。</li>
+      <li><strong>意识层次1-9：</strong>了解你在哪里，去往哪里，需要什么思维转变。</li>
+      <li><strong>智慧公式：</strong>能动性 × 机会 × 智慧 = 成功。</li>
+      <li><strong>一日协议：</strong>晨间设定 → 白天觉察 → 晚间整合。</li>
+      <li><strong>人生游戏化：</strong>愿景=胜利条件，关卡=里程碑，任务=日常行动。</li>
+    </ul>
+
+    <div class="chapter-divider"><div class="divider-ornament">· · ·</div></div>
+
+    <h3 class="section-heading">推荐延伸阅读</h3>
+    <ul class="numbered-list">
+      <li>James Clear《原子习惯》— 行为改变的科学</li>
+      <li>Viktor Frankl《活出生命的意义》— 意义感与动机</li>
+      <li>Carl Jung《心理类型》— 自我认知的深层框架</li>
+      <li>Mihaly Csikszentmihalyi《心流》— 最佳体验的科学</li>
+      <li>Naval Ravikant《如何获得幸福与财富》— 智慧积累方法</li>
+    </ul>
+
+    <div class="chapter-divider"><div class="divider-ornament">· · ��</div></div>
+
+    <p class="body-text" style="text-align:center;font-style:italic;color:var(--muted);">这不是终点。这是起点。<br>每一次你翻开这本书，你都在为你的新身份投下一票。</p>
+
+  </div>
+  <span class="page-num right">55</span>
+</div>
+
+</div><!-- end book-pages -->
+</div><!-- end book-main -->
+
+<script>
+// ======= READING PROGRESS =======
+function updateProgress() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round((scrollTop / docHeight) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  // Highlight active TOC link
+  const pages = document.querySelectorAll('[id]');
+  let current = '';
+  pages.forEach(p => {
+    if (window.pageYOffset >= p.offsetTop - 200) current = p.id;
+  });
+  document.querySelectorAll('.toc-link').forEach(link => {
+    const target = link.getAttribute('onclick')?.match(/'#(.+?)'/)?.[1];
+    link.classList.toggle('active', target === current);
+  });
+}
+
+window.addEventListener('scroll', updateProgress);
+
+// ======= SCROLL TO =======
+function scrollTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ======= CHECK LIST =======
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+  if (li.classList.contains('checked')) {
+    li.querySelector('.check-box').textContent = '✓';
+  } else {
+    li.querySelector('.check-box').textContent = '';
+  }
+  saveProgress();
+}
+
+// ======= RATING =======
+const ratings = {};
+function setRating(key, val) {
+  ratings[key] = val;
+  const container = document.getElementById('rating-' + key);
+  if (container) {
+    container.querySelectorAll('.rating-dot').forEach((d, i) => {
+      d.classList.toggle('active', i < val);
+    });
+  }
+  saveProgress();
+}
+
+// ======= FONT SIZE =======
+let fontIdx = 0;
+const fontSizes = ['15px', '17px', '14px'];
+function toggleFontSize() {
+  fontIdx = (fontIdx + 1) % fontSizes.length;
+  document.querySelectorAll('.body-text').forEach(el => {
+    el.style.fontSize = fontSizes[fontIdx];
+  });
+}
+
+// ======= SAVE PROGRESS =======
+function saveProgress() {
+  const data = {};
+  document.querySelectorAll('[data-key]').forEach(el => {
+    data[el.dataset.key] = el.innerHTML || el.textContent;
+  });
+  data._ratings = ratings;
+  try { localStorage.setItem('ebook_data', JSON.stringify(data)); } catch(e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem('ebook_data');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    document.querySelectorAll('[data-key]').forEach(el => {
+      if (data[el.dataset.key]) el.innerHTML = data[el.dataset.key];
+    });
+    if (data._ratings) {
+      Object.entries(data._ratings).forEach(([k, v]) => setRating(k, v));
+    }
+  } catch(e) {}
+}
+
+document.querySelectorAll('[contenteditable]').forEach(el => {
+  el.addEventListener('input', saveProgress);
+});
+
+window.addEventListener('load', () => {
+  loadProgress();
+  updateProgress();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海报设计 | Posters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #111;
+            color: #fff;
+            padding: 40px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.1em;
+        }
+
+        .posters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .poster {
+            aspect-ratio: 3/4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Poster 1 - Dark Minimal */
+        .poster-1 { background: #0a0a0a; }
+        .poster-1 .poster-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 6rem;
+            font-weight: 700;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px #fff;
+            opacity: 0.15;
+            position: absolute;
+            top: 40px;
+            right: 40px;
+        }
+        .poster-1 .poster-main-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+        .poster-1 .poster-sub-text { font-size: 1.1rem; color: #888; max-width: 300px; }
+        .poster-1 .poster-quote { position: absolute; bottom: 40px; font-size: 0.9rem; color: #555; }
+
+        /* Poster 2 - Terracotta */
+        .poster-2 { background: #b85042; }
+        .poster-2 .poster-icon { font-size: 5rem; margin-bottom: 40px; }
+        .poster-2 .poster-main-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        .poster-2 .poster-sub-text { font-size: 1.2rem; opacity: 0.9; max-width: 350px; }
+        .poster-2 .poster-accent {
+            position: absolute;
+            bottom: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Poster 3 - Gradient */
+        .poster-3 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+        .poster-3 .poster-formula {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .poster-3 .poster-formula-item {
+            padding: 20px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .poster-3 .poster-formula-item.highlight { background: #22d3ee; color: #0a0a0a; }
+        .poster-3 .poster-formula-plus { font-size: 2rem; opacity: 0.5; }
+        .poster-3 .poster-main-text { font-size: 2rem; font-weight: 500; margin-bottom: 20px; }
+        .poster-3 .poster-sub-text { font-size: 1rem; color: #888; max-width: 350px; }
+
+        /* Poster 4 - Game */
+        .poster-4 { background: #0f172a; border: 2px solid #6366f1; }
+        .poster-4 .poster-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #6366f1;
+            margin-bottom: 30px;
+        }
+        .poster-4 .poster-main-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+        }
+        .poster-4 .poster-game-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+        }
+        .poster-4 .poster-game-item {
+            padding: 15px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .poster-4 .poster-game-label { font-size: 0.75rem; color: #6366f1; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+        .poster-4 .poster-game-value { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; }
+
+        /* Poster 5 - Protocol */
+        .poster-5 { background: #faf8f5; color: #1a1a1a; }
+        .poster-5 .poster-header { font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: #b85042; margin-bottom: 20px; }
+        .poster-5 .poster-main-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 40px;
+        }
+        .poster-5 .poster-protocol { display: flex; gap: 20px; width: 100%; flex-wrap: wrap; justify-content: center; }
+        .poster-5 .poster-protocol-item { flex: 1; min-width: 100px; padding: 20px; background: #f5f0e8; border-radius: 8px; }
+        .poster-5 .poster-protocol-time { font-size: 0.75rem; color: #b85042; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .poster-5 .poster-protocol-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; }
+        .poster-5 .poster-footer { position: absolute; bottom: 30px; font-size: 0.8rem; color: #888; }
+
+        /* Poster 6 - Identity */
+        .poster-6 { background: #1a1a1a; }
+        .poster-6 .poster-circle {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .poster-6 .poster-circle::before { content: ''; position: absolute; width: 200px; height: 200px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; }
+        .poster-6 .poster-circle::after { content: ''; position: absolute; width: 250px; height: 250px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; }
+        .poster-6 .poster-circle-text { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; }
+        .poster-6 .poster-main-text { font-size: 2rem; font-weight: 500; margin-bottom: 15px; }
+        .poster-6 .poster-sub-text { font-size: 1rem; color: #666; max-width: 300px; }
+
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .posters-grid { grid-template-columns: 1fr; }
+            .poster { padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">POSTER COLLECTION | 海报合集</h1>
+
+    <div class="posters-grid">
+        <!-- Poster 1: Identity -->
+        <div class="poster poster-1">
+            <div class="poster-number">01</div>
+            <div class="poster-main-text">You Are Not<br>Who You Want to Be</div>
+            <div class="poster-sub-text">因为你还没有成为能够达到目标的人</div>
+            <div class="poster-quote">Identity First</div>
+        </div>
+
+        <!-- Poster 2: Fear -->
+        <div class="poster poster-2">
+            <div class="poster-icon">⚡</div>
+            <div class="poster-main-text">Fear of Success</div>
+            <div class="poster-sub-text">身份威胁会触发"战斗或逃跑"反应。你的大脑把身份威胁当作身体危险一样对待。</div>
+            <div class="poster-accent">Chapter III</div>
+        </div>
+
+        <!-- Poster 3: Wisdom Formula -->
+        <div class="poster poster-3">
+            <div class="poster-formula">
+                <div class="poster-formula-item">Agency<br><span style="font-size: 0.8rem; font-weight: 400;">能动性</span></div>
+                <div class="poster-formula-plus">+</div>
+                <div class="poster-formula-item">Opportunity<br><span style="font-size: 0.8rem; font-weight: 400;">机会</span></div>
+                <div class="poster-formula-plus">+</div>
+                <div class="poster-formula-item highlight">Wisdom<br><span style="font-size: 0.8rem; font-weight: 400;">智慧</span></div>
+            </div>
+            <div class="poster-main-text">Success = The Formula</div>
+            <div class="poster-sub-text">智慧是迭代、坚持、大局观的能力</div>
+        </div>
+
+        <!-- Poster 4: Gamify -->
+        <div class="poster poster-4">
+            <div class="poster-title">Life is a Game</div>
+            <div class="poster-main-text">GAMIFY</div>
+            <div class="poster-game-grid">
+                <div class="poster-game-item">
+                    <div class="poster-game-label">Anti-Vision</div>
+                    <div class="poster-game-value">Failure Cost</div>
+                </div>
+                <div class="poster-game-item">
+                    <div class="poster-game-label">Vision</div>
+                    <div class="poster-game-value">Victory</div>
+                </div>
+                <div class="poster-game-item">
+                    <div class="poster-game-label">1-Year Goal</div>
+                    <div class="poster-game-value">Main Quest</div>
+                </div>
+                <div class="poster-game-item">
+                    <div class="poster-game-label">Daily Action</div>
+                    <div class="poster-game-value">Daily Quest</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Poster 5: Protocol -->
+        <div class="poster poster-5">
+            <div class="poster-header">The One-Day Protocol</div>
+            <div class="poster-main-text">1天改变生活</div>
+            <div class="poster-protocol">
+                <div class="poster-protocol-item">
+                    <div class="poster-protocol-time">Morning</div>
+                    <div class="poster-protocol-title">心理挖掘</div>
+                </div>
+                <div class="poster-protocol-item">
+                    <div class="poster-protocol-time">Day</div>
+                    <div class="poster-protocol-title">打断模式</div>
+                </div>
+                <div class="poster-protocol-item">
+                    <div class="poster-protocol-time">Evening</div>
+                    <div class="poster-protocol-title">整合洞察</div>
+                </div>
+            </div>
+            <div class="poster-footer">Dan Koe | The Koe Letters</div>
+        </div>
+
+        <!-- Poster 6: Circle -->
+        <div class="poster poster-6">
+            <div class="poster-circle">
+                <div class="poster-circle-text">∞</div>
+            </div>
+            <div class="poster-main-text">Any Problem Can Be Solved</div>
+            <div class="poster-sub-text">任何问题在足够长的时间内都可以解决——这是高智慧者的信念</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Game | 生活的游戏</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #22d3ee;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --light: #f8fafc;
+            --muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Space Grotesk', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-50px) translateX(-30px); }
+            75% { transform: translateY(-150px) translateX(20px); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        /* Game Status Bar */
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--dark-light);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .stat-value.level { color: var(--warning); }
+        .stat-value.exp { color: var(--success); }
+        .stat-value.streak { color: var(--danger); }
+
+        /* Progress Bar */
+        .xp-bar-container {
+            background: var(--dark-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .xp-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .xp-bar {
+            height: 12px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        /* Section */
+        .section {
+            background: var(--dark-light);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--light);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .input-field::placeholder {
+            color: var(--muted);
+        }
+
+        textarea.input-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Button */
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Quest Cards */
+        .quest-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .quest-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quest-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .quest-card.completed {
+            opacity: 0.6;
+            border-color: var(--success);
+        }
+
+        .quest-card.completed .quest-checkbox {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .quest-card.completed .quest-checkbox::after {
+            content: '✓';
+            color: white;
+        }
+
+        .quest-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--muted);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .quest-info {
+            flex: 1;
+        }
+
+        .quest-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .quest-desc {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .quest-xp {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Timer Section */
+        .timer-section {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .timer-display {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .timer-btn {
+            background: var(--dark-light);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timer-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .timer-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Reminder Input */
+        .reminder-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .reminder-input .input-field {
+            flex: 1;
+        }
+
+        .reminder-input .btn {
+            width: auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Reminder List */
+        .reminder-list {
+            margin-top: 1rem;
+        }
+
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .reminder-item .reminder-text {
+            flex: 1;
+        }
+
+        .reminder-item .reminder-time {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .reminder-item .delete-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark-light);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal p {
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .status-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timer-display {
+                font-size: 3rem;
+            }
+
+            .reminder-input {
+                flex-direction: column;
+            }
+
+            .reminder-input .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-particle" style="top: 20%; left: 10%;"></div>
+    <div class="floating-particle" style="top: 60%; left: 80%; animation-delay: -5s;"></div>
+    <div class="floating-particle" style="top: 80%; left: 30%; animation-delay: -10s;"></div>
+    <div class="floating-particle" style="top: 30%; left: 70%; animation-delay: -15s;"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">Life Transformation Game</div>
+            <h1>生活的游戏</h1>
+            <p class="subtitle">基于 Dan Koe 的"如何在1天内彻底改变你的生活"</p>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="stat-card">
+                <div class="stat-label">Level</div>
+                <div class="stat-value level" id="level">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total XP</div>
+                <div class="stat-value exp" id="total-xp">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Quests Done</div>
+                <div class="stat-value" id="quests-done">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Streak</div>
+                <div class="stat-value streak" id="streak">0</div>
+            </div>
+        </div>
+
+        <!-- XP Progress -->
+        <div class="xp-bar-container">
+            <div class="xp-bar-label">
+                <span>Progress to Level <span id="next-level">2</span></span>
+                <span><span id="current-xp">0</span> / <span id="xp-needed">100</span> XP</span>
+            </div>
+            <div class="xp-bar">
+                <div class="xp-bar-fill" id="xp-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Vision Builder -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">⚔️</span>
+                构建你的愿景系统
+            </h2>
+
+            <div class="input-group">
+                <label class="input-label">反愿景 (Anti-Vision) - 你最想避免什么？</label>
+                <textarea class="input-field" id="anti-vision" placeholder="描述你不想成为的样子、你最害怕的未来..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">愿景 (Vision) - 你理想的生活是什么样的？</label>
+                <textarea class="input-field" id="vision" placeholder="描述你的理想一天、理想关系、理想工作..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">1年主任务 - 今年最重要的目标是什么？</label>
+                <input type="text" class="input-field" id="yearly-goal" placeholder="例如：建立自己的在线业务">
+            </div>
+
+            <button class="btn" onclick="saveVision()">保存愿景系统 ⚡</button>
+        </div>
+
+        <!-- Daily Quests -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📜</span>
+                每日任务
+            </h2>
+
+            <div class="quest-grid" id="quest-list">
+                <div class="quest-card" onclick="completeQuest(this, 0)">
+                    <div class="quest-checkbox"></div>
+                    <div class="quest-info">
+                        <div class="quest-title">晨间反思 (15分钟)</div>
+                        <div class="quest-desc">完成早晨的心理挖掘协议</div>
+                    </div>
+                    <div class="quest-xp">+20 XP</div>
+                </div>
+                <div class="quest-card" onclick="completeQuest(this, 1)">
+                    <div class="quest-checkbox"></div>
+                    <div class="quest-info">
+                        <div class="quest-title">打断自动模式 (5次)</div>
+                        <div class="quest-desc">设置提醒，每小时暂停并自我觉察</div>
+                    </div>
+                    <div class="quest-xp">+15 XP</div>
+                </div>
+                <div class="quest-card" onclick="completeQuest(this, 2)">
+                    <div class="quest-checkbox"></div>
+                    <div class="quest-info">
+                        <div class="quest-title">晚间整合 (10分钟)</div>
+                        <div class="quest-desc">完成晚上的整合洞察协议</div>
+                    </div>
+                    <div class="quest-xp">+20 XP</div>
+                </div>
+                <div class="quest-card" onclick="completeQuest(this, 3)">
+                    <div class="quest-checkbox"></div>
+                    <div class="quest-info">
+                        <div class="quest-title">完成1月BOSS战</div>
+                        <div class="quest-desc">推进你当前的月度项目</div>
+                    </div>
+                    <div class="quest-xp">+50 XP</div>
+                </div>
+                <div class="quest-card" onclick="completeQuest(this, 4)">
+                    <div class="quest-checkbox"></div>
+                    <div class="quest-info">
+                        <div class="quest-title">阅读15分钟</div>
+                        <div class="quest-desc">学习或阅读能提升自己的内容</div>
+                    </div>
+                    <div class="quest-xp">+10 XP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Awareness Timer -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">⏱️</span>
+                觉察计时器
+            </h2>
+
+            <div class="timer-section">
+                <div class="timer-display" id="timer-display">05:00</div>
+                <p style="color: var(--muted); margin-bottom: 1rem;">选择一个时间，专注于当前任务</p>
+                <div class="timer-controls">
+                    <button class="timer-btn" onclick="setTimer(5)">5分钟</button>
+                    <button class="timer-btn" onclick="setTimer(15)">15分钟</button>
+                    <button class="timer-btn" onclick="setTimer(25)">25分钟</button>
+                    <button class="timer-btn" onclick="setTimer(45)">45分钟</button>
+                </div>
+                <div class="timer-controls" style="margin-top: 1rem;">
+                    <button class="timer-btn active" id="start-btn" onclick="toggleTimer()">开始</button>
+                    <button class="timer-btn" onclick="resetTimer()">重置</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Random Reminders -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔔</span>
+                随机提醒问题
+            </h2>
+
+            <p style="color: var(--muted); margin-bottom: 1rem;">添加问题，定时提醒自己反思。这些问题会打断你的自动模式。</p>
+
+            <div class="reminder-input">
+                <input type="text" class="input-field" id="new-reminder" placeholder="例如：我现在在做的事情是我真正想做的吗？">
+                <button class="btn" onclick="addReminder()">添加</button>
+            </div>
+
+            <div class="reminder-list" id="reminder-list">
+                <div class="reminder-item">
+                    <span class="reminder-text">我现在在做的事情是我真正想做的吗？</span>
+                    <span class="reminder-time">每30分钟</span>
+                    <button class="delete-btn" onclick="deleteReminder(this)">×</button>
+                </div>
+                <div class="reminder-item">
+                    <span class="reminder-text">我的行动是否符合我的愿景？</span>
+                    <span class="reminder-time">每60分钟</span>
+                    <button class="delete-btn" onclick="deleteReminder(this)">×</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote -->
+        <div class="section" style="text-align: center; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);">
+            <p style="font-size: 1.2rem; font-style: italic; color: var(--muted);">
+                "智慧是迭代、坚持、大局观的能力。<br>高智慧者相信，任何问题在足够长的时间内都可以解决。"
+            </p>
+            <p style="margin-top: 1rem; color: var(--secondary);">— Dan Koe</p>
+        </div>
+    </div>
+
+    <!-- Level Up Modal -->
+    <div class="modal-overlay" id="level-modal">
+        <div class="modal">
+            <div class="modal-icon">🎉</div>
+            <h3>Level Up!</h3>
+            <p>恭喜！你升到了 <span id="new-level">2</span> 级！</p>
+            <button class="btn" onclick="closeModal()">继续游戏</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Game State
+        let gameState = {
+            level: 1,
+            xp: 0,
+            questsCompleted: [],
+            streak: 0,
+            lastPlayed: null,
+            vision: {
+                anti: '',
+                vision: '',
+                yearlyGoal: ''
+            }
+        };
+
+        // Load saved state
+        const savedState = localStorage.getItem('lifeGameState');
+        if (savedState) {
+            gameState = JSON.parse(savedState);
+            updateUI();
+        }
+
+        // XP needed per level (exponential)
+        function xpForLevel(level) {
+            return Math.floor(100 * Math.pow(1.5, level - 1));
+        }
+
+        // Update UI
+        function updateUI() {
+            document.getElementById('level').textContent = gameState.level;
+            document.getElementById('total-xp').textContent = gameState.xp;
+            document.getElementById('quests-done').textContent = gameState.questsCompleted.length;
+            document.getElementById('streak').textContent = gameState.streak;
+
+            const xpNeeded = xpForLevel(gameState.level + 1);
+            const currentXpInLevel = gameState.xp - xpForLevel(gameState.level);
+            
+            document.getElementById('next-level').textContent = gameState.level + 1;
+            document.getElementById('current-xp').textContent = Math.max(0, currentXpInLevel);
+            document.getElementById('xp-needed').textContent = xpNeeded;
+            
+            const progress = Math.min(100, (Math.max(0, currentXpInLevel) / xpNeeded) * 100);
+            document.getElementById('xp-fill').style.width = progress + '%';
+
+            // Restore completed quests
+            document.querySelectorAll('.quest-card').forEach((card, i) => {
+                if (gameState.questsCompleted.includes(i)) {
+                    card.classList.add('completed');
+                }
+            });
+
+            // Restore vision
+            if (gameState.vision.anti) {
+                document.getElementById('anti-vision').value = gameState.vision.anti;
+            }
+            if (gameState.vision.vision) {
+                document.getElementById('vision').value = gameState.vision.vision;
+            }
+            if (gameState.vision.yearlyGoal) {
+                document.getElementById('yearly-goal').value = gameState.vision.yearlyGoal;
+            }
+        }
+
+        // Save state
+        function saveState() {
+            localStorage.setItem('lifeGameState', JSON.stringify(gameState));
+        }
+
+        // Complete quest
+        const xpValues = [20, 15, 20, 50, 10];
+        function completeQuest(element, index) {
+            if (element.classList.contains('completed')) return;
+
+            element.classList.add('completed');
+            gameState.questsCompleted.push(index);
+            gameState.xp += xpValues[index];
+
+            // Check level up
+            const xpNeeded = xpForLevel(gameState.level + 1);
+            const currentXpInLevel = gameState.xp - xpForLevel(gameState.level);
+            
+            if (currentXpInLevel >= xpNeeded) {
+                gameState.level++;
+                document.getElementById('new-level').textContent = gameState.level;
+                document.getElementById('level-modal').classList.add('active');
+            }
+
+            updateUI();
+            saveState();
+            showToast('+' + xpValues[index] + ' XP!');
+        }
+
+        // Save vision
+        function saveVision() {
+            gameState.vision = {
+                anti: document.getElementById('anti-vision').value,
+                vision: document.getElementById('vision').value,
+                yearlyGoal: document.getElementById('yearly-goal').value
+            };
+            saveState();
+            showToast('愿景已保存！✨');
+        }
+
+        // Timer
+        let timerInterval = null;
+        let timerSeconds = 300;
+        let timerRunning = false;
+
+        function setTimer(minutes) {
+            timerSeconds = minutes * 60;
+            document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+            
+            document.querySelectorAll('.timer-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return (mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0'));
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('start-btn');
+            
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                btn.textContent = '继续';
+                btn.classList.remove('active');
+            } else {
+                btn.textContent = '暂停';
+                btn.classList.add('active');
+                timerInterval = setInterval(() => {
+                    timerSeconds--;
+                    document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+                    
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        btn.textContent = '开始';
+                        btn.classList.remove('active');
+                        showToast('时间到！⏰');
+                    }
+                }, 1000);
+            }
+            timerRunning = !timerRunning;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerSeconds = 300;
+            document.getElementById('timer-display').textContent = '05:00';
+            document.getElementById('start-btn').textContent = '开始';
+            document.getElementById('start-btn').classList.remove('active');
+        }
+
+        // Reminders
+        let reminderInterval = null;
+        let reminderIndex = 0;
+
+        function addReminder() {
+            const input = document.getElementById('new-reminder');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const list = document.getElementById('reminder-list');
+            const item = document.createElement('div');
+            item.className = 'reminder-item';
+            item.innerHTML = '<span class="reminder-text">' + text + '</span><span class="reminder-time">每30分钟</span><button class="delete-btn" onclick="deleteReminder(this)">×</button>';
+            list.appendChild(item);
+            input.value = '';
+
+            startReminders();
+        }
+
+        function deleteReminder(btn) {
+            btn.parentElement.remove();
+        }
+
+        function startReminders() {
+            if (reminderInterval) clearInterval(reminderInterval);
+            
+            const reminders = document.querySelectorAll('.reminder-item .reminder-text');
+            if (reminders.length === 0) return;
+
+            reminderInterval = setInterval(() => {
+                const reminder = reminders[reminderIndex % reminders.length];
+                showToast('🔔 ' + reminder.textContent);
+                reminderIndex++;
+            }, 1800000); // Every 30 minutes
+        }
+
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Modal
+        function closeModal() {
+            document.getElementById('level-modal').classList.remove('active');
+        }
+
+        // Initialize
+        startReminders();
+        updateUI();
+    </script>
+</body>
+</html>

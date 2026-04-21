@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思维导图 | How to Fix Your Entire Life in 1 Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B85042;
+            --secondary: #E7E8D1;
+            --accent: #A7BEAE;
+            --dark: #1a1a1a;
+            --light: #FAF8F5;
+            --muted: #6b6b6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--dark) 100%);
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Mind Map Container */
+        .mindmap-container {
+            position: relative;
+            width: 100%;
+            min-height: 120vh;
+            padding: 4rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .mindmap {
+            position: relative;
+            width: 1000px;
+            max-width: 100%;
+        }
+
+        /* Central Node */
+        .center-node {
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, #8B4A3A 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(184, 80, 66, 0.4);
+            z-index: 10;
+        }
+
+        .center-node h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .center-node span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Branch Nodes */
+        .branch {
+            position: absolute;
+            background: var(--light);
+            color: var(--dark);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .branch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+        }
+
+        .branch::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 60px;
+            background: var(--primary);
+        }
+
+        .branch-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .branch-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .branch-desc {
+            font-size: 0.75rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* Branch Positions */
+        .branch-1 { left: 5%; top: 50px; width: 200px; }
+        .branch-1::before { right: -60px; top: 50%; transform: rotate(0deg); }
+
+        .branch-2 { left: 5%; top: 280px; width: 200px; }
+        .branch-2::before { right: -60px; top: 50%; }
+
+        .branch-3 { left: 5%; top: 510px; width: 200px; }
+        .branch-3::before { right: -60px; top: 50%; }
+
+        .branch-4 { right: 5%; top: 50px; width: 200px; }
+        .branch-4::before { left: -60px; top: 50%; }
+
+        .branch-5 { right: 5%; top: 280px; width: 200px; }
+        .branch-5::before { left: -60px; top: 50%; }
+
+        .branch-6 { right: 5%; top: 510px; width: 200px; }
+        .branch-6::before { left: -60px; top: 50%; }
+
+        /* Connection Lines */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connections svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .connection-line {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+            opacity: 0.6;
+        }
+
+        /* Bottom Branch - Gamification */
+        .branch-7 {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -150px;
+            top: auto;
+            width: 220px;
+        }
+
+        .branch-7::before {
+            left: 50%;
+            top: -60px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+        }
+
+        /* Protocol Section */
+        .protocol-section {
+            margin-top: 200px;
+            padding: 4rem 2rem;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .protocol-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .protocol-card {
+            background: var(--dark);
+            color: var(--light);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .protocol-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        .protocol-time {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .protocol-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-list {
+            list-style: none;
+        }
+
+        .protocol-list li {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .protocol-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Game Section */
+        .game-section {
+            padding: 4rem 2rem;
+            background: var(--dark);
+            color: var(--light);
+        }
+
+        .game-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .game-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-element {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .game-element:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+
+        .game-element-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-element-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .game-element-desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--primary);
+            color: var(--light);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mindmap-container {
+                min-height: auto;
+                padding-bottom: 200px;
+            }
+
+            .center-node {
+                width: 150px;
+                height: 150px;
+                top: 80px;
+            }
+
+            .center-node h2 {
+                font-size: 1rem;
+            }
+
+            .branch {
+                position: relative !important;
+                left: auto !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                transform: none !important;
+                width: 100% !important;
+                margin-bottom: 1rem;
+            }
+
+            .branch::before {
+                display: none;
+            }
+
+            .connections {
+                display: none;
+            }
+
+            .mindmap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <h1>思维导图 | Mind Map</h1>
+        <p>How to Fix Your Entire Life in 1 Day — Dan Koe</p>
+    </section>
+
+    <!-- Mind Map -->
+    <section class="mindmap-container">
+        <div class="mindmap">
+            <!-- Connection Lines SVG -->
+            <div class="connections">
+                <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
+                    <!-- Left branches -->
+                    <path class="connection-line" d="M 220 150 Q 350 150 400 200" />
+                    <path class="connection-line" d="M 220 350 Q 350 350 400 300" />
+                    <path class="connection-line" d="M 220 580 Q 350 580 400 400" />
+                    <!-- Right branches -->
+                    <path class="connection-line" d="M 780 150 Q 650 150 600 200" />
+                    <path class="connection-line" d="M 780 350 Q 650 350 600 300" />
+                    <path class="connection-line" d="M 780 580 Q 650 580 600 400" />
+                    <!-- Bottom connection -->
+                    <path class="connection-line" d="M 500 300 L 500 480" />
+                </svg>
+            </div>
+
+            <!-- Central Node -->
+            <div class="center-node">
+                <h2>Transform<br>Your Life</h2>
+                <span>1天改变生活</span>
+            </div>
+
+            <!-- Branch 1 - Identity -->
+            <div class="branch branch-1">
+                <div class="branch-number">CHAPTER I</div>
+                <div class="branch-title">身份优先<br>Identity First</div>
+                <div class="branch-desc">改变身份比改变行为更重要。健身达人自然健康饮食。</div>
+            </div>
+
+            <!-- Branch 2 - Hidden Goals -->
+            <div class="branch branch-2">
+                <div class="branch-number">CHAPTER II</div>
+                <div class="branch-title">真正的欲望<br>True Desires</div>
+                <div class="branch-desc">你的目标可能是潜意识自我保护型的。拖延=避免评判。</div>
+            </div>
+
+            <!-- Branch 3 - Fear -->
+            <div class="branch branch-3">
+                <div class="branch-number">CHAPTER III</div>
+                <div class="branch-title">对成功的恐惧<br>Fear of Success</div>
+                <div class="branch-desc">身份威胁会触发"战斗或逃跑"反应。</div>
+            </div>
+
+            <!-- Branch 4 - Consciousness -->
+            <div class="branch branch-4">
+                <div class="branch-number">CHAPTER IV</div>
+                <div class="branch-title">意识层次<br>Consciousness</div>
+                <div class="branch-desc">9个自我发展阶段。大多数读者在第4-8阶段。</div>
+            </div>
+
+            <!-- Branch 5 - Wisdom -->
+            <div class="branch branch-5">
+                <div class="branch-number">CHAPTER V</div>
+                <div class="branch-title">智慧公式<br>Wisdom Formula</div>
+                <div class="branch-desc">成功 = 能动性 + 机会 + 智慧。智慧是迭代和坚持的能力。</div>
+            </div>
+
+            <!-- Branch 6 - Protocol -->
+            <div class="branch branch-6">
+                <div class="branch-number">CHAPTER VI</div>
+                <div class="branch-title">一日协议<br>One-Day Protocol</div>
+                <div class="branch-desc">晨间挖掘、白天觉察、晚间整合。三部曲改变生活。</div>
+            </div>
+
+            <!-- Branch 7 - Gamification -->
+            <div class="branch branch-7">
+                <div class="branch-number">CHAPTER VII</div>
+                <div class="branch-title">将生活游戏化<br>Gamify Your Life</div>
+                <div class="branch-desc">反愿景=失败代价，愿景=胜利条件，目标=任务。创造专注和心流。</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Details -->
+    <section class="protocol-section">
+        <h2>一日协议详解 | The One-Day Protocol</h2>
+        <div class="protocol-grid">
+            <div class="protocol-card">
+                <div class="protocol-time">MORNING | 早晨</div>
+                <div class="protocol-title">心理挖掘<br>Psychological Excavation</div>
+                <ul class="protocol-list">
+                    <li>15个反思问题审视当前不满</li>
+                    <li>识别恐惧和身份代价</li>
+                    <li>构建"反愿景"和"最小可行愿景"</li>
+                </ul>
+            </div>
+            <div class="protocol-card">
+                <div class="protocol-time">DAY | 白天</div>
+                <div class="protocol-title">打断自动模式<br>Break Auto-Pilot</div>
+                <ul class="protocol-list">
+                    <li>设置随机提醒问题</li>
+                    <li>保持意识觉察</li>
+                    <li>打破无意识习惯</li>
+                </ul>
+            </div>
+            <div class="protocol-card">
+                <div class="protocol-time">EVENING | 晚上</div>
+                <div class="protocol-title">整合洞察<br>Integrate Insights</div>
+                <ul class="protocol-list">
+                    <li>6个问题总结一天</li>
+                    <li>提炼反愿景和愿景句子</li>
+                    <li>设定1年/1月/每日目标作为"视角"</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Elements -->
+    <section class="game-section">
+        <h2>游戏化系统 | Gamification System</h2>
+        <div class="game-elements">
+            <div class="game-element">
+                <div class="game-element-label">反愿景</div>
+                <div class="game-element-value">失败代价</div>
+                <div class="game-element-desc">What you want to avoid</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">愿景</div>
+                <div class="game-element-value">胜利条件</div>
+                <div class="game-element-desc">Your ideal future state</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">1年目标</div>
+                <div class="game-element-value">主任务</div>
+                <div class="game-element-desc">Your overarching objective</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">1月项目</div>
+                <div class="game-element-value">BOSS战</div>
+                <div class="game-element-desc">Major milestone</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">每日行动</div>
+                <div class="game-element-value">日常任务</div>
+                <div class="game-element-desc">High-impact daily tasks</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">约束</div>
+                <div class="game-element-value">规则</div>
+                <div class="game-element-desc">Boundaries that guide</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Original Article by Dan Koe | The Koe Letters</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Mind Map created for educational purposes</p>
+    </footer>
+
+    <script>
+        // Add subtle animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.branch, .protocol-card, .game-element').forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = `opacity 0.6s ease ${i * 0.1}s, transform 0.6s ease ${i * 0.1}s`;
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

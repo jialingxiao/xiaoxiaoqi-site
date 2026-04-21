@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Fix Your Entire Life in 1 Day | 如何在1天内彻底改变你的生活</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAF8F5;
+            --bg-secondary: #F5F0E8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --accent: #C17F59;
+            --accent-light: #E8D5C4;
+            --border: #D4CCC0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* Cover Section */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(193, 127, 89, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(193, 127, 89, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cover-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--accent);
+            border-radius: 2rem;
+        }
+
+        .cover-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .cover-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cover-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 2rem auto;
+        }
+
+        .cover-author {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .cover-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Section Layout */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-intro {
+            background: var(--bg-secondary);
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .section-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Dual Column Layout */
+        .dual-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .dual-column {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .column {
+            position: relative;
+        }
+
+        .column-header {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .column-content {
+            font-size: 1.05rem;
+            line-height: 2;
+        }
+
+        .column-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Chapter Layout */
+        .chapter {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chapter:last-child {
+            border-bottom: none;
+        }
+
+        .chapter-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .chapter-bilingual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 800px) {
+            .chapter-bilingual {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .lang-en, .lang-zh {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .lang-label {
+            position: absolute;
+            top: -0.6rem;
+            left: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+        }
+
+        .lang-en .lang-label {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .lang-zh .lang-label {
+            background: var(--accent);
+            color: white;
+        }
+
+        .lang-en p, .lang-zh p {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        .lang-en p:last-child, .lang-zh p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--bg-secondary) 100%);
+            border-left: 3px solid var(--accent);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        /* Protocol Section */
+        .protocol-section {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 5rem 2rem;
+        }
+
+        .protocol-section .chapter-number,
+        .protocol-section .chapter-title {
+            color: var(--bg-primary);
+        }
+
+        .protocol-section .chapter-number {
+            opacity: 0.7;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        @media (max-width: 800px) {
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .protocol-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .protocol-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .protocol-time {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .protocol-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-list {
+            list-style: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .protocol-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .protocol-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Game Section */
+        .game-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .game-elements {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .game-element {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            min-width: 200px;
+            text-align: left;
+        }
+
+        .game-element-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-element-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .game-element-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Print Styles */
+        @media print {
+            .cover {
+                min-height: auto;
+                page-break-after: always;
+            }
+
+            .chapter {
+                page-break-inside: avoid;
+            }
+
+            .protocol-section {
+                background: var(--bg-secondary) !important;
+                color: var(--text-primary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .protocol-section .chapter-number,
+            .protocol-section .chapter-title {
+                color: var(--text-primary) !important;
+            }
+
+            .protocol-card {
+                background: var(--bg-secondary) !important;
+                border: 1px solid var(--border) !important;
+            }
+        }
+
+        /* Page numbers */
+        .page-number {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        @media print {
+            .page-number {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover -->
+    <section class="cover">
+        <div class="cover-badge">Personal Development Guide</div>
+        <h1 class="cover-title">How to Fix Your<br>Entire Life in 1 Day</h1>
+        <p class="cover-subtitle">如何在1天内彻底改变你的生活</p>
+        <div class="cover-divider"></div>
+        <p class="cover-subtitle" style="font-size: 1rem; opacity: 0.8;">DO THIS BEFORE 2026</p>
+        <p class="cover-author">By Dan Koe</p>
+        <p class="cover-date">Published December 23, 2025</p>
+        <div class="scroll-hint">↓ Scroll to Read ↓</div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="section-intro">
+        <p>"Most people fail at their New Year's resolutions because they're trying to change their behavior without changing their identity first."</p>
+        <p style="margin-top: 1rem; font-size: 1rem;">"大多数人的新年决心失败，是因为他们试图改变行为，却没有先改变身份。"</p>
+    </section>
+
+    <!-- Chapter I -->
+    <div class="chapter">
+        <div class="chapter-number">Chapter I | 第一章</div>
+        <h2 class="chapter-title">You're Not Who You Want to Be Because You Haven't Become the Person Who Achieves That Goal<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8;">你不是你想要的样子，因为你还没有成为能够达到目标的人</span></h2>
+
+        <div class="chapter-bilingual">
+            <div class="lang-en">
+                <span class="lang-label">English</span>
+                <p>Success requires changing behavior (secondary) and changing identity (primary).</p>
+                <p>A fit person doesn't diet—they naturally eat healthy. A CEO doesn't try to lead—they naturally take charge. Their lifestyle is congruent with their goals.</p>
+                <p>The key insight: If you want a certain result, you must first cultivate the lifestyle that produces that result.</p>
+            </div>
+            <div class="lang-zh">
+                <span class="lang-label">中文</span>
+                <p>成功需要改变行为（次要）和改变身份（主要）。</p>
+                <p>健身达人不会节食——他们自然会选择健康饮食。CEO不会"试着"领导——他们自然地发号施令。他们的生活方式与目标是一致的。</p>
+                <p>关键洞见：想要某种结果，必须先养成会导致该结果的生活方式。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter II -->
+    <div class="chapter">
+        <div class="chapter-number">Chapter II | 第二章</div>
+        <h2 class="chapter-title">You're Not Who You Want to Be Because You Don't Actually Want That Goal<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8;">你不是你想要的样子，因为你并不真正想要那个目标</span></h2>
+
+        <div class="chapter-bilingual">
+            <div class="lang-en">
+                <span class="lang-label">English</span>
+                <p>All behavior is goal-oriented, but many goals are subconscious and self-protective.</p>
+                <p>Procrastination might be protection from judgment. Avoiding success might be avoiding the responsibility that comes with it.</p>
+                <p>True change requires changing your goals—or changing your perspective on them.</p>
+            </div>
+            <div class="lang-zh">
+                <span class="lang-label">中文</span>
+                <p>所有行为都有目标导向，但很多目标是潜意识、自我保护型的。</p>
+                <p>拖延可能是为了避免被评判。逃避成功可能是为了逃避随之而来的责任。</p>
+                <p>真正的改变需要改变目标——即改变视角。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter III -->
+    <div class="chapter">
+        <div class="chapter-number">Chapter III | 第三章</div>
+        <h2 class="chapter-title">You're Not Who You Want to Be Because You're Afraid of Achieving Your Goals<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8;">你不是你想要的样子，因为你害怕达到目标</span></h2>
+
+        <div class="chapter-bilingual">
+            <div class="lang-en">
+                <span class="lang-label">English</span>
+                <p>The identity formation cycle: Goal → Perceived Reality → Learning → Action → Automation → Identity Solidification → Identity Defense</p>
+                <p>Identity threats trigger a "fight or flight" response similar to physical danger.</p>
+                <p>Early conditioning from parents and culture has profound effects on what we allow ourselves to become.</p>
+            </div>
+            <div class="lang-zh">
+                <span class="lang-label">中文</span>
+                <p>身份形成循环：目标 → 感知现实 → 学习 → 行动 → 自动化 → 身份固化 → 身份防御</p>
+                <p>身份威胁会引发类似"战斗或逃跑"的反应，与面对身体危险时的反应相似。</p>
+                <p>来自父母和文化的早期 conditioning（条件作用）影响深远，决定了我们允许自己成为什么样的人。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter IV -->
+    <div class="chapter">
+        <div class="chapter-number">Chapter IV | 第四章</div>
+        <h2 class="chapter-title">Your Ideal Life Exists at a Specific Level of Consciousness<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8;">理想生活存在于特定的意识层次</span></h2>
+
+        <div class="chapter-bilingual">
+            <div class="lang-en">
+                <span class="lang-label">English</span>
+                <p>Introducing the "Self-Development Stages" model with 9 levels, from Impulse to Integration.</p>
+                <p>Most readers are at stages 4-8. This article helps you break through your current stage.</p>
+                <p>Each stage requires different skills and perspectives to advance to the next.</p>
+            </div>
+            <div class="lang-zh">
+                <span class="lang-label">中文</span>
+                <p>介绍"自我发展阶段"模型——9个阶段，从冲动到合一。</p>
+                <p>大多数读者处于第4-8阶段。本文帮助你突破现有阶段。</p>
+                <p>每个阶段都需要不同的技能和视角才能进阶到下一阶段。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter V -->
+    <div class="chapter">
+        <div class="chapter-number">Chapter V | 第五章</div>
+        <h2 class="chapter-title">Wisdom is the Ability to Get What You Want in Life<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8;">智慧是获得生活中想要的东西的能力</span></h2>
+
+        <div class="chapter-bilingual">
+            <div class="lang-en">
+                <span class="lang-label">English</span>
+                <p>The success formula: Agency + Opportunity + Wisdom</p>
+                <p>Wisdom is the ability to iterate, persist, and see the big picture (from a cybernetic perspective).</p>
+                <p>Highly wise people believe any problem can be solved given enough time.</p>
+            </div>
+            <div class="lang-zh">
+                <span class="lang-label">中文</span>
+                <p>成功公式：能动性 + 机会 + 智慧</p>
+                <p>智慧是迭代、坚持、大局观的能力（控制论角度）。</p>
+                <p>高智慧者相信，任何问题在足够长的时间内都可以解决。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter VI - Protocol -->
+    <section class="protocol-section">
+        <div class="chapter-number">Chapter VI | 第六章</div>
+        <h2 class="chapter-title">The One-Day Protocol to Transform Your Life<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.7;">如何在一天内彻底改变生活（具体协议）</span></h2>
+
+        <div class="protocol-grid">
+            <div class="protocol-card">
+                <div class="protocol-time">Morning | 早晨</div>
+                <div class="protocol-title">Psychological Excavation<br>心理挖掘</div>
+                <ul class="protocol-list">
+                    <li>15 questions to examine current dissatisfaction</li>
+                    <li>Identify fears and identity costs</li>
+                    <li>Build "Anti-Vision" and "Minimum Viable Vision"</li>
+                    <li>早晨的心理挖掘：审视当前不满</li>
+                    <li>识别恐惧和身份代价</li>
+                    <li>构建"反愿景"和"最小可行愿景"</li>
+                </ul>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-time">Daytime | 白天</div>
+                <div class="protocol-title">Break Auto-Pilot<br>打断自动模式</div>
+                <ul class="protocol-list">
+                    <li>Set random reminder alerts throughout the day</li>
+                    <li>Ask consciousness-raising questions</li>
+                    <li>Break unconscious habits</li>
+                    <li>白天打断自动模式</li>
+                    <li>设置随机提醒问题</li>
+                    <li>保持意识觉察，打破习惯</li>
+                </ul>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-time">Evening | 晚上</div>
+                <div class="protocol-title">Integrate Insights<br>整合洞察</div>
+                <ul class="protocol-list">
+                    <li>6 questions to summarize the day</li>
+                    <li>Refine Anti-Vision and Vision statements</li>
+                    <li>Set 1-year, 1-month, daily goals as "perspectives"</li>
+                    <li>晚上的整合洞察</li>
+                    <li>总结敌人、反愿景句子、愿景句子</li>
+                    <li>设定1年、1月、每日目标（作为"视角"）</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter VII - Game -->
+    <section class="game-section">
+        <div class="chapter-number">Chapter VII | 第七章</div>
+        <h2 class="chapter-title">Turn Your Life into a Video Game<br><span style="font-size: 0.6em; font-weight: 400; opacity: 0.8; color: var(--text-secondary);">将生活变成电子游戏</span></h2>
+
+        <p style="max-width: 600px; margin: 0 auto; opacity: 0.8;">Organize all elements into a gamified system to create focus, flow, and prevent distraction.</p>
+        <p style="max-width: 600px; margin: 0.5rem auto; opacity: 0.6; font-size: 0.9rem;">将所有元素组织成游戏化系统，创造专注、心流，防止分心。</p>
+
+        <div class="game-elements">
+            <div class="game-element">
+                <div class="game-element-label">反愿景 | Anti-Vision</div>
+                <div class="game-element-value">Failure Cost | 失败代价</div>
+                <div class="game-element-desc">What you want to avoid at all costs</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">愿景 | Vision</div>
+                <div class="game-element-value">Victory Condition | 胜利条件</div>
+                <div class="game-element-desc">Your ideal future state</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">1年目标 | 1-Year Goal</div>
+                <div class="game-element-value">Main Quest | 主任务</div>
+                <div class="game-element-desc">Your overarching objective</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">1月项目 | 1-Month Project</div>
+                <div class="game-element-value">Boss Battle | BOSS战</div>
+                <div class="game-element-desc">Major milestone to achieve</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">每日杠杆 | Daily Leverage</div>
+                <div class="game-element-value">Daily Quest | 日常任务</div>
+                <div class="game-element-desc">High-impact actions each day</div>
+            </div>
+            <div class="game-element">
+                <div class="game-element-label">约束 | Constraints</div>
+                <div class="game-element-value">Rules | 规则</div>
+                <div class="game-element-desc">Boundaries that guide decisions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Original article by Dan Koe | The Koe Letters</p>
+        <p class="footer-text" style="margin-top: 0.5rem;">This bilingual guide created for educational purposes</p>
+    </footer>
+
+    <div class="page-number">© Dan Koe • The Koe Letters</div>
+
+    <script>
+        // Smooth scroll reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.chapter, .protocol-card, .game-element').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

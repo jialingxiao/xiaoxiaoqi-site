@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7天改变计划 | 7-Day Transformation Challenge</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+  --bg: #faf8f6;
+  --surface: #ffffff;
+  --text: #2c2c2c;
+  --text-muted: #888;
+  --accent: #d4826d;
+  --accent2: #e8a897;
+  --border: #e0d8ce;
+  --day1: #f4a7a0;
+  --day2: #f5b4a8;
+  --day3: #f6c1b0;
+  --day4: #f7cdb8;
+  --day5: #f8dac0;
+  --day6: #f9e7c8;
+  --day7: #e8a897;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--accent2) 0%, #f5d4c8 100%);
+  padding: 80px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero .cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  color: var(--accent);
+  padding: 12px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.hero .cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212,130,109,0.2);
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 0 40px;
+}
+
+/* Day cards */
+.day-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.day-card:hover {
+  box-shadow: 0 10px 40px rgba(212,130,109,0.08);
+  transform: translateY(-4px);
+}
+
+.day-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--day-color, var(--accent));
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.day-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--day-color, var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.day-title {
+  flex: 1;
+}
+
+.day-title h2 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.day-title .subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Content */
+.day-content {
+  margin-bottom: 24px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h3 {
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.section li {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-left: 24px;
+  position: relative;
+}
+
+.section li::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--day-color, var(--accent));
+}
+
+.highlight {
+  background: linear-gradient(120deg, rgba(212,130,109,0.1) 0%, rgba(232,168,151,0.1) 100%);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 3px solid var(--day-color, var(--accent));
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text);
+  margin: 14px 0;
+}
+
+/* Exercises */
+.exercises {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.exercise-item {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.exercise-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.exercise-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.exercise-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Reflection */
+.reflection-prompt {
+  background: linear-gradient(135deg, rgba(212,130,109,0.05) 0%, rgba(232,168,151,0.05) 100%);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.reflection-prompt strong {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Email template */
+.email-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 40px 0;
+}
+
+.email-header {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.email-subject {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.email-from {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.email-body {
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.email-body p {
+  margin-bottom: 14px;
+}
+
+/* Stats */
+.stats-line {
+  display: flex;
+  gap: 40px;
+  margin: 30px 0;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* Bottom CTA */
+.cta-section {
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, var(--accent2) 0%, #f5d4c8 100%);
+  border-radius: 12px;
+  margin: 60px 0;
+}
+
+.cta-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.cta-section p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--text);
+  color: white;
+  padding: 14px 36px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(44,44,44,0.2);
+}
+
+/* Newsletter subscribe */
+.subscribe-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.subscribe-form input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 30px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.subscribe-form input:focus {
+  border-color: var(--accent);
+}
+
+.subscribe-form button {
+  padding: 12px 28px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.subscribe-form button:hover {
+  background: var(--accent2);
+}
+
+/* Footer */
+footer {
+  background: #f5f3f0;
+  border-top: 1px solid var(--border);
+  padding: 40px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 60px;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .hero { padding: 50px 20px; }
+  .hero h1 { font-size: 36px; }
+  .container { padding: 0 20px; }
+  .day-card { padding: 24px; }
+  .stats-line { flex-direction: column; gap: 20px; }
+  .day-header { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>7天改变计划</h1>
+  <p class="subtitle">基于 Dan Koe《如何在1天内改变你的人生》的深度邮件课程，用7天逐步实现身份转变</p>
+  <button class="cta" onclick="subscribeNewsletter()">📧 订阅完整课程</button>
+</div>
+
+<!-- Main content -->
+<div class="container">
+
+<!-- Day 1 -->
+<div class="day-card" style="--day-color: var(--day1)">
+  <div class="day-header">
+    <div class="day-number">1️⃣</div>
+    <div class="day-title">
+      <h2>身份挖掘 | Identity Excavation</h2>
+      <div class="subtitle">发现你从何而来，你是谁真的</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>改变的第一步不是改变行为，而是改变身份。你需要回溯到你的根源——那些无意识地塑造了你今天的信念、经历和自我标签。</p>
+    </div>
+
+    <div class="highlight">
+      "你不是在改变做什么，而是在改变你是谁。" — Dan Koe
+    </div>
+
+    <div class="section">
+      <h3>🎯 核心练习</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">① 三个身份标签</div>
+          <div class="exercise-desc">写下小时候人们常常怎样形容你？例如：'内向的孩子'、'聪明但懒惰的人'、'不擅长运动的'。这些标签深深影响了你现在的自我认知。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">② 根因探寻（5 Why's）</div>
+          <div class="exercise-desc">选择一个让你不满意的生活模式，问5次'为什么'。例：为什么我拖延？因为害怕失败。为什么害怕？因为小时候被评判...这样逐层往下挖。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">③ 反思写作</div>
+          <div class="exercise-desc">用15分钟无过滤地写下：'我相信我是一个____的人，所以我会____'。不要检查语法，只管写。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 今晚反思提示：</strong>
+      如果我今天发现的这个身份标签明天就消失了，我的人生会有什么不同？
+    </div>
+
+    <div class="section">
+      <h3>💡 深度理解</h3>
+      <p>我们每个人都有一个"身份操作系统"，这个系统是多年的经历、反馈和决定堆积而成的。它像软件代码一样默默运行在后台，指导我们的行动。最关键的是：我们通常不知道它存在。今天，你要把它调出来。</p>
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 早晨5分钟冥想，设定意图：'我今天要看清真实的自己'</li>
+        <li>□ 完成三个身份标签练习（10分钟）</li>
+        <li>□ 进行5 Why's 根因分析（15分钟）</li>
+        <li>□ 晚间15分钟无过滤写作</li>
+        <li>□ 睡前10分钟反思提示，记录一个洞察</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 2 -->
+<div class="day-card" style="--day-color: var(--day2)">
+  <div class="day-header">
+    <div class="day-number">2️⃣</div>
+    <div class="day-title">
+      <h2>愿景与反愿景 | Vision & Anti-Vision</h2>
+      <div class="subtitle">定义胜利条件和失败代价</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>仅仅知道自己是谁还不够，你需要清晰地知道自己想成为谁。但Dan的方法很特别——不仅要设定愿景，还要设定反愿景（如果什么都不改变会怎样）。这个对比会激活你的动机。</p>
+    </div>
+
+    <div class="highlight">
+      "人类因痛苦和快乐而被激发。最强大的动机来自对失败后果的清晰认知和对成功奖励的生动想象。"
+    </div>
+
+    <div class="section">
+      <h3>🎯 核心练习</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">① 5年愿景</div>
+          <div class="exercise-desc">用最详细的感官语言描述5年后理想的你：你在哪里？和谁在一起？穿什么衣服？感受如何？如果在日记中看到这一页，你会有什么反应？</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">② 5年反愿景</div>
+          <div class="exercise-desc">现在写下：如果什么都不改变，5年后我会变成什么样？这个"失败版本"的你是谁？这不是自我批评，而是清晰认知成本。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">③ 对比冥想</div>
+          <div class="exercise-desc">闭眼3分钟，先想象理想版本的自己，感受那种可能性。然后想象失败版本，感受那个未来。让两个时间线都变得非常真实。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 今晚反思提示：</strong>
+      这两个版本的对比给了我什么启发？哪一个版本的未来，我更愿意为其努力？
+    </div>
+
+    <div class="section">
+      <h3>💡 心理学见解</h3>
+      <p>神经科学研究表明，我们的大脑对"失去"的反应强度是"获得"的2倍（损失厌恶）。这就是为什么单纯追求愿景不如同时面对反愿景有效。你在创建两个时间线，让大脑明白：改变不是可选的，而是必须的。</p>
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 晨间冥想：'我准备好定义我的未来了'</li>
+        <li>□ 5年愿景写作（20分钟，详细描写）</li>
+        <li>□ 5年反愿景写作（15分钟）</li>
+        <li>□ 对比冥想（3分钟）</li>
+        <li>□ 在你能看到的地方写下一句话：'我选择成为____版本的自己'</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 3 -->
+<div class="day-card" style="--day-color: var(--day3)">
+  <div class="day-header">
+    <div class="day-number">3️⃣</div>
+    <div class="day-title">
+      <h2>恐惧解构 | Fear Deconstruction</h2>
+      <div class="subtitle">面对隐藏的自我破坏模式</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>这是最关键的一天。你会发现一个秘密：当你接近目标时，你可能会无意识地自我破坏。这不是懒惰，而是身份恐惧——害怕自己不配拥有那个未来，或者害怕改变带来的陌生感。</p>
+    </div>
+
+    <div class="highlight">
+      "成功最大的障碍不是没有能力，而是无意识的身份威胁反应。"
+    </div>
+
+    <div class="section">
+      <h3>🎯 核心练习</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">① 自我破坏清单</div>
+          <div class="exercise-desc">列出你在接近目标时常做的自我破坏行为。例：突然开始拖延、找借口停止、开始自我怀疑等。每一个行为背后都藏着一个恐惧。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">② 恐惧根源</div>
+          <div class="exercise-desc">对每个自我破坏行为，问：'这背后的恐惧是什么？'例：如果我成功了，别人会嫉妒我吗？我会变成一个不同的人吗？我配吗？</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">③ 对话冥想</div>
+          <div class="exercise-desc">闭眼，想象和你的恐惧对话。不是压制它，而是理解它。问它：'你在保护我什么？'让它回答。很多时候，恐惧其实想保护你。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 今晚反思提示：</strong>
+      我今天发现的最大恐惧是什么？如果我决定超越它，会发生什么？
+    </div>
+
+    <div class="section">
+      <h3>💡 深度理解</h3>
+      <p>这个练习的目标不是消除恐惧（那是不可能的），而是使其可见。一旦你知道自己在什么情况下会自我破坏，你就能在那一刻做出不同的选择。这叫做"增加意识距离"——在刺激和反应之间，插入选择。</p>
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 晨间设定：'今天我要看清我的恐惧'</li>
+        <li>□ 自我破坏行为列表（不要评判，只要观察）</li>
+        <li>□ 每个行为背后的恐惧根源分析</li>
+        <li>□ 与恐惧的对话冥想（10分钟）</li>
+        <li>□ 写一句"我愿意超越这个恐惧"的承诺</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 4 -->
+<div class="day-card" style="--day-color: var(--day4)">
+  <div class="day-header">
+    <div class="day-number">4️⃣</div>
+    <div class="day-title">
+      <h2>意识升级 | Consciousness Levels</h2>
+      <div class="subtitle">了解你在哪一层，如何升到下一层</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>改变的深度取决于你的意识层次。如果你在"受害者"层次，再多的目标也改变不了人生。如果你升到了"创造者"层次，一切都会改变。今天你要理解这个框架。</p>
+    </div>
+
+    <div class="highlight">
+      "意识是全部。你的意识层次就是你能获得的最大成果的天花板。"
+    </div>
+
+    <div class="section">
+      <h3>📊 9个意识层次</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">1. 无意识生存</div>
+          <div class="exercise-desc">完全被动，被外界推动。"这就是我的人生。"</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">2-3. 痛苦觉醒 → 探索觉察</div>
+          <div class="exercise-desc">开始感到不满，开始学习。"也许有更好的方式。"</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">4-5. 身份质疑 → 整合转型</div>
+          <div class="exercise-desc">挑战旧信念，主动改变。"我可以创造我想要的生活。"</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">6-7. 有意设计 → 使命觉醒</div>
+          <div class="exercise-desc">系统化改变，开始帮助他人。"这是我的人生目的。"</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">8-9. 影响创造 → 整合自由</div>
+          <div class="exercise-desc">成为灯塔，生活即教导。"我就是可能性本身。"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🎯 核心练习</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">① 自我诊断</div>
+          <div class="exercise-desc">在9个层次中，你认为自己现在处于哪一层？诚实回答。大多数人高估了自己。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">② 下一层跳跃</div>
+          <div class="exercise-desc">下一个层次需要什么思维转变？例如，从"受害者"升到"观察者"需要停止责备。列出3个改变。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 阅读和理解9个意识层次</li>
+        <li>□ 自我诊断你现在的层次</li>
+        <li>□ 明确下一个层次的3个思维转变</li>
+        <li>□ 写下：'下一层的我会怎样思考？'</li>
+        <li>□ 今天做一个小行动来体验下一层的思维</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 5 -->
+<div class="day-card" style="--day-color: var(--day5)">
+  <div class="day-header">
+    <div class="day-number">5️⃣</div>
+    <div class="day-title">
+      <h2>智慧公式 | The Wisdom Formula</h2>
+      <div class="subtitle">成功 = 能动性 + 机会 + 智慧</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>有些人有目标但从不行动。有些人在行动但没有机会。有些人有机会但做错了决定。这个公式解释了为什么。你需要同时提升三个维度。</p>
+    </div>
+
+    <div class="highlight">
+      "能动性让你行动，机会给你可能性，智慧让你做出正确决定。缺一不可。"
+    </div>
+
+    <div class="section">
+      <h3>🎯 三维度分析</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">能动性 | Agency</div>
+          <div class="exercise-desc">你相信自己能改变现状吗？你有主动去行动的内在驱动力吗？评分 1-10，然后问：我如何把它从6升到8？</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">机会 | Opportunity</div>
+          <div class="exercise-desc">你在为自己创造机会吗？你认识对的人吗？你的名单/作品/信息有人看到吗？评分 1-10，写出3个你可以创造的具体机会。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">智慧 | Wisdom</div>
+          <div class="exercise-desc">你对自己的目标和路径有清晰的认知吗？你避免了常见的陷阱吗？评分 1-10，写出你最近犯的一个决策错误和学到的智慧。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 今晚反思提示：</strong>
+      这三个维度中，哪一个是我最弱的？这一周我将如何重点提升它？
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 对三个维度进行诚实评分</li>
+        <li>□ 为最弱的维度制定提升计划</li>
+        <li>□ 做一个能动性的行动（即使很小）</li>
+        <li>□ 创建一个新的机会（联系某人/发布内容/学习新技能）</li>
+        <li>□ 阅读或学习一个能提升智慧的东西</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 6 -->
+<div class="day-card" style="--day-color: var(--day6)">
+  <div class="day-header">
+    <div class="day-number">6️⃣</div>
+    <div class="day-title">
+      <h2>一日协议 | The One-Day Protocol</h2>
+      <div class="subtitle">把文章中的协议整合进你的生活</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>前5天是准备。今天开始真正的实验：在一天内完整执行Dan提出的协议。这个协议包括三个部分：晨间心理挖掘、白天打断自动驾驶、晚间整合洞察。</p>
+    </div>
+
+    <div class="section">
+      <h3>🎯 完整一日协议</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">🌅 晨间（5-10分钟）: 心理挖掘</div>
+          <div class="exercise-desc">
+            • 冥想2分钟，设定意图<br>
+            • 问自己：'今天谁是我想成为的人？'<br>
+            • 写3件今天必须做的事，每件都是"新身份"的证明<br>
+            • 说出一句身份确认：'我是____，所以今天我会____'
+          </div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">☀️ 白天（全天）: 打断自动驾驶</div>
+          <div class="exercise-desc">
+            • 每2小时设置提醒问自己：'我现在在做什么？为什么？'<br>
+            • 注意你何时陷入习惯反应<br>
+            • 至少3次，在反应时停下，做出意识的选择<br>
+            • 当你说出旧身份的话语时（如'我是害羞的'），立即纠正
+          </div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">🌙 晚间（15分钟）: 整合洞察</div>
+          <div class="exercise-desc">
+            • 反思一天中的关键时刻<br>
+            • 哪一次你选择了新身份而不是旧身份？<br>
+            • 哪一次你仍然陷入了自动驾驶？<br>
+            • 写下你的收获和明天的调整
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 今天的挑战：</strong>
+      选择一个你最常见的自动驾驶行为，今天有意识地做30次不同的选择。观察会发生什么。
+    </div>
+
+    <div class="section">
+      <h3>📊 今日任务清单</h3>
+      <ul>
+        <li>□ 完整执行晨间协议</li>
+        <li>□ 整天保持觉察，每2小时提醒一次</li>
+        <li>□ 至少纠正一个旧身份的说法</li>
+        <li>□ 完整执行晚间协议</li>
+        <li>□ 记录：今天最大的洞察是什么？</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Day 7 -->
+<div class="day-card" style="--day-color: var(--day7)">
+  <div class="day-header">
+    <div class="day-number">7️⃣</div>
+    <div class="day-title">
+      <h2>游戏化人生 | Gamify Your Life</h2>
+      <div class="subtitle">把改变变成一个无限游戏</div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="section">
+      <h3>📍 今日主题</h3>
+      <p>最后一天是最重要的。我们回到Dan的核心洞察：游戏化。把你的人生变成一个游戏，这样改变就不再是'必须做'，而是'想做'。游戏有清晰的规则和奖励机制，人们自然会投入其中。</p>
+    </div>
+
+    <div class="highlight">
+      "游戏的力量在于它消除了意义真空。在游戏中，每个行动都有明确的影响。"
+    </div>
+
+    <div class="section">
+      <h3>🎮 你的人生游戏框架</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">胜利条件 | Victory Condition</div>
+          <div class="exercise-desc">这就是你的愿景。当你想到"赢"时，你想要什么样的生活？描述得越具体越好。这是游戏的终极目标。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">失败条件 | Failure Condition</div>
+          <div class="exercise-desc">这就是你的反愿景。如果你一直走现在的路，会变成什么？定义失败条件让你的大脑理解：这不是可选的。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">关卡 | Levels & Milestones</div>
+          <div class="exercise-desc">把从现在到胜利的路分成5-7个大关卡。每个关卡有清晰的完成条件。例：关卡1=建立日常习惯，关卡2=掌握核心技能，等等。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">任务 | Quests</div>
+          <div class="exercise-desc">关卡内的具体行动。每个任务完成后获得XP（经验值）。你可以跟踪总XP和升级。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">奖励系统 | Rewards</div>
+          <div class="exercise-desc">完成任务后，你获得什么？不一定是大事，小的即时奖励（记在清单上打勾、跟踪分数）比大的远期奖励更有动力。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🎯 建立你的游戏</h3>
+      <div class="exercises">
+        <div class="exercise-item">
+          <div class="exercise-title">步骤1：定义所有要素</div>
+          <div class="exercise-desc">用一张纸，写下你游戏的所有要素：最终目标、失败条件、5个关卡、每个关卡的3-5个任务、奖励系统。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">步骤2：选择第一个任务</div>
+          <div class="exercise-desc">现在，关卡1的第一个任务是什么？它必须足够小，今天就能完成。完成它，获得你的第一个XP。</div>
+        </div>
+        <div class="exercise-item">
+          <div class="exercise-title">步骤3：建立追踪</div>
+          <div class="exercise-desc">建立一个简单的表格或应用，追踪你的XP、等级和完成的任务。可视化进度会大幅提升动力。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection-prompt">
+      <strong>📝 最终反思：</strong>
+      当我把人生变成一个游戏，而不是一个"我必须做"的任务列表时，感觉如何不同？
+    </div>
+
+    <div class="section">
+      <h3>📊 最终任务清单</h3>
+      <ul>
+        <li>□ 定义你游戏的所有要素</li>
+        <li>□ 写下5个关卡和它们的完成条件</li>
+        <li>□ 为关卡1创建5个任务</li>
+        <li>□ 建立XP追踪系统</li>
+        <li>□ 完成第一个任务，获得第一个XP</li>
+        <li>□ 把这个游戏框架放在能经常看到的地方</li>
+        <li>□ 承诺：从现在开始，我像玩游戏一样生活</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>🎉 7天后</h3>
+      <p>恭喜你。你完成了一个深度的心理和精神之旅。你现在知道：</p>
+      <ul>
+        <li>你是谁，你从何而来</li>
+        <li>你想成为谁</li>
+        <li>你心中隐藏的恐惧</li>
+        <li>你的意识层次和如何升级</li>
+        <li>什么是真正的改变（能动性+机会+智慧）</li>
+        <li>如何在日常中体现新身份</li>
+        <li>如何用游戏化让改变可持续</li>
+      </ul>
+      <p style="margin-top: 16px;"><strong>关键不是这7天的完成，而是这是一个新生命的开始。你现在有了框架。从今天开始，像一个游戏主角一样生活。</strong></p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Email newsletter section -->
+<div class="email-section">
+  <div class="email-header">
+    <div class="email-subject">Subject: 你的7天改变之旅已准备就绪</div>
+    <div class="email-from">From: 改变计划团队</div>
+  </div>
+  <div class="email-body">
+    <p>亲爱的朋友，</p>
+    <p>感谢你选择参与这个7天深度改变计划。这不是一个普通的课程——这是一个心理和精神的重建过程。</p>
+    <p>接下来的7天，你将经历一个旅程，从无意识地被生活推动，到有意识地设计自己的未来。</p>
+    <p>每一天都有一个明确的主题和可做的练习。但最重要的是：不要只是读。要做。要写。要反思。改变不发生在想法中，而发生在行动中。</p>
+    <p>如果某一天感到困难，记住：最难的一步总是第一步。之后会变得更容易。</p>
+    <p>准备好了吗？让我们开始这场游戏。</p>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="container" style="padding-bottom: 60px;">
+  <div class="cta-section">
+    <h2>准备好改变你的人生了吗？</h2>
+    <p>这个计划基于 Dan Koe 的洞察，已被数千人验证有效。7天后，你不会是同一个人。</p>
+    <form onsubmit="handleSubscribe(event)" style="max-width: 400px; margin: 0 auto;">
+      <div class="subscribe-form">
+        <input type="email" placeholder="输入你的邮箱地址" required />
+        <button type="submit">发送给我</button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+        ✓ 完整的7天课程 + 每日提醒<br>
+        ✓ 可打印的工作手册<br>
+        ✓ 社区支持群组<br>
+        我们不会发送垃圾邮件，随时可以退订。
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>✨ 基于 Dan Koe 的《如何在1天内改变你的人生》创作</p>
+  <p style="margin-top: 10px;">📧 有问题？<a href="#">联系我们</a> | 🔗 <a href="#">分享给朋友</a></p>
+</footer>
+
+<script>
+function handleSubscribe(e) {
+  e.preventDefault();
+  alert('感谢订阅！完整课程将在24小时内发送到你的邮箱。');
+}
+
+function subscribeNewsletter() {
+  document.querySelector('.subscribe-form input').focus();
+  document.querySelector('.subscribe-form input').scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>

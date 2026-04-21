@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朋友圈图文</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1080px;
+            height: 1350px;
+            background: #0a0a0a;
+            font-family: 'Noto Sans SC', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 80px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            color: #c9a962;
+            margin-bottom: 24px;
+            letter-spacing: 0.05em;
+        }
+        .subtitle {
+            font-size: 28px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .highlight {
+            display: inline-block;
+            padding: 12px 32px;
+            background: rgba(201, 169, 98, 0.15);
+            border: 1px solid #c9a962;
+            border-radius: 8px;
+            font-size: 24px;
+            color: #c9a962;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 32px;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .category-label {
+            width: 180px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #c9a962;
+            text-align: right;
+        }
+        .category-items {
+            flex: 1;
+            font-size: 26px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #333, transparent);
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .big-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .big-number span {
+            color: #c9a962;
+        }
+        .url {
+            font-size: 22px;
+            color: #666;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">AI 真的神奇又有趣</div>
+        <div class="subtitle">Dan Koe 万字长文 · 全网阅读量 1.7 亿</div>
+        <div class="highlight">突发奇想 · AI 一晚上做了 14 个产品</div>
+    </div>
+    
+    <div class="content">
+        <div class="category">
+            <div class="category-label">深度内容</div>
+            <div class="category-items">电子书 · 思维导图 · 双语手册 · 社交文案</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="category">
+            <div class="category-label">互动体验</div>
+            <div class="category-items">7天挑战 · 意识测评 · RPG仪表盘 · 生活游戏</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="category">
+            <div class="category-label">日常工具</div>
+            <div class="category-items">每日提醒 · Notion 模板</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="category">
+            <div class="category-label">视觉内容</div>
+            <div class="category-items">金句卡片 · 电子贺卡 · 海报 · 壁纸生成器</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="big-number">1 晚 <span>×</span> AI = <span>14</span> 个作品</div>
+        <div class="url">xiaoxiaoqi.netlify.app</div>
+    </div>
+</body>
+</html>

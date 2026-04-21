@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日提醒 | Daily Reminders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #fafafa;
+            --text-secondary: #a1a1a1;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        h1 { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .time-display {
+            text-align: center;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .current-time {
+            font-family: 'Inter', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .current-date { color: var(--text-secondary); margin-top: 0.5rem; }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .question-card.fade { opacity: 0; transform: scale(0.95); }
+        .question-number { font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+        .question-text { font-size: 1.5rem; font-weight: 500; line-height: 1.5; margin-bottom: 1.5rem; }
+
+        .question-controls { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--text-secondary); }
+
+        .input-section { margin-top: 2rem; }
+        .input-section h3 { font-size: 0.9rem; font-weight: 500; margin-bottom: 1rem; color: var(--text-secondary); }
+        .input-group { display: flex; gap: 0.5rem; }
+        .input-field {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .input-field:focus { outline: none; border-color: var(--accent); }
+        .input-field::placeholder { color: var(--text-secondary); }
+
+        .question-list { margin-top: 2rem; }
+        .question-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .question-item span { flex: 1; font-size: 0.95rem; }
+        .delete-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.5rem; font-size: 1.2rem; }
+        .delete-btn:hover { color: #ef4444; }
+
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+        .stat { text-align: center; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+        .stat-value { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; }
+
+        .notification-prompt {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .notification-prompt p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .timer-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .timer-section h3 { font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary); }
+        .timer-input { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; }
+        .timer-input input {
+            width: 80px;
+            padding: 0.75rem;
+            text-align: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .timer-input input:focus { outline: none; border-color: var(--accent); }
+        .timer-display { font-family: 'Inter', sans-serif; font-size: 3rem; font-weight: 700; color: var(--accent); margin: 1rem 0; }
+        .timer-buttons { display: flex; gap: 0.5rem; justify-content: center; }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        @media (max-width: 480px) {
+            .current-time { font-size: 3rem; }
+            .question-text { font-size: 1.2rem; }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>每日觉察提醒</h1>
+        <p class="subtitle">打破自动模式，保持意识清醒</p>
+    </header>
+
+    <main>
+        <div class="notification-prompt" id="notificationPrompt">
+            <p>开启通知，获取定时提醒</p>
+            <button class="btn btn-primary" onclick="requestNotificationPermission()">开启通知</button>
+        </div>
+
+        <div class="time-display">
+            <div class="current-time" id="currentTime">00:00</div>
+            <div class="current-date" id="currentDate"></div>
+        </div>
+
+        <div class="question-card" id="questionCard">
+            <div class="question-number" id="questionNumber">问题 1 / 5</div>
+            <div class="question-text" id="questionText">我现在在做的事情是我真正想做的吗？</div>
+            <div class="question-controls">
+                <button class="btn btn-secondary" onclick="prevQuestion()">上一个</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">下一个</button>
+            </div>
+        </div>
+
+        <div class="timer-section">
+            <h3>专注计时器</h3>
+            <div class="timer-input">
+                <input type="number" id="timerMinutes" value="25" min="1" max="120">
+                <span>分钟</span>
+            </div>
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="timer-buttons">
+                <button class="btn btn-secondary" onclick="resetTimer()">重置</button>
+                <button class="btn btn-primary" id="timerBtn" onclick="toggleTimer()">开始</button>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <h3>添加自定义问题</h3>
+            <div class="input-group">
+                <input type="text" class="input-field" id="newQuestion" placeholder="输入一个自我反思问题...">
+                <button class="btn btn-primary" onclick="addQuestion()">添加</button>
+            </div>
+        </div>
+
+        <div class="question-list" id="questionList"></div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="totalQuestions">0</div>
+                <div class="stat-label">问题数</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="completedToday">0</div>
+                <div class="stat-label">今日完成</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="totalMinutes">0</div>
+                <div class="stat-label">专注分钟</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let questions = [
+            "我现在在做的事情是我真正想做的吗？",
+            "我的行动是否符合我的长期愿景？",
+            "如果这是我理想中的自己，会怎么做？",
+            "我是在回应还是在反应？",
+            "我现在最应该关注的是什么？",
+            "我是否在逃避什么重要的事情？",
+            "我的身体现在感觉如何？",
+            "我是否有在过度思考或过度分析？",
+            "我是否活在当下，还是在后悔过去/担忧未来？",
+            "我对他人的态度是否体现了我的价值观？"
+        ];
+
+        let currentIndex = 0;
+        let completedCount = 0;
+        let totalFocusMinutes = 0;
+        let notificationInterval = null;
+
+        const savedData = localStorage.getItem('dailyReminderData');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            if (data.questions) questions = data.questions;
+            if (data.completedToday) {
+                const today = new Date().toDateString();
+                if (data.lastDate === today) completedCount = data.completedToday;
+            }
+            if (data.totalMinutes) totalFocusMinutes = data.totalMinutes;
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('currentTime').textContent = hours + ':' + minutes;
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        function displayQuestion(index) {
+            const card = document.getElementById('questionCard');
+            card.classList.add('fade');
+            setTimeout(() => {
+                document.getElementById('questionNumber').textContent = '问题 ' + (index + 1) + ' / ' + questions.length;
+                document.getElementById('questionText').textContent = questions[index];
+                card.classList.remove('fade');
+            }, 200);
+        }
+
+        function nextQuestion() {
+            currentIndex = (currentIndex + 1) % questions.length;
+            completedCount++;
+            displayQuestion(currentIndex);
+            saveData();
+            showToast('好问题！继续思考...');
+        }
+
+        function prevQuestion() {
+            currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+            displayQuestion(currentIndex);
+        }
+
+        let timerInterval = null;
+        let timerRunning = false;
+        let remainingSeconds = 25 * 60;
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            document.getElementById('timerDisplay').textContent = mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timerBtn');
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                btn.textContent = '继续';
+                timerRunning = false;
+            } else {
+                btn.textContent = '暂停';
+                timerRunning = true;
+                timerInterval = setInterval(() => {
+                    remainingSeconds--;
+                    updateTimerDisplay();
+                    if (remainingSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        btn.textContent = '开始';
+                        totalFocusMinutes += parseInt(document.getElementById('timerMinutes').value);
+                        saveData();
+                        updateStats();
+                        showToast('专注时间结束！');
+                        remainingSeconds = parseInt(document.getElementById('timerMinutes').value) * 60;
+                        updateTimerDisplay();
+                        if (Notification.permission === 'granted') {
+                            new Notification('专注时间结束！', { body: '休息一下，然后继续你的任务。' });
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            document.getElementById('timerBtn').textContent = '开始';
+            remainingSeconds = parseInt(document.getElementById('timerMinutes').value) * 60;
+            updateTimerDisplay();
+        }
+
+        document.getElementById('timerMinutes').addEventListener('change', function() {
+            if (!timerRunning) {
+                remainingSeconds = parseInt(this.value) * 60;
+                updateTimerDisplay();
+            }
+        });
+
+        function addQuestion() {
+            const input = document.getElementById('newQuestion');
+            const text = input.value.trim();
+            if (!text) return;
+            questions.push(text);
+            input.value = '';
+            renderQuestionList();
+            displayQuestion(currentIndex);
+            saveData();
+            showToast('问题已添加！');
+        }
+
+        function deleteQuestion(index) {
+            if (questions.length <= 1) {
+                showToast('至少保留一个问题！');
+                return;
+            }
+            questions.splice(index, 1);
+            if (currentIndex >= questions.length) currentIndex = questions.length - 1;
+            renderQuestionList();
+            displayQuestion(currentIndex);
+            saveData();
+        }
+
+        function renderQuestionList() {
+            const list = document.getElementById('questionList');
+            list.innerHTML = questions.map((q, i) => 
+                '<div class="question-item"><span>' + q + '</span><button class="delete-btn" onclick="deleteQuestion(' + i + ')">×</button></div>'
+            ).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            document.getElementById('completedToday').textContent = completedCount;
+            document.getElementById('totalMinutes').textContent = totalFocusMinutes;
+        }
+
+        function saveData() {
+            const data = {
+                questions: questions,
+                completedToday: completedCount,
+                lastDate: new Date().toDateString(),
+                totalMinutes: totalFocusMinutes
+            };
+            localStorage.setItem('dailyReminderData', JSON.stringify(data));
+        }
+
+        function requestNotificationPermission() {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    document.getElementById('notificationPrompt').style.display = 'none';
+                    showToast('通知已开启！');
+                    startReminderInterval();
+                }
+            });
+        }
+
+        function startReminderInterval() {
+            if (notificationInterval) clearInterval(notificationInterval);
+            notificationInterval = setInterval(() => {
+                if (Notification.permission === 'granted') {
+                    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+                    new Notification('每日觉察提醒', { body: randomQuestion });
+                }
+            }, 3600000);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        renderQuestionList();
+        updateStats();
+        displayQuestion(currentIndex);
+        updateTimerDisplay();
+
+        if (Notification.permission === 'granted') {
+            document.getElementById('notificationPrompt').style.display = 'none';
+            startReminderInterval();
+        }
+    </script>
+</body>
+</html>

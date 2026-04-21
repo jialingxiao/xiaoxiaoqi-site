@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生RPG看板 | Life RPG Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+  --bg: #080c14;
+  --bg2: #0d1420;
+  --surface: #111927;
+  --surface2: #162032;
+  --border: #1e2d45;
+  --border2: #253550;
+  --text: #dde8f5;
+  --text-muted: #5a7499;
+  --gold: #f0c04a;
+  --gold2: #ffd97a;
+  --blue: #4a9eff;
+  --green: #4aff9e;
+  --red: #ff6b6b;
+  --purple: #b06aff;
+  --orange: #ff9f4a;
+  --cyan: #4af0ff;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  min-height: 100vh;
+}
+
+/* Scanline effect */
+body::after {
+  content:'';
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events:none;
+  z-index:9999;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  grid-column: 1/-1;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+.logo-text { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--gold); }
+
+.topbar-stats {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.stat-chip .val { color: var(--text); font-weight: 600; }
+
+/* Sidebar */
+.sidebar {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Character card */
+.char-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.char-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, var(--gold), var(--orange), var(--gold));
+  animation: shimmer 3s ease infinite;
+}
+
+@keyframes shimmer {
+  0%,100% { opacity:0.7; } 50% { opacity:1; }
+}
+
+.char-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--surface2), var(--border2));
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 20px rgba(240,192,74,0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.char-avatar:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(240,192,74,0.5); }
+
+.char-name-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.char-name-input:focus {
+  border-bottom: 1px solid var(--gold);
+}
+
+.char-class {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 4px 0 16px;
+}
+
+/* Level badge */
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(240,192,74,0.1);
+  border: 1px solid rgba(240,192,74,0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.level-badge .lv { color: var(--gold); font-weight: 700; }
+
+/* XP bar */
+.xp-section { text-align: left; }
+.xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.xp-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+.xp-fill::after {
+  content:'';
+  position:absolute;
+  top:0; right:0;
+  width:4px; height:100%;
+  background: white;
+  border-radius: 2px;
+  opacity: 0.6;
+  animation: xpGlow 1.5s ease infinite;
+}
+
+@keyframes xpGlow { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+/* Stat bars sidebar */
+.stat-section { flex: 1; }
+.stat-section h3 { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+
+.mini-stat {
+  margin-bottom: 12px;
+}
+
+.mini-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.mini-stat-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.mini-stat-val { font-size: 12px; font-weight: 600; }
+
+.mini-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mini-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* Main content */
+.main {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.stat-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0; height:2px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.stat-card:hover::before { opacity: 1; }
+
+.stat-icon { font-size: 20px; margin-bottom: 8px; }
+.stat-name { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.5px; }
+.stat-value { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+
+.stat-bar-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar-inner {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease 0.2s;
+}
+
+.stat-plus {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 20px; height: 20px;
+  background: var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.stat-card:hover .stat-plus { opacity: 1; }
+
+/* Quests */
+.quests-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.quest-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+
+.quest-item:last-child { border-bottom: none; }
+
+.quest-check {
+  width: 22px; height: 22px;
+  border: 2px solid var(--border2);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 2px;
+}
+
+.quest-check:hover { border-color: var(--gold); }
+.quest-check.done { background: var(--gold); border-color: var(--gold); }
+.quest-check.done::after { content:'✓'; font-size: 12px; color: #000; font-weight: 700; }
+
+.quest-info { flex: 1; }
+.quest-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.quest-title.done-text { text-decoration: line-through; color: var(--text-muted); }
+.quest-meta { display: flex; gap: 10px; align-items: center; }
+.quest-xp { font-size: 11px; color: var(--gold); }
+.quest-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+.quest-priority { font-size: 11px; color: var(--text-muted); }
+
+.add-quest-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.quest-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.quest-input:focus { border-color: var(--border2); }
+
+.add-btn {
+  padding: 8px 16px;
+  background: rgba(240,192,74,0.1);
+  border: 1px solid rgba(240,192,74,0.3);
+  border-radius: 8px;
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.add-btn:hover { background: rgba(240,192,74,0.2); }
+
+/* Achievements */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+  gap: 12px;
+}
+
+.achievement {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.achievement:hover { transform: translateY(-2px); }
+.achievement.locked { opacity: 0.4; filter: grayscale(1); }
+.achievement.unlocked { border-color: rgba(240,192,74,0.3); }
+
+.ach-icon { font-size: 28px; margin-bottom: 8px; }
+.ach-name { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+.ach-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+.ach-badge {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 16px; height: 16px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  color: #000;
+}
+
+/* Vision Board */
+.vision-board {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.vision-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.vision-field label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.vision-textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  height: 80px;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.vision-textarea:focus { border-color: var(--border2); }
+
+/* XP notification */
+.xp-notif {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--surface2);
+  border: 1px solid rgba(240,192,74,0.4);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 13px;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9000;
+  box-shadow: 0 4px 20px rgba(240,192,74,0.2);
+}
+
+.xp-notif.show { transform: translateY(0); opacity: 1; }
+
+/* Radar chart */
+.radar-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .vision-fields { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="logo-icon">⚔️</div>
+      <div class="logo-text">LIFE RPG</div>
+    </div>
+    <div class="topbar-stats">
+      <div class="stat-chip">📅 <span class="val" id="today-date"></span></div>
+      <div class="stat-chip">⚡ 总XP <span class="val" id="total-xp-top">0</span></div>
+      <div class="stat-chip">🔥 连击 <span class="val" id="streak-top">0</span> 天</div>
+      <div class="stat-chip">✅ 今日任务 <span class="val" id="done-today">0/0</span></div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Character card -->
+    <div class="char-card">
+      <div class="char-avatar" id="char-avatar" onclick="changeAvatar()">🧙</div>
+      <input class="char-name-input" id="char-name" value="冒险者" maxlength="10" title="点击修改名字"/>
+      <div class="char-class" id="char-class-label">见习探索者</div>
+      <div class="level-badge">
+        <span>LV</span><span class="lv" id="char-level">1</span>
+        <span style="color:var(--text-muted)">·</span>
+        <span id="char-title">意识苏醒者</span>
+      </div>
+      <div class="xp-section">
+        <div class="xp-label">
+          <span>经验值</span>
+          <span id="xp-label-val">0 / 100 XP</span>
+        </div>
+        <div class="xp-bar"><div class="xp-fill" id="xp-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Mini stats -->
+    <div class="stat-section">
+      <h3>属性面板</h3>
+      <div id="mini-stats"></div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- Stats grid -->
+    <div>
+      <div class="section-header">
+        <div class="section-title">⚡ 核心属性</div>
+        <span style="font-size:12px;color:var(--text-muted)">点击 + 提升属性</span>
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+    </div>
+
+    <!-- Quests -->
+    <div class="quests-section">
+      <div class="section-header">
+        <div class="section-title">📜 今日任务</div>
+        <span style="font-size:11px;color:var(--text-muted)" id="quest-count">0 个任务</span>
+      </div>
+      <div id="quest-list"></div>
+      <div class="add-quest-form">
+        <input class="quest-input" id="new-quest-input" placeholder="添加新任务..." maxlength="50"/>
+        <select class="quest-input" id="quest-stat-select" style="width:120px;flex:none">
+          <option value="mind">🧠 心智</option>
+          <option value="body">💪 体魄</option>
+          <option value="soul">✨ 灵魂</option>
+          <option value="wealth">💰 财富</option>
+          <option value="social">🤝 社交</option>
+          <option value="craft">🛠 技艺</option>
+        </select>
+        <button class="add-btn" onclick="addQuest()">+ 添加</button>
+      </div>
+    </div>
+
+    <!-- Vision board -->
+    <div class="vision-board">
+      <div class="section-header">
+        <div class="section-title">🔭 愿景 & 反愿景</div>
+      </div>
+      <div class="vision-fields">
+        <div>
+          <label>⭐ 我的愿景（胜利条件）</label>
+          <textarea class="vision-textarea" id="vision-input" placeholder="描述你5年后理想的生活状态..."></textarea>
+        </div>
+        <div>
+          <label>💀 我的反愿景（失败代价）</label>
+          <textarea class="vision-textarea" id="anti-vision-input" placeholder="如果什么都不改变，5年后我会变成..."></textarea>
+        </div>
+        <div>
+          <label>🎯 当前聚焦目标</label>
+          <textarea class="vision-textarea" id="focus-input" placeholder="这个月我最重要的1件事..."></textarea>
+        </div>
+        <div>
+          <label>📖 今日身份宣言</label>
+          <textarea class="vision-textarea" id="identity-input" placeholder="我是一个...的人，所以我今天会..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div>
+      <div class="section-header">
+        <div class="section-title">🏆 成就系统</div>
+        <span style="font-size:11px;color:var(--text-muted)" id="ach-count">0 / 12 解锁</span>
+      </div>
+      <div class="achievements-grid" id="achievements-grid"></div>
+    </div>
+
+    <!-- Radar chart -->
+    <div class="radar-section">
+      <div class="section-header">
+        <div class="section-title">📊 能力雷达图</div>
+      </div>
+      <canvas id="radar-canvas" width="500" height="280" style="width:100%;max-width:500px;display:block;margin:0 auto"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<!-- XP notification -->
+<div class="xp-notif" id="xp-notif">
+  <span>✨</span>
+  <span id="xp-notif-text">+10 XP</span>
+</div>
+
+<script>
+// ===== DATA =====
+const AVATARS = ['🧙','🦸','🧝','🥷','🧛','🧜','🧚','👩‍🚀','🦊','🐉','⚡','🌟'];
+let avatarIdx = 0;
+
+const STATS = [
+  { key:'mind',  name:'心智',  icon:'🧠', color:'#4a9eff', desc:'思维深度与认知宽度' },
+  { key:'body',  name:'体魄',  icon:'💪', color:'#4aff9e', desc:'身体健康与精力管理' },
+  { key:'soul',  name:'灵魂',  icon:'✨', color:'#b06aff', desc:'内在平静与情绪智慧' },
+  { key:'wealth',name:'财富',  icon:'💰', color:'#f0c04a', desc:'财务自由与创造价值' },
+  { key:'social',name:'社交',  icon:'🤝', color:'#ff9f4a', desc:'关系质量与影响力' },
+  { key:'craft', name:'技艺',  icon:'🛠', color:'#4af0ff', desc:'专业技能与创造能力' },
+];
+
+const LEVEL_TITLES = [
+  '意识苏醒者','探索觉醒者','自我质疑者','模式打破者',
+  '身份整合者','主动设计者','使命追随者','影响创造者','自由存在者'
+];
+
+const ACHIEVEMENTS = [
+  { id:'first_quest', icon:'🎯', name:'第一个任务', desc:'完成你的第一个任务', cond: s => s.questsDone >= 1 },
+  { id:'ten_quests',  icon:'💫', name:'坚持不懈', desc:'累计完成10个任务', cond: s => s.questsDone >= 10 },
+  { id:'level5',      icon:'🌟', name:'中阶觉醒', desc:'达到5级', cond: s => s.level >= 5 },
+  { id:'max_stat',    icon:'⚡', name:'极限突破', desc:'任意属性达到90', cond: s => Object.values(s.stats).some(v=>v>=90) },
+  { id:'vision_set',  icon:'🔭', name:'清晰愿景', desc:'填写了愿景和反愿景', cond: s => s.visionSet },
+  { id:'all_stats',   icon:'🌈', name:'全面发展', desc:'所有属性超过30', cond: s => Object.values(s.stats).every(v=>v>=30) },
+  { id:'streak3',     icon:'🔥', name:'三连击', desc:'连续3天完成任务', cond: s => s.streak >= 3 },
+  { id:'streak7',     icon:'💎', name:'周连击', desc:'连续7天完成任务', cond: s => s.streak >= 7 },
+  { id:'identity',    icon:'🪞', name:'身份宣言', desc:'写下你的身份宣言', cond: s => s.identitySet },
+  { id:'xp500',       icon:'🏅', name:'经验积累', desc:'累计获得500XP', cond: s => s.totalXP >= 500 },
+  { id:'level9',      icon:'∞', name:'整合自由', desc:'达到最高级别9级', cond: s => s.level >= 9 },
+  { id:'perfectDay',  icon:'👑', name:'完美一天', desc:'完成所有今日任务', cond: s => s.todayPerfect },
+];
+
+// ===== STATE =====
+function defaultState() {
+  return {
+    name: '冒险者',
+    avatarIdx: 0,
+    stats: { mind:10, body:10, soul:10, wealth:10, social:10, craft:10 },
+    totalXP: 0,
+    level: 1,
+    quests: [
+      { id:1, text:'晨间5分钟心理挖掘', stat:'soul', xp:15, done:false },
+      { id:2, text:'阅读30分钟提升认知', stat:'mind', xp:20, done:false },
+      { id:3, text:'运动20分钟激活身体', stat:'body', xp:15, done:false },
+    ],
+    questsDone: 0,
+    streak: 0,
+    lastDoneDate: null,
+    unlockedAchs: [],
+    visionSet: false,
+    identitySet: false,
+    todayPerfect: false,
+    vision: '', antiVision: '', focus: '', identity: '',
+    nextQuestId: 4,
+  };
+}
+
+let S = JSON.parse(localStorage.getItem('lifeRPG_state') || 'null') || defaultState();
+
+function save() { localStorage.setItem('lifeRPG_state', JSON.stringify(S)); }
+
+// ===== XP / LEVEL =====
+function xpForLevel(lv) { return lv * 100 + (lv-1) * 50; }
+
+function addXP(amount, statKey) {
+  S.totalXP += amount;
+  if (statKey && S.stats[statKey] !== undefined) {
+    S.stats[statKey] = Math.min(100, S.stats[statKey] + Math.ceil(amount * 0.3));
+  }
+  // Level up
+  while (true) {
+    const needed = xpForLevel(S.level);
+    if (S.totalXP >= needed && S.level < 9) { S.level++; showNotif('🎉 升级！ Level ' + S.level + ' — ' + LEVEL_TITLES[S.level-1]); break; }
+    else break;
+  }
+  showNotif(`+${amount} XP`);
+  checkAchievements();
+  save();
+  renderAll();
+}
+
+function showNotif(msg) {
+  const el = document.getElementById('xp-notif');
+  document.getElementById('xp-notif-text').textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ===== RENDER =====
+function renderAll() {
+  renderChar();
+  renderStats();
+  renderQuests();
+  renderAchievements();
+  renderRadar();
+  renderTopBar();
+}
+
+function renderChar() {
+  const el = document.getElementById('char-avatar');
+  el.textContent = AVATARS[S.avatarIdx || 0];
+  document.getElementById('char-name').value = S.name;
+  document.getElementById('char-level').textContent = S.level;
+  document.getElementById('char-title').textContent = LEVEL_TITLES[S.level-1];
+
+  const classNames = ['','','','见习探索者','成长探索者','意识设计者','使命追寻者','影响创造者','自由存在者'];
+  document.getElementById('char-class-label').textContent = classNames[Math.max(0,S.level-1)] || '意识苏醒者';
+
+  const needed = xpForLevel(S.level);
+  const prev = S.level > 1 ? xpForLevel(S.level-1) : 0;
+  const progress = S.level >= 9 ? 100 : Math.round(((S.totalXP - prev) / (needed - prev)) * 100);
+  document.getElementById('xp-bar').style.width = progress + '%';
+  document.getElementById('xp-label-val').textContent = `${S.totalXP} / ${needed} XP`;
+
+  // Mini stats
+  document.getElementById('mini-stats').innerHTML = STATS.map(st => `
+    <div class="mini-stat">
+      <div class="mini-stat-header">
+        <div class="mini-stat-name">${st.icon} <span>${st.name}</span></div>
+        <div class="mini-stat-val" style="color:${st.color}">${S.stats[st.key]}</div>
+      </div>
+      <div class="mini-bar">
+        <div class="mini-bar-fill" style="width:${S.stats[st.key]}%;background:${st.color}"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderStats() {
+  document.getElementById('stats-grid').innerHTML = STATS.map(st => `
+    <div class="stat-card" style="--c:${st.color}" onclick="boostStat('${st.key}')">
+      <div class="stat-card" style="position:absolute;top:0;left:0;right:0;height:2px;background:${st.color};border-radius:10px 10px 0 0"></div>
+      <div class="stat-plus" onclick="event.stopPropagation();boostStat('${st.key}')">+</div>
+      <div class="stat-icon">${st.icon}</div>
+      <div class="stat-name">${st.name}</div>
+      <div class="stat-value" style="color:${st.color}">${S.stats[st.key]}</div>
+      <div class="stat-bar-track">
+        <div class="stat-bar-inner" style="width:${S.stats[st.key]}%;background:${st.color}"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function boostStat(key) {
+  S.stats[key] = Math.min(100, S.stats[key] + 5);
+  addXP(8, key);
+}
+
+function renderQuests() {
+  const total = S.quests.length;
+  const done = S.quests.filter(q=>q.done).length;
+  document.getElementById('quest-count').textContent = `${done}/${total} 完成`;
+  document.getElementById('done-today').textContent = `${done}/${total}`;
+
+  const statInfo = {};
+  STATS.forEach(s => statInfo[s.key] = s);
+
+  document.getElementById('quest-list').innerHTML = S.quests.length === 0
+    ? '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px">还没有任务，添加第一个吧！</div>'
+    : S.quests.map(q => {
+      const si = statInfo[q.stat] || STATS[0];
+      return `
+        <div class="quest-item">
+          <div class="quest-check ${q.done?'done':''}" onclick="toggleQuest(${q.id})"></div>
+          <div class="quest-info">
+            <div class="quest-title ${q.done?'done-text':''}">${q.text}</div>
+            <div class="quest-meta">
+              <span class="quest-xp">+${q.xp} XP</span>
+              <span class="quest-tag" style="background:${si.color}22;color:${si.color}">${si.icon} ${si.name}</span>
+              <span style="cursor:pointer;color:var(--text-muted);font-size:11px" onclick="removeQuest(${q.id})">✕</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+}
+
+function toggleQuest(id) {
+  const q = S.quests.find(q=>q.id===id);
+  if (!q) return;
+  if (!q.done) {
+    q.done = true;
+    S.questsDone++;
+    addXP(q.xp, q.stat);
+    // Check perfect day
+    if (S.quests.every(q=>q.done)) { S.todayPerfect = true; }
+    // Streak
+    const today = new Date().toDateString();
+    if (S.lastDoneDate !== today) { S.streak++; S.lastDoneDate = today; }
+  }
+  save();
+  renderAll();
+}
+
+function removeQuest(id) {
+  S.quests = S.quests.filter(q=>q.id!==id);
+  save();
+  renderAll();
+}
+
+function addQuest() {
+  const input = document.getElementById('new-quest-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const stat = document.getElementById('quest-stat-select').value;
+  const si = STATS.find(s=>s.key===stat);
+  S.quests.push({ id: S.nextQuestId++, text, stat, xp: 15, done: false });
+  input.value = '';
+  save();
+  renderAll();
+}
+
+function renderAchievements() {
+  const unlocked = ACHIEVEMENTS.filter(a => checkAch(a));
+  document.getElementById('ach-count').textContent = `${unlocked.length} / ${ACHIEVEMENTS.length} 解锁`;
+
+  document.getElementById('achievements-grid').innerHTML = ACHIEVEMENTS.map(a => {
+    const isUnlocked = checkAch(a);
+    return `
+      <div class="achievement ${isUnlocked ? 'unlocked' : 'locked'}" title="${a.desc}">
+        ${isUnlocked ? '<div class="ach-badge">✓</div>' : ''}
+        <div class="ach-icon">${a.icon}</div>
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${a.desc}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function checkAch(a) { return a.cond(S); }
+
+function checkAchievements() {
+  ACHIEVEMENTS.forEach(a => {
+    if (checkAch(a) && !S.unlockedAchs.includes(a.id)) {
+      S.unlockedAchs.push(a.id);
+      setTimeout(() => showNotif(`🏆 成就解锁：${a.name}`), 800);
+    }
+  });
+}
+
+function renderTopBar() {
+  document.getElementById('total-xp-top').textContent = S.totalXP;
+  document.getElementById('streak-top').textContent = S.streak;
+}
+
+// ===== RADAR =====
+function renderRadar() {
+  const canvas = document.getElementById('radar-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  const cx = W/2, cy = H/2 + 10;
+  const r = Math.min(W,H) * 0.38;
+  const n = STATS.length;
+
+  const getPoint = (idx, val, rad) => {
+    const angle = (idx / n) * Math.PI * 2 - Math.PI/2;
+    return { x: cx + Math.cos(angle) * rad * (val/100), y: cy + Math.sin(angle) * rad * (val/100) };
+  };
+
+  // Grid
+  [0.25,0.5,0.75,1].forEach(f => {
+    ctx.beginPath();
+    for(let i=0;i<n;i++) {
+      const angle = (i/n)*Math.PI*2 - Math.PI/2;
+      const x = cx + Math.cos(angle)*r*f;
+      const y = cy + Math.sin(angle)*r*f;
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(30,45,69,0.8)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Axes
+  STATS.forEach((_,i) => {
+    const angle = (i/n)*Math.PI*2 - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(angle)*r, cy+Math.sin(angle)*r);
+    ctx.strokeStyle = 'rgba(30,45,69,0.6)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Fill
+  ctx.beginPath();
+  STATS.forEach((st,i) => {
+    const p = getPoint(i, S.stats[st.key], r);
+    i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(240,192,74,0.12)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(240,192,74,0.7)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  STATS.forEach((st,i) => {
+    const p = getPoint(i, S.stats[st.key], r);
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,4,0,Math.PI*2);
+    ctx.fillStyle = st.color;
+    ctx.fill();
+  });
+
+  // Labels
+  ctx.font = '12px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  STATS.forEach((st,i) => {
+    const angle = (i/n)*Math.PI*2 - Math.PI/2;
+    const lx = cx + Math.cos(angle)*(r+28);
+    const ly = cy + Math.sin(angle)*(r+24);
+    ctx.fillStyle = st.color;
+    ctx.fillText(st.icon, lx, ly - 7);
+    ctx.fillStyle = 'rgba(221,232,245,0.7)';
+    ctx.fillText(st.name, lx, ly + 7);
+  });
+}
+
+// ===== EVENTS =====
+document.getElementById('char-name').addEventListener('change', e => {
+  S.name = e.target.value || '冒险者';
+  save();
+});
+
+document.getElementById('vision-input').addEventListener('input', e => {
+  S.vision = e.target.value;
+  if (S.vision && S.antiVision) { S.visionSet = true; checkAchievements(); }
+  save();
+});
+
+document.getElementById('anti-vision-input').addEventListener('input', e => {
+  S.antiVision = e.target.value;
+  if (S.vision && S.antiVision) { S.visionSet = true; checkAchievements(); }
+  save();
+});
+
+document.getElementById('focus-input').addEventListener('input', e => { S.focus = e.target.value; save(); });
+
+document.getElementById('identity-input').addEventListener('input', e => {
+  S.identity = e.target.value;
+  if (S.identity.length > 10) { S.identitySet = true; checkAchievements(); }
+  save();
+});
+
+document.getElementById('new-quest-input').addEventListener('keypress', e => {
+  if (e.key === 'Enter') addQuest();
+});
+
+function changeAvatar() {
+  S.avatarIdx = ((S.avatarIdx || 0) + 1) % AVATARS.length;
+  save();
+  renderChar();
+}
+
+// ===== INIT =====
+document.getElementById('today-date').textContent = new Date().toLocaleDateString('zh-CN');
+
+// Restore text fields
+document.getElementById('vision-input').value = S.vision || '';
+document.getElementById('anti-vision-input').value = S.antiVision || '';
+document.getElementById('focus-input').value = S.focus || '';
+document.getElementById('identity-input').value = S.identity || '';
+
+renderAll();
+</script>
+</body>
+</html>

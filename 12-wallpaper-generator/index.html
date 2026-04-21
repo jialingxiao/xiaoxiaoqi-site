@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>愿景壁纸生成器 | Vision Wallpaper Generator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap');
+
+:root {
+  --bg: #0c0b10;
+  --surface: #16141c;
+  --surface2: #1e1c28;
+  --border: #2a2838;
+  --text: #e8e4f0;
+  --text-muted: #8a8498;
+  --accent: #c8963c;
+  --accent2: #e8c88e;
+  --gold: #d4a853;
+  --danger: #c84040;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Serif SC', sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  min-height: 100vh;
+}
+
+/* Editor panel */
+.editor-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 36px 32px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.panel-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.panel-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.field-input, .field-select, .field-textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: rgba(200,150,60,0.5);
+}
+
+.field-textarea {
+  resize: none;
+  height: 80px;
+  line-height: 1.6;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Color themes */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.theme-swatch {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-swatch.active {
+  border-color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.theme-swatch .theme-icon {
+  font-size: 18px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Style themes */
+.style-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.style-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 8px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.style-btn:hover {
+  border-color: rgba(200,150,60,0.5);
+}
+
+.style-btn.active {
+  border-color: var(--accent);
+  background: rgba(200,150,60,0.1);
+  color: var(--accent);
+}
+
+.style-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+/* Size presets */
+.size-grid {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  flex: 1;
+  min-width: 60px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: inherit;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.size-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(200,150,60,0.08);
+}
+
+.size-btn span {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Generate button */
+.gen-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.gen-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200,150,60,0.3);
+}
+
+.gen-btn:active {
+  transform: translateY(0);
+}
+
+.download-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  display: none;
+}
+
+.download-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Preview panel */
+.preview-panel {
+  background: #0a0910;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 20px;
+}
+
+.preview-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.preview-container {
+  position: relative;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preview-phone {
+  width: 280px;
+  height: 560px;
+  position: relative;
+  transform-origin: center;
+}
+
+.preview-desktop {
+  width: 960px;
+  height: 540px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.preset-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.preset-btn {
+  padding: 8px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Mobile responsive */
+@media(max-width: 768px) {
+  .app { grid-template-columns: 1fr; }
+  .preview-panel { min-height: 500px; }
+  .preview-desktop { width: 100%; height: auto; aspect-ratio: 16/9; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Editor panel -->
+  <div class="editor-panel">
+    <div>
+      <div class="panel-title">愿景壁纸生成器</div>
+      <div class="panel-sub">基于 Dan Koe 的愿景框架 · Vision Wallpaper Generator</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">愿景宣言（Vision）</label>
+      <textarea class="field-textarea" id="vision-text" placeholder="例如：我的生活充满创造与自由，我帮助他人实现潜能" maxlength="80"></textarea>
+      <div class="field-hint">描述你理想的生活状态，简洁有力。最多80字。</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">反愿景（Anti-Vision）</label>
+      <textarea class="field-textarea" id="antivision-text" placeholder="例如：如果我不改变，5年后我将一事无成，困在不满意的生活中" maxlength="80"></textarea>
+      <div class="field-hint">描述如果不改变的代价。这是激励你行动的力量。</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">身份宣言（Identity）</label>
+      <input class="field-input" id="identity-text" placeholder="例如：我是持续成长的创造者" maxlength="30"/>
+      <div class="field-hint">你每天的身份宣言。这是你的北极星。</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">名字</label>
+      <input class="field-input" id="user-name" placeholder="你的名字或昵称"/>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">配色主题</label>
+      <div class="theme-grid">
+        <div class="theme-swatch active" onclick="selectTheme(this,'midnight')" style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e)"><span class="theme-icon">🌙</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'golden')" style="background:linear-gradient(135deg,#1a0a00,#4a2000,#2c1000)"><span class="theme-icon">✨</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'forest')" style="background:linear-gradient(135deg,#0d1f0d,#1a3a1a,#0d2810)"><span class="theme-icon">🌿</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'ocean')" style="background:linear-gradient(135deg,#0a1628,#0f2a4a,#0a1a30)"><span class="theme-icon">🌊</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'ember')" style="background:linear-gradient(135deg,#1a0808,#3a1010,#200808)"><span class="theme-icon">🔥</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'aurora')" style="background:linear-gradient(135deg,#0a1a1a,#0f2a2a,#0a2020)"><span class="theme-icon">🌌</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'royal')" style="background:linear-gradient(135deg,#1a0a2e,#2a1050,#1a0a30)"><span class="theme-icon">👑</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'desert')" style="background:linear-gradient(135deg,#2a1a0a,#4a3010,#2a1800)"><span class="theme-icon">🏜️</span></div>
+        <div class="theme-swatch" onclick="selectTheme(this,'snow')" style="background:linear-gradient(135deg,#1a1a2a,#2a2a4a,#1a1a30)"><span class="theme-icon">❄️</span></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">视觉风格</label>
+      <div class="style-grid">
+        <button class="style-btn active" onclick="selectStyle(this,'quote')" data-style="quote">
+          <span class="style-icon">📜</span>
+          金句风
+        </button>
+        <button class="style-btn" onclick="selectStyle(this,'minimal')" data-style="minimal">
+          <span class="style-icon">◻️</span>
+          极简风
+        </button>
+        <button class="style-btn" onclick="selectStyle(this,'dramatic')" data-style="dramatic">
+          <span class="style-icon">⚡</span>
+          戏剧风
+        </button>
+        <button class="style-btn" onclick="selectStyle(this,'zen')" data-style="zen">
+          <span class="style-icon">☯️</span>
+          禅意风
+        </button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">输出尺寸</label>
+      <div class="size-grid">
+        <button class="size-btn active" onclick="selectSize(this,'desktop')" data-size="desktop">桌面<span>1920×1080</span></button>
+        <button class="size-btn" onclick="selectSize(this,'phone')" data-size="phone">手机<span>1080×1920</span></button>
+        <button class="size-btn" onclick="selectSize(this,'square')" data-size="square">方图<span>1080×1080</span></button>
+        <button class="size-btn" onclick="selectSize(this,'ipad')" data-size="ipad">平板<span>2048×2732</span></button>
+      </div>
+    </div>
+
+    <button class="gen-btn" onclick="generateWallpaper()">⚡ 生成壁纸</button>
+    <button class="download-btn" id="download-btn" onclick="downloadWallpaper()">⬇ 下载 PNG</button>
+  </div>
+
+  <!-- Preview panel -->
+  <div class="preview-panel">
+    <div class="preview-label">实时预览</div>
+    <div class="preview-container">
+      <div class="preview-desktop">
+        <canvas id="preview-canvas" width="1920" height="1080"></canvas>
+      </div>
+    </div>
+    <div class="preset-btns">
+      <button class="preset-btn" onclick="loadPreset('creator')">🎨 创作者</button>
+      <button class="preset-btn" onclick="loadPreset('freedom')">🕊️ 自由</button>
+      <button class="preset-btn" onclick="loadPreset('growth')">🌱 成长</button>
+      <button class="preset-btn" onclick="loadPreset('impact')">⭐ 影响</button>
+      <button class="preset-btn" onclick="loadPreset('blank')">🧹 清空</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentTheme = 'midnight';
+let currentStyle = 'quote';
+let currentSize = 'desktop';
+let currentCanvas = null;
+
+const THEMES = {
+  midnight: {
+    bg1:'#0f0c29', bg2:'#302b63', bg3:'#24243e',
+    accent:'#c8963c', accent2:'#e8c88e', text:'#e8e4f0',
+    textMuted:'rgba(232,228,240,0.5)', glow:'rgba(200,150,60,0.15)'
+  },
+  golden: {
+    bg1:'#1a0a00', bg2:'#4a2000', bg3:'#2c1000',
+    accent:'#f0c04a', accent2:'#ffd97a', text:'#ffe8c0',
+    textMuted:'rgba(255,232,192,0.5)', glow:'rgba(240,192,74,0.2)'
+  },
+  forest: {
+    bg1:'#0d1f0d', bg2:'#1a3a1a', bg3:'#0d2810',
+    accent:'#4aff9e', accent2:'#7affb8', text:'#d0f0d8',
+    textMuted:'rgba(208,240,216,0.5)', glow:'rgba(74,255,158,0.12)'
+  },
+  ocean: {
+    bg1:'#0a1628', bg2:'#0f2a4a', bg3:'#0a1a30',
+    accent:'#4a9eff', accent2:'#7ab3ff', text:'#d0e8ff',
+    textMuted:'rgba(208,232,255,0.5)', glow:'rgba(74,158,255,0.12)'
+  },
+  ember: {
+    bg1:'#1a0808', bg2:'#3a1010', bg3:'#200808',
+    accent:'#ff6b6b', accent2:'#ff9a9a', text:'#ffd8d8',
+    textMuted:'rgba(255,216,216,0.5)', glow:'rgba(255,107,107,0.12)'
+  },
+  aurora: {
+    bg1:'#0a1a1a', bg2:'#0f2a2a', bg3:'#0a2020',
+    accent:'#4af0ff', accent2:'#7af0ff', text:'#d0f8ff',
+    textMuted:'rgba(208,248,255,0.5)', glow:'rgba(74,240,255,0.12)'
+  },
+  royal: {
+    bg1:'#1a0a2e', bg2:'#2a1050', bg3:'#1a0a30',
+    accent:'#c896e8', accent2:'#e8c8ff', text:'#ece0ff',
+    textMuted:'rgba(236,224,255,0.5)', glow:'rgba(200,150,232,0.12)'
+  },
+  desert: {
+    bg1:'#2a1a0a', bg2:'#4a3010', bg3:'#2a1800',
+    accent:'#e8a050', accent2:'#ffb870', text:'#ffe8d0',
+    textMuted:'rgba(255,232,208,0.5)', glow:'rgba(232,160,80,0.15)'
+  },
+  snow: {
+    bg1:'#1a1a2a', bg2:'#2a2a4a', bg3:'#1a1a30',
+    accent:'#c0c8e8', accent2:'#dde0ff', text:'#e8ecff',
+    textMuted:'rgba(232,236,255,0.5)', glow:'rgba(192,200,232,0.1)'
+  }
+};
+
+const SIZES = {
+  desktop: { w:1920, h:1080 },
+  phone:   { w:1080, h:1920 },
+  square:  { w:1080, h:1080 },
+  ipad:    { w:2048, h:2732 }
+};
+
+const PRESETS = {
+  creator: { vision:'我的生活充满创造与自由，帮助他人实现潜能', antivision:'如果我不改变，我将困在朝九晚五的牢笼，永远活在别人的期待中', identity:'我是持续成长的创造者', name:'创造者' },
+  freedom: { vision:'经济独立，时间自由，在世界任何角落做有意义的工作', antivision:'如果我停滞不前，我将永远被金钱束缚，无法说走就走', identity:'我是财务自由的追寻者', name:'自由人' },
+  growth:  { vision:'每天都在进步，成为领域内最有智慧的人之一', antivision:'如果我不学习，我将逐渐被时代淘汰，活在后悔中', identity:'我是终身学习者', name:'学习者' },
+  impact:  { vision:'影响百万人，帮助他们找到自己的人生方向', antivision:'如果我只为自己，我将孤独地老去，留下的影响为零', identity:'我是意义的传播者', name:'影响者' },
+  blank:   { vision:'', antivision:'', identity:'', name:'' }
+};
+
+function selectTheme(el, key) {
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentTheme = key;
+  generateWallpaper();
+}
+
+function selectStyle(el, style) {
+  document.querySelectorAll('.style-btn').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentStyle = style;
+  generateWallpaper();
+}
+
+function selectSize(el, size) {
+  document.querySelectorAll('.size-btn').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentSize = size;
+  const sz = SIZES[size];
+  const previewEl = document.querySelector('.preview-desktop');
+  const previewCanvas = document.getElementById('preview-canvas');
+  previewCanvas.width = sz.w;
+  previewCanvas.height = sz.h;
+  if (size === 'desktop') {
+    previewEl.style.width = '960px';
+    previewEl.style.height = '540px';
+  } else if (size === 'phone') {
+    previewEl.style.width = '280px';
+    previewEl.style.height = '500px';
+  } else if (size === 'square') {
+    previewEl.style.width = '500px';
+    previewEl.style.height = '500px';
+  } else {
+    previewEl.style.width = '450px';
+    previewEl.style.height = '600px';
+  }
+  generateWallpaper();
+}
+
+function loadPreset(key) {
+  const p = PRESETS[key];
+  document.getElementById('vision-text').value = p.vision;
+  document.getElementById('antivision-text').value = p.antivision;
+  document.getElementById('identity-text').value = p.identity;
+  document.getElementById('user-name').value = p.name;
+  generateWallpaper();
+}
+
+function generateWallpaper() {
+  const sz = SIZES[currentSize];
+  const canvas = document.getElementById('preview-canvas');
+  canvas.width = sz.w;
+  canvas.height = sz.h;
+  const ctx = canvas.getContext('2d');
+  const theme = THEMES[currentTheme];
+
+  // Background gradient
+  const bg = ctx.createLinearGradient(0, 0, sz.w, sz.h);
+  bg.addColorStop(0, theme.bg1);
+  bg.addColorStop(0.5, theme.bg2);
+  bg.addColorStop(1, theme.bg3);
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, sz.w, sz.h);
+
+  // Decorative orbs
+  const drawOrb = (x, y, r, color, alpha) => {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, color.replace(')', ','+alpha+')').replace('rgb', 'rgba'));
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  };
+
+  // Style-specific rendering
+  const vision = document.getElementById('vision-text').value || '我的生活充满创造与自由';
+  const antivision = document.getElementById('antivision-text').value || '如果我不改变……';
+  const identity = document.getElementById('identity-text').value || '我是持续成长的创造者';
+  const name = document.getElementById('user-name').value || '';
+
+  ctx.textBaseline = 'middle';
+
+  if (currentStyle === 'quote') {
+    // Quote style - dramatic centered
+    drawOrb(sz.w*0.5, sz.h*0.4, sz.h*0.5, theme.accent, 0.05);
+    drawOrb(sz.w*0.1, sz.h*0.8, sz.h*0.3, theme.accent2, 0.03);
+    drawOrb(sz.w*0.9, sz.h*0.1, sz.h*0.25, theme.accent, 0.04);
+
+    // Main quote
+    ctx.font = `700 ${Math.round(sz.w * 0.035)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.text;
+    ctx.textAlign = 'center';
+    ctx.shadowColor = theme.glow;
+    ctx.shadowBlur = 30;
+    wrapText(ctx, vision, sz.w*0.5, sz.h*0.42, sz.w*0.8, sz.w*0.035*1.6);
+
+    // Identity
+    ctx.shadowBlur = 0;
+    ctx.font = `600 ${Math.round(sz.w * 0.018)}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.fillText('— ' + (identity || '我是……'), sz.w*0.5, sz.h*0.6);
+
+    // Divider
+    ctx.strokeStyle = theme.textMuted;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(sz.w*0.35, sz.h*0.64);
+    ctx.lineTo(sz.w*0.65, sz.h*0.64);
+    ctx.stroke();
+
+    // Anti-vision
+    ctx.font = `400 ${Math.round(sz.w * 0.013)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+    ctx.shadowBlur = 8;
+    wrapText(ctx, '⚠ ' + antivision, sz.w*0.5, sz.h*0.68, sz.w*0.7, sz.w*0.013*1.6);
+
+    // Bottom
+    ctx.shadowBlur = 0;
+    ctx.font = `300 ${Math.round(sz.w * 0.011)}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.globalAlpha = 0.4;
+    ctx.fillText('— Dan Koe · Vision Wallpaper Generator —', sz.w*0.5, sz.h*0.92);
+    if (name) ctx.fillText(name, sz.w*0.5, sz.h*0.88);
+    ctx.globalAlpha = 1;
+
+  } else if (currentStyle === 'minimal') {
+    // Minimal - lots of whitespace
+    drawOrb(sz.w*0.8, sz.h*0.2, sz.h*0.3, theme.accent, 0.04);
+
+    // Left-aligned minimal
+    ctx.textAlign = 'left';
+    const leftX = sz.w * 0.12;
+    const topY = sz.h * 0.3;
+
+    ctx.font = `700 ${Math.round(sz.w * 0.042)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.text;
+    ctx.fillText(vision, leftX, topY);
+
+    ctx.font = `400 ${Math.round(sz.w * 0.014)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.fillText(antivision, leftX, topY + sz.w*0.045*2.2);
+
+    // Line
+    ctx.strokeStyle = theme.accent;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(leftX, topY + sz.w*0.045*2.8);
+    ctx.lineTo(leftX + sz.w*0.3, topY + sz.w*0.045*2.8);
+    ctx.stroke();
+
+    ctx.font = `600 ${Math.round(sz.w * 0.016)}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.fillText(identity, leftX, topY + sz.w*0.045*3.3);
+
+    if (name) {
+      ctx.font = `300 ${Math.round(sz.w * 0.01)}px 'Inter', sans-serif`;
+      ctx.fillStyle = theme.textMuted;
+      ctx.globalAlpha = 0.5;
+      ctx.fillText(name, leftX, sz.h * 0.88);
+      ctx.globalAlpha = 1;
+    }
+
+  } else if (currentStyle === 'dramatic') {
+    // Dramatic - big typography
+    drawOrb(sz.w*0.5, sz.h*0.5, sz.h*0.7, theme.accent, 0.06);
+    drawOrb(sz.w*0.3, sz.h*0.2, sz.h*0.4, theme.accent2, 0.03);
+
+    ctx.textAlign = 'center';
+
+    // Large accent word
+    ctx.font = `800 ${Math.round(sz.w * 0.12)}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.globalAlpha = 0.12;
+    ctx.fillText('LIVE', sz.w*0.5, sz.h*0.35);
+    ctx.globalAlpha = 1;
+
+    // Vision
+    ctx.font = `700 ${Math.round(sz.w * 0.038)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.text;
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 20;
+    wrapText(ctx, '"' + vision + '"', sz.w*0.5, sz.h*0.45, sz.w*0.72, sz.w*0.038*1.5);
+    ctx.shadowBlur = 0;
+
+    // Identity with accent
+    ctx.font = `600 ${Math.round(sz.w * 0.022)}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.fillText(identity, sz.w*0.5, sz.h*0.66);
+
+    // Bottom bar
+    ctx.fillStyle = theme.bg1;
+    ctx.globalAlpha = 0.6;
+    ctx.fillRect(0, sz.h*0.78, sz.w, sz.h*0.22);
+    ctx.globalAlpha = 1;
+
+    ctx.font = `300 ${Math.round(sz.w * 0.012)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.fillText(antivision, sz.w*0.5, sz.h*0.86);
+    if (name) ctx.fillText('— ' + name, sz.w*0.5, sz.h*0.91);
+
+  } else if (currentStyle === 'zen') {
+    // Zen - yin yang inspired, clean
+    ctx.textAlign = 'center';
+
+    // Circle decoration
+    ctx.beginPath();
+    ctx.arc(sz.w*0.5, sz.h*0.35, sz.h*0.08, 0, Math.PI*2);
+    ctx.strokeStyle = theme.accent;
+    ctx.lineWidth = 1;
+    ctx.globalAlpha = 0.3;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    ctx.font = `600 ${Math.round(sz.w * 0.024)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.fillText(identity, sz.w*0.5, sz.h*0.38);
+
+    // Main vision
+    ctx.font = `400 ${Math.round(sz.w * 0.026)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.text;
+    ctx.fillText(vision, sz.w*0.5, sz.h*0.48);
+
+    // Subtle line
+    ctx.strokeStyle = theme.textMuted;
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(sz.w*0.3, sz.h*0.58);
+    ctx.lineTo(sz.w*0.7, sz.h*0.58);
+    ctx.stroke();
+
+    ctx.font = `300 ${Math.round(sz.w * 0.014)}px 'Noto Serif SC', serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.fillText(antivision, sz.w*0.5, sz.h*0.64);
+
+    if (name) {
+      ctx.font = `300 ${Math.round(sz.w * 0.011)}px 'Inter', sans-serif`;
+      ctx.globalAlpha = 0.4;
+      ctx.fillText(name, sz.w*0.5, sz.h*0.88);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  // Always show watermark
+  ctx.font = `300 ${Math.round(sz.w * 0.009)}px 'Inter', sans-serif`;
+  ctx.fillStyle = theme.textMuted;
+  ctx.globalAlpha = 0.25;
+  ctx.fillText('Vision Wallpaper Generator · Dan Koe Framework', sz.w*0.5, sz.h - 20);
+  ctx.globalAlpha = 1;
+
+  // Save reference
+  currentCanvas = canvas;
+
+  // Show download button
+  document.getElementById('download-btn').style.display = 'block';
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split('');
+  let line = '';
+  let testLine = '';
+  let charsPerLine = Math.floor(maxWidth / (ctx.font.includes('Noto') ? 16 : 14));
+
+  for (let i = 0; i < text.length; i++) {
+    testLine += text[i];
+    if (ctx.measureText(testLine).width > maxWidth || text[i] === '\n') {
+      ctx.fillText(line, x, y);
+      line = text[i] === '\n' ? '' : text[i];
+      y += lineHeight;
+      testLine = text[i] === '\n' ? '' : text[i];
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, x, y);
+}
+
+function downloadWallpaper() {
+  if (!currentCanvas) return;
+  const link = document.createElement('a');
+  const sz = SIZES[currentSize];
+  link.download = `vision-wallpaper-${currentSize}-${Date.now()}.png`;
+  link.href = currentCanvas.toDataURL('image/png');
+  link.click();
+}
+
+// Init
+generateWallpaper();
+</script>
+</body>
+</html>
