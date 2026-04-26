@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING - 2026年4月23日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 报纸头部 */
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        /* 头条区域 */
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 分栏区域 */
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        /* 快讯区域 */
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        /* 关联洞察 */
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年4月23日</span>
+        <span>|</span>
+        <span>第003期</span>
+        <span>|</span>
+        <span>阅读约6分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>科技人文</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="Google TPU" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://www.coze.cn/share-article/201776862686220704" target="_blank">谷歌发布企业级AI代理工具包，第八代TPU同时亮相</a></h2>
+    <p class="headline-summary">
+        4月22日，谷歌在Google Cloud Next 2026大会上发布Gemini Enterprise Agent Platform，新增Memory Bank、Memory Profile和Agent Simulation功能；同时推出Projects协作平台，整合Workspace、OneDrive等多源信息。此外，第八代TPU芯片TPU 8T（训练）和TPU 8i（推理）正式发布，每瓦性能较上代提升超115%。Anthropic、Meta、Citadel Securities已采用或承诺使用TPU算力。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://www.coze.cn/share-article/201776862686220704" target="_blank">Coze共享文章</a> · 2026-04-23
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- 🤖 AI前沿 -->
+    <section class="column">
+        <h3 class="column-title">🤖 AI前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="GPT-5.5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776846548637856" target="_blank">OpenAI内部测试模型列表意外泄露，GPT-5.5现身</a></h4>
+                    <p class="column-item-summary">4月22日，OpenAI发布ChatGPT Images 2.0时，其Codex CLI界面意外曝光包括GPT-5.5在内的多款未发布模型。泄露源于内部测试环境误部署到生产环境。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776846548637856" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="量子AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776864296906944" target="_blank">量智开物揭牌：国内首家"AI+量子"实体公司成立</a></h4>
+                    <p class="column-item-summary">4月22日，科大讯飞与两仪万象合资的量智开物正式揭牌，发布"追风"大规模原子快速重排算法和"扁鹊"量子纠错解码器。清华团队同期实验捕获10064个原子，超越加州理工6100个原子的国际纪录。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776864296906944" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="AI安全" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.simplenews.ai/news/47-ai-researchers-from-openai-anthropic-and-deepmind-call-for-mandatory-third-party-safety-evaluations-tsl0" target="_blank">47位AI研究员联名呼吁：强制第三方安全评估</a></h4>
+                    <p class="column-item-summary">来自OpenAI、Anthropic、Google DeepMind的47位研究员联名发表公开信，呼吁在高级AI模型商业部署前强制进行第三方安全评估，点名三类危险能力。</p>
+                    <p class="column-item-source"><a href="https://www.simplenews.ai/news/47-ai-researchers-from-openai-anthropic-and-deepmind-call-for-mandatory-third-party-safety-evaluations-tsl0" target="_blank">SimpleNews AI</a> · 04-15</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="Kimi" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776864757666400" target="_blank">月之暗面公布Kimi K2.6补偿方案</a></h4>
+                    <p class="column-item-summary">4月22日，月之暗面就Kimi K2.6上线期间因访问量激增导致的功能异常问题，于20:30将所有用户当月额度恢复至100%并清0已使用量。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776864757666400" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="ASCO" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776840221510496" target="_blank">康宁杰瑞KN026联合疗法III期临床数据将登ASCO LBA</a></h4>
+                    <p class="column-item-summary">康宁杰瑞与石药集团旗下上海津曼特联合开发的KN026+HB1801联合方案，针对HER2阳性乳腺癌新辅助治疗的III期临床研究结果，将在2026年ASCO年会LBA口头报告环节亮相。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776840221510496" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="肺癌研究" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776815863193568" target="_blank">迪哲医药三项肺癌研究成果将亮相ASCO</a></h4>
+                    <p class="column-item-summary">迪哲医药公告舒沃哲®、高瑞哲®及DZD6008三款产品的非小细胞肺癌最新研究成果将亮相2026 ASCO大会，其中舒沃哲®国际多中心III期"悟空28"研究入选LBA。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776815863193568" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="华东医药" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776844405354464" target="_blank">华东医药哮喘改良新药CXG87上市申请获NMPA受理</a></h4>
+                    <p class="column-item-summary">4月22日，华东医药全资子公司华东医药（杭州）有限公司拥有独家商业化权益的CXG87药品注册上市许可申请获NMPA受理。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776844405354464" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="禁烟法案" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776838580261440" target="_blank">英国议会通过"代际禁烟"法案</a></h4>
+                    <p class="column-item-summary">当地时间4月21日，英国议会两院审议通过《烟草与电子烟法案》，规定商家向2009年1月1日及以后出生人群售卖烟草制品属违法行为，旨在打造"第一代无烟者"。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776838580261440" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💰 商业财经 -->
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="Anthropic" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://i10x.ai/news/anthropic-outspends-openai-ai-lobbying-2026" target="_blank">Anthropic Q1 2026 AI游说支出超越OpenAI</a></h4>
+                    <p class="column-item-summary">4月22日最新数据显示，Anthropic在2026年第一季度的AI游说支出已超越OpenAI，显示其在政策博弈中的战略升级。随着Claude Opus 4.6登顶LMSYS排行榜，Anthropic正从技术竞争转向全方位生态竞争。</p>
+                    <p class="column-item-source"><a href="https://i10x.ai/news/anthropic-outspends-openai-ai-lobbying-2026" target="_blank">i10x AI</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 🔒 安全隐私 -->
+    <section class="column">
+        <h3 class="column-title">🔒 安全隐私</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="Chronicle" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776756832456448" target="_blank">OpenAI Chronicle功能引发隐私争议：AI正在"读屏"</a></h4>
+                    <p class="column-item-summary">4月21日，OpenAI发布Chronicle研究预览版，在后台读取用户屏幕内容、文件、网页和未完成文档，生成"个人记忆图谱"。争议焦点包括：本地记忆未加密、数据"部分场景需云端辅助"、提示词攻击风险。功能特意避开欧盟、英国和瑞士。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776756832456448" target="_blank">Coze共享文章</a> · 04-21</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 🎨 科技人文 -->
+    <section class="column">
+        <h3 class="column-title">🎨 科技人文</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="Gucci" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201776804998150176" target="_blank">Gucci米兰时装周AI物料引发争议：奢侈品与AI的天然互斥？</a></h4>
+                    <p class="column-item-summary">2026米兰时装周期间，Gucci发布AI生成广告物料引发广泛争议，不少网友评价"廉价"。Gucci创意总监Demna回应"拒绝AI如同抵制电商"。业内认为奢侈品牌AI探索需平衡技术迭代与品牌高端属性。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201776804998150176" target="_blank">Coze共享文章</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">📰 快讯速览</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">AI观察</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776862686220704" target="_blank">谷歌软硬件一体化战略成型，企业AI代理市场竞争加剧</a></span>
+            <span class="breaking-news-time">04-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">安全治理</span>
+            <span class="breaking-news-text"><a href="https://www.simplenews.ai/news/47-ai-researchers-from-openai-anthropic-and-deepmind-call-for-mandatory-third-party-safety-evaluations-tsl0" target="_blank">AI安全治理从"自律"走向"他律"的转折信号</a></span>
+            <span class="breaking-news-time">04-15</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">算力竞争</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776862686220704" target="_blank">TPU 8T/8i分离设计标志AI算力定制化趋势加速</a></span>
+            <span class="breaking-news-time">04-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">中国创新</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776864296906944" target="_blank">量子计算与AI融合产业化进程提速，万比特级量子操控突破</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">医疗出海</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776840221510496" target="_blank">中国原研创新疗法在国际顶级学术舞台的重要里程碑</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">隐私争议</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776756832456448" target="_blank">AI"用户理解"竞争升级，数据收集边界成为监管焦点</a></span>
+            <span class="breaking-news-time">04-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">品牌争议</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201776804998150176" target="_blank">奢侈品牌AI探索需平衡技术迭代与品牌高端属性</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">政策动向</span>
+            <span class="breaking-news-text"><a href="https://i10x.ai/news/anthropic-outspends-openai-ai-lobbying-2026" target="_blank">AI公司的政策影响力成为竞争新维度</a></span>
+            <span class="breaking-news-time">04-22</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 吐司洞察</h3>
+    <div class="insights-content">
+        <p><strong>本期三大主题：算力竞争白热化 · AI治理进入深水区 · 医疗AI与创新药出海提速</strong></p>
+        <div class="insights-highlight">
+            <p>谷歌TPU 8代发布、OpenAI模型泄露、Anthropic游说加码——三足鼎立格局深化，算力定制化成为新赛点。同时47研究员联名呼吁强制第三方安全评估、Chronicle隐私争议、英国禁烟立法显示合规成本将成科技公司重要支出。</p>
+        </div>
+        <p><strong>对主人的三个启示：</strong></p>
+        <p>① <strong>算力布局</strong> - TPU 8T/8i分离设计标志AI算力定制化趋势加速，企业在选择AI基础设施时需要考虑软硬件一体化生态。</p>
+        <p>② <strong>合规风险</strong> - AI治理从"自律"走向"他律"，合规能力可能成为企业AI选型的关键因素，建议关注相关政策动向。</p>
+        <p>③ <strong>医疗创新</strong> - 中国创新药企在ASCO等国际学术舞台频繁亮相，KN026/迪哲等成果标志着国产创新疗法加速国际化进程。</p>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 DAILY · BRIEFING | <a href="https://xiaoxiaoqi.coze.site/daily/" target="_blank">在线阅读</a> | <a href="https://github.com/jialingxiao/xiaoxiaoqi-site/tree/main/daily" target="_blank">GitHub存档</a></p>
+    <p>精选自 Coze共享文章 · AI辅助筛选 · 2026年4月23日</p>
+    <p>采集时段：2026年4月21-22日</p>
+</footer>
+
+</body>
+</html>
