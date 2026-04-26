@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 · 历史存档</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #FAFAF8;
+            color: #1A1A1A;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 3px solid #1A1A1A;
+            padding-bottom: 12px;
+        }
+        .page-title {
+            font-family: Georgia, serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+        .page-desc {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #B8882A;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .archive-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #fff;
+            border: 1px solid #E8E8E8;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .archive-item:hover {
+            border-color: #B8882A;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .date {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            color: #1A1A1A;
+        }
+        .read-btn {
+            color: #B8882A;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .read-btn:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="page-title">吐司日报 · 历史存档</h1>
+        <p class="page-desc">AI科技 · 医疗健康 · 商业财经 · 科技人文 · 每日精选</p>
+    </header>
+    
+    <a href="../../index.html" class="back-link">← 返回首页</a>
+    
+    <main style="margin-top: 32px;">
+        <div class="archive-list">
+            <div class="archive-item">
+                <div class="date">2026年4月27日·第003期</div>
+                <a href="../2026-04-27.html" class="read-btn">阅读 →</a>
+            </div>
+            <div class="archive-item">
+                <div class="date">2026年4月22日·第002期</div>
+                <a href="../2026-04-22.html" class="read-btn">阅读 →</a>
+            </div>
+            <div class="archive-item">
+                <div class="date">2026年4月21日·第001期</div>
+                <a href="../2026-04-21.html" class="read-btn">阅读 →</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
