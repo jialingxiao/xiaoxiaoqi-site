@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 Daily Briefing · 2026年4月28日</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .header-categories span:first-child::before { content: ""; }
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 48px;
+        }
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .column-title::before { content: "◆"; color: #ff6b35; font-size: 9px; }
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+        }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .breaking-news-title::before { content: "⚡"; }
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .insights-title::before { content: "🔗"; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-content p { margin-bottom: 8px; }
+        .insights-content p:last-child { margin-bottom: 0; }
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .data-table {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        .data-table-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+        }
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .data-table th {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table td {
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) {
+            .columns { grid-template-columns: 1fr; }
+            .breaking-news-list { grid-template-columns: 1fr; }
+            .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; }
+            .header-title { font-size: 22px; letter-spacing: 3px; }
+            .headline-title { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年4月28日</span>
+        <span>|</span>
+        <span>AI · 医疗 · 财经</span>
+        <span>|</span>
+        <span>阅读约8分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>安全警示</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <div class="headline-image">🤖</div>
+    <h2 class="headline-title"><a href="http://m.toutiao.com/group/7632411050981294655/" target="_blank">Google 400亿美元押注Anthropic：AI两强格局正式确立</a></h2>
+    <p class="headline-summary">
+        谷歌宣布向Anthropic投资最高400亿美元，100亿美元即刻到账。加上亚马逊此前宣布的250亿美元投资，Anthropic在四天内获得650亿美元资金承诺。Anthropic年化收入突破300亿美元，Claude Code年化收入25亿美元。AI竞争从"御三家"演变为Anthropic与OpenAI的双雄对垒。
+    </p>
+    <p class="headline-source">
+        来源: <a href="http://m.toutiao.com/group/7632411050981294655/" target="_blank">华尔街见闻</a> · 2026-04-25
+    </p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🔬</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.toutiao.com/article/" target="_blank">OpenAI发布GPT-5.5：超级应用战略全面推进</a></h4>
+                    <p class="column-item-summary">GPT-5.5在计算效率与智能水平上双重优化，整合ChatGPT、Codex和AI浏览器打造一站式企业AI解决方案。GPT-5.5 + Codex组合推理速度提升3倍。</p>
+                    <p class="column-item-source">钛媒体 · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🧠</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.ithome.com/" target="_blank">DeepSeek-V4预览版正式上线并开源</a></h4>
+                    <p class="column-item-summary">全新注意力机制 + DSA稀疏注意力技术，实现百万字超长上下文。Agent能力、世界知识和推理性能均实现国内领先。</p>
+                    <p class="column-item-source">IT之家 · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">💻</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.toutiao.com/article/" target="_blank">谷歌内部AI编程渗透率达75%</a></h4>
+                    <p class="column-item-summary">谷歌内部新代码75%由AI生成（2024年10月仅25%），跨系统代码协同迁移从120小时压缩到20小时。</p>
+                    <p class="column-item-source">钛媒体 · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🏥</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://finance.sina.com.cn/jjxw/2026-04-27/doc-inhvwmvw8128492.shtml" target="_blank">OpenAI推出ChatGPT临床医生版</a></h4>
+                    <p class="column-item-summary">面向美国认证医护人员免费开放。美国医学会调查显示，72%医生已在临床实践中使用AI（去年仅48%）。</p>
+                    <p class="column-item-source">钛媒体 · 04-27</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🏛️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7625996132526670355/" target="_blank">北京发布创新医药高质量发展若干措施(2026年)</a></h4>
+                    <p class="column-item-summary">17部门联合发文，从临床研究、审评审批、生产流通、临床应用等全链条支持创新药械发展。手术机器人、脑机接口、AI诊疗设备纳入重点支持。</p>
+                    <p class="column-item-source">北京药监 · 04-07</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">❤️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://finance.sina.com.cn/jjxw/2026-04-27/doc-inhvwmvw8128492.shtml" target="_blank">心脏MRI AI诊断系统准确率媲美专家</a></h4>
+                    <p class="column-item-summary">宾夕法尼亚大学医学院开发新型AI系统，可准确解释心脏MRI扫描数据。论文发表于《自然·生物医学工程》杂志。</p>
+                    <p class="column-item-source">光明网 · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">📋</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7626536322756330047/" target="_blank">湖南发布生物医药产业创新发展17条举措</a></h4>
+                    <p class="column-item-summary">创新药最高奖励500万元，三类创新器械最高100万元。支持细胞基因技术、脑机接口、人工智能等前沿交叉研究与应用。</p>
+                    <p class="column-item-source">华声在线 · 04-09</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">📰 今日快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">财经</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7633193869097697832/" target="_blank">迅策科技市值突破1000亿港元</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">财经</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7633193869097697832/" target="_blank">东方甄选四大主播集体离职</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/newsflashes" target="_blank">蚂蚁灵光App上线"体验世界模型"功能</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">能源</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/newsflashes" target="_blank">我国充电桩数量达2148万个</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">能源</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7633193869097697832/" target="_blank">广东电价4月多次逼近1元/度</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">科技</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7630748914609668608/" target="_blank">Vercel安全事件：AI工具成攻击跳板</a></span>
+            <span class="breaking-news-time">04-20</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">财经</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/newsflashes" target="_blank">比亚迪等科技股发布一季报</a></span>
+            <span class="breaking-news-time">04-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">安全</span>
+            <span class="breaking-news-text"><a href="https://www.dbdigest.com/" target="_blank">ADT确认数据泄露：1000万记录受影响</a></span>
+            <span class="breaking-news-time">04-24</span>
+        </div>
+    </div>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">📈</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7633193869097697832/" target="_blank">迅策科技市值突破1000亿港元</a></h4>
+                    <p class="column-item-summary">"Token第一股"上市百余天后市值破千亿港元，股价累计上涨500%。腾讯浮盈超50亿，A轮投资人回报达500倍。</p>
+                    <p class="column-item-source">新浪财经 · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">⚡</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://36kr.com/newsflashes" target="_blank">国家能源局：充电桩数量达2148万个</a></h4>
+                    <p class="column-item-summary">截至2026年3月底，我国电动汽车充电基础设施总数达到2148.1万个，同比增长46.9%。</p>
+                    <p class="column-item-source">36氪 · 04-27</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">🔐 安全警示</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🛡️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7630748914609668608/" target="_blank">Vercel安全事件：AI工具成为攻击跳板</a></h4>
+                    <p class="column-item-summary">攻击者通过被入侵的第三方AI工具Context.ai的Google Workspace OAuth应用，访问Vercel部分内部系统。580条员工信息泄露。</p>
+                    <p class="column-item-source">安全资讯 · 04-20</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">⚠️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.dbdigest.com/" target="_blank">ADT确认数据泄露：约1000万记录受影响</a></h4>
+                    <p class="column-item-summary">美国最大家庭安全品牌ADT确认数据泄露事件，与ShinyHunters黑客组织相关。</p>
+                    <p class="column-item-source">Data Breaches Digest · 04-24</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <div class="insights-highlight">
+            <strong>🤖 AI竞争格局重塑</strong><br>
+            Google 400亿美元押注Anthropic，标志着AI算力战争全面升级。当前竞争态势已演变为两种商业模式对抗：Anthropic"大模型+ASIC"路线 vs OpenAI"大模型+GPU"路线。ASIC路线优势在于能效比高、单位算力成本更低；GPU路线优势在于通用性强、生态更广。
+        </div>
+        <p><strong>📊 关键数据</strong>：Anthropic年化收入300亿美元（较去年增长30倍），Claude Code年化收入25亿美元，谷歌内部AI编程渗透率75%，人形机器人2025年投资61亿美元。</p>
+        <p><strong>🔒 安全警示</strong>：Vercel事件暴露AI工具普及带来的新攻击面。Vercel CEO指出"AI极大提升了攻击效率"。企业需严格审核第三方AI工具的OAuth授权权限。</p>
+    </div>
+</section>
+
+<div class="data-table">
+    <h3 class="data-table-title">📊 本期数据亮点</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>指标</th>
+                <th>数据</th>
+                <th>变化</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Anthropic年化收入</td>
+                <td>300亿美元</td>
+                <td>较2025年增长30倍</td>
+            </tr>
+            <tr>
+                <td>Claude Code年化收入</td>
+                <td>25亿美元</td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>谷歌AI编程渗透率</td>
+                <td>75%</td>
+                <td>较2024年10月增长50个百分点</td>
+            </tr>
+            <tr>
+                <td>我国充电桩数量</td>
+                <td>2148.1万个</td>
+                <td>同比增长46.9%</td>
+            </tr>
+            <tr>
+                <td>人形机器人2025年投资</td>
+                <td>61亿美元</td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>广东现货电价峰值</td>
+                <td>逼近1元/度</td>
+                <td>—</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="footer">
+    <p>吐司日报 · 每日精选 · 2026年4月28日</p>
+    <p><a href="https://xiaoxiaoqi-site.vercel.app" target="_blank">访问网站</a> · <a href="https://github.com/jialingxiao/xiaoxiaoqi-site" target="_blank">GitHub</a></p>
+</footer>
+
+</body>
+</html>
