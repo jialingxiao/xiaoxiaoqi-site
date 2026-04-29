@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #fff; color: #333333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; border-bottom: 3px solid #1a1a2e; padding-bottom: 12px; margin-bottom: 20px; }
+        .header-title { font-size: 34px; font-weight: 900; letter-spacing: 6px; color: #1a1a2e; margin-bottom: 6px; }
+        .header-meta { font-size: 12px; color: #666; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-categories { display: flex; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #888; }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .header-categories span:first-child::before { content: ""; }
+        .headline { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+        .headline-badge { display: inline-block; background: #ff6b35; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; margin-bottom: 10px; letter-spacing: 2px; }
+        .headline-image { width: 100%; max-height: 350px; object-fit: cover; margin-bottom: 12px; border-radius: 4px; aspect-ratio: 16/9; }
+        .headline-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; line-height: 1.3; }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title { font-size: 13px; font-weight: bold; color: #1a1a2e; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid #ff6b35; display: flex; align-items: center; gap: 5px; }
+        .column-title::before { content: "◆"; color: #ff6b35; font-size: 9px; }
+        .column-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image { width: 70px; height: 52px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title { font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary { font-size: 11px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .breaking-news { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 20px; }
+        .breaking-news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #1a1a2e; display: flex; align-items: center; gap: 5px; }
+        .breaking-news-title::before { content: "⚡"; }
+        .breaking-news-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+        .breaking-news-item { font-size: 11px; color: #333; padding: 5px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px; }
+        .insights-title { font-size: 13px; font-weight: bold; color: #ff6b35; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .insights-title::before { content: "🔗"; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-content p { margin-bottom: 8px; }
+        .insights-content p:last-child { margin-bottom: 0; }
+        .insights-highlight { background: rgba(255,107,53,0.15); border-left: 3px solid #ff6b35; padding: 10px 12px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) { .columns { grid-template-columns: 1fr; } .breaking-news-list { grid-template-columns: 1fr; } .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; } .header-title { font-size: 22px; letter-spacing: 3px; } .headline-title { font-size: 18px; } }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年4月30日</span>
+        <span>|</span>
+        <span>第011期</span>
+        <span>|</span>
+        <span>阅读约8分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI大模型</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>开发者洞察</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://picsum.photos/800/450?random=30" alt="AI" class="headline-image">
+    <h2 class="headline-title"><a href="https://juejin.cn/post/7631856130399420426" target="_blank">DeepSeek V4正式开源：百万上下文+代码能力开源第一，国产AI里程碑</a></h2>
+    <p class="headline-summary">
+        4月24日，深度求索发布DeepSeek V4预览版并同步开源，成为近期最具颠覆性的开源大模型事件。V4全系支持100万Token超长上下文，代码能力在开源领域登顶，API价格低至0.28美元/百万Token，打破"顶级性能=高价闭源"的行业固有认知。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://juejin.cn/post/7631856130399420426" target="_blank">新智元</a> · 2026-04-24
+    </p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=31" alt="Google" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Google承诺400亿美元投资Anthropic，AI军备竞赛升级</a></h4>
+                    <p class="column-item-summary">彭博社报道，谷歌将向Anthropic追加投资400亿美元，包括100亿美元现金和未来300亿美元绩效对赌。Anthropic 4月 ARR 已突破300亿美元。</p>
+                    <p class="column-item-source"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Silv Blog</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=32" alt="Google Brin" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://ai2.work/blog/google-s-brin-forms-deepmind-strike-team-to-close-anthropic-coding-gap" target="_blank">Google创始人Brin亲自挂帅：组建特别团队追赶Anthropic编程能力</a></h4>
+                    <p class="column-item-summary">据The Information报道，Google联合创始人Sergey Brin已亲自组建DeepMind特别团队，目标缩小与Anthropic Claude Code的编程能力差距。</p>
+                    <p class="column-item-source"><a href="https://ai2.work/blog/google-s-brin-forms-deepmind-strike-team-to-close-anthropic-coding-gap" target="_blank">AI2Work</a> · 04-23</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=33" alt="Qwen" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7630809241611256374/" target="_blank">阿里Qwen3.6-Max发布：六榜霸榜，新增"思维保留"黑科技</a></h4>
+                    <p class="column-item-summary">Qwen3.6-Max在六大编程基准测试中霸榜，新增preserve_thinking功能解决AI长程任务"记忆断裂"顽疾，兼容OpenAI/Anthropic接口。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7630809241611256374/" target="_blank">AI未来绘馆</a> · 04-20</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=34" alt="千问" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7632262296144478747/" target="_blank">阿里千问App月活1.66亿：环比增长969%，智能体生态爆发</a></h4>
+                    <p class="column-item-summary">2026年Q1千问App月活达1.66亿，环比增长969.1%。Qwen3.6-Plus单日调用量突破1.4万亿Token，刷新OpenRouter平台纪录。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7632262296144478747/" target="_blank">头条号</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=35" alt="医保" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">2026年Q1医保数据发布：收入8953亿元，支出5423亿元</a></h4>
+                    <p class="column-item-summary">国家医保局发布一季度数据：基本医疗保险统筹基金和生育保险基金运行整体平稳，总收入8953.35亿元，总支出5423.50亿元。</p>
+                    <p class="column-item-source"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">健康报</a> · 04-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=36" alt="新就业" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">中办国办发文：加强新就业群体健康保障与关爱服务</a></h4>
+                    <p class="column-item-summary">《关于加强新就业群体服务管理的意见》出台，要求逐步推动公共服务随人走，完善社会保险转移接续机制，扩大职业伤害保障试点。</p>
+                    <p class="column-item-source"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">新华社</a> · 04-26</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=37" alt="基因治疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">基因治疗突破：90%先天性耳聋患者恢复听力</a></h4>
+                    <p class="column-item-summary">复旦大学舒易来教授团队发布OTOF先天性耳聋基因治疗2.5年随访结果：90%患者成功恢复听力且持续稳定提升，发现预判疗效的核心生物标志物。</p>
+                    <p class="column-item-source"><a href="https://m.thepaper.cn/newsDetail_forward_33067235" target="_blank">健康报</a> · 04-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=38" alt="AI医疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7633416315021099570/" target="_blank">顶级医学期刊警告：医疗AI早期诊断错误率超80%</a></h4>
+                    <p class="column-item-summary">《自然·医学》《JAMA》等期刊研究显示，AI早期鉴别诊断错误率超80%，但每周仍有超2亿人向ChatGPT等AI咨询健康问题。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7633416315021099570/" target="_blank">头条号</a> · 04-27</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=39" alt="IPO" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7633288082930713098/" target="_blank">华勤技术港交所上市：市值940亿港元，年营收1714亿</a></h4>
+                    <p class="column-item-summary">4月23日，华勤技术登陆港交所，发行价87.55港元，募资净额约44.63亿港元。2025年营收1714.4亿元，同比增长56%，全球智能手机ODM第一。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7633288082930713098/" target="_blank">蓝鲸新闻</a> · 04-27</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=40" alt="半导体" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7631346298435797540/" target="_blank">盛合晶微科创板上市：市值约1400亿元，股价涨幅284%</a></h4>
+                    <p class="column-item-summary">4月21日，盛合晶微登陆科创板，发行价19.68元，开盘暴涨超400%触及100.99元，成为2026年科创板最大IPO，募资约50亿元。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7631346298435797540/" target="_blank">新浪财经</a> · 04-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=41" alt="胜宏科技" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7633801130707567167/" target="_blank">胜宏科技Q1净利12.88亿：同比增长40%，AI算力卡全球领先</a></h4>
+                    <p class="column-item-summary">AI PCB龙头胜宏科技一季度净利润同比增长39.95%。公司4月21日登陆港股，募资净额约199亿港元，为港股年内最大IPO。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7633801130707567167/" target="_blank">证券时报</a> · 04-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=42" alt="Momenta" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://www.aastocks.com/en/stocks/news/aafn-con/NOW.1520033/" target="_blank">Momenta完成5亿美元Pre-IPO融资：已秘密启动港股IPO</a></h4>
+                    <p class="column-item-summary">智能驾驶公司Momenta完成约39亿港元Pre-IPO轮融资，已向港交所秘密递交上市申请。累计融资超12.61亿美元，获上汽、丰田等产业资本支持。</p>
+                    <p class="column-item-source"><a href="http://www.aastocks.com/en/stocks/news/aafn-con/NOW.1520033/" target="_blank">阿斯达克</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">🛠️ 开发者工具</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=43" alt="GPT-5.5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">OpenAI发布GPT-5.5：知识工作能力大幅提升，代码效率+56%</a></h4>
+                    <p class="column-item-summary">GPT-5.5于4月23日发布，Same-token延迟与GPT-5.4相当，在知识工作、研究和写作方面显著提升。Codex中使用GPT-5.5时，Token消耗减少56%。</p>
+                    <p class="column-item-source"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Silv Blog</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=44" alt="Claude" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.anthropic.com/news" target="_blank">Anthropic发布Project Deal：Claude模拟真实市场经济交易</a></h4>
+                    <p class="column-item-summary">Anthropic发布Project Deal实验，Claude在办公室内进行真实货币的买卖和谈判协商，探索"买卖双方都有AI"的市场经济形态。</p>
+                    <p class="column-item-source"><a href="https://www.anthropic.com/news" target="_blank">Anthropic</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=45" alt="Grok" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">xAI发布Grok Voice和廉价音频API：每小时仅0.1美元</a></h4>
+                    <p class="column-item-summary">xAI发布Grok Voice Think Fast 1.0，登上Tau Voice Bench榜首。语音API定价仅0.1美元/小时，比ElevenLabs低一个数量级，已用于特斯拉汽车。</p>
+                    <p class="column-item-source"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Silv Blog</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://picsum.photos/70/52?random=46" alt="开发者" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Claude Code产品负责人：开发周期从6个月压缩到1周</a></h4>
+                    <p class="column-item-summary">Anthropic Claude Code产品负责人Cat Wu透露，内部产品发布时间表从6个月压缩到1个月，甚至1周或1天。开发者工具进入周级迭代时代。</p>
+                    <p class="column-item-source"><a href="https://silv.blog/ai-weekly-apr-24-2026/" target="_blank">Silv Blog</a> · 04-24</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 今日快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7634160024533434932/" target="_blank">国家疾控局等三部门联合部署"五一"假期传染病防控</a></span>
+            <span class="breaking-news-time">04-29</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7634111446401532416/" target="_blank">国家卫健委发布人工耳蜗植入技术临床应用管理规范</a></span>
+            <span class="breaking-news-time">04-29</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7633794754194473526/" target="_blank">专家：2026年是中国医药创新业态重要转折点</a></span>
+            <span class="breaking-news-time">04-28</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-text"><a href="https://wap.zhengguannews.cn/html/zgh/395407.html" target="_blank">阿里云发布Qwen3.5-Omni全模态模型，超越Gemini-3.1 Pro</a></span>
+            <span class="breaking-news-time">04-01</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <div class="insights-highlight">
+            <strong>开源模型进入"并跑"时代：</strong>DeepSeek V4的开源发布标志着国产大模型正式进入全球第一梯队。百万上下文普惠化、代码能力开源第一、价格仅为Claude Opus的1%，三重突破重新定义了开源模型的竞争格局。
+        </div>
+        <p><strong>资本押注AI基础设施：</strong>Google 400亿美元投资Anthropic、亚马逊250亿美元追加投入，加上华勤技术、盛合晶微等国内科技企业密集IPO，显示全球资本正在AI基础设施层面进行史无前例的押注。</p>
+        <p><strong>开发者工具进入"周级迭代"：</strong>Claude Code产品负责人透露产品周期从6个月压缩到1周，AI编程工具正在从"辅助"转向"主力"，Claude Code ARR已突破25亿美元，成为史上最快达到该规模的企业软件。</p>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 · 每日精选 · <a href="https://xiaoxiaoqi-site.vercel.app" target="_blank">官网首页</a></p>
+    <p>Generated by 吐司 AI · 2026年4月30日</p>
+</footer>
+</body>
+</html>
