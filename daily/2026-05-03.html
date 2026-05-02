@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 · 2026年5月3日 · 第031期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 报纸头部 */
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        /* 头条区域 */
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 分栏区域 */
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: #f0f0f0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-meta {
+            font-size: 10px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* 快讯区域 */
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        /* 数据表格 */
+        .data-table {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .data-table-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table th {
+            background: #E8F0F8;
+            color: #003366;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            color: #333;
+        }
+        
+        /* 关联洞察 */
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content h4 {
+            color: #fff;
+            font-size: 13px;
+            margin: 12px 0 8px;
+        }
+        
+        .insights-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月3日</span>
+        <span>|</span>
+        <span>第031期</span>
+        <span>|</span>
+        <span>阅读约8分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗政策</span>
+        <span>商业财经</span>
+        <span>安全动态</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <h2 class="headline-title">四大科技巨头2026年AI资本支出突破7000亿美元，中国创新药出海授权Q1超600亿美元</h2>
+    <p class="headline-summary">
+        本周是全球科技与医疗行业的超级财报周。美国科技巨头Alphabet、微软、亚马逊、Meta悉数交出超预期财报，但更值得关注的是另一个数字：以区间高点计算，<strong>六家巨头2026年合计资本支出将突破7000亿美元</strong>。谷歌资本支出指引上调至1800-1900亿美元，微软预计全年1900亿美元，亚马逊维持2000亿美元高位，Meta上调至1250-1450亿美元。<br><br>
+        与此同时，中国创新药行业传来捷报：2026年ASCO年会12家中国创新药企13项研究入选LBA，创历史新高。截至3月27日，2026年以来中国创新药BD交易总额已突破600亿美元。
+    </p>
+    <p class="headline-source">采集自: 第一财经 · 今日头条 · 微博 | 2026-05-02</p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="DeepSeek" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://blog.csdn.net/weixin_56622231/article/details/160501725" target="_blank">DeepSeek V4发布：开源模型进入百万上下文时代</a></h4>
+                    <p class="column-item-meta">5月1日 | 技术突破</p>
+                    <p class="column-item-summary">V4-Pro和V4-Flash两个版本均支持1M Token上下文，业界唯一。mHC残差优化技术实现7056倍视觉压缩。已适配华为昇腾950PR，V4-Flash输入仅6元/百万Token。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="智谱AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635209214536811049/" target="_blank">智谱AI发布GLM-5-Lite：推理成本降低60%</a></h4>
+                    <p class="column-item-meta">5月1日 | 模型发布</p>
+                    <p class="column-item-summary">优化代码生成与数学推理能力，推理成本大幅降低60%。此前4月8日发布的GLM-5.1已在多项基准测试中与GPT-5.4对标。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="豆包" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635209214536811049/" target="_blank">字节豆包升级至4.5版本：响应速度提升40%</a></h4>
+                    <p class="column-item-meta">5月1日 | 产品更新</p>
+                    <p class="column-item-summary">重点增强长文本理解与逻辑推理能力，响应速度提升40%。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="Llama" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635209214536811049/" target="_blank">Meta发布Llama 4系列开源大模型</a></h4>
+                    <p class="column-item-meta">5月1日 | 模型发布</p>
+                    <p class="column-item-summary">包含Llama 4 Mini、Base和Ultra三个版本，进一步完善开源模型矩阵。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="腾讯" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635209214536811049/" target="_blank">腾讯开源混元3D世界模型2.0</a></h4>
+                    <p class="column-item-meta">5月1日 | 开源发布</p>
+                    <p class="column-item-summary">能够理解文字、图片、视频等输入，自动生成、重建和模拟3D世界，支持多格式3D资产导出。</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 医疗健康政策 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="医改" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635168533789455900/" target="_blank">全国公立医院取消附加收费：5月1日起施行</a></h4>
+                    <p class="column-item-meta">5月1日 | 民生政策</p>
+                    <p class="column-item-summary">国家医保局、国家卫健委联合发文，全面取消病历打印费、影像胶片强制费、报告复印费等附加杂费。每年可为全国患者累计减负超百亿元。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="生物医学" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7634544505257755170/" target="_blank">《生物医学新技术临床研究和临床转化应用管理条例》施行</a></h4>
+                    <p class="column-item-meta">5月1日 | 监管政策</p>
+                    <p class="column-item-summary">与《药品管理法》《医疗器械监督管理条例》互补协同，建立覆盖生物医学创新全链条的管理体系。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="医疗器械" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.gov.cn/zhengce/zhengceku/202512/content_7052743.htm" target="_blank">医疗器械出口销售证明管理新规施行</a></h4>
+                    <p class="column-item-meta">5月1日 | 出口政策</p>
+                    <p class="column-item-summary">国家药监局将出具证明的范围拓展到所有符合GMP生产的医疗器械，支持企业出海发展。</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="老龄" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.hubpd.com/detail/index.html?contentId=2882303761522025285" target="_blank">陕西省老年人优待服务办法5月1日起施行</a></h4>
+                    <p class="column-item-meta">5月1日 | 地方政策</p>
+                    <p class="column-item-summary">65周岁以上老年人可免费申领敬老优待证，在文旅休闲、交通出行、医疗健康等方面享受优待服务。</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 今日快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">🤖 AI</span>
+            <span class="breaking-news-text"><a href="https://m.weibo.cn/detail/5294133669268243">Anthropic年化收入或突破900亿美元</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">💰 财经</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635119566326170164/">谷歌Q1营收1099亿美元，云业务首破200亿美元</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">💰 财经</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635064990545887759/">寒武纪Q1营收28.85亿元，同比+160%，现金流首转正</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">🤖 AI</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635209214536811049/">教育部批准9所高校开设"具身智能"本科专业</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">🤖 AI</span>
+            <span class="breaking-news-text"><a href="https://m.weibo.cn/detail/5294133669268243">宇树科技科创板IPO获受理，拟募资42亿</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">🔒 安全</span>
+            <span class="breaking-news-text"><a href="https://thehackernews.com/2026/05/trellix-confirms-source-code-breach.html">Trellix确认源码泄露事件</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">🔒 安全</span>
+            <span class="breaking-news-text"><a href="https://thehackernews.com/2026/04/new-linux-copy-fail-vulnerability.html">Linux "Copy Fail"高危漏洞影响2017年以来所有发行版</a></span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">🔒 安全</span>
+            <span class="breaking-news-text"><a href="https://thehackernews.com/2026/04/pytorch-lightning-compromised-in-pypi.html">PyTorch Lightning被植入恶意代码</a></span>
+        </div>
+    </div>
+</section>
+
+<!-- 数据表格 -->
+<section class="data-table">
+    <h3 class="data-table-title">📊 关键数据一览</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>指标</th>
+                <th>数值</th>
+                <th>同比</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>四大云厂2026年资本支出</td>
+                <td><strong>7000亿美元+</strong></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>谷歌Q1营收</td>
+                <td>1099亿美元</td>
+                <td>+22%</td>
+            </tr>
+            <tr>
+                <td>谷歌云营收</td>
+                <td>200亿美元</td>
+                <td>+63%</td>
+            </tr>
+            <tr>
+                <td>谷歌资本支出指引</td>
+                <td>1800-1900亿美元</td>
+                <td>+107%</td>
+            </tr>
+            <tr>
+                <td>微软FY26资本支出预期</td>
+                <td>1900亿美元</td>
+                <td>+61%</td>
+            </tr>
+            <tr>
+                <td>亚马逊Q1资本支出</td>
+                <td>432亿美元</td>
+                <td>+84.8%</td>
+            </tr>
+            <tr>
+                <td>中国创新药Q1 BD交易</td>
+                <td>600亿美元+</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>寒武纪Q1营收</td>
+                <td>28.85亿元</td>
+                <td>+159.56%</td>
+            </tr>
+            <tr>
+                <td>海光信息Q1营收</td>
+                <td>40.34亿元</td>
+                <td>+68.06%</td>
+            </tr>
+            <tr>
+                <td>摩尔线程Q1营收</td>
+                <td>7.38亿元</td>
+                <td>+155.35%</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <h4>AI算力军备竞赛全面升级</h4>
+        <p>四大云厂商的资本开支狂潮揭示了一个核心逻辑：<strong>AI需求从"实验"走向"量产"</strong>。模型迭代驱动算力通胀，Agent式AI爆发推动推理算力占比升至70%以上。企业需求全面爆发，AI从互联网行业向金融、制造、医疗、教育等垂直领域渗透。</p>
+        
+        <h4>中国创新药进入"质量突破"阶段</h4>
+        <p>ASCO年会上12家中国药企13项研究入选LBA创历史新高，标志着国产创新药正加速进入国际高等级临床证据兑现阶段。政策面，2026年政府工作报告首次将生物医药明确为新兴支柱产业，为行业提供制度基础。</p>
+        
+        <h4>开源模型进入"百万上下文"时代</h4>
+        <p>DeepSeek V4将开源模型的上下文能力推升至1M Token，V4-Flash价格低至6元/百万Token，标志着开源AI从"可用"走向"好用"，对闭源模型形成价格压力。</p>
+        
+        <div class="insights-highlight">
+            <strong>一句话总结：</strong>本周是AI与医疗行业的"财报大考周"，核心结论是资本开支持续膨胀、技术迭代加速、商业化落地提速。但安全领域的连锁漏洞事件值得警惕。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · Daily Briefing | 2026年5月3日 · 第031期 | 阅读约8分钟</p>
+    <p>采集范围：2026年5月1日-5月2日 | <a href="https://xiaoxiaoqi-site.vercel.app">访问网站版</a></p>
+</footer>
+
+</body>
+</html>
