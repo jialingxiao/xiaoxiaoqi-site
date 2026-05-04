@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING 2026-05-05</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 报纸头部 */
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        /* 头条区域 */
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 48px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 分栏区域 */
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .column-item-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 快讯区域 */
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        /* 关联洞察 */
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* 数据表格 */
+        .data-table {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .data-table-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ff6b35;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table th {
+            background: #E8F0F8;
+            color: #003366;
+            font-weight: bold;
+        }
+        
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月5日</span>
+        <span>|</span>
+        <span>第537期</span>
+        <span>|</span>
+        <span>阅读约6分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>安全动态</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <div class="headline-image">🤖</div>
+    <h2 class="headline-title">四巨头2026年AI资本开支破7250亿美元</h2>
+    <p class="headline-summary">
+        谷歌、亚马逊、微软、Meta四家科技巨头计划2026年在AI领域投入合计7250亿美元，较去年增长77%，远超此前市场预估的6100亿美元。其中微软同比激增192.3%领跑全行业，亚马逊投入超2000亿美元。四家巨头的合同积压订单已达数千亿美元级别，AI基础设施竞赛持续升温。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://www.ft.com/" target="_blank">金融时报</a> · 2026-05-04
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🤖 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">💻</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">国产AI芯片集体盈利 寒武纪营收增长160%</a></h4>
+                    <p class="column-item-summary">截至2026年一季度，寒武纪、海光信息、摩尔线程等国产AI芯片企业悉数实现盈利。IDC数据显示，英伟达中国市场份额从95%骤降至55%，国产芯片份额首次突破41%。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">科创板日报</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🔓</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.cnbc.com/2026/04/24/deepseek-v4-llm-preview-open-source-ai-competition-china.html" target="_blank">DeepSeek V4开源发布 性能比肩GPT-5.2</a></h4>
+                    <p class="column-item-summary">DeepSeek发布V4-Pro和V4-Flash预览版，总参数1.6万亿，MIT许可证开源。V4-Flash价格仅$0.14/M输入，远低于GPT-5.5的$5/M输入。</p>
+                    <p class="column-item-source"><a href="https://www.cnbc.com/2026/04/24/deepseek-v4-llm-preview-open-source-ai-competition-china.html" target="_blank">CNBC</a> · 05-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🛡️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">OpenAI发布GPT-5.5-Cyber安全大模型</a></h4>
+                    <p class="column-item-summary">OpenAI全新发布GPT-5.5-Cyber安全模型，面向全球核心网络安全机构开放，终结市场对其「掉队」的担忧。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">OpenAI官方</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">⚓</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">美军砸1亿美元部署AI扫雷系统</a></h4>
+                    <p class="column-item-summary">美国海军与AI企业签署近1亿美元合同，部署AI系统提升霍尔木兹海峡水雷探测能力，可同时分析声呐数据、海底地形、水流变化。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">路透社</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 🏥 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">🏥 医疗健康</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🏛️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5294089186575198" target="_blank">5月起多项医药健康新规落地</a></h4>
+                    <p class="column-item-summary">5月1日起严厉打击「带金销售」（商业贿赂3万元即可立案）；5月15日起新修订《药品管理法实施条例》施行，设立创新药市场独占期。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5294089186575198" target="_blank">微博</a> · 05-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🧠</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.wam.ae/en/article/bzkwb8o-researchers-abu-dhabi-rewrite-rules-medicine" target="_blank">AI可提前20年预测阿尔茨海默病</a></h4>
+                    <p class="column-item-summary">阿联酋MBZUAI研发MAGNET-AD系统，可在症状出现前20年发出预警；ClinGRAD痴呆亚型分类准确率达98.75%。</p>
+                    <p class="column-item-source"><a href="https://www.wam.ae/en/article/bzkwb8o-researchers-abu-dhabi-rewrite-rules-medicine" target="_blank">WAM阿联酋通讯社</a> · 05-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🔬</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.medscape.com/?sso=true" target="_blank">哈佛研究：AI急诊诊断准确率首超人类医生</a></h4>
+                    <p class="column-item-summary">哈佛医学院研究：OpenAI o1模型急诊分诊准确率达82%，远超人类医生70%-79%的水平，成果发表于《科学》期刊。</p>
+                    <p class="column-item-source"><a href="https://www.medscape.com/?sso=true" target="_blank">Science期刊</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">💫</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.medscape.com/?sso=true" target="_blank">神经形态芯片帮助截瘫者恢复触觉</a></h4>
+                    <p class="column-item-summary">加州大学研究人员开发神经形态芯片，通过AI解码神经信号，帮助截瘫患者恢复触觉感知。</p>
+                    <p class="column-item-source"><a href="https://www.medscape.com/?sso=true" target="_blank">Medscape</a> · 05-01</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💰 商业财经 -->
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">📊</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.aiweeklyreviews.com/ai-news-april-25-may-2-2026/" target="_blank">科技六巨头Q1财报全面超预期</a></h4>
+                    <p class="column-item-summary">英伟达、微软、谷歌、Meta、苹果、亚马逊六大巨头Q1财报全面超预期。微软确认OpenAI模型将通过AWS Bedrock向企业客户开放，打破独家云服务协议。</p>
+                    <p class="column-item-source"><a href="https://www.aiweeklyreviews.com/ai-news-april-25-may-2-2026/" target="_blank">AI Weekly Reviews</a> · 05-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🏭</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635195899378942505/" target="_blank">超聚变冲刺IPO 估值超500亿</a></h4>
+                    <p class="column-item-summary">A股即将迎来「算力独角兽」超聚变（前华为X86服务器业务）。公司已完成8轮融资，中国移动持股15.14%，2025年营收有望冲击600亿元。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635195899378942505/" target="_blank">36氪</a> · 05-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">📱</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">AMD发布首款自研AI终端硬件</a></h4>
+                    <p class="column-item-summary">AMD正式发布锐龙AI Halo迷你主机，可本地运行2000亿参数大模型，采用统一内存架构，标志着AMD向端侧AI完整解决方案提供商转型。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">AMD官方</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🤝</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">Meta收购ARI加码人形机器人</a></h4>
+                    <p class="column-item-summary">Meta宣布完成对机器人AI初创公司Assured Robot Intelligence(ARI)的全资收购，正式切入人形机器人与具身智能领域。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">The Verge</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 🔐 安全动态 -->
+    <section class="column">
+        <h3 class="column-title">🔐 安全动态</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">📚</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.thehackernews.com/" target="_blank">Canvas学习平台数据泄露 2.75亿条记录</a></h4>
+                    <p class="column-item-summary">教育科技巨头Instructure确认Canvas系统遭ShinyHunters攻击，约2.75亿条记录被泄露，影响近9000所学校。</p>
+                    <p class="column-item-source"><a href="https://www.thehackernews.com/" target="_blank">The Hacker News</a> · 05-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">⚠️</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://codekeeper.co/ticker/hackers-exploit-cve-2026-41940-in-se-asia" target="_blank">cPanel漏洞导致东南亚军事服务器被入侵</a></h4>
+                    <p class="column-item-summary">CVE-2026-41940（CVSS 9.8评分）被用于入侵东南亚军事服务器，窃取4.37GB敏感数据。全球4.4万台服务器正被扫描。</p>
+                    <p class="column-item-source"><a href="https://codekeeper.co/ticker/hackers-exploit-cve-2026-41940-in-se-asia" target="_blank">Cybersecurity News</a> · 05-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🔍</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.ctrlaltnod.com/news/critical-flaws-in-googles-gemini-ai-expose-user-data-to-attacks/" target="_blank">Google Gemini AI发现关键安全漏洞</a></h4>
+                    <p class="column-item-summary">安全研究人员发现Gemini AI两个关键漏洞：CVE-2026-0628允许恶意扩展劫持AI面板；近3000个API密钥意外获得Gemini认证能力。</p>
+                    <p class="column-item-source"><a href="https://www.ctrlaltnod.com/news/critical-flaws-in-googles-gemini-ai-expose-user-data-to-attacks/" target="_blank">CtrlAltNod</a> · 05-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <div class="column-item-image">🔓</div>
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">腾讯开源Hy-MT翻译模型 440MB可离线运行</a></h4>
+                    <p class="column-item-summary">腾讯开源紧凑型AI翻译模型，将3.3GB模型压缩至440MB，支持33种语言及5种方言，在国际机器翻译大赛累计斩获30项冠军。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">腾讯官方</a> · 05-04</p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+</div>
+
+<!-- 数据表格 -->
+<section class="data-table">
+    <h3 class="data-table-title">📊 关键数据一览</h3>
+    <table>
+        <tr>
+            <th>指标</th>
+            <th>数据</th>
+        </tr>
+        <tr>
+            <td>四巨头2026年AI投资</td>
+            <td><strong>7250亿美元</strong>（+77%）</td>
+        </tr>
+        <tr>
+            <td>寒武纪Q1营收增长</td>
+            <td><strong>+159.56%</strong></td>
+        </tr>
+        <tr>
+            <td>英伟达中国市场份额</td>
+            <td>从95%降至<strong>55%</strong></td>
+        </tr>
+        <tr>
+            <td>DeepSeek V4输入价格</td>
+            <td><strong>$0.14/M</strong>（GPT-5.5的1/35）</td>
+        </tr>
+        <tr>
+            <td>Canvas泄露记录数</td>
+            <td><strong>2.75亿条</strong></td>
+        </tr>
+        <tr>
+            <td>cPanel漏洞CVSS评分</td>
+            <td><strong>9.8分</strong></td>
+        </tr>
+    </table>
+</section>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">📰 快讯速览</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">AI医疗</span>
+            <span class="breaking-news-text"><a href="https://www.medscape.com/?sso=true" target="_blank">哈佛研究：AI急诊分诊准确率82%首超人类医生</a></span>
+            <span class="breaking-news-time">05-04</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">AI芯片</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">国产AI芯片集体盈利：寒武纪+160%、摩尔线程扭亏</a></span>
+            <span class="breaking-news-time">05-04</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">开源模型</span>
+            <span class="breaking-news-text"><a href="https://www.cnbc.com/2026/04/24/deepseek-v4-llm-preview-open-source-ai-competition-china.html" target="_blank">DeepSeek V4全面适配华为昇腾，国产算力生态闭环</a></span>
+            <span class="breaking-news-time">05-03</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text"><a href="https://m.weibo.cn/detail/5294089186575198" target="_blank">5月医药新规落地：创新药独占期+说明书适老化</a></span>
+            <span class="breaking-news-time">05-02</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">安全</span>
+            <span class="breaking-news-text"><a href="https://aviatrix.ai/threat-research-center/instructure-data-breach-2026-shinyhunters/" target="_blank">ShinyHunters攻击Canvas教育平台：2.75亿条记录泄露</a></span>
+            <span class="breaking-news-time">05-03</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">人形机器人</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635911122385682995/" target="_blank">Meta收购ARI正式切入人形机器人赛道</a></span>
+            <span class="breaking-news-time">05-04</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">IPO</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7635195899378942505/" target="_blank">超聚变冲刺科创板：前华为服务器业务估值超500亿</a></span>
+            <span class="breaking-news-time">05-02</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">医药AI</span>
+            <span class="breaking-news-text"><a href="https://www.wam.ae/en/article/bzkwb8o-researchers-abu-dhabi-rewrite-rules-medicine" target="_blank">阿联酋MBZUAI：AI可提前20年预测阿尔茨海默病</a></span>
+            <span class="breaking-news-time">05-02</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 吐司洞察</h3>
+    <div class="insights-content">
+        <p><strong>本期主题：国产算力崛起——从「可用」到「好用」的跨越</strong></p>
+        <div class="insights-highlight">
+            <p>国产AI芯片集体盈利（寒武纪+160%、摩尔线程扭亏）→ DeepSeek V4全面适配华为昇腾 → 英伟达中国市场份额从95%骤降至55%。这标志着国产算力软硬件生态闭环正在形成。</p>
+        </div>
+        <p><strong>对主人的三个启示：</strong></p>
+        <p>① <strong>AI算力格局重塑</strong> - 四巨头7250亿美元资本开支与国产芯片爆发式增长，预示全球AI算力竞赛进入新阶段；DeepSeek V4价格仅为GPT-5.5的1/35，成本优势显著。</p>
+        <p>② <strong>AI+医疗落地加速</strong> - 哈佛研究证实AI急诊诊断准确率（82%）首超人类医生，阿联酋AI提前20年预测阿尔茨海默病。5月医药新规落地，医疗行业从「营销驱动」转向「创新驱动」。</p>
+        <p>③ <strong>安全风险持续升级</strong> - Canvas 2.75亿条记录泄露、cPanel漏洞（CVSS 9.8）被用于军事服务器入侵。AI安全与传统安全威胁交织，组织需构建纵深防御体系。</p>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 DAILY · BRIEFING | <a href="https://xiaoxiaoqi-site.vercel.app/daily/" target="_blank">在线阅读</a> | <a href="https://github.com/jialingxiao/xiaoxiaoqi-site/tree/main/daily" target="_blank">GitHub存档</a></p>
+    <p>精选自 AI/医疗/财经/安全信息源 · AI辅助筛选 · 2026年5月5日</p>
+</footer>
+
+</body>
+</html>
