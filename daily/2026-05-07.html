@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #fff; color: #333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; border-bottom: 3px solid #1a1a2e; padding-bottom: 12px; margin-bottom: 20px; }
+        .header-title { font-size: 34px; font-weight: 900; letter-spacing: 6px; color: #1a1a2e; margin-bottom: 6px; }
+        .header-meta { font-size: 12px; color: #666; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .header-categories { display: flex; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #888; }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .headline { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+        .headline-badge { display: inline-block; background: #ff6b35; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; margin-bottom: 10px; letter-spacing: 2px; }
+        .headline-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; line-height: 1.3; }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title { font-size: 13px; font-weight: bold; color: #1a1a2e; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid #ff6b35; display: flex; align-items: center; gap: 5px; }
+        .column-title::before { content: "◆"; color: #ff6b35; font-size: 9px; }
+        .column-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-title { font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; line-height: 1.4; }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary { font-size: 11px; color: #666; line-height: 1.5; margin-bottom: 4px; }
+        .column-item-source { font-size: 10px; color: #999; }
+        .breaking-news { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 20px; }
+        .breaking-news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #1a1a2e; }
+        .breaking-news-title::before { content: "⚡"; margin-right: 5px; }
+        .breaking-news-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+        .breaking-news-item { font-size: 11px; color: #333; padding: 5px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px; }
+        .insights-title { font-size: 13px; font-weight: bold; color: #ff6b35; margin-bottom: 10px; }
+        .insights-title::before { content: "🔗"; margin-right: 5px; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) { .columns { grid-template-columns: 1fr; } .breaking-news-list { grid-template-columns: 1fr; } .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; } .header-title { font-size: 22px; letter-spacing: 3px; } .headline-title { font-size: 18px; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月7日</span>
+        <span>|</span>
+        <span>第017期</span>
+        <span>|</span>
+        <span>阅读约8分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗政策</span>
+        <span>商业财经</span>
+        <span>安全洞察</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <h2 class="headline-title"><a href="https://finance.sina.com.cn/stock/bxjj/2026-05-06/doc-inhwwvwv3651167.shtml" target="_blank">AI Agent 商业化元年开启：豆包探索付费订阅，国内AI定价回归理性</a></h2>
+    <p class="headline-summary">
+        字节跳动旗下AI产品豆包于"五一"期间悄然上线付费版本服务，推出三档订阅套餐：标准版连续包月68元（包年688元）、加强版连续包月200元（包年2048元）、专业版连续包月500元（包年5088元）。此前阿里云、腾讯云、智谱AI等已相继宣布涨价。业内分析认为，豆包探索付费模式标志着国产AI从"烧钱换市场"向"造血促迭代"转型的开始。
+    </p>
+    <p class="headline-source">来源: <a href="https://finance.sina.com.cn/stock/bxjj/2026-05-06/doc-inhwwvwv3651167.shtml" target="_blank">新华财经</a> · 2026-05-06</p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://ai0.news/posts/2026-05-06-daily-digest/" target="_blank">OpenAI GPT-5.5 Instant 成为 ChatGPT 默认模型</a></h4>
+            <p class="column-item-summary">OpenAI 宣布 GPT-5.5 Instant 正式成为 ChatGPT 默认模型。该模型在编码能力和智能体工作流方面实现显著提升。</p>
+            <p class="column-item-source"><a href="https://ai0.news/posts/2026-05-06-daily-digest/" target="_blank">AI0.news</a> · 05-06</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://finance.sina.com.cn/world/2026-05-06/doc-inhwwrqx9495225.shtml" target="_blank">Anthropic 推出金融服务AI智能体</a></h4>
+            <p class="column-item-summary">Anthropic 推出专门面向银行等金融机构专业人士的 AI 智能体，可执行金融服务任务，强化 Claude 在企业级市场的应用。</p>
+            <p class="column-item-source"><a href="https://finance.sina.com.cn/world/2026-05-06/doc-inhwwrqx9495225.shtml" target="_blank">新浪财经</a> · 05-06</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://ai0.news/posts/2026-05-06-daily-digest/" target="_blank">AI 推理需求爆发：摩根士丹利警告电力缺口</a></h4>
+            <p class="column-item-summary">摩根士丹利报告称，到2028年美国电力净缺口将达9-18吉瓦（占需求12%-25%），主因是AI数据中心耗电激增。</p>
+            <p class="column-item-source"><a href="https://ai0.news/posts/2026-05-06-daily-digest/" target="_blank">AI0.news</a> · 05-06</p>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康政策</h3>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7636704612036215330/" target="_blank">62种慢特病5月起零起付！60岁以上报销再涨5%</a></h4>
+            <p class="column-item-summary">《全国统一门诊慢特病管理规范(2026版)》于5月1日起在全国31个省份同步落地。病种从49种增至62种，全面取消起付线。</p>
+            <p class="column-item-source"><a href="http://m.toutiao.com/group/7636704612036215330/" target="_blank">今日头条</a> · 05-06</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="http://m.163.com/dy/article/KS2G7ASD0553TEV3.html" target="_blank">两高反腐新规5月落地：受贿入罪门槛降至3万</a></h4>
+            <p class="column-item-summary">最高法、最高检联合发布新规，非公职人员受贿入罪门槛从6万元下调至3万元，单位行贿20万即认定"情节严重"。</p>
+            <p class="column-item-source"><a href="http://m.163.com/dy/article/KS2G7ASD0553TEV3.html" target="_blank">网易号</a> · 05-04</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://www.gov.cn/zhengce/202601/content_7056413.htm" target="_blank">新《药品管理法实施条例》5月15日起施行</a></h4>
+            <p class="column-item-summary">新条例设立突破性治疗药物程序，对儿童药、罕见病药给予最长7年市场独占期。要求药品说明书提供适老化版本。</p>
+            <p class="column-item-source"><a href="https://www.gov.cn/zhengce/202601/content_7056413.htm" target="_blank">中国政府网</a> · 01-28</p>
+        </article>
+    </section>
+</div>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://finance.sina.com.cn/stock/usstock/c/2026-05-06/doc-inhwwvwv3651167.shtml" target="_blank">英特尔AI业务占总营收六成，股价大涨13%</a></h4>
+            <p class="column-item-summary">英特尔2026年第一财季业绩超预期，AI业务占总营收60%，股价5月5日大涨约13%。</p>
+            <p class="column-item-source"><a href="https://finance.sina.com.cn/stock/usstock/c/2026-05-06/doc-inhwwvwv3651167.shtml" target="_blank">新浪财经</a> · 05-06</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7636742795771789874/" target="_blank">A股AI算力板块集体爆发，科创50大涨5.47%</a></h4>
+            <p class="column-item-summary">"五一"小长假后首个交易日，A股 AI算力芯片、AI编程、AI智能体等多个软硬件方向齐涨。</p>
+            <p class="column-item-source"><a href="http://m.toutiao.com/group/7636742795771789874/" target="_blank">新华财经</a> · 05-06</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7636824759287792162/" target="_blank">康宁与英伟达达成战略合作，股价单日上涨12.18%</a></h4>
+            <p class="column-item-summary">康宁与英伟达达成多年商业与技术合作，计划将光连接制造产能提升10倍。英伟达向康宁投资5亿美元。</p>
+            <p class="column-item-source"><a href="http://m.toutiao.com/group/7636824759287792162/" target="_blank">今日头条</a> · 05-07</p>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">🔐 安全洞察</h3>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://cybersecuritynews.com/page/413/" target="_blank">cPanel 认证绕过漏洞大规模利用：44,000台服务器已沦陷</a></h4>
+            <p class="column-item-summary">CVE-2026-41940（CVSS 9.8）在野利用激增，"cPanelSniper"武器化利用工具已公开，约44,000台服务器已被攻陷。</p>
+            <p class="column-item-source"><a href="https://cybersecuritynews.com/page/413/" target="_blank">CybersecurityNews</a> · 05-02</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://innovatecybersecurity.com/security-threat-advisory/top-10-cybersecurity-news-may-04-2026/" target="_blank">GitHub 严重RCE漏洞：仅需一条Git Push即可远程代码执行</a></h4>
+            <p class="column-item-summary">CVE-2026-3854（CVSS 8.7）影响GitHub内部git基础设施，88%的自托管GitHub Enterprise Server实例仍未打补丁。</p>
+            <p class="column-item-source"><a href="https://innovatecybersecurity.com/security-threat-advisory/top-10-cybersecurity-news-may-04-2026/" target="_blank">InnovateCybersecurity</a> · 05-04</p>
+        </article>
+        
+        <article class="column-item">
+            <h4 class="column-item-title"><a href="https://cybersecuritynews.com/page/413/" target="_blank">Vimeo 遭攻击：Anodot泄露影响多家客户</a></h4>
+            <p class="column-item-summary">ShinyHunters组织声称通过攻击Anodot获取Vimeo、Rockstar Games、Zara等多家客户数据。</p>
+            <p class="column-item-source"><a href="https://cybersecuritynews.com/page/413/" target="_blank">CybersecurityNews</a> · 05-03</p>
+        </article>
+    </section>
+</div>
+
+<section class="insights">
+    <h3 class="insights-title">📊 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>AI商业化加速：Token调用量两年增长超千倍</strong></p>
+        <p>国家统计局数据显示，中国日均Token调用量已从2024年初的1000亿跃升至2026年3月的140万亿，两年增长超千倍。智谱AI的MaaS平台API在一季度涨价83%后，调用量仍增长400%，呈现供不应求局面。高盛预计，2026年下半年至2028年中国互联网龙头企业有进一步提升资本支出的潜力。</p>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 | 每日精选 | 真实·有料·有观点</p>
+    <p><a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-05-07.html" target="_blank">查看在线版本</a></p>
+</footer>
+
+</body>
+</html>
