@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #fff; color: #333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; border-bottom: 3px solid #1a1a2e; padding-bottom: 12px; margin-bottom: 20px; }
+        .header-title { font-size: 34px; font-weight: 900; letter-spacing: 6px; color: #1a1a2e; margin-bottom: 6px; }
+        .header-meta { font-size: 12px; color: #666; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-categories { display: flex; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #888; }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .headline { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+        .headline-badge { display: inline-block; background: #ff6b35; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; margin-bottom: 10px; letter-spacing: 2px; }
+        .headline-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; line-height: 1.3; }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title { font-size: 13px; font-weight: bold; color: #1a1a2e; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid #ff6b35; }
+        .column-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image { width: 70px; height: 52px; object-fit: cover; border-radius: 4px; flex-shrink: 0; background: #f0f0f0; }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title { font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; line-height: 1.4; }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary { font-size: 11px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .column-item-source a { color: #ff6b35; text-decoration: none; }
+        .breaking-news { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 20px; }
+        .breaking-news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #1a1a2e; }
+        .breaking-news-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+        .breaking-news-item { font-size: 11px; color: #333; padding: 5px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .insights { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px; }
+        .insights-title { font-size: 13px; font-weight: bold; color: #ff6b35; margin-bottom: 10px; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-highlight { background: rgba(255,107,53,0.15); border-left: 3px solid #ff6b35; padding: 10px 12px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) { .columns { grid-template-columns: 1fr; } .breaking-news-list { grid-template-columns: 1fr; } .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; } .header-title { font-size: 22px; letter-spacing: 3px; } .headline-title { font-size: 18px; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月11日</span>
+        <span>|</span>
+        <span>第021期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>开发者洞察</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <h2 class="headline-title"><a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">DeepSeek启动500亿融资：国产AI独角兽上市潮来袭</a></h2>
+    <p class="headline-summary">
+        据CSDN和彭博社报道，DeepSeek已启动约500亿元人民币（约70亿美元）的巨额融资，创始人梁文锋个人出资约200亿元，投后估值或达450亿美元，加速推进IPO进程。与此同时，月之暗面完成约20亿美元融资（美团龙珠领投），估值突破200亿美元；Moonshot AI刚完成20亿美元融资，估值达200亿美元。
+    </p>
+    <p class="headline-summary">
+        <strong>核心数据</strong>：DeepSeek 450-500亿美元估值 ≈ 3600亿人民币；国产算力板块全线爆发，云服务、半导体指数单日分别上涨5.77%、5.48%，26只个股涨停。
+    </p>
+    <p class="headline-source">来源: <a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">CSDN</a> · <a href="https://asanify.com/blog/news/china-ai-mega-round-may-9-2026/" target="_blank">Sanity</a> · 2026-05-10</p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://asanify.com/blog/news/china-ai-mega-round-may-9-2026/" target="_blank">Anthropic融资估值超OpenAI：目标9000亿美元</a></h4>
+                <p class="column-item-summary">Anthropic正在启动500亿美元融资，目标估值9000亿美元，已获得SpaceX旗下22万张英伟达GPU算力支持。xAI宣布解散并入SpaceX成立SpaceXAI。</p>
+                <p class="column-item-source"><a href="https://asanify.com/blog/news/china-ai-mega-round-may-9-2026/" target="_blank">Sanity</a> · 05-09</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">OpenAI开放多云授权与GPT-5.5免费</a></h4>
+                <p class="column-item-summary">GPT授权不再由微软独家持有，向AWS、谷歌云等开放；限时开放GPT-5.5-Cyber安全模型。GPT-5.5全量免费，幻觉率大降52.5%，推理速度提升3倍。</p>
+                <p class="column-item-source"><a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">CSDN</a> · 05-10</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://techstartups.com/2026/05/05/" target="_blank">Cerebras AI芯片IPO：估值266亿美元</a></h4>
+                <p class="column-item-summary">Cerebras正推进AI芯片IPO，估值或达266亿美元。作为OpenAI重要合作伙伴，试图在英伟达主导的市场中开辟新赛道。</p>
+                <p class="column-item-source"><a href="https://techstartups.com/2026/05/05/" target="_blank">TechStartups</a> · 05-05</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">AI医疗：梅奥诊所可提前3年发现胰腺病变</a></h4>
+                <p class="column-item-summary">OpenAI提出"启发式学习"新范式，无需神经网络训练即可自主迭代。大模型文档处理存隐患：长期任务中静默篡改25%文档内容。</p>
+                <p class="column-item-source"><a href="https://blog.csdn.net/2401_84289488/article/details/160958615" target="_blank">CSDN</a> · 05-10</p>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康</h3>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7638203997822026250/" target="_blank">2026医学黑科技：无创无痛时代来临</a></h4>
+                <p class="column-item-summary">高强度聚焦超声无创技术从细胞层面液化消融病变组织，术后并发症减少60%；磁控纳米溶栓机器人精准溶解血管淤堵，心脑血管急症救治成功率提升40%。</p>
+                <p class="column-item-source"><a href="http://m.toutiao.com/group/7638203997822026250/" target="_blank">头条</a> · 05-10</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7638203997822026250/" target="_blank">慢性病破冰：摆脱终身吃药</a></h4>
+                <p class="column-item-summary">高血压无创治疗仪靶向干预血压调控靶点，摆脱降压药依赖；胰岛干细胞再生技术让糖尿病患者逐步摆脱胰岛素注射。</p>
+                <p class="column-item-source"><a href="http://m.toutiao.com/group/7638203997822026250/" target="_blank">头条</a> · 05-10</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://healthtech.report/" target="_blank">丹麦AI医疗超越Big Tech</a></h4>
+                <p class="column-item-summary">独立基准测试显示，丹麦Corti在医疗编码准确性方面超越OpenAI和Anthropic超25%，"垂直AI"正在专业领域超越通用模型。</p>
+                <p class="column-item-source"><a href="https://healthtech.report/" target="_blank">Nelson Advisors</a> · 05-09</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://healsecurity.com/medtech-breakthrough-announces-2026-award-winners/" target="_blank">MedTech 2026突破奖揭晓</a></h4>
+                <p class="column-item-summary">MedTech Breakthrough公布10周年奖项，表彰AI、虚拟护理、精准医学等领域创新，athenahealth、Zimmer Biomet、Teladoc等获奖。</p>
+                <p class="column-item-source"><a href="https://healsecurity.com/medtech-breakthrough-announces-2026-award-winners/" target="_blank">MedTech Breakthrough</a> · 05-07</p>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://techstartups.com/2026/05/05/" target="_blank">中国AI模型使用量正式超越美国</a></h4>
+                <p class="column-item-summary">自DeepSeek发布先进AI模型后，中国已成为AI工具大规模应用的试验场，AI代理在企业和日常场景中快速普及。</p>
+                <p class="column-item-source"><a href="https://techstartups.com/2026/05/05/" target="_blank">Fortune/TechStartups</a> · 05-05</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://techstartups.com/2026/05/05/" target="_blank">挪威加入Pax Silica：AI供应链安全联盟</a></h4>
+                <p class="column-item-summary">挪威正式加入美国主导的Pax Silica倡议，承诺加强AI关键资源供应链安全，减少对中国稀土、半导体依赖。</p>
+                <p class="column-item-source"><a href="https://techstartups.com/2026/05/05/" target="_blank">Reuters</a> · 05-05</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://techstartups.com/2026/05/05/" target="_blank">Foxconn营收增长29.7%：AI服务器需求强劲</a></h4>
+                <p class="column-item-summary">鸿海精密4月营收同比增长29.7%，主要受AI服务器及相关硬件需求强劲推动。作为英伟达重要合作伙伴，持续受益于AI基础设施扩张。</p>
+                <p class="column-item-source"><a href="https://techstartups.com/2026/05/05/" target="_blank">Bloomberg</a> · 05-05</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://coaio.com/news/2026/05/explosive-tech-news-on-may-10-2026-ai-missteps-security-chaos-and-2pkc/" target="_blank">Intel股价暴涨490%：回归Apple供应链</a></h4>
+                <p class="column-item-summary">Intel与Apple达成初步协议，将为Apple设备制造部分芯片。美国政府推动芯片制造回流本土，Intel合约制造业务追赶台积电。</p>
+                <p class="column-item-source"><a href="https://coaio.com/news/2026/05/" target="_blank">coaio</a> · 05-10</p>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">🛠️ 开发者工具</h3>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://stemgeeks.net/@ai-news-daily/ai-news-daily-2026-05-10" target="_blank">OpenAI Codex：从编程助手到AI工作空间</a></h4>
+                <p class="column-item-summary">OpenAI Codex正在从"帮我写代码"转变为完整工作流平台，新增内置浏览器预览、计算机使用能力、自动化线程、PR审查流支持。</p>
+                <p class="column-item-source"><a href="https://stemgeeks.net/@ai-news-daily/ai-news-daily-2026-05-10" target="_blank">AI News Daily</a> · 05-10</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://stemgeeks.net/@ai-news-daily/ai-news-daily-2026-05-10" target="_blank">Claude Code Week 19：插件与治理升级</a></h4>
+                <p class="column-item-summary">Anthropic发布重大更新：ZIP/URL插件加载、跨项目命令历史搜索、更严格的自动模式拒绝控制。编码助手成熟度关乎治理和可重复性。</p>
+                <p class="column-item-source"><a href="https://stemgeeks.net/@ai-news-daily/ai-news-daily-2026-05-10" target="_blank">AI News Daily</a> · 05-10</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://techstartups.com/2026/05/05/" target="_blank">Panthalassa：Peter Thiel投建海上AI数据中心</a></h4>
+                <p class="column-item-summary">Panthalassa获Peter Thiel 1.4亿美元投资，建设浮动、自供能的海上AI数据中心。85米节点用波浪涡轮发电，用海水冷却，摆脱电网和土地约束。</p>
+                <p class="column-item-source"><a href="https://techstartups.com/2026/05/05/" target="_blank">Financial Times</a> · 05-05</p>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-content">
+                <h4 class="column-item-title"><a href="https://coaio.com/news/2026/05/explosive-tech-news-on-may-10-2026-ai-missteps-security-chaos-and-2pkc/" target="_blank">Canvas遭勒索软件攻击：教育基础设施安全警钟</a></h4>
+                <p class="column-item-summary">教育部Canvas学习平台遭勒索软件攻击，多所学校被迫推迟期末考试。教育基础设施的数字化安全面临严峻挑战。</p>
+                <p class="column-item-source"><a href="https://coaio.com/news/2026/05/" target="_blank">Ars Technica</a> · 05-10</p>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 快讯速览</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">🇨🇳</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国家三部委发布AI智能体规范：安全可控、规范有序、创新驱动、应用牵引</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">🏥</span>
+            <span class="breaking-news-cat">医疗</span>
+            <span class="breaking-news-text">Cera AI Lab预测患者恶化模型成功将再入院率降低</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">🤖</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text">CMR Surgical的Versius Plus平台完成40000+手术</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">📱</span>
+            <span class="breaking-news-cat">设备</span>
+            <span class="breaking-news-text">苹果探索Intel和Samsung作为未来处理器供应商</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">💼</span>
+            <span class="breaking-news-cat">金融</span>
+            <span class="breaking-news-text">Coinbase裁员700人拥抱AI，CEO称"这是新的工作方式"</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">🌊</span>
+            <span class="breaking-news-cat">基建</span>
+            <span class="breaking-news-text">Panthalassa获Peter Thiel 1.4亿美元建海上AI数据中心</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>本周期核心趋势</strong>：</p>
+        <p>1. <strong>国产AI独角兽上市潮</strong>：DeepSeek 500亿、月之暗面200亿、Moonshot 200亿、阶跃星辰100亿美元，基座模型资本战白热化</p>
+        <p>2. <strong>AI算力军备竞赛</strong>：Anthropic获22万张GPU、xAI并入SpaceX、Cerebras IPO，算力成为核心壁垒</p>
+        <p>3. <strong>垂直AI崛起</strong>：丹麦Corti超越Big Tech、Medical AI精准度超放射科医生，专业场景成为新战场</p>
+        <p>4. <strong>Agent化工作流</strong>：OpenAI Codex转型工作空间、Claude Code强化治理能力，编码助手进入新阶段</p>
+        <div class="insights-highlight">
+            <strong>洞察</strong>：编码代理不再只是"带观点的自动补全"，它们正在成为操作环境。赢家可能不是最好的原始模型质量，而是最好的端到端工作流体验。
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 | 每天早上8点前送达 | 让信息真正为你所用</p>
+    <p><a href="https://xiaoxiaoqi-site.vercel.app" target="_blank">访问网站版</a></p>
+</footer>
+
+</body>
+</html>
