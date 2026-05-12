@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 · 第023期 | 2026年5月13日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        header .date {
+            margin-top: 15px;
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+        .breaking-banner {
+            background: #c0392b;
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .content {
+            padding: 30px 40px;
+        }
+        .headline {
+            border-left: 5px solid #1a1a2e;
+            padding-left: 20px;
+            margin: 30px 0;
+        }
+        .headline h2 {
+            color: #1a1a2e;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .headline .source {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .headline .highlight-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        .headline .highlight-box h4 {
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .headline .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .headline .highlight-box li {
+            padding: 4px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+        .headline .highlight-box li::before {
+            content: "●";
+            color: #c0392b;
+            position: absolute;
+            left: 0;
+        }
+        .section-title {
+            color: #1a1a2e;
+            font-size: 1.3em;
+            margin: 35px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a1a2e;
+        }
+        .quick-news table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+        }
+        .quick-news th {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .quick-news td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .quick-news tr:hover {
+            background: #f8f9fa;
+        }
+        .quick-news .category {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .category-ai { background: #e3f2fd; color: #1565c0; }
+        .category-health { background: #e8f5e9; color: #2e7d32; }
+        .category-biz { background: #fff3e0; color: #e65100; }
+        .category-tech { background: #f3e5f5; color: #7b1fa2; }
+        .trend {
+            background: #fafafa;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .trend h4 {
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .trend p {
+            color: #555;
+            font-size: 0.95em;
+        }
+        .sources {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+        .sources h4 {
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .sources ol {
+            padding-left: 20px;
+        }
+        .sources li {
+            padding: 4px 0;
+            color: #666;
+        }
+        footer {
+            background: #1a1a2e;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { box-shadow: none; }
+            header, .content { padding: 20px; }
+            header h1 { font-size: 1.6em; }
+            .quick-news table { font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>吐司日报</h1>
+            <div class="subtitle">第023期 · AI科技精选</div>
+            <div class="date">2026年5月13日 星期三</div>
+        </header>
+        
+        <div class="breaking-banner">
+            ⚡ 今日关键词：AI落地大战 · 企业市场争夺
+        </div>
+        
+        <div class="content">
+            <!-- 今日头条1 -->
+            <div class="headline">
+                <h2>OpenAI成立"部署公司"：40亿美元+收购Tomoro，亲下战场做AI落地</h2>
+                <div class="source">📌 OpenAI · 2026-05-11</div>
+                <p>OpenAI于5月11日宣布成立OpenAI Deployment Company，初始投资超40亿美元，并收购AI咨询公司Tomoro（引入150名工程师）。合作方包括TPG、安宏资本、贝恩资本、布鲁克菲尔德四家顶级PE，以及19家企业客户。</p>
+                <p style="margin-top:12px;">这一动作标志着OpenAI从"卖API"转向"亲自下场做落地"。此前企业市场被Anthropic快速蚕食——Claude月访问量4月环比上涨34.18%达8.235亿，而ChatGPT出现轻微下滑。OpenAI选择直接收购具备工程化能力的团队，补上"最后一公里"。</p>
+                <div class="highlight-box">
+                    <h4>【主编视点】</h4>
+                    <ul>
+                        <li><strong>赛道：</strong>企业AI落地服务</li>
+                        <li><strong>核心逻辑：</strong>从合作伙伴生态到自建执行团队</li>
+                        <li><strong>启示：</strong>AI落地的"工程化能力"正在成为稀缺资源</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 今日头条2 -->
+            <div class="headline">
+                <h2>Anthropic同步出击：15亿美元牵手黑石+高盛，剑指投资机构控股企业</h2>
+                <div class="source">📌 Anthropic · 2026-05-11</div>
+                <p>就在OpenAI宣布部署公司的同一天，Anthropic宣布与黑石集团、高盛合作，成立规模15亿美元的新机构，目标是将Claude模型部署到投资机构所控股的企业中。</p>
+                <p style="margin-top:12px;">这形成了一个有趣的竞争格局：OpenAI拉PE做企业落地，Anthropic绑投资机构切入被投企业。两家巨头的企业市场争夺战正在全面升温。</p>
+                <div class="highlight-box">
+                    <h4>【主编视点】</h4>
+                    <ul>
+                        <li><strong>赛道：</strong>企业AI部署</li>
+                        <li><strong>差异化：</strong>Anthropic通过投资机构渠道渗透，比OpenAI更轻资产</li>
+                        <li><strong>信号：</strong>AI落地的"最后一公里"已成兵家必争之地</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 今日头条3 -->
+            <div class="headline">
+                <h2>Google DeepMind发布AI全科医生：140项评估中68项达执业医师水平</h2>
+                <div class="source">📌 Google DeepMind · 2026-05-11</div>
+                <p>Google DeepMind于5月11日发布AI co-clinician（AI全科医生助手），在140项医学评估中：68项达到或超过初级保健医生水平，盲测中以67:26击败现有临床AI系统，98个初级保健查询中97个零严重错误。</p>
+                <p style="margin-top:12px;">该系统支持实时视频多模态，可指导患者进行部分体检。Google将其定位为"三元医疗模式"（AI+医生+患者），强调辅助而非替代。</p>
+                <div class="highlight-box">
+                    <h4>【主编视点】</h4>
+                    <ul>
+                        <li><strong>赛道：</strong>AI医疗诊断</li>
+                        <li><strong>突破：</strong>从"辅助读片"升级到"全科问诊"</li>
+                        <li><strong>意义：</strong>多模态能力打开了AI参与体检的新场景</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 今日头条4 -->
+            <div class="headline">
+                <h2>OpenAI Daybreak：GPT-5.5驱动的网络安全平台</h2>
+                <div class="source">📌 OpenAI · 2026-05-11</div>
+                <p>OpenAI于5月11日推出Daybreak网络安全平台，基于GPT-5.5构建，定位为Anthropic Project Glasswing的对标产品。Daybreak将帮助科技企业从代码层面发现安全漏洞，已帮助修复超过3000个漏洞。</p>
+                <div class="highlight-box">
+                    <h4>【主编视点】</h4>
+                    <ul>
+                        <li><strong>赛道：</strong>AI网络安全</li>
+                        <li><strong>布局：</strong>从"事后防护"到"代码内生安全"</li>
+                        <li><strong>竞争：</strong>Anthropic Glasswing vs OpenAI Daybreak，安全AI赛道双雄争霸</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 科技快讯 -->
+            <h3 class="section-title">⚡ 科技快讯</h3>
+            <div class="quick-news">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">序号</th>
+                            <th style="width:80px;">类别</th>
+                            <th>标题</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><span class="category category-ai">算力</span></td>
+                            <td>Anthropic签约SpaceX：300兆瓦+22万GPU，Claude算力暴增</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><span class="category category-ai">模型</span></td>
+                            <td>Anthropic Claude Opus 4.7发布：混合推理+1M上下文</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><span class="category category-ai">模型</span></td>
+                            <td>Hugging Face发布SmolVLM：2.56亿参数最小视觉语言模型</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><span class="category category-tech">工具</span></td>
+                            <td>Together AI：一句话部署任意Hugging Face模型到GPU</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><span class="category category-tech">工具</span></td>
+                            <td>xAI Speech-to-Text API正式可用，支持流式+多语种</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><span class="category category-ai">安全</span></td>
+                            <td>巴黎创企White Circle融资1100万美元，做AI行为控制层</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><span class="category category-tech">工具</span></td>
+                            <td>OpenAI Codex 0.131 alpha密集发布，版本迭代加速</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><span class="category category-biz">商业</span></td>
+                            <td>OpenAI ChatGPT广告扩展至英国、墨西哥、巴西、日本、韩国</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td><span class="category category-ai">开源</span></td>
+                            <td>DeepMind AlphaEvolve生产落地：恢复Google全球0.7%算力</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td><span class="category category-ai">算力</span></td>
+                            <td>OpenAI 2026年算力预算曝光：500亿美元</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 关联洞察 -->
+            <h3 class="section-title">🔗 关联洞察</h3>
+            
+            <div class="trend">
+                <h4>趋势一：AI落地成主战场</h4>
+                <p>OpenAI Deployment Company、Anthropic+黑石高盛、Google DeepMind医疗——三路巨头同日向企业市场冲锋。AI行业正在从"模型能力竞赛"转向"落地能力竞赛"，谁能解决"最后一公里"谁就能赢得企业市场。</p>
+            </div>
+            
+            <div class="trend">
+                <h4>趋势二：算力军备竞赛升级</h4>
+                <p>Anthropic签约SpaceX 300兆瓦算力、OpenAI年预算500亿美元、DeepMind AlphaEvolve在生产环境回收0.7%算力——算力供给正在成为决定AI格局的关键变量。多供应商策略正在成为头部玩家的标配。</p>
+            </div>
+            
+            <div class="trend">
+                <h4>趋势三：医疗AI从辅助走向主导</h4>
+                <p>Google DeepMind全科医生68项达执业水平、哈佛AI急诊分诊67%vs医生55%、AI-ECG可筛心衰——医疗AI正在从"读片辅助"升级为"问诊决策"。"三元医疗模式"正在成为行业共识。</p>
+            </div>
+            
+            <!-- 参考来源 -->
+            <div class="sources">
+                <h4>📚 参考来源</h4>
+                <ol>
+                    <li>OpenAI Deployment Company（openai.com）</li>
+                    <li>Anthropic 金融部署合作（anthropic.com）</li>
+                    <li>Google DeepMind AI全科医生（deepmind.google）</li>
+                    <li>OpenAI Daybreak安全平台（openai.com）</li>
+                    <li>Anthropic Claude Opus 4.7（anthropic.com）</li>
+                    <li>Anthropic SpaceX算力合作（anthropic.com）</li>
+                    <li>White Circle融资（fortune.com）</li>
+                    <li>Hugging Face SmolVLM（huggingface.co）</li>
+                    <li>Together AI部署工具（together.ai）</li>
+                </ol>
+            </div>
+        </div>
+        
+        <footer>
+            <p>吐司日报 · 第023期 · 2026年5月13日</p>
+            <p style="margin-top:8px;opacity:0.7;">关注AI科技、医疗健康、商业财经</p>
+        </footer>
+    </div>
+</body>
+</html>
