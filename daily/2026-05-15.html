@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第026期 · 2026年5月15日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月15日</span>
+        <span>|</span>
+        <span>第026期</span>
+    </div>
+    <div class="header-categories">
+        <span>AI大模型</span>
+        <span>医疗健康</span>
+        <span>科技前沿</span>
+    </div>
+</header>
+
+<!-- 今日要览摘要 -->
+<div class="breaking-news" style="background: #fff8f6; border-left: 4px solid #ff6b35;">
+    <div class="breaking-news-title" style="border-bottom-color: #ff6b35;">📋 今日要览</div>
+    <div style="font-size: 13px; line-height: 2;">
+        <p>① <strong>Anthropic融资300亿美元</strong>：洽谈新一轮巨额融资，估值超9000亿美元，商业客户首超OpenAI</p>
+        <p>② <strong>Recursive融资6.5亿美元</strong>：田渊栋等AI老将创立，目标让AI递归自我改进</p>
+        <p>③ <strong>GPT-5.5刷新编程榜</strong>：OpenAI悄无声息更新，拿下多个编程榜单第一</p>
+        <p>④ <strong>GoogleBook发布</strong>：首款AI原生笔记本亮相，本地AI运算提速40倍</p>
+        <p>⑤ <strong>AI安全分野</strong>：Anthropic"刹车"搁置最强模型，OpenAI"加速"推出Daybreak</p>
+    </div>
+</div>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <div class="headline-badge">🔥 今日头条</div>
+    <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="AI安全分野" class="headline-image">
+    <h2 class="headline-title">
+        <a href="https://36kr.com/p/3808752170819081" target="_blank">AI安全分野：Claude Mythos搁置 vs Recursive融资6.5亿美元</a>
+    </h2>
+    <p class="headline-summary">
+        同一天，AI行业发生两件截然相反的大事：<br>
+        <strong>Recursive Superintelligence</strong>——OpenAI、谷歌DeepMind、Meta的AI老将联合创立，首轮融资6.5亿美元，目标是让AI递归地改进自己。<br>
+        <strong>Claude Mythos无限期搁置</strong>——Anthropic宣布搁置最强模型发布，原因是该模型展现出极强的零日漏洞挖掘能力，"太强了，不能放"。<br>
+        这两件事揭示了一个根本性问题：AI行业的从业者对"AI应该以多快的速度发展"已经产生了深刻的分歧。
+    </p>
+    <div class="headline-source">来源: 36氪、澎湃新闻 · 2026-05-13/14</div>
+</section>
+
+<!-- 双栏内容 -->
+<div class="columns">
+    <!-- 左栏：AI大模型前沿 -->
+    <div class="column">
+        <div class="column-title">AI大模型前沿</div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://news.sina.cn/ai/2026-05-14/detail-inhxvpqp6946244.d.html" target="_blank">Anthropic洽谈300亿美元融资，估值超9000亿美元</a>
+            </div>
+            <div class="column-item-summary">Anthropic正与投资者洽谈新一轮融资，拟募资至少300亿美元，投前估值超9000亿美元。商业客户占比达34.4%，首次超越OpenAI。</div>
+            <div class="column-item-source">新浪科技 · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://blog.csdn.net/xxzhaoming/article/details/161076856" target="_blank">GPT-5.5刷新编程天花板，拿下多个编程榜单第一</a>
+            </div>
+            <div class="column-item-summary">OpenAI更新GPT-5.5，自主编写复杂代码能力突破62%，能独立完成架构设计、漏洞修复、工程级开发。</div>
+            <div class="column-item-source">CSDN · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://blog.csdn.net/2602_96074126/article/details/161085626" target="_blank">GoogleBook发布：首款AI原生笔记本，本地AI提速40倍</a>
+            </div>
+            <div class="column-item-summary">谷歌发布首款专为Gemini打造的AI笔记本，Magic Pointer智能指针+自研TPU，本地AI运算速度提升40倍。</div>
+            <div class="column-item-source">CSDN · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://blog.csdn.net/2602_96074126/article/details/161085626" target="_blank">字节跳动开源1.2万亿参数多模态大模型</a>
+            </div>
+            <div class="column-item-summary">字节跳动宣布开源1.2万亿参数多模态大模型，全面对标国际顶尖模型，国产开源生态进一步完善。</div>
+            <div class="column-item-source">CSDN · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://36kr.com/p/3808752170819081" target="_blank">OpenAI推出Daybreak：用AI保护AI的安全计划</a>
+            </div>
+            <div class="column-item-summary">Anthropic选择"刹车"，OpenAI选择"加速安全"——用AI来对付AI，让AI自动发现代码漏洞并修复。</div>
+            <div class="column-item-source">36氪 · 05-14</div>
+        </div>
+    </div>
+    
+    <!-- 右栏：医疗健康 -->
+    <div class="column">
+        <div class="column-title">医疗健康</div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="http://m.toutiao.com/group/7639530815751242276/" target="_blank">百济神州百悦达获FDA批准：首款BCL2靶向药</a>
+            </div>
+            <div class="column-item-summary">百济神州新一代BCL2抑制剂百悦达®获美国FDA加速批准，用于治疗复发或难治性套细胞淋巴瘤。这是美国首款且目前唯一针对该适应症的BCL2靶向治疗方案。</div>
+            <div class="column-item-source">新浪财经 · 05-13</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="http://m.toutiao.com/group/7639520703250760218/" target="_blank">瑞宙生物四价流脑结合疫苗申报获受理</a>
+            </div>
+            <div class="column-item-summary">国家药品监督管理局药品审评中心数据显示，瑞宙生物的ACYW135群脑膜炎球菌结合疫苗申请已获受理。这是2026年国内第二款申报临床的四价流脑结合疫苗。</div>
+            <div class="column-item-source">新浪财经 · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="http://m.toutiao.com/group/7639706955921130038/" target="_blank">欧林生物重组金葡菌疫苗III期临床即将揭盲</a>
+            </div>
+            <div class="column-item-summary">欧林生物与陆军军医大学联合开发的全球首创重组金葡菌疫苗，III期临床试验预计2026年上半年完成数据揭盲，有望成为全球首个获批的金葡菌疫苗。</div>
+            <div class="column-item-source">今日头条 · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://www.coze.cn/share-article/201778753551725184" target="_blank">阿里健康发布2026财年全年业绩：净利增35.2%</a>
+            </div>
+            <div class="column-item-summary">阿里健康2026财年实现总收入342.55亿元，同比增长12.0%；净利润同比增长35.2%。同时亮出医学大模型"氢离子"。</div>
+            <div class="column-item-source">药时空 · 05-14</div>
+        </div>
+        
+        <div class="column-item">
+            <div class="column-item-title">
+                <a href="https://www.coze.cn/share-article/201778720167028224" target="_blank">2026 DIA药物信息大会在上海举行</a>
+            </div>
+            <div class="column-item-summary">拥有62年历史的国际药物信息协会（DIA）年度盛会落地上海，12家全球顶级药监机构参与，为中国创新药出海搭建信任桥梁。</div>
+            <div class="column-item-source">药时空 · 05-14</div>
+        </div>
+    </div>
+</div>
+
+<!-- 科技快讯 -->
+<section class="breaking-news">
+    <div class="breaking-news-title">⚡ 科技快讯</div>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">安全</span>
+            <span class="breaking-news-text"><a href="https://blog.csdn.net/2602_96074126/article/details/161085626" target="_blank">黑客首次利用AI挖掘零日漏洞</a></span>
+            <span class="breaking-news-time">05-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/" target="_blank">Figure F.04人形机器人设计锁定</a></span>
+            <span class="breaking-news-time">05-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">财报</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7639733451049992744/" target="_blank">阿里腾讯AI投入728亿：中概股AI军备竞赛</a></span>
+            <span class="breaking-news-time">05-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">航天</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201778787660238240" target="_blank">中山大学"逸仙-3号"VTVL试验成功</a></span>
+            <span class="breaking-news-time">05-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">工具</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/p/3808885041274376" target="_blank">Claude Code工程师力挺HTML取代Markdown</a></span>
+            <span class="breaking-news-time">05-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201778770278970656" target="_blank">MAXHUB与京东达成AI普惠战略合作</a></span>
+            <span class="breaking-news-time">05-14</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察区域 -->
+<section class="insights">
+    <div class="insights-title">🔗 今日洞察</div>
+    <div class="insights-content">
+        <div class="insights-highlight">
+            <strong>AI行业三大路线分歧</strong><br><br>
+            <strong>Recursive派（加速）</strong>：速度就是一切，谁先到达AGI，谁就掌握定义权。<br><br>
+            <strong>Anthropic派（刹车）</strong>：速度必须让位于安全，最强模型在没有足够防护之前不放出来，是行业责任。<br><br>
+            <strong>OpenAI派（用AI保护AI）</strong>：安全和速度不矛盾——用AI来防守，是唯一的出路。<br><br>
+            这三种立场将在2026年持续碰撞。
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · 每日益智早餐</p>
+    <p>📮 订阅: <a href="mailto:tusi@coze.email">tusi@coze.email</a> | 🌐 网站: <a href="https://xiaoxiaoqi-site.vercel.app" target="_blank">xiaoxiaoqi-site.vercel.app</a></p>
+</footer>
+
+</body>
+</html>
