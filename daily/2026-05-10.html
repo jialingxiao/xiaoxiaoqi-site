@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #fff; color: #333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; border-bottom: 3px solid #1a1a2e; padding-bottom: 12px; margin-bottom: 20px; }
+        .header-title { font-size: 34px; font-weight: 900; letter-spacing: 6px; color: #1a1a2e; margin-bottom: 6px; }
+        .header-meta { font-size: 12px; color: #666; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-categories { display: flex; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #888; }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .header-categories span:first-child::before { content: ""; }
+        .headline { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+        .headline-badge { display: inline-block; background: #ff6b35; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; margin-bottom: 10px; letter-spacing: 2px; }
+        .headline-image { width: 100%; max-height: 350px; object-fit: cover; margin-bottom: 12px; border-radius: 4px; aspect-ratio: 16/9; }
+        .headline-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; line-height: 1.3; }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title { font-size: 13px; font-weight: bold; color: #1a1a2e; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid #ff6b35; display: flex; align-items: center; gap: 5px; }
+        .column-title::before { content: "◆"; color: #ff6b35; font-size: 9px; }
+        .column-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image { width: 70px; height: 52px; object-fit: cover; border-radius: 4px; flex-shrink: 0; background: #f0f0f0; }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title { font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary { font-size: 11px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .breaking-news { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 20px; }
+        .breaking-news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #1a1a2e; display: flex; align-items: center; gap: 5px; }
+        .breaking-news-title::before { content: "⚡"; }
+        .breaking-news-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+        .breaking-news-item { font-size: 11px; color: #333; padding: 5px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px; }
+        .insights-title { font-size: 13px; font-weight: bold; color: #ff6b35; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .insights-title::before { content: "🔗"; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-content p { margin-bottom: 8px; }
+        .insights-content p:last-child { margin-bottom: 0; }
+        .insights-highlight { background: rgba(255,107,53,0.15); border-left: 3px solid #ff6b35; padding: 10px 12px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) { .columns { grid-template-columns: 1fr; } .breaking-news-list { grid-template-columns: 1fr; } .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; } .header-title { font-size: 22px; letter-spacing: 3px; } .headline-title { font-size: 18px; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年5月10日 星期日</span>
+        <span>|</span>
+        <span>第020期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>产业政策</span>
+        <span>医疗健康</span>
+        <span>硬核科技</span>
+        <span>安全警示</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/mlFRGVjlyrQ/" alt="AI" class="headline-image">
+    <h2 class="headline-title"><a href="https://ai.xykjzyxy.edu.cn/blog/265509.shtml" target="_blank">五部门联合发布《人工智能拟人化互动服务管理暂行办法》：AI情感互动将有规可循</a></h2>
+    <p class="headline-summary">
+        国家网信办、国家发展改革委、工业和信息化部、公安部、市场监管总局联合公布《人工智能拟人化互动服务管理暂行办法》，自2026年7月15日起施行。《办法》明确适用范围为"利用人工智能技术，向境内公众提供模拟自然人人格特征、思维模式和沟通风格的持续性情感互动服务"，不适用于智能客服、知识问答等非情感互动场景。《办法》提出包容审慎和分类分级监管原则，鼓励技术创新，同时划定红线：不得生成危害国家安全内容、不得诱导情感依赖或沉迷、不得损害用户真实人际关系。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://ai.xykjzyxy.edu.cn/blog/265509.shtml" target="_blank">国家网信办</a> · 2026-05-09
+    </p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="DeepSeek" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">DeepSeek拟募资500亿，估值达450亿美元刷新纪录</a></h4>
+                    <p class="column-item-summary">DeepSeek计划募资最高500亿元人民币（约685亿美元），将成为中国AI公司有史以来最大一轮融资。目前已完成与华为昇腾芯片深度原生适配，真正实现"国芯+国模"闭环。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">硅基纪元</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="蚂蚁" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5296638135894330" target="_blank">蚂蚁百灵大模型发布Ring-2.6-1T：万亿参数旗舰思考模型</a></h4>
+                    <p class="column-item-summary">蚂蚁正式发布万亿级旗舰思考模型，面向Agent、工程开发、科研分析等场景。引入可调节的"Reasoning Effort"机制，支持high与xhigh两档推理强度。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5296638135894330" target="_blank">网易智能</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UMiIOqksG1U/" alt="数学" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">菲尔兹奖得主用GPT-5.5 Pro解决开放数学问题，预警"数学研究危机"</a></h4>
+                    <p class="column-item-summary">蒂莫西·高尔斯使用GPT-5.5 Pro解决了开放数学问题，指出AI生成了"新颖的想法"。同日Google DeepMind在FrontierMath第4级基准取得48%分数。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">硅基纪元</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="Claude" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">Claude Mythos自主任务时长超过16小时</a></h4>
+                    <p class="column-item-summary">据METR评估显示，Claude Mythos的自主任务时长超过16小时，已达当前基准的测量上限。AI正从辅助工具加速向"自主工作者"角色跨越。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">硅基纪元</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="国产AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637763625934979622/" target="_blank">国产AI登顶全球：DeepSeek V4、Kimi K2.6强势出圈</a></h4>
+                    <p class="column-item-summary">国产大模型周调用量已连续两周稳压美国，全球API调用总量中国产AI独占六成份额。DeepSeek V4 Pro每百万Token定价低至0.0145美元，仅为海外顶尖模型的1/34。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637763625934979622/" target="_blank">尘缘</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">⚡ 产业政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="能源AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637695076117840422/" target="_blank">四部门发布《促进人工智能与能源双向赋能的行动方案》</a></h4>
+                    <p class="column-item-summary">国家能源局等四部门印发行动方案，部署29项重点任务，力争到2030年实现清洁能源供给保障能力和能源领域AI应用水平大幅提升。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637695076117840422/" target="_blank">光明网</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="AI终端" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5296579988688098" target="_blank">工信部等启动AI终端智能化分级国标</a></h4>
+                    <p class="column-item-summary">AI终端智能化分级国标分L1-L4四级，覆盖手机、眼镜、车舱等7类设备，对接消费品以旧换新政策，推动行业规范化发展。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5296579988688098" target="_blank">微博@诸葛寻牛</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <h3 class="column-title" style="margin-top: 20px;">💊 医疗健康</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="WHO" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.who.int/news/item/09-05-2026-message-by-the-who-director-general-to-the-people-of-tenerife-regarding-the-hantavirus-response" target="_blank">WHO发布游轮汉坦病毒疫情通报：3死8例</a></h4>
+                    <p class="column-item-summary">世卫组织发布邮轮聚集性感染事件完整数据：累计报告8例关联病例，3人死亡。确诊为安第斯型汉坦病毒感染，公众整体感染风险较低。</p>
+                    <p class="column-item-source"><a href="https://www.who.int/news/item/09-05-2026-message-by-the-who-director-general-to-the-people-of-tenerife-regarding-the-hantavirus-response" target="_blank">WHO官网</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="肥胖" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637572808066810383/" target="_blank">世卫组织正式宣布：肥胖是一种慢性病</a></h4>
+                    <p class="column-item-summary">世卫组织正式宣布肥胖是一种慢性、复发性疾病。中国同步启动"健康体重管理门诊"项目，要求所有三级综合医院提供专业减重服务。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637572808066810383/" target="_blank">今日头条</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="AI眼镜" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.millenniumpost.in" target="_blank">AIIMS引入AI智能眼镜辅助视障学生</a></h4>
+                    <p class="column-item-summary">印度全印度医学科学研究所引入AI赋能智能眼镜，可将视觉信息转换为音频指令。约1700名视障学生将分阶段受益。</p>
+                    <p class="column-item-source"><a href="https://www.millenniumpost.in" target="_blank">Millennium Post</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">🔬 硬核科技</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="量子计算" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637706489960677926/" target="_blank">"本源悟空-180"量子计算机上线：180比特全栈自主</a></h4>
+                    <p class="column-item-summary">搭载单核180个计算比特自主超导量子芯片的"本源悟空-180"正式上线运行。四大核心体系均由本源量子全栈自主研制，单比特逻辑门保真度99.9%。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637706489960677926/" target="_blank">央视新闻</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="量子比特" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637680592263316020/" target="_blank">荷兰代尔夫特理工大学实现移动量子比特99%保真度</a></h4>
+                    <p class="column-item-summary">在《自然》杂志发表突破性研究，首次在硅基可移动量子比特上同时达到高保真与灵活连接两个关键指标，为量子芯片工业化量产打通道路。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637680592263316020/" target="_blank">运筹帷幄</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <h3 class="column-title" style="margin-top: 20px;">🔒 安全警示</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="安全" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637703542366536244/" target="_blank">国安部通报：手机芯片漏洞被非法利用成国家安全隐患</a></h4>
+                    <p class="column-item-summary">国家安全部通报：某主流手机芯片厂商底层代码漏洞被不法分子定向利用，"秒解BL锁"服务暗藏重大安全风险，可能被境外间谍情报机关利用。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637703542366536244/" target="_blank">今日头条</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EkjInAIxd68/" alt="HuggingFace" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637751130784530953/" target="_blank">Hugging Face上575个恶意skills被曝光</a></h4>
+                    <p class="column-item-summary">安全机构Acronis TRU发现，黑客在Hugging Face上架设575个恶意skills伪装成合法AI工具分发木马。研究人员建议检查已安装的OpenClaw技能。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637751130784530953/" target="_blank">AI普瑞斯</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="IMF" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637729231002141190/" target="_blank">IMF警示：AI对全球金融稳定构成潜在威胁</a></h4>
+                    <p class="column-item-summary">国际货币基金组织发布报告指出，AI技术可大幅提升网络攻击时效性与危害性，网络风险正演变为可能冲击金融体系的"关联性故障"。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637729231002141190/" target="_blank">环球网</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <section class="column">
+        <h3 class="column-title">💰 商业财经</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="美光" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637793473214612002/" target="_blank">美光市值突破8000亿美元，存储芯片进入超级周期</a></h4>
+                    <p class="column-item-summary">美光科技单周飙升38%，市值突破8400亿美元。AI服务器HBM订单已排至2027年，价格较年初涨3倍，全球超大规模云厂商资本支出到明年底或超1万亿美元。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637793473214612002/" target="_blank">华尔街见闻</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TOA4TPSDqMc/" alt="腾讯云" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5296579988688098" target="_blank">腾讯云AI算力涨价5%，全年资本开支上调至3000亿元</a></h4>
+                    <p class="column-item-summary">腾讯云5月9日起调整AI算力产品定价，涨幅约5%。同时将全年算力开支上调至3000亿元，应对全球算力紧缺局面。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5296579988688098" target="_blank">微博@诸葛寻牛</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VlVUu5igGbU/" alt="高盛" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7637793473214612002/" target="_blank">高盛：超配中国A股，沪深300目标位5300点</a></h4>
+                    <p class="column-item-summary">高盛发布报告称A股优于H股，将沪深300目标位设于5300点。PPI结束41个月通缩、2026年盈利预期上调至23%等为主要驱动因素。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7637793473214612002/" target="_blank">华尔街见闻</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TWzyMhxyRFM/" alt="天舟" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5296604386956415" target="_blank">天舟十号即将发射：船箭组合体转运至文昌发射区</a></h4>
+                    <p class="column-item-summary">天舟十号船箭组合体转运至文昌发射区，计划于5月10日择机发射，执行空间站补给任务。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5296604386956415" target="_blank">微博@馨姐擒龙</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6UC9ZVQd1Ag/" alt="碳纤维" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://finance.sina.com.cn/jjxw/2026-05-09/doc-inhxhuvi3443275.shtml" target="_blank">我国单线产能最大大丝束碳纤维生产线建成投产</a></h4>
+                    <p class="column-item-summary">中国石化在内蒙古建成单线设计产能超3000吨的大丝束碳纤维生产线，高端碳纤维自主可控再迈出关键一步。</p>
+                    <p class="column-item-source"><a href="http://finance.sina.com.cn/jjxw/2026-05-09/doc-inhxhuvi3443275.shtml" target="_blank">新浪财经</a> · 2026-05-09</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">📰 快讯速览</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">01</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text"><a href="https://m.weibo.cn/detail/5296638135894330" target="_blank">蚂蚁百灵大模型发布Ring-2.6-1T</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">02</span>
+            <span class="breaking-news-cat">量子</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637706489960677926/" target="_blank">本源悟空-180正式上线运行</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">03</span>
+            <span class="breaking-news-cat">医疗</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637758614324724274/" target="_blank">WHO发布游轮汉坦病毒疫情通报</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">04</span>
+            <span class="breaking-news-cat">安全</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637703542366536244/" target="_blank">国安部通报手机芯片漏洞风险</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">05</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637728255616811562/" target="_blank">菲尔兹奖得主预警数学研究危机</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">06</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637680592263316020/" target="_blank">代尔夫特实现移动量子比特99%保真</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">07</span>
+            <span class="breaking-news-cat">商业</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637793473214612002/" target="_blank">美光市值单周飙升38%破8400亿</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">08</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7637695076117840422/" target="_blank">四部门发布AI与能源双向赋能方案</a></span>
+            <span class="breaking-news-time">05-09</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>AI监管与产业发展进入深水区</strong></p>
+        <p>本日多条新闻形成清晰脉络：五部门联合发布的AI拟人化互动管理办法明确了监管边界，与此同时DeepSeek 500亿融资、蚂蚁Ring-2.6-1T发布、国产AI登顶全球等消息表明产业仍在高速狂奔。</p>
+        <div class="insights-highlight">
+            <p>菲尔兹奖得主预警"数学研究危机"与Claude Mythos 16小时自主任务能力形成呼应——AI从辅助工具向"自主工作者"的跃迁正在加速。</p>
+        </div>
+        <p>量子计算领域同样传来突破性消息："本源悟空-180"实现180比特全栈自主，代尔夫特理工大学的移动量子比特99%保真度为工业化量产铺路。医疗健康领域的"肥胖=慢性病"定性与WHO游轮疫情通报则提醒我们，技术之外的传统风险依然需要持续关注。</p>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 | 每日精选，陪你看见世界的变化</p>
+    <p><a href="https://xiaoxiaoqi-site.vercel.app" target="_blank">xiaoxiaoqi-site.vercel.app</a></p>
+</footer>
+
+</body>
+</html>
