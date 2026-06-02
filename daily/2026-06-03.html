@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第044期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年6月3日</span>
+        <span>|</span>
+        <span>第044期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>人形机器人</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/fSCVLgOZ6_4/" alt="IPO" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://36kr.com/p/3835519857653129" target="_blank">Anthropic抢先OpenAI递表：大模型IPO元年正式开启</a></h2>
+    <p class="headline-summary">
+        6月1日，Anthropic正式向SEC递交IPO注册声明草案，最新估值达9650亿美元，年化收入突破470亿美元。这是首家正式启动上市流程的AI超级独角兽，分析师认为率先上市将获得定义行业财务披露逻辑的先发话语权。同日，智谱通过科创板上市决议、SpaceX目标1.75万亿美元估值冲刺IPO，大模型IPO狂潮正式开启。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://36kr.com/p/3835519857653129" target="_blank">36氪</a> · 2026-06-02
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型与算力</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6ZF_vhTU3rg/" alt="NVIDIA" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">英伟达Vera Rubin平台全面量产，进军PC芯片市场</a></h4>
+                    <p class="column-item-summary">黄仁勋在GTC台北2026宣布，Vera Rubin训练性能为Blackwell的3.5倍，推理性能达5倍，推理成本降至七分之一。同步推出RTX Spark AI PC处理器，正式打破英特尔垄断。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">犀利琛</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6KgUw--XQ3E/" alt="Claude" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://peoplesdaily.pdnews.cn/business/er/30052287926" target="_blank">Anthropic年化收入470亿美元：Claude企业采用爆发</a></h4>
+                    <p class="column-item-summary">Anthropic年化收入已突破470亿美元（较2025年底90亿爆发式增长），主要驱动来自全球最大企业将Claude嵌入核心业务流程。</p>
+                    <p class="column-item-source"><a href="https://peoplesdaily.pdnews.cn/business/er/30052287926" target="_blank">新华网</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/E76YHup6Bis/" alt="China AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646714330255196672/" target="_blank">中国AI大模型日均调用140万亿词元，占全球60%</a></h4>
+                    <p class="column-item-summary">2026年，中国AI大模型日均词元调用量突破140万亿，连续多月超越美国。阿里通义、字节豆包、DeepSeek三家占全球40%。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646714330255196672/" target="_blank">头条</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6KgUw--XQ3E/" alt="Mistral AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://news.aibase.com/news" target="_blank">Mistral AI转型全栈服务商：欧洲算力竞争加剧</a></h4>
+                    <p class="column-item-summary">Mistral AI在巴黎峰会宣布从模型研究公司转型为全栈AI提供商，已在巴黎建设40MW数据中心，在全球大模型竞争中构建欧洲算力自主能力。</p>
+                    <p class="column-item-source"><a href="https://news.aibase.com/news" target="_blank">AIBase</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与AI</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mHEnXpiHzYk/" alt="Robot Surgery" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.wuhan.gov.cn/sy/whyw/202606/t20260602_2771900.shtml" target="_blank">武汉向全球直播26台远程机器人手术：中国技术惊艳国际</a></h4>
+                    <p class="column-item-summary">5月18-24日，华中科技大学同济医院等中国专家为新疆、西藏患者完成21台远程手术，并完成5台跨国手术（含格鲁吉亚），网络延时仅11ms。美国国家医学院院士评价"中国远程手术水平国际顶尖"。</p>
+                    <p class="column-item-source"><a href="https://www.wuhan.gov.cn/sy/whyw/202606/t20260602_2771900.shtml" target="_blank">武汉市人民政府</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/04vWUcGuMqU/" alt="AI Medical" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646611603639403051/" target="_blank">DeepGEM大模型：AI看病理切片1分钟精准预测肺癌基因突变</a></h4>
+                    <p class="column-item-summary">广州医科大学携手腾讯、金域医学研发的DeepGEM，将基因检测成本从数千元降至数百元，目前已在广州部分医疗机构部署。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646611603639403051/" target="_blank">中国新闻网</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/55jVyD2oivU/" alt="AI Doctor" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646608831632196102/" target="_blank">AI辅助诊断覆盖率1000+医院：基层诊断率提升50%</a></h4>
+                    <p class="column-item-summary">北京佑安医院首席专家李宏军团队研发的AI辅助诊断设备已覆盖全国1000多家医院，基层疾病检出率提高近50%，打通了基层诊断"最后一公里"。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646608831632196102/" target="_blank">光明网</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ilAIqWBUInw/" alt="Medical AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646931441011425819/" target="_blank">2026年AI医疗市场规模预计跨越1500亿元</a></h4>
+                    <p class="column-item-summary">中国AI+医疗健康市场2025年已突破千亿元，2026年预计跨越1500亿元。37项高频AI医疗服务已纳入医保支付，商业化破冰加速。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646931441011425819/" target="_blank">跳跳糖</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 第二行分栏 -->
+<div class="columns">
+    
+    <!-- 人形机器人 -->
+    <section class="column">
+        <h3 class="column-title">🤖 具身智能与人形机器人</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/dD3hzx3zSGQ/" alt="Robot" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://finance.sina.cn/2026-06-02/detail-inhzynrx1799217.d.html" target="_blank">宇树科技科创板IPO过会：人形机器人第一股落定</a></h4>
+                    <p class="column-item-summary">6月1日，上交所上市委审议通过宇树科技科创板IPO，从受理到过会仅73天。拟募资42亿元，腾讯、阿里等明星资本持股，2026年目标出货1-2万台。</p>
+                    <p class="column-item-source"><a href="http://finance.sina.cn/2026-06-02/detail-inhzynrx1799217.d.html" target="_blank">国金证券</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/deA_Da7cIiI/" alt="Figure Robot" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646597797243863567/" target="_blank">OpenAI重返机器人赛道：成立OpenAI Robotics</a></h4>
+                    <p class="column-item-summary">Sam Altman宣布成立OpenAI Robotics部门，由Sora核心开发者Aditya Ramesh带队。路线图：先工业机器人，最终个人消费级机器人。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646597797243863567/" target="_blank">Yietion</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/iqIlVz6Odwk/" alt="AI Robot" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://blog.csdn.net/2603_95397518/article/details/161615997" target="_blank">英伟达Isaac GR00T发布：人形机器人开发门槛大幅降低</a></h4>
+                    <p class="column-item-summary">英伟达GTC 2026发布Isaac GR00T人形机器人参考平台，31自由度、Jetson Thor芯片、Schaeffler制造，数小时即可开箱即用。</p>
+                    <p class="column-item-source"><a href="https://blog.csdn.net/2603_95397518/article/details/161615997" target="_blank">CSDN</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/hKlVHzD-WXI/" alt="Chinese Robot" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646714330255196672/" target="_blank">人形机器人全生命周期管理规范发布：每台机器人有唯一"身份证"</a></h4>
+                    <p class="column-item-summary">《人形机器人全生命周期管理规范》正式发布，每台机器人从出厂到报废必须拥有唯一、不可更改的专属"身份证号"，解决身份编码、责任划分等核心问题。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646714330255196672/" target="_blank">中国科学报</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 政策与安全 -->
+    <section class="column">
+        <h3 class="column-title">⚖️ 政策监管与安全</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/E76YHup6Bis/" alt="AI Safety" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">全球顶尖科学家签署《IDAIS伦敦宣言》：协同防范AI安全威胁</a></h4>
+                    <p class="column-item-summary">图灵奖得主姚期智、Yoshua Bengio等全球顶尖AI科学家共同签署宣言，呼吁各国正视AI网络攻击与生物滥用技术扩散带来的共同威胁。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">犀利琛</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6ZF_vhTU3rg/" alt="AI Regulation" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">市场监管总局、发改委联合印发AI计量体系建设指引</a></h4>
+                    <p class="column-item-summary">两部门联合印发《人工智能计量体系和能力建设指引（2026版）》，系统布局AI计量能力建设，呼应"十五五"规划纲要对AI基础设施标准化的要求。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">犀利琛</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/9ggu-ghTo6I/" alt="Healthcare Policy" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7646809607570047528/" target="_blank">2026医疗新规正式落地：回扣入刑，医药全行业从严监管</a></h4>
+                    <p class="column-item-summary">最高法、最高检联合发布法释〔2026〕6号司法解释，5月1日起医药回扣正式纳入刑事追责。个人收受3万即可立案，10万以上加重处罚，200万以上十年起步。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7646809607570047528/" target="_blank">静姐</a> · 2026-06-02</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/GBWv6cakp9Q/" alt="US AI Policy" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://media-terminal.net/ai%E6%9C%80%E6%96%B0%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9%E3%81%BE%E3%81%A8%E3%82%81%EF%BD%9C%E7%94%9F%E6%88%90ai%E3%83%BBllm%E3%83%BBai%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-57" target="_blank">美国对AI全球标准化持谨慎态度：重视"现实危害"国际协作</a></h4>
+                    <p class="column-item-summary">美国务院表示反对AI全球标准设定，但认可在"现实世界具体危害"防范方面开展国际协作的价值。</p>
+                    <p class="column-item-source"><a href="https://media-terminal.net/ai%E6%9C%80%E6%96%B0%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9%E3%81%BE%E3%81%A8%E3%82%81%EF%BD%9C%E7%94%9F%E6%88%90ai%E3%83%BBllm%E3%83%BBai%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-57" target="_blank">Media Terminal</a> · 2026-06-03</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">IPO</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201780432156670048" target="_blank">SpaceX目标估值1.75万亿美元，最快周三确定IPO条款</a></span>
+            <span class="breaking-news-time">6月3日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">AI硬件</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646726825447604776/" target="_blank">英伟达RTX Spark：专为个人AI智能体打造的Windows PC芯片</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI研究</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">复旦×通义ToolCUA：8B模型超越Claude-4-Sonnet</a></span>
+            <span class="breaking-news-time">6月3日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">具身智能</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201780394032153856" target="_blank">字节Seed架构再调整：周畅接管机器人团队</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI创业</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">百川智能战略收缩：全面聚焦医疗垂直赛道</a></span>
+            <span class="breaking-news-time">6月3日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI投资</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">Fireworks AI洽谈新融资，估值达150亿美元</a></span>
+            <span class="breaking-news-time">6月3日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">AI应用</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646597797243863567/" target="_blank">VAST完成近2亿美元融资，披露世界模型Project Eden</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI Coding</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646597797243863567/" target="_blank">零编程经验开发者借AI打造GitHub万星项目</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">武汉发布AI+软件行动方案：今年培育150个智能体产品</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">AI安全</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7646831226476593674/" target="_blank">高知特与CrowdStrike扩大联盟：保障自主AI企业安全</a></span>
+            <span class="breaking-news-time">6月2日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：大模型IPO元年开启</strong></p>
+        <div class="insights-highlight">
+            Anthropic（9650亿估值）、智谱（科创板）、MiniMax（科创板）、SpaceX（1.75万亿）——三大AI独角兽+全球最贵私营公司同步冲刺公开市场。这不仅是融资行为，更是AI产业从"烧钱讲故事"转向"营收兑现"的历史性节点。
+        </div>
+        
+        <p><strong>趋势二：具身智能进入量产元年</strong></p>
+        <div class="insights-highlight">
+            宇树科创板IPO过会（人形机器人第一股）、OpenAI成立机器人部门、英伟达发布Isaac GR00T平台——2026年人形机器人从"实验室演示"正式进入"万台量产"阶段，产业链资本化加速。
+        </div>
+        
+        <p><strong>趋势三：AI医疗从"能用"走向"好用"</strong></p>
+        <div class="insights-highlight">
+            武汉跨国远程手术直播成功、DeepGEM将基因检测成本降低90%、37项AI医疗服务纳入医保——AI医疗正在从单点辅助走向全链条赋能，2026年成为商业化破局关键年。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第044期 · 2026年6月3日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-06-03.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
