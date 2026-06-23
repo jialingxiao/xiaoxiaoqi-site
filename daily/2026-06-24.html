@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年6月24日</span>
+        <span>|</span>
+        <span>第065期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>科学发现</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/T9dLq-5Wucs/" alt="百川M4" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="http://m.toutiao.com/group/7654147637465203240/" target="_blank">国产医疗大模型登顶世界第一！百川M4在HealthBench三榜超越GPT-5.5/Opus 4.7/DeepSeek-V4-Pro</a></h2>
+    <p class="headline-summary">
+        6月22日，百川智能与清华大学联合发布新一代医疗增强大模型<b>Baichuan-M4</b>，在OpenAI医疗评测基准HealthBench及Hard、Professional三个榜单上同时位列世界第一——综合得分68.6，领先第二名GPT-5.5超10分；在最考验复杂临床决策的Hard子集上，领先幅度达<b>15.9分</b>；事实性幻觉率低至3.3%。区别于通用大模型擅长"拿到完整病例答题"，M4主攻"信息不完整时主动追问"——M4会围绕症状性质、诱因、危险信号多轮追问，优先识别危急重症。M4推出"全病程记忆"打通历史病历/多轮问诊/化验趋势/用药反馈，长上下文临床记忆评测86.9分；首创"证据锚定"机制让每句医学结论精确对应原始论文/指南段落，循证引用精度<b>90.0%</b>（GPT-5.5仅54.7%）。M4是医疗AI从"会答题"到"会看病"的关键转折，也是国产大模型在全球垂直领域首次实现"标准+能力+生态"三领跑。
+    </p>
+    <p class="headline-source">
+        来源: <a href="http://m.toutiao.com/group/7654147637465203240/" target="_blank">IT之家</a> · 2026-06-22
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/eF7Esh4tor8/" alt="豆包2.1" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654553671212089892/" target="_blank">字节豆包大模型2.1发布：编程追平Claude Opus 4.7，综合成本暴砍80%</a></h4>
+                    <p class="column-item-summary">6月23日，字节火山引擎FORCE原动力大会发布豆包2.1 Pro，在编程上接近Opus 4.7——SciCode 59.8分（超Opus 4.7/GPT-5.5），NL2Repo 47分；现场演示16×16 PE TPU芯片设计，18小时完成6个核心模块1300+行RTL代码。价格：输入6元/输出30元/缓存1.2元，<b>综合成本相比Opus 4.6-4.8系列降低近80%</b>。豆包日均Token调用量180万亿，火山引擎公有云MaaS份额49.5%居第一。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654553671212089892/" target="_blank">智东西/火山引擎</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/QBcQsUhniwk/" alt="OpenAI网络安全" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://36kr.com/p/3865123828093957" target="_blank">OpenAI发布GPT-5.5-Cyber满血版：CyberGym 85.6%反超Mythos 5的83.8%</a></h4>
+                    <p class="column-item-summary">6月22-23日，OpenAI扩展Daybreak网络安全计划，GPT-5.5-Cyber完整版CyberGym 85.6%刷新纪录（GPT-5.5为81.8%，Mythos 5为83.8%），ExploitGym 39.5% vs 25.95%。同步推出Codex Security插件、Patch the Planet开源漏洞修复行动（cURL/Go/Python等30+项目参与）、Daybreak Cyber Partner Program（埃森哲/思科/CrowdStrike/IBM/Palo Alto Networks首批加入）。</p>
+                    <p class="column-item-source"><a href="https://36kr.com/p/3865123828093957" target="_blank">36氪</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/pKBOqS5jqjw/" alt="英伟达BioNeMo" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654584142809629199/" target="_blank">英伟达发布BioNeMo Agent Toolkit：礼来/OpenAI/Anthropic/达索等50+家采用</a></h4>
+                    <p class="column-item-summary">6月23日英伟达推出BioNeMo生命科学AI智能体工具包，整合十年以上生命科学库/工具/开放模型，含NVIDIA Nemotron/NemoClaw/OpenShell。AI智能体/科学家/实验室可协同收集证据、推理发现、运行实验、推荐下一步行动。达索/礼来/OpenAI/Schrödinger/Snowflake等50+采用。黄仁勋："BioNeMo将赋予AI代理博士研究助理的技能和超级计算机的速度。"</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654584142809629199/" target="_blank">财联社/英伟达</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1m19J01mljY/" alt="字节60亿三甲" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654556371983122980/" target="_blank">字节60亿自建三甲医院落子朝阳：抖音健康流量+AI原生+细胞治疗全闭环</a></h4>
+                    <p class="column-item-summary">字节旗下爱瑞国际医疗综合体60亿投资、一期37.17亿；朝阳电子城北区望京占地11.37公顷、规划800张床位三级营利性综合医院，<b>2029年底竣工投用</b>。三大核心：国际化高端诊疗、火山云全栈AI原生智慧医院、细胞/基因治疗临床转化中心。AI覆盖预问诊/影像判读/临床决策/病房管理/随访20+全流程场景，可对外输出医疗云ToB收费。字节从内容到AI到实体医疗完成全闭环。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654556371983122980/" target="_blank">字节/抖音集团</a> · 2026-06-24</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与科学</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/o5sRHsMGq70/" alt="雄安医疗大赛" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654507433007579663/" target="_blank">雄安173项医疗创新成果决赛启幕：蚂蚁阿福"AI+家庭医生"双驱动模式落地</a></h4>
+                    <p class="column-item-summary">6月23日，2026雄安国际医疗大健康技术应用大赛决赛启幕，514家单位/666个项目/13个国家和地区参赛，<b>173项</b>晋级。蚂蚁阿福"AI+家庭医生"全周期服务闭环；海纳医信影像质控大模型将医学影像互认率从<b>25%提升至70%</b>；河北医大四院食管早癌智能筛查准确率超<b>90%</b>。赛事累计发布医疗健康场景需求<b>123项</b>、总投资规模<b>10.4亿元</b>，34家优质医疗企业已落地雄安。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654507433007579663/" target="_blank">纵览新闻</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/_ITCfsbdcuY/" alt="武汉互联互通" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654657267266109992/" target="_blank">武汉900家机构互联互通五级乙等：全国首个超千万人口副省级城市获最高评级</a></h4>
+                    <p class="column-item-summary">6月22日《健康报》头版：武汉全民健康信息一体化平台覆盖16个区、<b>900余家医疗卫生机构</b>，获评国家互联互通成熟度"五级乙等"（最高级别），是首个获此评级的超千万人口副省级城市。同济医院"卒中鹰眼"系统把脑梗早期诊断准确率从60%提升到<b>90%以上</b>，年助力超3000例早干预；市中心医院影像平台漏诊率降40%以上。互联互通从"加分项"变成"准入线"。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654657267266109992/" target="_blank">健康报/智辅医院后勤</a> · 2026-06-22</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/yckAEA3P2RE/" alt="医渡智循" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7654524471163798067/" target="_blank">医渡智循升级"病历随手记"：临床医生AI智能体从"问答"走向"执行"</a></h4>
+                    <p class="column-item-summary">医渡科技医渡智循完成版本升级：患者外院纸质病历<b>手机拍照即可AI识别</b>生成可编辑文档，准确率高达<b>95%以上</b>；问诊一键录音，AI自动提取核心信息生成结构化病历。关键突破：生成内容可一键生成专属二维码，<b>扫码器一扫即刻出现在内网电脑</b>——完美解决医院内外网物理隔离难题。同步推出"智能体广场"汇集上百款AI医学助手。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7654524471163798067/" target="_blank">AI科技汇</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/XIHmRNWRKpY/" alt="乳腺癌AI早筛" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.weibo.cn/detail/5312981380630166" target="_blank">AI提前6年发现乳腺癌：NCCN/FDA正式纳入乳腺癌风险评估指南</a></h4>
+                    <p class="column-item-summary">瑞典研究分析近<b>9万份</b>乳腺X光片/超<b>3.1万名</b>女性/跨度<b>10年</b>：约<b>20%</b>乳腺癌病例，确诊前<b>6年</b>AI就能在片子上看到异常；确诊前2年AI能发现近<b>40%</b>。研究设定90%特异性严格标准。AI报警≠一定得癌（未来6年内真正确诊比例约2.5%），是"提前预警"而非"确诊"。<b>NCCN 2026指南正式将AI分析纳入乳腺癌风险评估，FDA已批准首款5年内患癌风险AI预测工具</b>。</p>
+                    <p class="column-item-source"><a href="https://m.weibo.cn/detail/5312981380630166" target="_blank">内分泌医生张秀媛</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">医疗大模型</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7654147637465203240/" target="_blank">百川M4与清华联合发布，HealthBench三榜世界第一，综合68.6分领先GPT-5.5超10分</a></span>
+            <span class="breaking-news-time">6/22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">国产模型</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7654553671212089892/" target="_blank">字节火山引擎FORCE大会发布豆包2.1，编程追平Opus 4.7、成本降80%</a></span>
+            <span class="breaking-news-time">6/23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">网安AI</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/p/3865123828093957" target="_blank">OpenAI发布GPT-5.5-Cyber满血版，CyberGym 85.6%反超Mythos 5</a></span>
+            <span class="breaking-news-time">6/23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">生命科学</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7654584142809629199/" target="_blank">英伟达BioNeMo Agent Toolkit发布，礼来/OpenAI/Anthropic/达索等50+采用</a></span>
+            <span class="breaking-news-time">6/23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">智能体</span>
+            <span class="breaking-news-text"><a href="https://m.sohu.com/a/1040639942_455313/" target="_blank">腾讯QQ邮箱推出Agently Mail，为AI智能体配专属邮箱，5大主流Agent已支持</a></span>
+            <span class="breaking-news-time">6/24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">开源模型</span>
+            <span class="breaking-news-text"><a href="https://m.sohu.com/a/1040639942_455313/" target="_blank">京东开源JoyAI-VL流式交互模型，监控胜率100%、红牌延迟94毫秒</a></span>
+            <span class="breaking-news-time">6/24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">基础科研</span>
+            <span class="breaking-news-text"><a href="https://m.sohu.com/a/1040639942_455313/" target="_blank">清华UniCM气候模型登Nature子刊，ENSO有效预测期延至19个月</a></span>
+            <span class="breaking-news-time">6/24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">具身AI</span>
+            <span class="breaking-news-text"><a href="https://m.sohu.com/a/1040639942_455313/" target="_blank">英伟达Halos机器人安全系统发布，波士顿动力/Agility/禾赛等43+加入</a></span>
+            <span class="breaking-news-time">6/24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7654507433007579663/" target="_blank">雄安医疗大赛173项创新成果决赛启幕，蚂蚁阿福AI+家庭医生模式落地</a></span>
+            <span class="breaking-news-time">6/23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医改</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7654657267266109992/" target="_blank">武汉900家机构互联互通五级乙等，全国首个超千万人口副省级城市</a></span>
+            <span class="breaking-news-time">6/22</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：医疗AI从"答题机器"升级为"看病医生"——主动追问+全病程记忆+证据锚定成为新铁三角</strong></p>
+        <div class="insights-highlight">
+            百川M4、医渡智循、雄安蚂蚁阿福、字节60亿三甲同日登场，医疗AI正在补完从"问诊"到"决策"的关键链条。百川M4的"主动追问"针对"信息不完整"这一最核心临床痛点——研究表明普通人拿病情和AI对话时准确率暴跌至34.5%，而M4靠"全病程记忆+证据锚定+智能体调度"三件套让医疗AI具备真正的临床决策能力。叠加医渡智循的"病历随手记"通过二维码打通医院内外网物理隔离、雄安173项创新成果的蚂蚁阿福AI+家庭医生模式、字节60亿自建AI原生三甲医院——医疗AI的"最后一公里"问题（真实临床工作流渗透）正在被系统性解决。
+        </div>
+
+        <p><strong>趋势二：国产AI从"性价比替代"进入"质变点跨越"——豆包2.1+百川M4同日双里程碑</strong></p>
+        <div class="insights-highlight">
+            豆包2.1 Pro编程能力追平Opus 4.7、综合成本降80%；百川M4医疗评测领先GPT-5.5超10分——6月22-23日两天，国产AI在两个完全不同维度的国际权威评测中同时实现"质变点跨越"。豆包火山引擎公有云MaaS市场份额49.5%居第一，豆包日均Token调用量180万亿、较两年前增长1500倍；百川则与清华联合用OSCE思路构建SCAN-bench动态问诊评测体系，在"长上下文临床记忆"和"循证引用精度"两个最难指标上远超GPT-5.5。国产大模型不再是"追赶者"——在医疗、编程两个垂直赛道上已经实现"标准+能力+生态"三领跑。
+        </div>
+
+        <p><strong>趋势三：AI从"应用创新"进入"基建与制度双轮驱动"——OpenAI网安+武汉互联互通+国家中试基地同日落地</strong></p>
+        <div class="insights-highlight">
+            6月22-24日三天，三件大事同时指向AI落地的"基建与制度"双轮：①OpenAI把Daybreak计划升级为"国家级AI防御基础设施"（与澳/加/法/德/日/韩及欧盟建立合作）；②武汉900家机构互联互通五级乙等成为全国首个超千万人口副省级城市，"互联互通从加分项变成准入线"；③雄安173项医疗创新成果与34家企业落地，区域AI创新生态形成规模效应。AI竞争已从"模型/产品"层面升级到"基础设施/标准/制度"层面。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第065期 · 2026年6月24日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-05-12.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
