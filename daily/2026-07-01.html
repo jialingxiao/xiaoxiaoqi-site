@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年7月1日</span>
+        <span>|</span>
+        <span>第072期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>科学发现</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/pCQgIqWvRaE/" alt="国常会AI战略" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://www.gaie.com.cn/" target="_blank">国常会定调AI为国家战略：加快超大规模智算集群建设</a></h2>
+    <p class="headline-summary">
+        6月29日，国务院常务会议专题听取人工智能产业发展汇报，明确提出加快超大规模智算集群建设、加大AI核心技术攻关资金扶持、强化算力基础设施布局，将人工智能产业提升至国家级长期战略高度。算力正被定位为像水、电一样普惠可及的新型基础设施。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://www.gaie.com.cn/" target="_blank">国务院官网</a> · 2026-06-29
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/wYwzcXBRnTY/" alt="Anthropic" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.anthropic.com/" target="_blank">Anthropic完成650亿美元融资，估值9650亿美元创AI纪录</a></h4>
+                    <p class="column-item-summary">Anthropic完成史上最大AI融资轮，估值超越OpenAI成为全球最值钱AI公司，Claude Opus 4.8同步发布，Andrej Karpathy加入领导预训练研究。</p>
+                    <p class="column-item-source"><a href="https://www.anthropic.com/" target="_blank">Anthropic</a> · 2026-06</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1itfzusmHEo/" alt="OpenAI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://openai.com/" target="_blank">OpenAI发布GPT-5.6系列：Sol/Terra/Luna三档模型齐发</a></h4>
+                    <p class="column-item-summary">OpenAI推出旗舰Sol、均衡型Terra、轻量级Luna三款差异化模型，在编码、科学推理领域实现新突破，当前以政府限量预览方式开放。</p>
+                    <p class="column-item-source"><a href="https://openai.com/" target="_blank">OpenAI</a> · 2026-06-26</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/nzVdyEMjPWw/" alt="AI芯片" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://openai.com/" target="_blank">OpenAI联合博通发布Jalapeño定制AI推理芯片</a></h4>
+                    <p class="column-item-summary">OpenAI与博通联合发布首款定制AI推理芯片，专为大语言模型推理设计，9个月完成流片创行业纪录，计划2026年底部署。</p>
+                    <p class="column-item-source"><a href="https://openai.com/" target="_blank">OpenAI</a> · 2026-06-24</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/hHFicu_Fj0Q/" alt="豆包大模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.volcengine.com/" target="_blank">字节跳动发布豆包大模型2.1，Agent能力对标GPT-5.5</a></h4>
+                    <p class="column-item-summary">火山引擎FORCE大会上发布豆包2.1 Pro/Turbo，重点强化Agent、Coding与VLM能力，多项基准测试接近GPT-5.5，正式开启付费订阅。</p>
+                    <p class="column-item-source"><a href="https://www.volcengine.com/" target="_blank">火山引擎</a> · 2026-06-23</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 🤖 具身智能与机器人 -->
+    <section class="column">
+        <h3 class="column-title">🤖 具身智能与机器人</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vBWQenRg4o0/" alt="优必选机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.ubtech.com/" target="_blank">优必选发布"优世界U1"系列：11.98万起，订单破13361台</a></h4>
+                    <p class="column-item-summary">全球唯一具备规模化量产能力的全尺寸超仿生人形机器人，搭载情感大模型可识别20+种情绪，售价从11.98万至99万元不等。</p>
+                    <p class="column-item-source"><a href="https://www.ubtech.com/" target="_blank">优必选</a> · 2026-06-30</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/iV40lM5ZnuU/" alt="智元机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.agibot.com/" target="_blank">智元第15000台机器人下线：创全球具身智能量产新纪录</a></h4>
+                    <p class="column-item-summary">智元机器人再破里程碑，距万台节点仅3个月。其精灵G2在3C产线完成6天连续直播，成功率99.99%，开启具身智能商业化元年。</p>
+                    <p class="column-item-source"><a href="https://www.agibot.com/" target="_blank">智元机器人</a> · 2026-06-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/0JnXM6CzLN0/" alt="人形机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://36kr.com/" target="_blank">工信部启动专项行动：2026年底人形机器人常态部署</a></h4>
+                    <p class="column-item-summary">工信部、国资委联合启动人形机器人与具身智能实景实训专项行动，推动机器人在真实生产生活环境中常态化部署应用，带动万台级规模落地。</p>
+                    <p class="column-item-source"><a href="https://36kr.com/" target="_blank">36氪</a> · 2026-06</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LlerUeQknVU/" alt="机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://36kr.com/" target="_blank">上半年具身智能融资超460亿元，投资逻辑转向"看交付"</a></h4>
+                    <p class="column-item-summary">2026年上半年国内具身智能及机器人领域发生288起融资，披露融资额超460亿元。资本从"看团队、看demo"转向"看交付、看数据闭环"。</p>
+                    <p class="column-item-source"><a href="https://36kr.com/" target="_blank">36氪</a> · 2026-06-29</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI芯片</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/" target="_blank">美团发布LongCat-2.0万亿参数大模型，纯国产算力训练</a></span>
+            <span class="breaking-news-time">6月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">大模型</span>
+            <span class="breaking-news-text"><a href="https://blog.google/" target="_blank">Google Gemini 3.5 Pro预览：200万Token上下文</a></span>
+            <span class="breaking-news-time">6月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI工具</span>
+            <span class="breaking-news-text"><a href="https://www.microsoft.com/" target="_blank">微软取消内部Claude Code许可，转向自研MAI模型</a></span>
+            <span class="breaking-news-time">6月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">A股</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/" target="_blank">科创50指数创历史新高，寒武纪突破万亿市值</a></span>
+            <span class="breaking-news-time">6月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI融资</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/" target="_blank">Windsurf并购案：Google 24亿美元抢人才，Cognition接盘业务</a></span>
+            <span class="breaking-news-time">6月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI Agent</span>
+            <span class="breaking-news-text"><a href="https://www.anthropic.com/" target="_blank">Anthropic发布Claude Tag：Slack常驻AI同事</a></span>
+            <span class="breaking-news-time">6月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">AI开源</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/" target="_blank">15款本土Codex级产品集中上线，中国桌面Agent爆发</a></span>
+            <span class="breaking-news-time">6月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI安全</span>
+            <span class="breaking-news-text"><a href="https://openai.com/" target="_blank">GPT-5.6 Sol被标记为"高风险"，全系通过安全测试</a></span>
+            <span class="breaking-news-time">6月26日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：AI国家战略时代开启</strong></p>
+        <div class="insights-highlight">
+            国常会专题听取AI汇报，算力被定位为国家新型基础设施，标志着AI从"产业趋势"正式升格为"国家顶层战略"。政策端开闸——科创板第五套标准扩大至AI领域，支持未盈利硬科技企业上市，A股估值体系加速向多元化演进。
+        </div>
+        
+        <p><strong>趋势二：具身智能从"会动"走向"会干活"</strong></p>
+        <div class="insights-highlight">
+            优必选订单破13361台、智元量产15000台、工信部启动专项行动——人形机器人价格从百万级降至十万级，硬件成本拐点正在将实验室成果推向商业化前夜。2026年是具身智能从"Demo展示"转向"真实工作流"的关键元年。
+        </div>
+        
+        <p><strong>趋势三：AI芯片自研潮加速</strong></p>
+        <div class="insights-highlight">
+            OpenAI Jalapeño芯片9个月流片创纪录、Anthropic估值近万亿——头部AI公司纷纷自研芯片，算力自主可控成为核心竞争力。英伟达垄断格局正面临挑战，谁解决算力瓶颈谁就握住下一个时代的钥匙。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第072期 · 2026年7月1日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-07-01.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
