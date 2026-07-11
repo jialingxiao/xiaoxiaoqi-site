@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年7月12日</span>
+        <span>|</span>
+        <span>第083期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>科学发现</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/z9TIhtqvpX8/" alt="GPT-5.6" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://openai.com/" target="_blank">OpenAI全量发布GPT-5.6系列三款模型，同步关停Atlas浏览器</a></h2>
+    <p class="headline-summary">
+        OpenAI于7月10日正式向全球用户开放GPT-5.6系列模型，包含旗舰版Sol、均衡版Terra与轻量版Luna三款产品。Sol引入全新"Ultra模式"，可协调4个AI子代理并行处理代码、安全与科研任务。同日宣布将于8月9日关停运营不足一年的Atlas浏览器，智能浏览能力将整合进ChatGPT桌面端与Chrome扩展。
+    </p>
+    <p class="headline-source">
+        来源: <a href="https://openai.com/" target="_blank">OpenAI / 钛媒体</a> · 2026-07-10
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/HofiXp_OhGs/" alt="GPT-5.6" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://openai.com/" target="_blank">OpenAI发布GPT-5.6 Sol/Terra/Luna三档模型</a></h4>
+                    <p class="column-item-summary">Sol旗舰版引入Ultra模式协调4个子代理并行工作；Terra定价$2.5/$15每百万Token；Luna定价$1/$6，面向高容量场景。</p>
+                    <p class="column-item-source"><a href="https://openai.com/" target="_blank">OpenAI</a> · 2026-07-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mCzaxtqi4Hs/" alt="Grok 4.5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://x.ai/news/grok-4-5" target="_blank">SpaceXAI联手Cursor发布Grok 4.5：对标Claude Opus 4.8</a></h4>
+                    <p class="column-item-summary">依托数万台NVIDIA GB300 GPU训练，关键基准全面超越Claude Opus 4.8，速度80 TPS，Token成本仅为竞品一半。</p>
+                    <p class="column-item-source"><a href="https://x.ai/news/grok-4-5" target="_blank">SpaceXAI</a> · 2026-07-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/BGiPU5cKun4/" alt="Ollama" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://ollama.com/" target="_blank">Ollama完成6500万美元B轮融资，月活开发者近900万</a></h4>
+                    <p class="column-item-summary">开源AI开发工具明星项目Ollama获B轮融资，月活跃开发者接近890万，成为全球最受欢迎的本地模型运行平台。</p>
+                    <p class="column-item-source"><a href="https://ollama.com/" target="_blank">Ollama</a> · 2026-07-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/y_Jhe8bW24E/" alt="Apple AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.apple.com/" target="_blank">苹果接洽PrismML：270亿参数大模型有望塞进iPhone</a></h4>
+                    <p class="column-item-summary">苹果正与加州理工孵化的PrismML洽谈，探索将270亿参数大模型压缩至iPhone本地运行，推动端侧AI推理。</p>
+                    <p class="column-item-source"><a href="https://www.apple.com/" target="_blank">The Information</a> · 2026-07-10</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与科学</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LayGJ9-azDg/" alt="英矽智能" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://insilico.com/" target="_blank">英矽智能Rentosertib启动III期临床：全球首款AI发现新靶点药物</a></h4>
+                    <p class="column-item-summary">英矽智能AI平台驱动的候选药物Rentosertib正式启动III期临床，用于特发性肺纤维化治疗，早期发现仅耗时18个月。</p>
+                    <p class="column-item-source"><a href="https://insilico.com/" target="_blank">英矽智能/上观新闻</a> · 2026-07-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/5I7nxaRtJTs/" alt="AI制药" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.dp.tech/" target="_blank">AI制药新突破：深势Uni-Fold 3将新药筛选从3年压到8个月</a></h4>
+                    <p class="column-item-summary">深势科技Uni-Fold 3蛋白质结构预测精度超AlphaFold 3，已帮恒瑞、信达筛出2款进入临床I期的抗癌药，成本降低80%。</p>
+                    <p class="column-item-source"><a href="https://www.dp.tech/" target="_blank">深势科技</a> · 2026-07-12</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/wysOf3ZKjDs/" alt="手术机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://ucsd.edu/" target="_blank">人形机器人首次参与腹腔镜手术：UC San Diego体内实验验证</a></h4>
+                    <p class="column-item-summary">UC San Diego团队使用改造后的Unitree G1人形机器人完成猪体内腹腔镜手术任务，验证了人形机器人参与微创手术的可行性。</p>
+                    <p class="column-item-source"><a href="https://ucsd.edu/" target="_blank">UC San Diego</a> · 2026-07-11</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/rUhgQwjv5Yw/" alt="医疗AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.nmpa.gov.cn/" target="_blank">八部门"AI+"方案点名AI制药：从靶点发现到临床研究全链条变革</a></h4>
+                    <p class="column-item-summary">工信部等八部门联合印发实施意见，明确建设AI驱动新药发现与虚拟筛选平台，全球已有170余条AI药物管线进入临床。</p>
+                    <p class="column-item-source"><a href="https://www.nmpa.gov.cn/" target="_blank">工信部/国家药监局</a> · 2026-07-11</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">大会</span>
+            <span class="breaking-news-text"><a href="http://sh.people.com.cn/n2/2026/0711/c134768-41636082.html" target="_blank">WAIC 2026进入倒计时：1100家企业参展，华为Atlas 950首展</a></span>
+            <span class="breaking-news-time">7月11日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text"><a href="https://blog.csdn.net/haohaizi_liu/article/details/162759916" target="_blank">人形机器人量产提速：2026国内整机产量有望突破10万台</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text"><a href="https://blog.csdn.net/2601_95946406/article/details/162734691" target="_blank">四部门联合发文：加快AI融入人社领域，2026年落地20项场景</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text"><a href="http://sh.people.com.cn/n2/2026/0711/c134768-41636082.html" target="_blank">科创板向AI大模型企业开放：证监会扩大第五套标准适用范围</a></span>
+            <span class="breaking-news-time">7月11日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">芯片</span>
+            <span class="breaking-news-text"><a href="https://blog.csdn.net/2601_95946406/article/details/162734691" target="_blank">DeepSeek与智谱AI秘密自研AI芯片，摆脱英伟达依赖</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">数据</span>
+            <span class="breaking-news-text"><a href="https://blog.csdn.net/2601_95946406/article/details/162734691" target="_blank">运营商集体表态：从"流量经营"迈向"Token经营"</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">立法</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201783674528210208" target="_blank">日本通过修订版个保法：为AI训练开放敏感数据</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">产业</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7660716655873442350/" target="_blank">上海发布生物医药外资企业25条支持措施</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医药</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201783679586463520" target="_blank">智飞生物利拉鲁肽注射液获国家药监局批准上市</a></span>
+            <span class="breaking-news-time">7月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">贸易</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7661349508541989376/" target="_blank">海南自贸港加工增值免关税政策5年：内销货值121.2亿元</a></span>
+            <span class="breaking-news-time">7月12日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：AI模型竞赛从"参数军备"转向"落地效率"</strong></p>
+        <div class="insights-highlight">
+            GPT-5.6三档分层定价、Grok 4.5以一半成本对标Opus、苹果探索端侧270亿参数模型——巨头们的竞争焦点已从"谁的参数多"转向"谁能在真实场景里用起来"。模型不再是技术展品，而是商业工具。
+        </div>
+        
+        <p><strong>趋势二：AI制药从"概念验证"迈入"临床价值兑现"</strong></p>
+        <div class="insights-highlight">
+            英矽智能Rentosertib启动III期、深势Uni-Fold 3精度超越AlphaFold 3、八部门联合点名AI制药——2026年是AI制药的分水岭年。全球170余条AI药物管线进入临床，"10年10亿美金"的铁律正被撬动。
+        </div>
+        
+        <p><strong>趋势三：算力自主化成为AI产业的"第二战场"</strong></p>
+        <div class="insights-highlight">
+            DeepSeek与智谱秘密自研芯片、运营商转向"Token经营"、人形机器人产量破10万——算力的供给方式和分配逻辑正在重构。谁能解决底层算力自主问题，谁就握住了AI时代的命门。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第083期 · 2026年7月12日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-07-12.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
