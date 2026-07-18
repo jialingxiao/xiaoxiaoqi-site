@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff; color: #333333; line-height: 1.6;
+            max-width: 1200px; margin: 0 auto; padding: 20px;
+        }
+        .header {
+            text-align: center; border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px; margin-bottom: 20px;
+        }
+        .header-title {
+            font-size: 34px; font-weight: 900; letter-spacing: 6px;
+            color: #1a1a2e; margin-bottom: 6px;
+        }
+        .header-meta {
+            font-size: 12px; color: #666;
+            display: flex; justify-content: center; align-items: center;
+            gap: 12px; flex-wrap: wrap;
+        }
+        .header-categories {
+            display: flex; justify-content: center; gap: 6px;
+            margin-top: 8px; font-size: 11px; color: #888;
+        }
+        .header-categories span::before { content: "·"; margin-right: 6px; color: #ff6b35; }
+        .header-categories span:first-child::before { content: ""; }
+        .headline {
+            border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa;
+        }
+        .headline-badge {
+            display: inline-block; background: #ff6b35; color: white;
+            font-size: 10px; font-weight: bold; padding: 2px 8px;
+            margin-bottom: 10px; letter-spacing: 2px;
+        }
+        .headline-image {
+            width: 100%; max-height: 350px; object-fit: cover;
+            margin-bottom: 12px; border-radius: 4px;
+        }
+        .headline-title {
+            font-size: 24px; font-weight: 800; color: #1a1a2e;
+            margin-bottom: 10px; line-height: 1.3;
+        }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary {
+            font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px;
+        }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 16px; margin-bottom: 20px;
+        }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title {
+            font-size: 13px; font-weight: bold; color: #1a1a2e;
+            padding-bottom: 6px; margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .column-title::before { content: "◆"; color: #ff6b35; font-size: 9px; }
+        .column-item {
+            margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee;
+        }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image {
+            width: 70px; height: 52px; object-fit: cover;
+            border-radius: 4px; flex-shrink: 0;
+        }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title {
+            font-size: 13px; font-weight: 600; color: #1a1a2e;
+            margin-bottom: 4px; line-height: 1.4;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary {
+            font-size: 11px; color: #666; line-height: 1.5;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .breaking-news {
+            background: #f8f9fa; border: 1px solid #e0e0e0;
+            padding: 12px; margin-bottom: 20px;
+        }
+        .breaking-news-title {
+            font-size: 13px; font-weight: bold; color: #1a1a2e;
+            margin-bottom: 10px; padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .breaking-news-title::before { content: "⚡"; }
+        .breaking-news-list {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px;
+        }
+        .breaking-news-item {
+            font-size: 11px; color: #333; padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex; align-items: flex-start; gap: 6px; line-height: 1.6;
+        }
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0; padding-right: 16px;
+        }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px;
+        }
+        .insights-title {
+            font-size: 13px; font-weight: bold; color: #ff6b35;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
+        }
+        .insights-title::before { content: "🔗"; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-content p { margin-bottom: 8px; }
+        .insights-content p:last-child { margin-bottom: 0; }
+        .insights-highlight {
+            background: rgba(255,107,53,0.15); border-left: 3px solid #ff6b35;
+            padding: 10px 12px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        .footer {
+            text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0;
+            font-size: 11px; color: #999;
+        }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) {
+            .columns { grid-template-columns: 1fr; }
+            .breaking-news-list { grid-template-columns: 1fr; }
+            .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; }
+            .header-title { font-size: 22px; letter-spacing: 3px; }
+            .headline-title { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span><span>|</span>
+        <span>2026年7月18日</span><span>|</span>
+        <span>第089期</span><span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span><span>医疗健康</span><span>商业财经</span><span>科学发现</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/HfP5s5KFVOQ/" alt="WAIC 2026" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="http://m.toutiao.com/group/7663378716461957684/" target="_blank">WAIC 2026上海盛大开幕：10万平方米、1100+企业、超300款全球首发AI产品</a></h2>
+    <p class="headline-summary">
+        2026世界人工智能大会暨人工智能全球治理高级别会议于7月17日在上海开幕，首次联动世博、张江、西岸"三地四馆"，展览总面积首次突破10万平方米，1100余家企业参展，3000余项展品集中亮相，超300款产品全球首发。同日，29个国家签署协定成立全球首个AI政府间国际组织——世界人工智能合作组织（WAICO），总部落户上海。
+    </p>
+    <p class="headline-source">
+        来源: <a href="http://m.toutiao.com/group/7663378716461957684/" target="_blank">新民晚报/上海发布</a> · 2026-07-17
+    </p>
+</section>
+
+<div class="columns">
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/d8dHSrHGudU/" alt="Kimi K3" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://blog.csdn.net/2601_96080144/article/details/162961012" target="_blank">月之暗面发布Kimi K3：全球首个开源3万亿参数大模型</a></h4>
+                    <p class="column-item-summary">Kimi K3参数规模达2.8万亿，搭载KDA混合线性注意力机制，原生支持视觉多模态，上下文窗口100万Token。前端编程竞技场以1679分登顶全球第一，超越Claude Fable 5和GPT-5.6 Sol。</p>
+                    <p class="column-item-source"><a href="https://blog.csdn.net/2601_96080144/article/details/162961012" target="_blank">CSDN/澎湃</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/JDrMJ7Xyeq0/" alt="WAICO" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://m.thepaper.cn/newsDetail_forward_33608061" target="_blank">全球首个AI政府间国际组织WAICO在上海成立</a></h4>
+                    <p class="column-item-summary">29个国家联合签署协定，世界人工智能合作组织（WAICO）正式成立，永久总部落户上海，标志着全球AI治理进入多边共建新阶段。</p>
+                    <p class="column-item-source"><a href="https://m.thepaper.cn/newsDetail_forward_33608061" target="_blank">澎湃新闻</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vSY9KjJe1_I/" alt="磐石2.0" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7663591357788832307/" target="_blank">磐石·科学基础大模型2.0在WAIC发布</a></h4>
+                    <p class="column-item-summary">采用递进三层架构，800万条高质量科学推理数据覆盖200+科研任务，一个模型即可高效完成跨学科数据理解、可靠知识推理与精准科学预测。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7663591357788832307/" target="_blank">光明日报</a> · 2026-07-18</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/RmGLMP2y6X8/" alt="千问AI眼镜" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.coze.cn/share-article/201784279578070496" target="_blank">千问AI眼镜升级为智能体驱动，支持按需调用第三方Agent</a></h4>
+                    <p class="column-item-summary">WAIC开幕日，千问宣布AI眼镜升级为智能体驱动眼镜，新增智能体服务与决策能力，同步推出全新硬件技术强化物理世界感知。</p>
+                    <p class="column-item-source"><a href="https://www.coze.cn/share-article/201784279578070496" target="_blank">Coze</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与科学</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/53Xi9xPX_DU/" alt="脑机接口" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7663473990439043638/" target="_blank">华山医院完成全球首例NEO脑机接口商业化植入手术</a></h4>
+                    <p class="column-item-summary">清华团队博睿康研发的NEO系统获批上市后仅4个月即完成首例植入，32例临床试验受试者术后抓握响应率100%，已纳入沪惠保。中国370万+脊髓损伤患者迎来新希望。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7663473990439043638/" target="_blank">虎嗅/人民日报</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/QpWambIsw2M/" alt="云知声U2-Med" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7663339533395673651/" target="_blank">云知声发布U2-Med三医大模型：深度融合医疗、医保、医药全链路</a></h4>
+                    <p class="column-item-summary">内置70+可调用专业Skill，MedBench5.0评测双榜登顶。实现从"对话工具"到扎根业务一线"数字专家"的跨越。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7663339533395673651/" target="_blank">中国经济时报</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/IXkN1Qstqq4/" alt="AI医疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7663509312605520422/" target="_blank">德勤孙晓臻：AI医疗从"尝鲜"到"刚需"，支付路径是关键</a></h4>
+                    <p class="column-item-summary">12项AI辅助诊断纳入医保乙类目录，中国成全球首个将AI诊断大规模纳入国家医保体系的国家。2026年国内医疗AI产业规模预计超400亿元。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7663509312605520422/" target="_blank">21世纪经济报道</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ogPrzlsRXfM/" alt="讯飞医疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://tech.ifeng.com/c/8upyy0GGARb" target="_blank">讯飞医疗携AI血压计与助听器亮相WAIC，星火大模型赋能家庭健康</a></h4>
+                    <p class="column-item-summary">智能臂筒式血压计搭载星火医疗大模型，测量误差低至±2mmHg；多模态字幕助听功能将语义理解提升至80-90%。</p>
+                    <p class="column-item-source"><a href="https://tech.ifeng.com/c/8upyy0GGARb" target="_blank">凤凰网科技</a> · 2026-07-17</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI融资</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7662755224163074603/" target="_blank">DeepSeek启动IPO筹备，计划A股上市，最快2027年完成</a></span>
+            <span class="breaking-news-time">7月15日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">AI研究</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201784203345174752" target="_blank">GPT-5.6用时90分钟推翻统计学界20年未解猜想</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI观点</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201784288946142656" target="_blank">商汤徐立：能让人成长的AI才适合长期存在</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">AI硬件</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7663378716461957684/" target="_blank">华为展示业界最大规模超节点Atlas 950真机</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI应用</span>
+            <span class="breaking-news-text"><a href="https://www.coze.cn/share-article/201784289572611808" target="_blank">Soul发布实时数字人与AI硬件B Soul</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI编程</span>
+            <span class="breaking-news-text"><a href="https://news.ifeng.com/c/8upbBbTWuni" target="_blank">MiniMax Code 2.0桌面端发布，长任务执行稳定性提升</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text"><a href="https://biz.ifeng.com/c/8upx6oXlvth" target="_blank">上海发布全国首个省级医学AI发展方案（2025-2027）</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">生物科技</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7663378716461957684/" target="_blank">天鹜科技AI蛋白质设计平台：2-5年研发压缩至2-6个月</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医疗融资</span>
+            <span class="breaking-news-text"><a href="https://dc.fortune.com/2026/07/16/bunkerhill-health-raises-55-million-ai-agents-work-inside-hospitals/" target="_blank">Bunkerhill Health获2500万美元B轮，Khosla Ventures领投</a></span>
+            <span class="breaking-news-time">7月16日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">AI工业</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7663378716461957684/" target="_blank">西门子首发全球首款工业自动化AI智能体Eigen</a></span>
+            <span class="breaking-news-time">7月17日</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：开源模型进入3T时代，中国AI开源力量崛起</strong></p>
+        <div class="insights-highlight">
+            Kimi K3以2.8万亿参数成为全球最大开源模型，前端编程能力登顶全球第一。月之暗面、智谱、MiniMax同月内接连发布长程任务模型，竞争焦点从"参数规模"转向"可持续执行能力"。开源正从合规选择变成企业战略。
+        </div>
+        <p><strong>趋势二：AI治理从"讨论"进入"建制"阶段</strong></p>
+        <div class="insights-highlight">
+            WAICO成立标志着全球AI治理有了第一个政府间国际组织实体。同日，大会主席声明提出15条全球AI治理原则。从日内瓦AI造福人类峰会到上海WAICO，全球治理正从理念共识走向制度建设。
+        </div>
+        <p><strong>趋势三：脑机接口从实验室走向商业化，AI医疗支付破冰</strong></p>
+        <div class="insights-highlight">
+            NEO完成全球首例商业化植入，从获批到首方仅4个月，已纳入商业保险。同时，中国将12项AI辅助诊断纳入医保，成为全球首个大规模将AI诊断纳入国家医保体系的国家。"支付最后一公里"正在被打通。
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 · 第089期 · 2026年7月18日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-07-18.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
