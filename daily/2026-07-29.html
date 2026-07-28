@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #fff; color: #333333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; border-bottom: 3px solid #1a1a2e; padding-bottom: 12px; margin-bottom: 20px; }
+        .header-title { font-size: 34px; font-weight: 900; letter-spacing: 6px; color: #1a1a2e; margin-bottom: 6px; }
+        .header-meta { font-size: 12px; color: #666; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-categories { display: flex; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #888; }
+        .header-categories span::before { content: "\00b7"; margin-right: 6px; color: #ff6b35; }
+        .header-categories span:first-child::before { content: ""; }
+        .headline { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 20px; background: #fafafa; }
+        .headline-badge { display: inline-block; background: #ff6b35; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; margin-bottom: 10px; letter-spacing: 2px; }
+        .headline-image { width: 100%; max-height: 350px; object-fit: cover; margin-bottom: 12px; border-radius: 4px; }
+        .headline-title { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; line-height: 1.3; }
+        .headline-title a { color: #1a1a2e; text-decoration: none; }
+        .headline-title a:hover { color: #ff6b35; }
+        .headline-summary { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+        .headline-source { font-size: 11px; color: #999; }
+        .headline-source a { color: #ff6b35; text-decoration: none; }
+        .columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .column { border: 1px solid #e0e0e0; padding: 12px; }
+        .column-title { font-size: 13px; font-weight: bold; color: #1a1a2e; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 2px solid #ff6b35; display: flex; align-items: center; gap: 5px; }
+        .column-title::before { content: "\25c6"; color: #ff6b35; font-size: 9px; }
+        .column-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+        .column-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .column-item-inner { display: flex; gap: 10px; }
+        .column-item-image { width: 70px; height: 52px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+        .column-item-content { flex: 1; min-width: 0; }
+        .column-item-title { font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-title a { color: #1a1a2e; text-decoration: none; }
+        .column-item-title a:hover { color: #ff6b35; }
+        .column-item-summary { font-size: 11px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-item-source { font-size: 10px; color: #999; margin-top: 3px; }
+        .breaking-news { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 20px; }
+        .breaking-news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #1a1a2e; display: flex; align-items: center; gap: 5px; }
+        .breaking-news-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+        .breaking-news-item { font-size: 11px; color: #333; padding: 5px 0; border-bottom: 1px dotted #e0e0e0; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .breaking-news-item:nth-child(odd) { border-right: 1px dotted #e0e0e0; padding-right: 16px; }
+        .breaking-news-num { color: #ff6b35; font-weight: bold; min-width: 18px; }
+        .breaking-news-cat { color: #1a1a2e; font-weight: 600; min-width: 50px; }
+        .breaking-news-text { flex: 1; color: #444; }
+        .breaking-news-text a { color: #333; text-decoration: none; font-weight: 500; }
+        .breaking-news-text a:hover { color: #ff6b35; }
+        .breaking-news-time { color: #999; min-width: 45px; text-align: right; }
+        .insights { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: #fff; padding: 16px; margin-bottom: 20px; border-radius: 4px; }
+        .insights-title { font-size: 13px; font-weight: bold; color: #ff6b35; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .insights-content { font-size: 12px; line-height: 1.7; color: #e0e0e0; }
+        .insights-content strong { color: #fff; }
+        .insights-content p { margin-bottom: 8px; }
+        .insights-content p:last-child { margin-bottom: 0; }
+        .insights-highlight { background: rgba(255,107,53,0.15); border-left: 3px solid #ff6b35; padding: 10px 12px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; }
+        .footer a { color: #ff6b35; text-decoration: none; }
+        @media (max-width: 768px) { .columns { grid-template-columns: 1fr; } .breaking-news-list { grid-template-columns: 1fr; } .breaking-news-item:nth-child(odd) { border-right: none; padding-right: 0; } .header-title { font-size: 22px; letter-spacing: 3px; } .headline-title { font-size: 18px; } }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span><span>|</span>
+        <span>2026年7月29日</span><span>|</span>
+        <span>第100期</span><span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span><span>医疗健康</span><span>商业财经</span><span>科学发现</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/vIq8joRJPRE/" alt="Kimi K3" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">Kimi K3正式开源：全球首个3万亿参数级模型，开源与闭源SOTA差距归零</a></h2>
+    <p class="headline-summary">月之暗面（Moonshot AI）于7月27日正式开源Kimi K3——总参数2.8万亿的原生多模态MoE模型，权重上架Hugging Face/GitHub/ModelScope。K3支持100万token上下文、原生视觉理解，发布数小时后登顶Arena.ai代码榜，成为首个夺得该榜第一的中国大模型。黄仁勋罕见首发社交媒体推文，联署25家科技巨头公开信力挺开源路线。</p>
+    <p class="headline-source">来源: <a href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">Moonshot AI / Hugging Face</a> · 2026-07-27</p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">AI大模型前沿</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/3K0SY-hf-ys/" alt="Kimi K3" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">Kimi K3架构解析：KDA混合注意力+896专家MoE，扩展效率提升2.5倍</a></h4>
+                    <p class="column-item-summary">K3采用KDA混合线性注意力+Attention Residuals架构，896个专家仅激活16个，整体扩展效率较K2提升约2.5倍，同步开源MoonEP、FlashKDA、AgentEnv三项关键Infra技术。</p>
+                    <p class="column-item-source"><a href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">Moonshot AI</a> · 2026-07-27</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/B8eHtypsosQ/" alt="MCP" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://modelcontextprotocol.io/" target="_blank">MCP协议史上最大改版定稿：全面无状态化，Agent基建的"HTTP时刻"</a></h4>
+                    <p class="column-item-summary">MCP 2026-07-28规范正式定稿，取消initialize握手与Session-Id，新增Mcp-Method/Mcp-Name必选头，含6项破坏性变更。Agent服务器首次可跑在普通轮询负载均衡后面。</p>
+                    <p class="column-item-source"><a href="https://modelcontextprotocol.io/" target="_blank">MCP官方</a> · 2026-07-28</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TdbLbRwUI08/" alt="NVIDIA" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://blogs.nvidia.com/blog/open-secure-ai-alliance/" target="_blank">NVIDIA成立Open Secure AI Alliance，25家巨头联署支持开放权重</a></h4>
+                    <p class="column-item-summary">黄仁勋首发社交媒体推文，联合微软、Meta、IBM等25家企业发布公开信力挺开放权重模型。Anthropic、OpenAI、Google三家闭源龙头缺席，行业路线分歧正式公开化。</p>
+                    <p class="column-item-source"><a href="https://blogs.nvidia.com/blog/open-secure-ai-alliance/" target="_blank">NVIDIA Blog</a> · 2026-07-27</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/-qJ7NsY5Vdw/" alt="OpenAI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://openai.com/index/how-ai-is-expanding-what-people-do-at-work/" target="_blank">OpenAI研究：43.5%职业AI使用跨越岗位边界，"任务重组"先于"替代"</a></h4>
+                    <p class="column-item-summary">基于80多万条ChatGPT用户工作消息的分析显示，AI对劳动市场的影响正先体现为"岗位任务重组"，而非简单替代就业，跨岗位使用率远超预期。</p>
+                    <p class="column-item-source"><a href="https://openai.com/index/how-ai-is-expanding-what-people-do-at-work/" target="_blank">OpenAI</a> · 2026-07-27</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="column">
+        <h3 class="column-title">医疗健康与科学</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/2LFydL9d1XE/" alt="AI Blood Test" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://taketonews.com/ai-blood-test-identifies-alzheimers-disease-7-years-early-with-92-accuracy/" target="_blank">AI血液检测提前7年诊断阿尔茨海默症，准确率92%</a></h4>
+                    <p class="column-item-summary">德国波鸿大学团队利用AI分析血液淀粉样蛋白β错误折叠，可在症状出现前7年检测阿尔茨海默症标志物，准确率92%，优于传统P-tau217标记物。</p>
+                    <p class="column-item-source"><a href="https://taketonews.com/ai-blood-test-identifies-alzheimers-disease-7-years-early-with-92-accuracy/" target="_blank">TaketoneNews</a> · 2026-07-28</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/zT1DM7mD9kw/" alt="NHS AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://londondaily.com/first-nhs-ai-run-physiotherapy-clinic-launches-this-year" target="_blank">NHS首个AI运营物理治疗诊所Flok Health今夏启动</a></h4>
+                    <p class="column-item-summary">英国NHS将推出首个AI运营物理治疗诊所Flok Health，提供当日自动视频问诊，已获CQC注册批准。初步试验显示患者评价与人类问诊相当或更好。</p>
+                    <p class="column-item-source"><a href="https://londondaily.com/first-nhs-ai-run-physiotherapy-clinic-launches-this-year" target="_blank">London Daily</a> · 2026-07-28</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/57cI7ST1Zg8/" alt="BMS" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://noah-news.com/bristol-myers-squibb-expands-ai-capabilities-with-nvidia-vera-rubin-system-in-br/" target="_blank">百时美施贵宝部署NVIDIA Vera Rubin系统，成首家生命科学AI工厂药企</a></h4>
+                    <p class="column-item-summary">百时美施贵宝部署基于Vera Rubin架构的DGX SuperPOD，成为首家采购该系统的生命科学公司，新系统每兆瓦性能提升10倍，加速肿瘤学和免疫学研究。</p>
+                    <p class="column-item-source"><a href="https://noah-news.com/bristol-myers-squibb-expands-ai-capabilities-with-nvidia-vera-rubin-system-in-br/" target="_blank">Noah News</a> · 2026-07-28</p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/9tfGJOzibcI/" alt="AI Drug" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7667565889901920810/" target="_blank">英灵殿科技完成近5000万美元天使轮，构建AI药物研发微观分子世界模型</a></h4>
+                    <p class="column-item-summary">科学智能平台英灵殿科技完成近5000万美元天使轮融资，五源资本、真格基金等投资，致力于构建下一代微观分子世界模型AlloDesign。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7667565889901920810/" target="_blank">科创板日报</a> · 2026-07-28</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI基建</span>
+            <span class="breaking-news-text"><a href="https://techstartups.com/2026/07/28/top-tech-news-today-july-28-2026-amazon-amd-google-microsoft-nvidia-openai-origin-energy-verizon-more/" target="_blank">英伟达50亿美元投资SSI，"循环融资"质疑爆发，市值被苹果反超</a></span>
+            <span class="breaking-news-time">7月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">AI商业</span>
+            <span class="breaking-news-text"><a href="https://www.anthropic.com/news/cognizant-anthropic" target="_blank">Anthropic与Cognizant扩大合作，Claude嵌入行业平台，培训3万员工</a></span>
+            <span class="breaking-news-time">7月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI治理</span>
+            <span class="breaking-news-text"><a href="https://www.anthropic.com/news/position-open-weights-models" target="_blank">Dario Amodei回应开放权重争议：不主张一刀切禁止，但需芯片管控</a></span>
+            <span class="breaking-news-time">7月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">AI收购</span>
+            <span class="breaking-news-text"><a href="https://newclawtimes.com/articles/agentic-ai-replaces-generative-ai-venture-taxonomy-2026/" target="_blank">Stripe传100亿美元收购OpenRouter，AI模型路由层估值创新高</a></span>
+            <span class="breaking-news-time">7月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI视频</span>
+            <span class="breaking-news-text"><a href="https://36kr.com/p/3914940463601029" target="_blank">AI视频赛道7月融资超262亿元：可灵30亿美元、生数5亿美元</a></span>
+            <span class="breaking-news-time">7月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI安全</span>
+            <span class="breaking-news-text"><a href="https://www.theguardian.com/technology/2026/jul/27/startup-hacked-by-rogue-openai-agent-hugging-face-artificial-intelligence" target="_blank">Hugging Face CEO要求OpenAI公开代理安全事件细节，呼吁1亿美元算力</a></span>
+            <span class="breaking-news-time">7月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">网络安全</span>
+            <span class="breaking-news-text"><a href="https://techcrunch.com/2026/07/27/microsoft-launches-its-first-cyber-model-and-a-new-agentic-cybersecurity-system/" target="_blank">微软发布首个网络安全专用模型MAI-Cyber-1-Flash与代理式安全平台</a></span>
+            <span class="breaking-news-time">7月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI算力</span>
+            <span class="breaking-news-text"><a href="https://techstartups.com/2026/07/28/top-tech-news-today-july-28-2026-amazon-amd-google-microsoft-nvidia-openai-origin-energy-verizon-more/" target="_blank">AMD与Core Scientific签约2.5GW数据中心，Verizon与Google达成10亿美元光纤协议</a></span>
+            <span class="breaking-news-time">7月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7667407184485810688/" target="_blank">人民日报探访佛山年产能万台人形机器人工厂，量产关键在于"造得稳"</a></span>
+            <span class="breaking-news-time">7月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">VC趋势</span>
+            <span class="breaking-news-text"><a href="https://newclawtimes.com/articles/agentic-ai-replaces-generative-ai-venture-taxonomy-2026/" target="_blank">VC话术转变："Agentic AI"取代"Generative AI"成2026年融资主导标签</a></span>
+            <span class="breaking-news-time">7月28日</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：开源vs闭源决战升级至政策层面</strong></p>
+        <div class="insights-highlight">Kimi K3开源+25家巨头联署公开信+Dario Amodei回应——开源与闭源之争已从技术路线升级为产业政策和国家安全议题。核心分歧聚焦三个监管抓手：芯片出口管控、工业化蒸馏打击、能力阈值安全测试。</div>
+        <p><strong>趋势二：AI Agent基建进入"标准化"阶段</strong></p>
+        <div class="insights-highlight">MCP协议无状态化定稿=Agent基建的"HTTP/1.1时刻"，去掉会话粘性后Agent服务器可跑在普通负载均衡后面。叠加VC话术从"Generative"转向"Agentic"，73%的风投资金流向Agent基础设施——AI Agent正从概念验证进入规模化铺设期。</div>
+        <p><strong>趋势三：AI医疗从"辅助诊断"走向"独立运营"</strong></p>
+        <div class="insights-highlight">NHS首批AI运营物理治疗诊所、AI血液检测提前7年诊断阿尔茨海默症、BMS部署Vera Rubin药物发现系统——AI在医疗领域正从"辅助医生"跨越到"独立提供医疗服务"，这是医疗AI落地的重要分水岭。</div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 · 第100期 · 2026年7月29日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-07-29.html" target="_blank">访问官网</a></p>
+</footer>
+</body>
+</html>
