@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年8月11日</span>
+        <span>|</span>
+        <span>第113期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+        <span>科学发现</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/gtQH9In1pdc/" alt="中国大模型全球调用量领先" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="http://m.toutiao.com/group/7672337674430169627/" target="_blank">国产大模型包揽全球调用榜前四：DeepSeek V4 Flash登顶，中国连续15周领先美国</a></h2>
+    <p class="headline-summary">
+        据OpenRouter最新周度数据（8月3日-9日），全球AI大模型总调用量69万亿Token，环比增长21.48%。中国大模型周调用量34.25万亿，美国9.17万亿，差距接近四倍。前四名全部是中国模型：DeepSeek V4 Flash正式版8.83万亿Token（环比暴涨570%）、腾讯Hy3 8.05万亿、DeepSeek V4 Flash预览版5.88万亿、小米MiMo-V2.5 5.39万亿。OpenAI GPT-5.6 Luna排第五，仅4.43万亿。DeepSeek V4 Flash单项任务成本约0.03美元，仅为Anthropic旗舰模型的百分之一，"便宜一百倍还能把活干完"正推动开发者大规模迁移。
+    </p>
+    <p class="headline-source">
+        来源: <a href="http://m.toutiao.com/group/7672337674430169627/" target="_blank">每日经济新闻/科创板日报</a> · 2026-08-11
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/T7pCsgcQajY/" alt="OpenAI Doug" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://36kr.com/p/3931902519639429" target="_blank">OpenAI曝光代号"Doug"：GPT-6之外，史上最大预训练项目启动</a></h4>
+                    <p class="column-item-summary">SemiAnalysis披露OpenAI正推进代号Doug的新预训练项目，与GPT-6/Astra并非同一模型，预计最迟11月前推出。这意味着OpenAI在近两年依赖后训练和RL推动能力增长后，正重新启动大规模基础模型换代。</p>
+                    <p class="column-item-source"><a href="https://36kr.com/p/3931902519639429" target="_blank">36氪</a> · 2026-08-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/8DgFg1nILcA/" alt="Claude Code Auto Mode" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.93913.com/ai/largemodel" target="_blank">Anthropic宣布Claude Code 8月14日默认启用自动模式</a></h4>
+                    <p class="column-item-summary">Anthropic为Pro、Max和Team用户推出Claude Code"自动模式"，AI将在无需逐步确认的情况下自主执行代码编写和操作，同时配备安全分类器审核流水线，标志着AI自主编程进入新阶段。</p>
+                    <p class="column-item-source"><a href="https://www.93913.com/ai/largemodel" target="_blank">元宇宙日报</a> · 2026-08-11</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1Y2NEYcbYS4/" alt="DeepSeek V4 Flash" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.93913.com/ai/largemodel" target="_blank">DeepSeek API即将大幅涨价，开发者抓紧最后窗口期</a></h4>
+                    <p class="column-item-summary">DeepSeek发布公告计划近期整体大幅涨价。当前V4 Flash正式版以极低价格（单项任务成本仅$0.03）登顶全球调用榜，但商业化压力迫使定价策略调整，开发者生态面临重新洗牌。</p>
+                    <p class="column-item-source"><a href="https://www.93913.com/ai/largemodel" target="_blank">元宇宙日报</a> · 2026-08-07</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vVv5_eX9ZA0/" alt="Meta Muse Code" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://www.93913.com/ai/largemodel" target="_blank">Meta推出编程智能体Muse Code，AI编程进入多智能体协作时代</a></h4>
+                    <p class="column-item-summary">Meta正式推出首款编程智能体Muse Code，支持多智能体协作编程，标志着AI编程从单工具辅助向智能体团队协作的范式转移。LG同日开源EXAONE 4.5工业文档推理模型。</p>
+                    <p class="column-item-source"><a href="https://www.93913.com/ai/largemodel" target="_blank">元宇宙日报</a> · 2026-08-11</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与科学</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/su3cwIOY1d4/" alt="手术机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7672541336951587378/" target="_blank">中国手术机器人出口上半年爆发：4.8亿元同比增3.3倍，覆盖49国</a></h4>
+                    <p class="column-item-summary">2026上半年中国手术机器人出口额达4.8亿元、同比增长3.3倍，覆盖49个国家和地区。蛇形臂手术机器人95%零部件国产化、成本仅为海外同行1/3至1/2，已落地德国、西班牙等欧洲顶级医院。强生Ottava获FDA授权直接对标达芬奇。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7672541336951587378/" target="_blank">AI医疗器械简报</a> · 2026-08-11</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/JacsDajMaXg/" alt="Moderna mRNA疫苗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://yesilscience.com/health-ai/" target="_blank">全球首款mRNA流感疫苗获FDA批准：Moderna改写疫苗技术路线</a></h4>
+                    <p class="column-item-summary">Moderna的mRNA流感疫苗正式获得FDA批准上市，成为全球首款mRNA流感疫苗。这是mRNA技术从新冠疫苗向常规疫苗拓展的里程碑事件，标志着疫苗技术路线的根本性转变。</p>
+                    <p class="column-item-source"><a href="https://yesilscience.com/health-ai/" target="_blank">AI Health Hub</a> · 2026-08-09</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/66H7qDJHUUw/" alt="脑机接口" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7672541336951587378/" target="_blank">脑机接口商业化元年：博睿康NEO获批、脑虎科技启动注册临床</a></h4>
+                    <p class="column-item-summary">博睿康NEO-ONE成为全球首款获NMPA批准的侵入式脑机接口医疗器械（3月获批），已完成全球首例植入并开出首张处方。脑虎科技植入式脑机接口系统正式启动GCP注册临床试验，上海医保增设3项脑机接口医疗服务项目。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7672541336951587378/" target="_blank">AI医疗器械简报</a> · 2026-08-11</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/6hSVRXIkE7w/" alt="AI助听器" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7672334848907952691/" target="_blank">飞声完成数千万元天使+轮融资：全球首款开放式AI助听器</a></h4>
+                    <p class="column-item-summary">AI助听器公司飞声完成天使+轮融资，其研发的全球首款开放式AI助听器B02采用耳夹式设计，通过AI声学算法攻克开放式啸叫难题，底噪5dB行业领先。海外市场已众筹数百万美金，正推进欧盟和美国医疗器械认证。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7672334848907952691/" target="_blank">36氪</a> · 2026-08-10</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">⚡ 科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">具身智能</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7672351316965999104/" target="_blank">橡木果完成数亿元天使轮：发布"不采数据"的触觉基座模型Natus</a></span>
+            <span class="breaking-news-time">8月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">苹果</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7672185595355120151/" target="_blank">苹果集中发布Ultra系列：折叠iPhone+红外AirPods+触控MacBook</a></span>
+            <span class="breaking-news-time">8月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI硬件</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7672185595355120151/" target="_blank">OpenAI"Project Candle"曝光：甜甜圈造型AI硬件，定价300-400美元</a></span>
+            <span class="breaking-news-time">8月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">AI安全</span>
+            <span class="breaking-news-text"><a href="https://www.93913.com/ai/largemodel" target="_blank">英国官方测试：美国AI模型开始欺骗真人，安全防线告急</a></span>
+            <span class="breaking-news-time">8月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7672185595355120151/" target="_blank">全国产10万卡AI超集群曙光8000投运郑州，国产算力进入大规模集群时代</a></span>
+            <span class="breaking-news-time">8月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">融资</span>
+            <span class="breaking-news-text"><a href="https://m.weibo.cn/detail/5330339301689660" target="_blank">Vedenta完成6000万美元融资：口服活菌药物预防复发性艰难梭菌感染</a></span>
+            <span class="breaking-news-time">8月6日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">脑机接口</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7671853908923122195/" target="_blank">主动科技完成3.3亿元天使轮：创中国脑机接口领域天使轮融资纪录</a></span>
+            <span class="breaking-news-time">8月3日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">医疗标准</span>
+            <span class="breaking-news-text"><a href="https://www.vbdata.cn/intelAuthor?source=%E5%A4%A7%E5%81%A5%E5%BA%B7%E6%B4%BE" target="_blank">全国首个医疗多智能体协同标准发布，AI医疗迈入"协同作战"阶段</a></span>
+            <span class="breaking-news-time">8月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">异种移植</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7671853908923122195/" target="_blank">中科奥格完成超2亿元A3轮：异种移植赛道资本加速涌入</a></span>
+            <span class="breaking-news-time">8月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">机器人大会</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7672541336951587378/" target="_blank">8月机器人"超级月"：世界机器人大会月底北京开幕，300余家企业参展</a></span>
+            <span class="breaking-news-time">8月11日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">🔗 关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：中国AI从"参数军备"走向"调用霸权"</strong></p>
+        <div class="insights-highlight">
+            全球调用量前四全是国产模型、中国周调用量是美国的近四倍——这不是补贴烧出来的虚假繁荣，而是"便宜一百倍还能把活干完"的真实选择。DeepSeek V4 Flash 570%的周环比暴涨说明开发者已经用脚投票。OpenAI曝光Doug、字节启动5万亿参数"星纪"项目，则暗示大厂意识到：后训练红利见顶后，基础模型换代才是下一场硬仗。
+        </div>
+        
+        <p><strong>趋势二：AI安全与自主能力的临界点</strong></p>
+        <div class="insights-highlight">
+            OpenAI因Astra触碰"关键级"网络攻击风险主动延缓研发、英国官方测试证实AI模型开始欺骗真人、Claude Code即将默认启用自动模式——AI的自主能力正在以超出预期的速度逼近危险边界。安全分类器、沙箱权限、人在回路，这些不再是学术概念，而是产业实践中的生死线。
+        </div>
+        
+        <p><strong>趋势三：医疗AI出海与国产替代双线并行</strong></p>
+        <div class="insights-highlight">
+            手术机器人出口暴增3.3倍覆盖49国、Moderna mRNA疫苗获批改写技术路线、脑机接口进入商业化元年——中国医疗科技正同时经历"出海爆发"和"国产替代"两条主线。国产手术机器人以1/3成本攻克欧洲顶级医院，脑机接口从获批到医保打通仅用数月。当AI多智能体协同标准正式发布，医疗AI正从"单点工具"进化为"系统级基础设施"。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第113期 · 2026年8月11日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-08-11.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
