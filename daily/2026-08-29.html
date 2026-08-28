@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255, 107, 53, 0.12);
+            border-left: 3px solid #ff6b35;
+            padding: 8px 10px;
+            margin: 6px 0 12px 0;
+            color: #d0d0d8;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 16px 0;
+            border-top: 2px solid #1a1a2e;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            .headline-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年8月29日</span>
+        <span>|</span>
+        <span>第131期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>政策财经</span>
+        <span>机器人</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/JxWSU5OSyZM/" alt="医疗保障法" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title"><a href="http://politics.people.com.cn/n1/2026/0828/c1001-40788304.html" target="_blank">《医疗保障法》表决通过、2027年1月1日施行：医保领域首部基础性法律，集采制度写入法条</a></h2>
+    <p class="headline-summary">
+        8月28日，十四届全国人大常委会第二十四次会议表决通过《中华人民共和国医疗保障法》，自2027年1月1日起施行。这是我国医疗保障领域首部基础性、统领性法律，涵盖医疗保障体系、基金、服务、监督管理、法律责任等七章内容。法律明确国家建立并完善药品、医用耗材集中采购制度，实行多元复合式医保支付方式；将长期护理保险制度、商业健康保险多层次保障体系以法律形式确立；并要求定点医药机构遵守药品、医疗器械信息化追溯制度。配合9月30日前各省出台的药店个人账户支付"白名单"，医保基金使用的合规边界将全面收紧。对外资药械企业而言，循证医学与经济性评价、集中采购、追溯合规三大机制正式上升为国家法律制度。
+    </p>
+    <p class="headline-source">
+        来源: <a href="http://politics.people.com.cn/n1/2026/0828/c1001-40788304.html" target="_blank">新华社/人民网</a> · <a href="http://m.toutiao.com/group/7679090008703255055/" target="_blank">中国劳动保障报</a> · 2026-08-28
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/A-lJF4fjLiU/" alt="苹果收购Q.ai" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="https://israelvalley.com/2026/08/28/en-direct-de-new-york-apple-fait-lacquisition-de-q-ai-tel-aviv-un-deal-de-2-milliards/" target="_blank">苹果20亿美元收购以色列AI公司Q.ai：Face ID创始团队再出山，健康传感技术将融入AirPods与Apple Watch</a></h4>
+                    <p class="column-item-summary">苹果确认收购以色列Ramat Gan的AI初创Q.ai，交易估值最高达20亿美元，为苹果史上仅次于Beats的第二大收购。Q.ai由PrimeSense（2013年被苹果收购后催生Face ID）联合创始人Aviad Maizels创立，约100名员工，主攻噪声环境语音识别、面部微动作解码语言及呼吸/心率等健康指标传感。苹果硬件高级副总裁Johny Srouji表示技术将服务AirPods、Apple Watch、Vision Pro和Siri。</p>
+                    <p class="column-item-source"><a href="https://israelvalley.com/2026/08/28/en-direct-de-new-york-apple-fait-lacquisition-de-q-ai-tel-aviv-un-deal-de-2-milliards/" target="_blank">Israel Valley/Israel National News</a> · 2026-08-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/YbX_y32qo8Y/" alt="腾讯混元Hy4开源" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7679068983873634843/" target="_blank">腾讯开源旗舰大模型混元Hy4：770B MoE、1M上下文、Apache-2.0可商用，国产开源三连发收官</a></h4>
+                    <p class="column-item-summary">8月28日，腾讯开源旗舰模型混元Hy4：总参数770B的MoE架构，每token激活49B，上下文窗口1M，Apache-2.0许可可商用。Terminal-Bench 2.1得分从70.8跃升至85.4，Arena Code榜1633分、开源第3。官方盲测中对GLM-5.3胜率46.8%、对Kimi K3胜率51.2%。这是本周继智谱GLM-5.3-Flash、阿里Qwen3.8-Flash-Next之后国产开源第三弹，也是规格最高的一棒，主攻Agent、代码库分析与长文档处理。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7679068983873634843/" target="_blank">腾讯/阿毛AI</a> · 2026-08-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/OxYqj-p1vSg/" alt="Anthropic芯片" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://ishare.ifeng.com/c/s/v002U8uUP--3DWX9cxQqJVHMCZHBvcb8nD8556cDHpnOJ2wM__" target="_blank">Anthropic 70亿美元收购芯片创企MatX告吹：转合作模式，IPO目标估值2万亿美元</a></h4>
+                    <p class="column-item-summary">路透社8月28日报道，Anthropic曾洽谈以约70亿美元收购前谷歌TPU工程师创立的AI芯片公司MatX，目前谈判已转为合作磋商。由前谷歌TPU工程师创立的MatX正寻求新一轮融资，估值约40亿美元。Anthropic今年已招揽前OpenAI芯片工程师Clive Chan和谷歌芯片资深人士Amir Salek，坚持训练+推理芯片双线布局。报道同时指出，Anthropic IPO将在数月后启动，若2028年达2000亿美元营收，目标估值2万亿美元。</p>
+                    <p class="column-item-source"><a href="http://ishare.ifeng.com/c/s/v002U8uUP--3DWX9cxQqJVHMCZHBvcb8nD8556cDHpnOJ2wM__" target="_blank">路透社/芯东西</a> · 2026-08-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/V8K_GZSsbm4/" alt="AI网络防御公开信" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://ishare.ifeng.com/c/s/v002PBKPIp2AW16m9QcAcvpKgo9G6WuHQRDwgAnv1CkF--3U__" target="_blank">OpenAI联合谷歌、微软、Anthropic等百余家机构发公开信：AI网络攻击数月内将更广泛复杂</a></h4>
+                    <p class="column-item-summary">当地时间8月27日，OpenAI发布《呼吁开展网络防御的集体行动》公开信，联合Anthropic、AWS、谷歌、微软及CrowdStrike、IBM、Oracle、Visa等百余家机构，警告AI驱动的网络攻击将在数月内变得更普遍复杂，医院、水厂、电网等关键基础设施面临直接威胁。信中呼吁政府为关键基础设施提供防御性AI资金。此前OpenAI近700个测试Agent曾协同入侵Hugging Face生产环境，Anthropic的Mythos模型曾发现OpenBSD中27年未被察觉的漏洞但被限制访问。美国会正审议《紧急关停法案》。</p>
+                    <p class="column-item-source"><a href="http://ishare.ifeng.com/c/s/v002PBKPIp2AW16m9QcAcvpKgo9G6WuHQRDwgAnv1CkF--3U__" target="_blank">第一财经/凤凰网</a> · 2026-08-28</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/QgMxv6-3Inw/" alt="病理云索引" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://health.people.com.cn/n1/2026/0829/c14739-40788393.html" target="_blank">国家医保局发布"医保病理云索引"编码规范：79位编码全国"一码通行"，病理数据跨省互联</a></h4>
+                    <p class="column-item-summary">国家医保局近日发布《"医保病理云索引"编码规范》，共设8个部分、编码总长79位，患者每次病理检查将拥有全国通用唯一专属号码。今后医疗机构可在线调取患者全生命周期病理档案，跨省就医不再携带病理切片辗转奔波，基层机构可依托标准化数字切片和AI辅助诊断减少判读误差。医保局指出，当前我国约95%医疗机构病理科尚未实现数智化升级，规范落地将推动数字切片扫描、AI辅助诊断、病理信息系统产业链迭代普及。</p>
+                    <p class="column-item-source"><a href="http://health.people.com.cn/n1/2026/0829/c14739-40788393.html" target="_blank">人民日报海外版/人民网</a> · 2026-08-29</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ET2ktAgMqME/" alt="AI制药" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7679118644730692122/" target="_blank">AI制药商业化半年报集体验证：英矽智能营收增287%，中国生物制药PCC周期从2年压缩至8个月</a></h4>
+                    <p class="column-item-summary">创新药企业半年报显示AI正加速兑现商业价值：英矽智能上半年营收1.063亿美元、同比增长287.2%，药物研发与管线收入同比增超300%，与施维雅、礼来、齐鲁达成合作；太美医疗AI临床平台收入1.59亿元、增22%，Wiz.AI文思收入增48%；晶泰科技收入3.936亿元。下游药企同步跟进：中国生物制药三年AI投入约6亿元，PCC阶段合成化合物从数百个减至50-100个，口服蛋白降解剂PCC周期由约2年缩至最短8个月；复星医药已有2个AI辅助新分子进入PCC阶段、25个高价值AI项目投产。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7679118644730692122/" target="_blank">证券日报</a> · 2026-08-29</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/3mdLqrjkImc/" alt="医保局药企座谈会" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7678951854402732582/" target="_blank">国家医保局召开16家药企座谈会：拜耳、诺华、艾伯维、雅培参会，真支持创新、建个人医保云/影像云/病理云</a></h4>
+                    <p class="column-item-summary">8月27日，国家医保局召集拜耳、费森尤斯卡比、诺华、卫材、艾伯维、雅培等16家国内外药企召开"十五五"医药产业高质量发展座谈会。局长章轲表示，"十四五"时期医保累计支出约13万亿元，"十五五"将旗帜鲜明真支持创新、支持差异化创新，推进医保综合价值评价，建设个人医保云、影像云、病理云等创新场景，加大对创新药械和创新服务项目支持，并推进医保与医疗机构即时结算、与医药企业直接结算。药监局副局长同日赴江苏调研创新药企业，表态深化审评审批改革。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7678951854402732582/" target="_blank">中国证券报</a> · 2026-08-28</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/psxphGAhxdA/" alt="科大讯飞AI医疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title"><a href="http://m.toutiao.com/group/7678699056830382619/" target="_blank">科大讯飞跑通AI医疗收费逻辑：12亿次辅诊沉淀数据飞轮，影像云5元/次由医保买单</a></h4>
+                    <p class="column-item-summary">科大讯飞半年报显示，智医助理已覆盖31省828个区县、7.7万家基层医疗机构，累计辅助诊断超12亿次，已部署区县市占率超80%；影像云联网机构超1980家、跨院调阅1230万次，基础阅片每次约5元由国家医保局承担，目标两年内全国60%份额、年付费服务量超3亿人次。星火医疗大模型V3.5生成病历的医生采纳率达91%，幻觉率从3%压到1.9%。国家卫健委已将基层AI辅诊全覆盖目标从2030年提前至2028年。</p>
+                    <p class="column-item-source"><a href="http://m.toutiao.com/group/7678699056830382619/" target="_blank">新浪财经/深蓝观</a> · 2026-08-27</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">科技快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text"><a href="http://news.china.com.cn/2026-08/29/content_118669760.shtml" target="_blank">国家发改委：统筹布局具身智能实训场，加快机器人在医疗、制造等领域落地</a></span>
+            <span class="breaking-news-time">8月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7679083911221183030/" target="_blank">优必选上半年营收12.69亿增104%，全尺寸人形机器人销量921台、收入暴增1445%</a></span>
+            <span class="breaking-news-time">8月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">融资</span>
+            <span class="breaking-news-text"><a href="https://www.jiemian.com/article/15019767.html" target="_blank">软银寻求100亿美元贷款为OpenAI投资再融资，预计10月累计向OpenAI投资近650亿美元</a></span>
+            <span class="breaking-news-time">8月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7678907789514752553/" target="_blank">英伟达Vera CPU开始规模交付，AWS收到首套Vera Rubin系统，Anthropic/OpenAI已接收</a></span>
+            <span class="breaking-news-time">8月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI安全</span>
+            <span class="breaking-news-text"><a href="http://m.toutiao.com/group/7678907789514752553/" target="_blank">Wiz发布90天蜜罐证据：LiteLLM、MCP服务器、LangChain等AI基础设施已遭真实攻击</a></span>
+            <span class="breaking-news-time">8月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">大模型</span>
+            <span class="breaking-news-text"><a href="https://aitoolsrecap.com/Blog/ai-news-august-28-2026" target="_blank">智谱GLM-5.3开放权重预计今日发布，已历经两周最长风险审查；8月31日Claude/GPT集体调价迁移</a></span>
+            <span class="breaking-news-time">8月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">金融AI</span>
+            <span class="breaking-news-text"><a href="https://news.crunchbase.com/venture/socure-raises-acquires-agentic-ai-startup-fravity/" target="_blank">身份验证公司Socure获1.56亿美元融资、估值52亿，收购智能体反欺诈公司Fravity</a></span>
+            <span class="breaking-news-time">8月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">集采</span>
+            <span class="breaking-news-text"><a href="https://m.cphi.cn/news/show-372069.html" target="_blank">第十二批国家集采65种药品全部采购成功创历史新高，分量系统8月28日零点开放</a></span>
+            <span class="breaking-news-time">8月27日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text"><a href="https://stock.10jqka.com.cn/20260828/c679401336.shtml" target="_blank">开普云AI-MDT智能多学科会诊系统落地呼和浩特市第一医院，全本地化部署完成三甲验证</a></span>
+            <span class="breaking-news-time">8月28日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">全球化</span>
+            <span class="breaking-news-text"><a href="https://openai.com/zh-Hans-CN/news/?authors=sam-altman" target="_blank">OpenAI在巴西启动商业运营，圣保罗设本地团队；巴西用户日均发送2.15亿条ChatGPT消息</a></span>
+            <span class="breaking-news-time">8月27日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：医保从政策治理迈入"法律治理"时代，药械企业合规逻辑全面改写</strong></p>
+        <div class="insights-highlight">
+            《医疗保障法》的通过意味着集采、医保支付、基金监管、药械追溯从部门规章上升为国家法律。配合国家医保局"真支持创新"的座谈表态、第十二批集采10款原研药中选（拜耳、诺华等外资均在列）、以及"十五五"全民医保规划提出的综合价值评价，政策信号清晰：普惠性品种继续以价换量、临床价值差异化品种获得支付倾斜。对外资医疗器械企业，三条法律红线值得月报重点关注——循证与经济性评价成为目录准入法定依据、集采制度常态化写入法条、UDI类信息化追溯成为定点机构强制义务。
+        </div>
+        
+        <p><strong>趋势二："发布"与"放行"正在分离，网络能力成为前沿AI的新闸门</strong></p>
+        <div class="insights-highlight">
+            智谱GLM-5.3因网络能力风险审查延迟两周开放权重、OpenAI与Anthropic同月各自限制网络能力模型、阿里Qwen 3.8-Max改用自定义许可——四家实验室、四个司法辖区指向同一方向：模型"发布"和"可下载"变成两个独立事件。OpenAI百余家机构联名公开信、Wiz蜜罐证据、以及国会《紧急关停法案》审议，共同标志着AI网络安全从技术议题升级为治理议题。医疗作为关键基础设施被公开信反复点名，医院部署AI Agent时的安全评估将成为采购新门槛。
+        </div>
+        
+        <p><strong>趋势三：AI商业化进入"收费逻辑"验证期，从token计费转向任务价值付费</strong></p>
+        <div class="insights-highlight">
+            本周三组数据勾勒出AI变现的真实水位：英矽智能营收增287%证明AI制药从概念走向管线收入；科大讯飞影像云5元/次由医保买单、医生采纳率91%，证明医疗AI能嵌入临床工作流获得持续性付费；苹果20亿美元收购Q.ai、英伟达129亿美元收购Hugging Face，则显示巨头正用并购锁定健康传感与模型分发入口。共同特征是：收费不再依赖token调用量，而是绑定明确的临床任务、医保支付场景或硬件入口——这与医保局"综合价值评价"的支付改革方向形成共振。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第131期 · 2026年8月29日</p>
+    <p>关注AI科技、医疗健康、政策财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-08-29.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
