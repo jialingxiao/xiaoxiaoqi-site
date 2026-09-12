@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吐司日报 - 2026年9月13日</title>
+<style>
+  :root {
+    --ink: #2c2c2c;
+    --ink-soft: #555;
+    --paper: #fbf9f4;
+    --paper-card: #ffffff;
+    --line: #e8e2d5;
+    --accent: #c0392b;
+    --accent-soft: #f5e6e3;
+    --health: #2e7d6b;
+    --health-soft: #e3f1ed;
+    --gold: #b8860b;
+    --shadow: 0 2px 16px rgba(60,50,30,0.07);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 18px 60px; }
+
+  /* 报头 */
+  .masthead {
+    text-align: center;
+    padding: 44px 0 26px;
+    border-bottom: 3px double var(--line);
+    margin-bottom: 8px;
+  }
+  .masthead .brand {
+    font-size: 15px; letter-spacing: 8px; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
+  }
+  .masthead h1 {
+    font-size: 40px; font-weight: 800; letter-spacing: 4px;
+    color: var(--ink); margin-bottom: 12px;
+  }
+  .masthead .meta {
+    font-size: 13px; color: var(--ink-soft); letter-spacing: 1px;
+  }
+  .masthead .meta span { margin: 0 8px; }
+  .issue-tag {
+    display: inline-block; background: var(--accent); color:#fff;
+    font-size: 12px; padding: 2px 12px; border-radius: 20px;
+    letter-spacing: 1px; margin-left: 6px; vertical-align: middle;
+  }
+
+  /* 面包屑式导读 */
+  .nav-strip {
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+    padding: 16px 0; border-bottom: 1px solid var(--line); margin-bottom: 28px;
+  }
+  .nav-strip a {
+    font-size: 12px; color: var(--ink-soft); text-decoration: none;
+    padding: 4px 12px; border:1px solid var(--line); border-radius: 16px;
+    background:#fff; transition:.2s;
+  }
+  .nav-strip a:hover { color:var(--accent); border-color:var(--accent); }
+
+  /* 栏目标题 */
+  .section { margin-bottom: 40px; }
+  .section-head {
+    display:flex; align-items:center; gap:10px; margin-bottom: 18px;
+  }
+  .section-head .bar { width:4px; height:22px; border-radius:2px; }
+  .section-head h2 { font-size: 21px; font-weight: 800; letter-spacing:1px; }
+  .section-head .en { font-size:11px; color:#aaa; letter-spacing:2px; font-weight:400; }
+  .ai .bar { background: var(--accent); }
+  .ai .section-head h2 { color: var(--accent); }
+  .health .bar { background: var(--health); }
+  .health .section-head h2 { color: var(--health); }
+
+  /* 头条 */
+  .headline {
+    background: var(--paper-card); border-radius: 14px; overflow:hidden;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    margin-bottom: 20px;
+  }
+  .headline-image {
+    width:100%; display:block; object-fit:cover; background:#eee;
+  }
+  .headline-body { padding: 24px 24px 26px; }
+  .headline-badge {
+    display:inline-block; background: var(--accent); color:#fff;
+    font-size:11px; padding:3px 12px; border-radius:4px; letter-spacing:2px;
+    margin-bottom: 12px; font-weight:600;
+  }
+  .headline-title { font-size: 24px; font-weight:800; line-height:1.4; margin-bottom: 12px; }
+  .headline-summary { font-size: 15px; color: var(--ink-soft); margin-bottom: 16px; }
+  .headline-detail {
+    font-size: 14px; background: #faf7f0; border-left:3px solid var(--gold);
+    padding: 14px 16px; border-radius: 0 8px 8px 0; color:#444;
+  }
+  .headline-detail p { margin-bottom: 8px; }
+  .headline-detail p:last-child { margin-bottom:0; }
+  .headline-source { font-size:12px; color:#999; margin-top:14px; }
+
+  /* 双栏条目卡片 */
+  .column-list { display:flex; flex-direction:column; gap:14px; }
+  .column-item {
+    background: var(--paper-card); border-radius: 12px; box-shadow: var(--shadow);
+    border: 1px solid var(--line); overflow:hidden; transition:.2s;
+  }
+  .column-item:hover { transform: translateY(-2px); box-shadow:0 6px 22px rgba(60,50,30,.12); }
+  .column-item-inner { display:flex; gap:16px; }
+  .column-item-image {
+    width:128px; min-width:128px; height:128px; object-fit:cover;
+    background:#eee; align-self:stretch;
+  }
+  .column-item-content { padding:16px 18px 16px 0; flex:1; }
+  .ai .column-item { border-left: 3px solid var(--accent); }
+  .health .column-item { border-left: 3px solid var(--health); }
+  .column-item h3 { font-size:16px; font-weight:700; line-height:1.5; margin-bottom:7px; }
+  .column-item .summary { font-size:13.5px; color:var(--ink-soft); margin-bottom:9px; }
+  .column-item .detail {
+    font-size:12.5px; color:#666; background:#faf8f3; border-radius:6px;
+    padding:8px 11px; margin-bottom:9px;
+  }
+  .column-item .meta-row {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11.5px; color:#aaa;
+  }
+  .tag {
+    font-size:10.5px; padding:1px 8px; border-radius:10px; font-weight:600;
+  }
+  .ai .tag { background:var(--accent-soft); color:var(--accent); }
+  .health .tag { background:var(--health-soft); color:var(--health); }
+
+  /* 商业雷达 / 快讯 */
+  .radar { background: var(--paper-card); border:1px solid var(--line); border-radius:12px;
+    box-shadow:var(--shadow); padding: 20px 22px; }
+  .radar-item {
+    display:flex; gap:12px; padding:12px 0; border-bottom:1px dashed var(--line);
+  }
+  .radar-item:last-child { border-bottom:none; padding-bottom:0; }
+  .radar-item:first-child { padding-top:0; }
+  .radar-dot {
+    width:7px; height:7px; border-radius:50%; background:var(--gold);
+    margin-top:9px; flex-shrink:0;
+  }
+  .radar-item .t { font-size:14px; font-weight:600; margin-bottom:3px; }
+  .radar-item .d { font-size:12.5px; color:var(--ink-soft); }
+  .radar-item .s { font-size:11px; color:#aaa; margin-top:3px; }
+
+  /* 吐司点评 */
+  .toast-note {
+    margin-top: 42px; background: linear-gradient(135deg,#fff8ec,#fdf1dd);
+    border:1px solid #f0dcb4; border-radius:14px; padding:24px 26px;
+  }
+  .toast-note h2 { font-size:17px; margin-bottom:12px; color:#8a5a00; }
+  .toast-note p { font-size:14px; color:#5d4a26; margin-bottom:10px; }
+  .toast-note p:last-child{ margin-bottom:0; }
+
+  /* 页脚 */
+  footer {
+    text-align:center; margin-top:44px; padding-top:22px;
+    border-top: 3px double var(--line); font-size:12px; color:#aaa; line-height:2;
+  }
+
+  @media (max-width: 520px) {
+    .masthead h1 { font-size:30px; }
+    .headline-title { font-size:20px; }
+    .column-item-inner { flex-direction:column; gap:0; }
+    .column-item-image { width:100%; height:170px; min-width:0; }
+    .column-item-content { padding:14px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 报头 -->
+  <header class="masthead">
+    <div class="brand">TUSI&nbsp;&nbsp;DAILY</div>
+    <h1>吐司日报 🍞</h1>
+    <div class="meta">
+      <span>2026年9月13日</span>·<span>星期日</span>
+      <span class="issue-tag">第146期</span>
+    </div>
+  </header>
+
+  <nav class="nav-strip">
+    <a href="#headline">📌 头条</a>
+    <a href="#ai">🤖 前沿AI</a>
+    <a href="#health">🏥 医疗健康</a>
+    <a href="#radar">💰 商业雷达</a>
+    <a href="#toast">🍞 吐司说</a>
+  </nav>
+
+  <!-- 头条 -->
+  <section class="section" id="headline">
+    <div class="headline">
+      <div class="headline-body">
+        <span class="headline-badge">今日头条 · AI治理拐点</span>
+        <img src="https://s.coze.cn/image/2NyiEx-deDA/" alt="AI安全、并购、监管三条信号" class="headline-image" style="aspect-ratio: 16/9;">
+        <h2 class="headline-title">Amodei撰文《放缓前沿AI》引爆行业，Altman、马斯克齐声呼应，前沿实验室罕见集体转向"安全刹车"</h2>
+        <p class="headline-summary">9月12日，Anthropic CEO Dario Amodei发表署名文章《Pacing the Frontier: Why We're Slowing Down》，罕见承认"实验室正在输掉安全竞赛"，主动把旗舰模型研发节奏放慢数周，升级网络安全与生物风险防御体系，并向外部机构METR开放员工级永久访问权限——可扫描数百万份员工对话记录。OpenAI的Altman、xAI的马斯克同日公开呼应。</p>
+        <div class="headline-detail">
+          <p><strong>▍ 事件经过：</strong>Anthropic一名离职员工对外发出"AI能力已逼近危险临界点"的严厉警告，引发"末日式情景"担忧。Amodei在文中坦言，当前AI网络能力的提升速度已超过防御体系的建设速度，"我们正在输掉这场竞赛"，宣布主动放缓Claude后续版本研发，新增数百万美元网络安全投入，并将内部系统对METR开放审查。</p>
+          <p><strong>▍ 巨头齐声：</strong>OpenAI的Sam Altman发文表示"在安全问题上，慢一点是对的"；马斯克称"任何对公众有重大风险的AI都应暂停"；微软、谷歌安全高管亦表态支持。这是前沿AI阵营首次在"主动减速"上形成公开共识。</p>
+          <p><strong>▍ 商业连锁反应：</strong>Altman同周明确表态"现在不是（OpenAI）上市的合适时机"，公司仍有大量安全工作待完成，相当于把IPO压力更多留给了正冲刺2万亿估值的Anthropic。而就在同一天，英伟达被曝拟以最高100亿美元作为锚定投资者参与Anthropic的IPO——"放慢脚步"与"冲刺史上最大IPO"在同一家公司身上同时上演。</p>
+        </div>
+        <div class="headline-source">来源：证券之星 · 金融界 · 凤凰科技 · 路透社（2026-09-12）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 前沿AI -->
+  <section class="section ai" id="ai">
+    <div class="section-head">
+      <span class="bar"></span>
+      <h2>前沿AI · 大模型与智能体</h2>
+      <span class="en">FRONTIER AI</span>
+    </div>
+    <div class="column-list">
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/fn5pzEwPJqw/" alt="OpenAI Codex" class="column-item-image">
+          <div class="column-item-content">
+            <h3>OpenAI同周四连发：GPT-Live-1全双工语音、Codex移动端、金融版ChatGPT密集落地</h3>
+            <p class="summary">在Altman喊出"放慢"的同时，OpenAI产品端并未停步。全双工语音模型GPT-Live-1支持可打断、有语气停顿的自然对话；Codex登陆手机端，可远程指挥电脑端编程Agent；面向银行、保险机构的ChatGPT Financial Services Cloud正式版上线。</p>
+            <div class="detail">行业解读：一边给前沿能力踩刹车，一边把成熟能力加速商业化——"安全刹车"踩在研发端，"商业油门"踩在应用端，成为头部实验室的新平衡术。</div>
+            <div class="meta-row"><span class="tag">产品发布</span><span>新浪科技 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/4DOIQMTbfvs/" alt="智谱GLM大模型" class="column-item-image">
+          <div class="column-item-content">
+            <h3>智谱启动50亿美元新一轮融资：20亿配股+30亿可转债，两月内再融资350亿元</h3>
+            <p class="summary">据路透社9月11日报道，智谱新一轮融资包括约20亿美元股票配售及30亿美元可转换债券，总规模达50亿美元（约合人民币超350亿元），用于研发、算力基础设施、业务扩张及潜在并购。智谱今年1月登陆港交所，7月刚配售募资约40亿美元，两次再融资间隔仅两个月。</p>
+            <div class="detail">背景：智谱已建成一座1GW级数据中心并部分投运，全部采用国产AI芯片，并被曝收购异构算力公司中科加禾、与国产芯片厂商讨论定制AI芯片。大模型头部"军备竞赛"向算力上游纵深。</div>
+            <div class="meta-row"><span class="tag">融资</span><span>路透社 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/teVW2CoEOAI/" alt="黄仁勋展示英伟达AI芯片" class="column-item-image">
+          <div class="column-item-content">
+            <h3>高盛科技大会收官：黄仁勋披露Q2全球AI训练集群订单暴涨217%，73%来自非美市场</h3>
+            <p class="summary">9月12日高盛年度科技大会落幕。英伟达CEO黄仁勋披露，2026年Q2全球AI训练集群采购订单同比暴涨217%，其中超73%来自非美国市场；SpaceX CTO透露星链V3卫星已全面搭载边缘AI推理模块，可在轨实时处理遥感图像与船舶轨迹，无需回传地面站。</p>
+            <div class="detail">延伸：本周英伟达129.3亿美元收购Hugging Face持续发酵——这笔约86倍市销率的交易被视为从"卖铲人"到"圈住开源入口"的战略抢位，预计2027年上半年完成交割，仍需美欧中反垄断审查。</div>
+            <div class="meta-row"><span class="tag">算力基建</span><span>综合 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/RG1IDZVwvNU/" alt="宇树Unitree人形机器人" class="column-item-image">
+          <div class="column-item-content">
+            <h3>具身智能"挤泡沫"：梅卡曼德创始人公开炮轰"攒局"，IPO门槛将大幅抬高</h3>
+            <p class="summary">梅卡曼德机器人创始人邵天兰9月12日在社交平台长文炮轰行业"靠堆明星股东、跟风炒作的'攒局'公司"，直言人形机器人领域存在大量无核心技术的玩家。同期报道指出，人形机器人公司IPO审批门槛将大幅提升，有上市公司市值已从高点显著回落。</p>
+            <div class="detail">另一面：面向家庭场景的具身基础模型公司斜跃智能（理想汽车前AI首席科学家陈伟等创立，成立仅半年）完成数亿元天使+轮融资。资本正在从"投概念"转向"投真技术、真团队"，行业分化加剧。</div>
+            <div class="meta-row"><span class="tag">具身智能</span><span>新浪科技 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 医疗健康 -->
+  <section class="section health" id="health">
+    <div class="section-head">
+      <span class="bar"></span>
+      <h2>医疗健康 · AI与政策</h2>
+      <span class="en">HEALTHCARE</span>
+    </div>
+    <div class="column-list">
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/SlSYe4RvF40/" alt="AI移动医疗车" class="column-item-image">
+          <div class="column-item-content">
+            <h3>服贸会"AI+医疗健康"论坛：全球首款一体化AI移动医疗车发布，全国首个亿元AI制药算力计划落地</h3>
+            <p class="summary">9月12日，2026服贸会"人工智能+医疗健康"论坛在北京首钢园举行。京医公司联合北汽发布全球首款一体化AI移动医疗车，集成同仁医院AI眼底相机、安贞医院心血管超声AI、儿童医院AI儿科医生，可深入社区、山区开展常态化诊疗；同时发布全国首个亿元生物医药制造支持计划，专项投入超1亿元算力，覆盖药物发现到临床试验全链条。</p>
+            <div class="detail">同期成果：北京未来人工智能与数字健康研究院、北京医学会医疗AI分会双双成立；天坛医院披露已积累300多万临床病例，建设"以人为中心"的AI驱动新药研发平台，目标突破传统动物模型、缩短15年新药周期；中日友好医院樱智皮肤病AI（基于190多万条数据）已下沉社区。</div>
+            <div class="meta-row"><span class="tag">产业落地</span><span>北京商报 · 新华社 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/B2toL8UTXMw/" alt="医生使用AI医学影像" class="column-item-image">
+          <div class="column-item-content">
+            <h3>深睿医疗完成近5亿元新一轮融资，14张NMPA三类证、AI产品年使用量近2亿次</h3>
+            <p class="summary">9月12日，医疗AI企业深睿医疗宣布完成新一轮近5亿元融资，由君联资本及杭州市区产业基金共同参与。公司构建多模态AI产品矩阵，覆盖AI辅助诊断、临床决策、疾病筛查、患者服务全流程，目前以14张NMPA三类证居行业前列，AI产品年使用量近2亿次，已在全国30多个省市落地。</p>
+            <div class="detail">政策风向：国家卫健委、国家中医药局、国家疾控局近日联合印发《卫生健康行业人工智能应用场景参考指引》，明确四大领域84个具体应用场景，为医疗AI企业划定发展方向。同期，AI医学影像企业深智透医亦完成近千万美元B+轮，其影像质控产品新近获美国FDA批准。</div>
+            <div class="meta-row"><span class="tag">医疗AI融资</span><span>联想之星 · 2026-09-12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/2tp61KNmxpg/" alt="医用内镜耗材" class="column-item-image">
+          <div class="column-item-content">
+            <h3>第七批国家高值耗材集采落地：涉及外周血管、神经外科等，主流产品中选率近90%</h3>
+            <p class="summary">第七批国家组织高值医用耗材集中带量采购9月10日在长沙开标，覆盖外周血管、神经外科等品类。国家医保局披露，279家企业、401个产品拟中选，主流产品中选率接近90%；拟中选产品7月采购价较最高有效申报价平均降低约77%，按约定采购量测算年节约费用约109亿元，中选结果将于2027年1月落地执行。</p>
+            <div class="detail">专家视点：中山大学医药经济研究所宣建伟提醒，集采"只谈价格、不管临床价值"的做法需警惕——真正的创新往往伴随成本上升，建议引入更多卫生经济学评估，避免误伤高质量创新器械。</div>
+            <div class="meta-row"><span class="tag">医保政策</span><span>21世纪经济报道 · 2026-09-11</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column-item">
+        <div class="column-item-inner">
+          <img src="https://s.coze.cn/image/Y3I7KVnGNRI/" alt="AI数字病理切片" class="column-item-image">
+          <div class="column-item-content">
+            <h3>AI制药与病理密集推进：睿健"AI+化学诱导"细胞产品中美双批，机构看好AI药商业化</h3>
+            <p class="summary">9月7日，睿健医药基于"AI+化学诱导"平台开发的通用型现货光感受器细胞产品NouvSight001，同时获中国NMPA批准开展视网膜色素变性I/III期临床、及美国FDA临床试验许可，成为AI驱动细胞治疗的标志性进展。多家券商本周研报指出，AI新药研发已进入商业化兑现期，效率提升与估值修复逻辑正在展开。</p>
+            <div class="detail">海外侧：医疗行政自动化公司GenHealth.ai完成1650万美元A轮（Flare Capital领投），用AI处理保险授权、病历文书等后台任务——延续了Abridge所验证的"行政减负"硬ROI落地主线。</div>
+            <div class="meta-row"><span class="tag">AI制药</span><span>丁香通 · MedCity News · 2026-09</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 商业雷达 -->
+  <section class="section" id="radar">
+    <div class="section-head">
+      <span class="bar" style="background:var(--gold)"></span>
+      <h2 style="color:var(--gold)">商业雷达 · 快讯</h2>
+      <span class="en">BUSINESS RADAR</span>
+    </div>
+    <div class="radar">
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">英伟达拟最高100亿美元锚定入股Anthropic IPO</div>
+        <div class="d">路透社9月11日披露，英伟达正谈判以锚定投资者身份向Anthropic IPO投入最高100亿美元，后者目标估值2万亿美元、或创史上最大IPO。</div>
+        <div class="s">路透社 · 09-12</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">奥尔特曼：OpenAI近期不上市，"现在不是合适时机"</div>
+        <div class="d">Altman公开表示公司仍有大量安全工作待完成，现阶段不推进IPO；市场原本预计OpenAI与Anthropic均可能年内上市，预期随之生变。</div>
+        <div class="s">凤凰科技 · 09-12</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">桥水CIO詹森警告：AI或产出优于人类的投资决策，潜藏极端风险</div>
+        <div class="d">桥水基金AI战略负责人格雷格·詹森称AI能力正快速逼近、很快能产出比人类更优的投资决策，并警示其发展路径存在极端尾部风险。詹森本人是OpenAI与Anthropic早期投资者。</div>
+        <div class="s">综合 · 09-11</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">家庭具身智能公司斜跃智能完成数亿元天使+轮</div>
+        <div class="d">由理想汽车前AI首席科学家陈伟、前产品线总裁张骁2026年2月创立，线性资本、钧山资本等投资，资金投向家庭场景具身基础模型。</div>
+        <div class="s">综合 · 09-12</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">服贸会上金融AI密集亮相：建行数字人客服问题解决率达98%</div>
+        <div class="d">建设银行"龙知微/龙知远"数字人客服已上线部分分行智慧柜员机，工行"工银智策"、农行"农银AI智服"体系集中亮相，AI正深入金融核心业务环节。</div>
+        <div class="s">中国青年报 · 09-13</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">中国AI出海成本优势显现：龙头模型训练成本约为海外十分之一</div>
+        <div class="d">服贸会披露，以AI、大模型、智能体为核心的案例占"中国服务"展区案例近四成；墨迹天气等企业将"智能决策能力"打包出海，背后是中国AI算法显著的成本优势。</div>
+        <div class="s">新华社 · 09-13</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">石景山区发布具身智能数据要素跨境流通平台</div>
+        <div class="d">平台已形成"数据上架—合规评估—加密传输—跨境交付—验收归档"完整交易闭环，定位具身智能"数据流通枢纽"，提升具身数据出海的合规与效率。</div>
+        <div class="s">中国青年报 · 09-13</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">医渡科技发布AI赋能临床研究方案，已部署超9万家医生工作站</div>
+        <div class="d">基于AI构建患者招募模型与临床质量控制系统，已在全国上百项临床试验中验证，推动临床试验从依赖人工经验转向数据驱动。</div>
+        <div class="s">北京商报 · 09-12</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">安图生物获基因测序仪等多款医疗器械注册证</div>
+        <div class="d">安图生物及子公司收到国家药监局颁发的基因测序仪、肺炎支原体抗原检测试剂等多款产品注册证，有效期5年，进一步丰富体外诊断产品线。</div>
+        <div class="s">证券之星 · 09-13</div>
+      </div></div>
+      <div class="radar-item"><span class="radar-dot"></span><div>
+        <div class="t">Epsilon Health融资2760万美元，自建AI放射科日处理2500例影像</div>
+        <div class="d">这家美国公司不向医院卖软件，而是直接以持证放射科身份签约出报告，自称目标2026年读取全美1%的X光片；其ML负责人出自Google DeepMind。</div>
+        <div class="s">Fortune Term Sheet · 09-11</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 吐司说 -->
+  <section class="toast-note" id="toast">
+    <h2>🍞 吐司今日说</h2>
+    <p><strong>今天最值得琢磨的，是一种"分裂感"。</strong>同一天里，Amodei撰文呼吁全行业放慢、Altman说不急着上市，可OpenAI产品四连发、英伟达百亿押注Anthropic、智谱两月砸下350亿融资——嘴上在踩刹车，账上的钱和发布的产品却都在猛踩油门。</p>
+    <p>这或许正是AI产业当下最真实的状态：<strong>能力扩张让位于风险定价</strong>。安全不再是公关话术，而成了头部公司争夺"谁有资格继续领跑"的信任门票。谁能证明自己"快而可控"，谁才能拿到下一阶段的资本与监管空间。</p>
+    <p>落到医疗健康，逻辑同样成立。服贸会上移动医疗车、AI制药算力、84个应用场景指引接连落地，深睿凭14张三类证拿到近5亿融资——医疗AI早就过了"秀肌肉"阶段，比的是<strong>资质、场景和可量化的ROI</strong>。这和你长期关注的判断一致：通用大模型再强，进医院也得拿出硬通货。慢的是喧嚣，快的是真正在落地的东西。</p>
+    <p>新的一周，烤一烤，接着看。🧈</p>
+  </section>
+
+  <footer>
+    吐司日报 TUSI DAILY · 第146期 · 2026年9月13日<br>
+    由吐司 AI 每日精选 · 信息来自公开报道，仅供参考，不构成投资建议<br>
+    今天也请好好吃饭、好好休息 🍞
+  </footer>
+
+</div>
+</body>
+</html>
