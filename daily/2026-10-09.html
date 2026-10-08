@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第172期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年10月9日</span>
+        <span>|</span>
+        <span>第172期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/Me_g-8G6XUo/" alt="脑机接口神经康复" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">国务院批复、两部门印发《医疗康复护理扩容提升工程实施方案》：首次明确"二级医院为主体、基层为网底、三级医院指导"的康复护理网络，2030年每千人口康复护理床位达0.48张；加快脑机接口、具身智能、仿生驱动布局，发展"人工智能+康复护理"</h2>
+    <p class="headline-summary">
+        近日，经国务院批复同意（国函〔2026〕99号），<strong>国家卫生健康委、国家发展改革委联合印发《医疗康复护理扩容提升工程实施方案》（国卫规划发〔2026〕24号），聚焦"扩容、提质、均衡、连续"，以基层为重点统筹增加医疗康复护理资源供给</strong>。《方案》提出，到2030年基本建成功能完备、上下联动、中西医结合、高效可及的服务体系，每千人口康复护理床位数达到0.48张左右，人口较多、老龄化程度较深、需求较大的地市至少设立1所公立康复医院和护理院。
+    </p>
+    <p class="headline-summary">
+        《方案》首次明确"健全以二级医院为主体、基层医疗卫生机构为网底、三级医院指导支持、其他机构共同参与的康复护理服务网络"，按照"强基、稳二、控三"梳理各级功能定位。<strong>在科技赋能方面，提出围绕神经康复、运动康复、创面修复等重点领域，加快脑机接口、具身智能、仿生驱动等前沿技术布局，支持智能康复设备、植介入器械、新型生物材料关键技术攻关，发展"人工智能+康复护理"，运用康复机器人、智能可穿戴设备提供智能训练与健康管理</strong>。同时明确将疗效确切的康复护理项目纳入医保支付，对长期住院患者探索按床日付费，符合条件的康复护理创新医疗器械、药物纳入优先审评审批。
+    </p>
+    <p class="headline-source">
+        来源: 国家卫生健康委 · 国家发展改革委 · 证券时报 · 2026-10-08
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VUW8ly24UwE/" alt="谷歌Gemini智能体" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌云发布"通用工作智能体"Gemini Agent：用户只给目标、它持续工作数天，可动态创建子代理名册，能答问题、做知识工作、生成媒体、写代码并运行；既可在Gemini也可在Claude模型上运行，支持Workspace与Microsoft 365</h4>
+                    <p class="column-item-summary">在Gemini at Work 2026发布会上推出，拥有独立企业身份、内置成本控制和安全治理，可作私人助理或充当团队PM、财务分析师，还能以无界面"无头代理"运行，直连OpenAI、Anthropic、微软争夺的企业市场。当前私人预览。</p>
+                    <p class="column-item-source">IT之家 · 财联社 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/hqQMbJR7Koo/" alt="Manus智能体" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Manus母公司蝴蝶效应完成超5亿美元融资（约33.5亿元），创国内AI Agent原生创企单笔最高：博裕投资、IDG资本领投，腾讯、红杉中国、真格跟投，目标估值约40亿美元；9月底刚发Manus 2.0与个人智能体Cue</h4>
+                    <p class="column-item-summary">此前Meta超20亿美元收购案于今年4月被监管撤销，9月1日恢复独立运营。其年化收入据报半年内从约1亿升至4-5亿美元。Cue让每个Agent拥有独立邮箱、手机号、钱包和电脑，可代接电话、预算内付款、多Agent组队。</p>
+                    <p class="column-item-source">中国基金报 · 36氪 · 华尔街见闻 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LBcKfA80lCg/" alt="英伟达" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达承诺未来五年投入10亿美元助力美国科学：覆盖量子计算、医疗健康与能源安全的超级智能研发；同时联手微软推出RTX Spark AI PC，Surface Laptop Ultra起售2600美元、本地可跑超1200亿参数模型，Windows上线MXC智能体隔离容器</h4>
+                    <p class="column-item-summary">黄仁勋称"英伟达因Windows而生"，双方正为AI智能体在Windows PC运行协同设计软硬件。微软执行容器MXC可限定智能体可访问的文件与网络，把自主智能体变成常规Windows工作负载，押注"安全的本地运行AI"。</p>
+                    <p class="column-item-source">NVIDIA Newsroom · TechStartups · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/p38nP0phJ10/" alt="Mistral AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">海外开放模型阵营提速：Mistral推出迄今最大Mistral Large 4（总参数1.05万亿、激活520亿、100万上下文、约3800张Grace Blackwell欧洲训练），"美版DeepSeek"Reflection发布首款开放权重模型Beam，两家对标对象均指向中国GLM/Kimi/DeepSeek/Qwen</h4>
+                    <p class="column-item-summary">Hugging Face数据显示中国模型已占平台下载量约41%；Vercel数据显示开放权重模型8月已处理其平台56%的Token（去年12月不足10%）。Mistral Large 4完整权重10月底发布，主打企业Agent与网络安全。</p>
+                    <p class="column-item-source">36氪 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/XHh2yVLiPH4/" alt="AI制药蛋白质结构" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">DeepMind分拆的AI制药公司Isomorphic Labs启动新一轮融资谈判：目标投后估值至少400亿、最高500亿美元，距五个月前21亿美元B轮仅隔半年；公司今年7月已准备在人体测试AI设计的药物，已与礼来、诺华合作</h4>
+                    <p class="column-item-summary">公司依托AlphaFold虚拟筛选、从头设计候选分子，聚焦肿瘤与免疫，哈萨比斯主张把新药研发从数年压缩到数月。但多数AI制药管线仍处早期，行业焦点已从模型算法转向数据质量、干湿闭环验证与商业化兑现。</p>
+                    <p class="column-item-source">财联社 · 新浪财经 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/77o-FpFUOEE/" alt="医保智算一体机" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">智慧眼联合华为推出医保AI智算一体机：融合智慧眼承建23个省级医保监管系统沉淀的规则库、知识库、AI模型库与华为算力底座，对收费明细、病历文书、医保结算三类数据实时分析，生成可溯源疑点清单，支持本地部署数据不出域</h4>
+                    <p class="column-item-summary">紧扣医保基金监督检查五年行动，针对医院人工抽病历、Excel比对覆盖面窄的痛点，主打开箱即用、到场即检。当前事前提醒接入率要求达70%，违规处罚升至1-5倍罚款并追究刑责，医保合规迈入"一体机时代"。</p>
+                    <p class="column-item-source">证券日报 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/imxXHCnwpXs/" alt="患者带AI诊断对答案" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">"已经在豆包获得诊断的患者请改问千问"假告示刷屏背后：有三甲医生称一上午30位患者、25人带着AI诊断来"对答案"，质疑医生判断与AI不一致；医生大量精力被消耗在纠正AI错误认知上，推高门诊沟通成本</h4>
+                    <p class="column-item-summary">经核实告示系网友玩梗，但戳中真实现象。专家强调AI无法完成视触叩听、不能读取真实影像化验，定位是健康科普与就医辅助，不能替代诊断。合理用途是整理症状、科普知识、解读报告名词，结论不能当诊疗金标准。</p>
+                    <p class="column-item-source">凤凰网科技 · 金融界 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/rmDFw7kXF6A/" alt="公立医院采购监管" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">2027年度城乡居民医保陆续开缴：湖南、吉林个人缴费400元，天津设450/1130元两档；重庆同步征长护险62元（个人仅31元）。同期14部门严查公立医院采购，划定异常低价全国红线，重点监管高值耗材与医用设备</h4>
+                    <p class="column-item-summary">异常低价红线：报价低于有效报价均值50%、次低价50%或最高限价45%将强制审查。多地CT、DR、超声集采已有供应商因触线出局。叠加集采规则转向"反内卷、稳临床、分层治理"，竞争回归产品力与全生命周期成本。</p>
+                    <p class="column-item-source">新京报 · 器械之家 · 中国医药报 · 2026-10-08</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">康复政策</span>
+            <span class="breaking-news-text">国务院批复两部门印发康复护理扩容提升工程方案，2030年每千人床位0.48张，布局脑机接口与AI+康复</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">谷歌Agent</span>
+            <span class="breaking-news-text">谷歌云推Gemini Agent通用工作智能体，给目标即自主工作数天、可建子代理，支持Gemini与Claude模型</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">Agent融资</span>
+            <span class="breaking-news-text">Manus母公司蝴蝶效应完成超5亿美元，创国内Agent单笔新高，估值约40亿美元</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">AI PC</span>
+            <span class="breaking-news-text">英伟达5年投10亿美元助美国科学，联手微软推RTX Spark AI PC与Windows MXC智能体隔离容器</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">开放模型</span>
+            <span class="breaking-news-text">Mistral Large 4总参数1.05万亿，Reflection发Beam，开放权重模型8月已占Vercel平台56%流量</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI制药</span>
+            <span class="breaking-news-text">Isomorphic Labs新融资目标估值400-500亿美元，AI设计药物已准备进入人体测试</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">生物底座</span>
+            <span class="breaking-news-text">Biohub扩容虚拟生物学计划，联合DOE、NIH、DeepMind、Meta等汇集约18亿美元建生物学AI数据底座</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">医保一体机</span>
+            <span class="breaking-news-text">智慧眼联合华为推医保AI智算一体机，三类数据实时分析生成可溯源疑点，本地部署数据不出域</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">AI问诊</span>
+            <span class="breaking-news-text">患者带AI诊断到门诊"对答案"现象引热议，专家强调AI定位科普辅助、不能替代医生诊断</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医保缴费</span>
+            <span class="breaking-news-text">2027年度居民医保开缴，多地个人400元，重庆同步征长护险个人仅31元</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">采购监管</span>
+            <span class="breaking-news-text">14部门严查公立医院采购划异常低价红线，集采转向反内卷稳临床，竞争回归产品与服务</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">数学生成</span>
+            <span class="breaking-news-text">OpenAI因正负号错误撤回3篇霍奇猜想AI数学论文、修订14篇，手稿总数从722降至719</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：国家级"康复护理扩容"叠加脑机接口与AI，正把老龄化压力转化为一条明确的产业与支付赛道。</strong></p>
+        <div class="insights-highlight">
+            这份国务院批复方案的信号不只是"补床位"，而是一次体系、技术、支付的三重定调：体系上首次明确"二级医院为主体、基层为网底、三级指导"和2030年每千人0.48张床位的硬指标，功能定位按"强基、稳二、控三"重构；技术上直接点名脑机接口、具身智能、仿生驱动，支持智能康复设备、植介入器械、新型生物材料攻关，发展"AI+康复护理"；支付上把康复项目纳入医保、对长期住院探索按床日付费、创新器械药物优先审评。对医疗健康从业者有三层含义：其一，康复护理将成为"十五五"增量最确定的细分方向，每年新增超千万老人、3700万失能半失能人群构成刚性需求，公立体系扩容同时明确鼓励社会力量连锁化举办；其二，"AI+康复"从可选概念变为国家布局重点，康复机器人、可穿戴、脑机接口的临床与居家落地窗口打开，但买单逻辑将紧扣功能改善与支付方式；其三，按床日付费、医保纳入和优先审评共同重塑康复器械与服务的商业模式，企业需从"卖设备"转向"设备+服务+数据+疗效证据"一体化。
+        </div>
+        
+        <p><strong>趋势二：智能体竞争从"聊天框"转向"能自主把事办完的数字同事/数字员工"，入口之争与信任门槛同步升高。</strong></p>
+        <div class="insights-highlight">
+            同一天，谷歌云推出可围绕目标连续工作数天、动态创建子代理的Gemini Agent，并罕见支持在Gemini和Claude两种模型上运行；Manus以约40亿美元估值完成国内Agent创企最大单笔融资，并让每个Agent拥有独立邮箱、手机号、钱包和电脑；英伟达与微软则把智能体下沉到Windows PC，用MXC容器限定其文件与网络访问。三条线索共同说明：第一，Agent的产品形态正从"响应指令的工具"变为"具备独立身份、可长时自主执行、能多代理协作的角色"，并向无头（无界面）运行和企业系统深度集成演进；第二，模型厂商主动做多模型适配（谷歌同时支持Claude），竞争焦点从"谁的模型强"转向"谁的编排、治理与生态更可靠"；第三，真正的胜负手是信任——能否让用户和企业放心交出权限、预算与信用卡。对企业的启示是：评估Agent不能只看演示惊艳度，要看企业身份隔离、动态授权、审计追踪、运行时沙箱和成本控制是否完备，敏感操作的人工确认机制应成为硬要求。
+        </div>
+        
+        <p><strong>趋势三：医疗AI的"AB面"同时显现——一级市场与国家数据底座加码，临床端却遭遇患者过度信任的现实摩擦，权责边界成为关键。</strong></p>
+        <div class="insights-highlight">
+            一面是资本与基础设施的高歌猛进：Isomorphic Labs目标估值400-500亿美元、AI设计药物准备进入人体，Biohub联合DOE、NIH、DeepMind、Meta等汇集约18亿美元建生物学AI开放数据底座，智慧眼与华为把医保监管AI做成开箱即用的一体机；另一面是临床端的冷静提醒：大量患者拿着AI诊断与医生"对答案"，消耗门诊时间、放大错误认知，专家重申AI无法完成视触叩听、不能读取真实影像化验。两者结合给出更完整的判断：其一，AI在医疗的价值正沿两条路径兑现——后端的研发、监管、合规、支付效率（药物发现、医保审核），以及前端的科普与就医辅助，但二者都需要清晰的能力边界；其二，"对话感"和"权威外衣"会显著抬高用户信任、哪怕答案是错的，供给方有责任做好可验证性与风险提示，坚持"AI筛选建议、医护保留最终决策"；其三，对外资器械与医疗企业而言，采购合规收紧（异常低价红线、14部门严查）与AI落地加速并存，机会在于把AI能力嵌入合规、数据安全（本地部署、不出域）和真实疗效证据，而非单纯比拼技术或价格。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第172期 · 2026年10月9日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-10-09.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
