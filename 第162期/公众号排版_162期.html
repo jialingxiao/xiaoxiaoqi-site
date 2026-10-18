@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 第162期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #f5f5f5;
+            color: #333333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 677px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px 16px;
+        }
+        
+        /* 刊头 */
+        .masthead {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .masthead-title {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .masthead-meta {
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .masthead-issue {
+            font-size: 12px;
+            color: #ff6b35;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        
+        /* 头条 */
+        .headline {
+            margin-bottom: 24px;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 10px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .headline-image-wrap {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a1a2e;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.75;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        .headline-source {
+            font-size: 10px;
+            color: #999;
+        }
+        
+        /* 栏目标题 */
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding: 10px 0 8px;
+            margin: 24px 0 14px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .section-title-icon {
+            font-size: 16px;
+        }
+        
+        /* 条目 */
+        .column-item {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .column-item-image {
+            width: 90px;
+            height: 68px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.45;
+            margin-bottom: 5px;
+        }
+        
+        .column-item-summary {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.65;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        /* 快讯 */
+        .breaking-section {
+            background: #fafafa;
+            padding: 14px;
+            border-radius: 4px;
+            margin-top: 24px;
+        }
+        
+        .breaking-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .breaking-item {
+            font-size: 12px;
+            color: #333;
+            padding: 7px 0;
+            border-bottom: 1px dotted #e8e8e8;
+            line-height: 1.6;
+        }
+        
+        .breaking-item:last-child {
+            border-bottom: none;
+        }
+        
+        .breaking-cat {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+        
+        /* 关联洞察 */
+        .insights-section {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 24px;
+        }
+        
+        .insights-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 12px;
+        }
+        
+        .insight-item {
+            font-size: 12px;
+            line-height: 1.75;
+            color: #e0e0e0;
+            margin-bottom: 14px;
+        }
+        
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insight-item strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 20px 0 10px;
+            margin-top: 24px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 10px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 刊头 -->
+    <div class="masthead">
+        <div class="masthead-title">吐司日报</div>
+        <div class="masthead-meta">吐司日报·第162期 | 2026.09.29</div>
+        <div class="masthead-issue">DAILY · BRIEFING · AI科技 · 医疗健康 · 商业财经</div>
+    </div>
+
+    <!-- 头条 -->
+    <div class="headline">
+        <span class="headline-badge">★ 今日头条</span>
+        <div class="headline-image-wrap">
+            <img src="https://s.coze.cn/image/LQFJ1hob-QU/" alt="Claude全球大宕机" class="headline-image">
+        </div>
+        <h1 class="headline-title">Claude全球大宕机：9月29日晚Claude.ai、Claude Code、Claude Cowork与API错误率同时飙升、全线"部分中断"；SSO登录再被打挂，官方急喊"已登录千万别退出"，一小时内部分消息未保存，超1.2万用户报告故障，根因至今未公布——这已是本月第13起事故</h1>
+        <p class="headline-summary">
+            北京时间9月29日晚间（UTC 14:00起），Anthropic旗下Claude出现大规模异常。据官方状态页面，Claude.ai（含桌面端与移动App）、Claude Code、Claude Cowork错误率同时升高，部分API请求也返回错误，用户遭遇请求失败、对话加载/发送失败、被要求重新登录。14:21官方以"调查中"立案，14:36第一波错误刚缓解，第二波问题又袭来——单点登录（SSO）与"通过Apple登录"不可用，新对话、语音对话、Claude Code与Cowork会话无法启动，购买与文件上传失败。官方一度只能提示："如果你还处于登录状态，请不要退出登录。"
+        </p>
+        <p class="headline-summary">
+            16:27 UTC事件被标记"已解决"，影响窗口定格在UTC 14:00至14:59约一小时；但官方警告该时段部分消息可能未保存，建议开发者检查Claude Code的工作是否真正落盘。Downdetector显示高峰时超1.2万用户报告故障（47%指向聊天、39%指向移动App、7%指向Claude Code）。这已是Claude本月第13起服务事故：9月22日多模型报错约80分钟，9月3日ChatGPT、Claude、Grok还曾因底层Azure异常集体宕机。Anthropic至今未公布根因，也未将其与一天前发布的Claude Sonnet 5.5建立关联；Claude for Government全程正常。
+        </p>
+        <p class="headline-source">来源：界面新闻 · 第一财经 · 每日经济新闻 · AP · Claude官方状态页 · The Next Web · 2026-09-29</p>
+    </div>
+
+    <!-- AI栏目 -->
+    <div class="section-title">
+        <span class="section-title-icon">🚀</span>
+        <span>AI大模型前沿</span>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/lFcg3VoBWF4/" alt="英伟达回购与安全平台" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">英伟达一夜双响：追加1500亿美元回购创美国企业单次授权新高（剩余额度升至2350亿），同步上线Open Agent Safety Platform智能体安全平台</h3>
+                <p class="column-item-summary">9月28日董事会批准追加1500亿美元回购、计划2028财年前执行，剩余可执行回购达2350亿美元；同日发布开放智能体安全平台（含OpenShell、Sentry等组件），覆盖智能体从测试到部署全生命周期、防止其脱离受控环境。黄仁勋称强现金创造能力可兼顾研发与股东回报，增长叙事由GPU硬件延伸至AI安全与治理软件。</p>
+                <p class="column-item-source">AP · 英伟达Newsroom · 新浪财经 · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/PvTDCjluFuo/" alt="SiMa.ai边缘AI芯片" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">物理AI边缘芯片SiMa.ai完成1.5亿美元C轮、估值14.5亿：富达与Amplify领投，下一代硬件瞄准1000 TOPS、2028上半年出货</h3>
+                <p class="column-item-summary">边缘AI芯片公司SiMa.ai 9月28日宣布完成1.5亿美元C轮、投后估值14.5亿、累计融资5亿，富达与Amplify联合领投，摩根大通、Baron Capital、密歇根州政府等新进。资金用于扩展智能体软件环境Palette Neat、研发下一代硬件（目标1000 TOPS、2028上半年出货），覆盖人形机器人、辅助驾驶、AI座舱与无人机，主打比GPU更低成本、更省电。</p>
+                <p class="column-item-source">Unite.AI · Tech in Asia · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/tTlJPpaBOyc/" alt="月之暗面资本化" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">月之暗面资本化骤然提速：被曝保密递交港交所A1申请、拟募资约30亿美元，注册资本一年增超10倍，新一轮估值约500亿美元</h3>
+                <p class="column-item-summary">据路透社报道及9月28日多方梳理，月之暗面已保密向港交所递交A1申请、拟募约30亿美元，正与高盛、中金、德意志银行推进，新一轮估值约500亿美元。公司7月完成F轮超35亿美元融资、投后350亿并完成股份制改造，注册资本由年初约100万元增至1157.53万元，从"不着急上市"到骤然提速，面临商业化、估值与同业竞争三重考验。</p>
+                <p class="column-item-source">路透社 · 每日经济新闻 · 09-28综述</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/V6sqpnRhKxU/" alt="Instinct百亿估值" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">AI代理初创Instinct以100亿美元估值完成10亿美元融资；DensityAI等单轮估值同破百亿，Agent赛道资本持续高烧</h3>
+                <p class="column-item-summary">据财联社、36氪9月28日消息，AI代理（Agent）初创Instinct以100亿美元估值完成10亿美元融资，成为又一家在大规模商业化前估值即达百亿的Agent公司；同期DensityAI等智能体初创单轮也破百亿。资本正从基础模型层向"能自主执行任务"的代理层聚集，与英伟达同日推出智能体安全平台形成"能力扩张+安全补位"的双向呼应。</p>
+                <p class="column-item-source">财联社 · 36氪 · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/rFxao2wT6DM/" alt="Meta小企业版Muse" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">Meta把Muse推向小企业：9月29日推出面向中小企业的AI助手，可设定"经营业务、寻找新客户"目标、由AI代办日常运营</h3>
+                <p class="column-item-summary">Meta 9月29日宣布在个人版Muse之外推出面向小企业的版本，用户可设定运营业务、寻找新客户等目标、由AI协助完成，未来将增加更多连接工具。继OpenAI、谷歌之后又一家把AI入口从C端聊天延伸到中小企业经营流程，意在锁定下一波广告与订阅收入；相较C端Muse日活未破百万即服务降级，B端更考验稳定性与单位经济模型。</p>
+                <p class="column-item-source">每日经济新闻 · 路透社 · 09-29</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 医疗栏目 -->
+    <div class="section-title">
+        <span class="section-title-icon">💊</span>
+        <span>医疗健康与政策</span>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/1BZcyUQz8fg/" alt="后房型有晶体眼人工晶状体" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">后房型有晶体眼人工晶状体获批上市：植入眼内、不切削角膜即可矫正高度近视，为不想做激光手术者提供新选择</h3>
+                <p class="column-item-summary">国家药监局9月29日公告，后房型有晶体眼人工晶状体获批上市。产品在保留人眼自身晶状体前提下、将人工晶状体植入后房，通过光学矫正近视，无需切削角膜、具可逆性，主要面向高度近视及角膜条件不适合激光手术人群。此前8月已有三焦点环曲面人工晶状体获批，国产眼科屈光与白内障器械高端化持续推进，集采与创新双通道并行。</p>
+                <p class="column-item-source">国家药监局 · 09-29</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/srpy2O0fJAc/" alt="新生儿TREC/KREC筛查" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">新生儿TREC/KREC基因检测试剂盒（荧光PCR法）获批：一次采血同时筛查重症联合免疫缺陷与B细胞缺陷，推动出生缺陷早筛</h3>
+                <p class="column-item-summary">国家药监局9月28日公告，该试剂盒通过检测新生儿干血斑中T细胞受体重排删除环（TREC）与κ链删除环（KREC），一次检测同时筛查重症联合免疫缺陷（SCID）和B细胞免疫缺陷，助力出生缺陷早发现、早干预，是分子诊断向新生儿筛查场景延伸的代表性产品，对降低婴幼儿致死性免疫缺陷危害具有公共卫生意义。</p>
+                <p class="column-item-source">国家药监局 · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/OwyqmY1quhU/" alt="紫杉醇药物涂层颅内球囊" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">紫杉醇药物涂层颅内球囊扩张导管获批：颅内狭窄介入"介入无植入"再进一步，药物抑制术后再狭窄，填补神经介入药涂球囊供给</h3>
+                <p class="column-item-summary">国家药监局9月28日公告，该产品用于颅内动脉狭窄血管成形，球囊所载紫杉醇在扩张同时局部释放、抑制内膜增生，降低术后再狭窄率，相较支架植入体现"介入无植入"理念。产品丰富神经介入药涂器械供给，是脑卒中防治高值器械国产化的重要进展，与近期心脏脉冲电场消融、经导管瓣膜等获批共同体现高值介入器械加速升级。</p>
+                <p class="column-item-source">国家药监局 · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/CZ6tnUpLios/" alt="思璞锐KRAS出海" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">思璞锐口服KRAS G12D抑制剂SPR2015授权默沙东：4亿美元首付、潜在总额21.3亿美元，成立不到两年、临床前资产即出海</h3>
+                <p class="column-item-summary">9月28日晚，上海思璞锐与默沙东宣布，就在研口服KRAS G12D（ON）抑制剂SPR2015达成全球独家授权，默沙东获全球开发、生产及商业化权利；思璞锐获4亿美元首付及多适应症里程碑、潜在总额最高21.3亿美元，交易已生效。思璞锐2024年底创立、专注小分子抗肿瘤药，临床前资产即获MNC重金押注，凸显中国早期创新资产全球权重快速上升。</p>
+                <p class="column-item-source">第一财经 · VCBeat · 09-28</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column-item">
+        <div class="column-item-inner">
+            <img src="https://s.coze.cn/image/P7isAaUZuDg/" alt="康方依沃西战略合作" class="column-item-image">
+            <div class="column-item-content">
+                <h3 class="column-item-title">康方PD-1/VEGF双抗依沃西再获加码：海外伙伴Summit获阿斯利康20亿美元战略入股，AZ拟主导依沃西联合CLDN18.2 ADC临床</h3>
+                <p class="column-item-summary">9月29日康方生物宣布，海外合作伙伴Summit Therapeutics获阿斯利康20亿美元战略股权投资；AZ拟主导推进依沃西联合其CLDN18.2 ADC药物的临床研究。这是依沃西海外授权后跨国巨头以资本+联合开发进一步绑定核心资产，肿瘤免疫"双抗+ADC"全球开发格局再变，也印证中国源头创新双抗正成为MNC肿瘤管线关键拼图。</p>
+                <p class="column-item-source">澎湃新闻 · 康方生物公告 · 09-29</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商业快讯 -->
+    <div class="breaking-section">
+        <div class="breaking-title">⚡ 商业雷达 · 快讯</div>
+        
+        <div class="breaking-item"><span class="breaking-cat">视频AI｜</span>网宿科技拟3亿元认购视频生成模型公司Sand.ai A+轮优先股210.54万股、持股4.3963%，先期以上海三呆科技3亿元可转债过渡（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">GLP-1出海｜</span>恒瑞将口服GLP-1/GIP双激动剂HRS-1596大中华区以外权益授权诺和诺德，潜在总额最高26亿美元、含3亿首付，预计四季度交割（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">生育医保｜</span>四川产前检查定额（职工≤1500元/居民≤1000元），住院分娩限额内不设起付线、顺产≤5000/剖宫产≤7000元，逐步实现政策范围内"无自付"，11月1日起实施（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">AI券商｜</span>Robinhood发布"Robinhood Agents"AI智能体，向近3000万用户开放，自然语言即可让AI代分析、定策略并自动交易（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">里程碑兑现｜</span>诚益生物收到阿斯利康5000万美元里程碑（AZD5004启动全球III期），自2023年底合作以来累计获2.95亿美元（09-28）</div>
+        <div class="breaking-item"><span class="breaking-cat">AI语音｜</span>ElevenLabs推出Eleven v4/v4 Turbo，支持90余种语言、10秒克隆声音、情绪语气可叠加标签，已在API上线（09-28）</div>
+        <div class="breaking-item"><span class="breaking-cat">人形机器人｜</span>IDC：2026上半年全球出货近2.5万台、同比+432.1%，中国厂商出货占比超95%；预计2030年全球超75万台（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">多空交锋｜</span>马克·库班唱衰人形机器人，称其将在5至10年内被证伪，尤其家庭场景，亚马逊仓库已用专用机器人替代（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">触觉传感器｜</span>斯坦福系柔性触觉（电子皮肤）公司再获亿元级融资，主打"硬件+数据+模型"；途见科技完成亿元级Pre-A++轮（09-29）</div>
+        <div class="breaking-item"><span class="breaking-cat">AI制药BD｜</span>德睿智药将AI设计口服GLP-1 MDR-001中国权益授权三生蔓迪、最高17.5亿元；博锐创合RLT资产授权诺华、最高9亿美元（09-28）</div>
+        <div class="breaking-item"><span class="breaking-cat">类似药出海｜</span>正大天晴授权帕博利珠单抗类似药TQB3570欧盟/英国权益给STADA，最高5300万欧元加分成，并探讨再纳三款（09-28）</div>
+        <div class="breaking-item"><span class="breaking-cat">政策动态｜</span>广东9月29日上线职工医保个账跨省共济；国家药监局就优化器械跨省注册、IVD生产质量管理规范公开征求意见（09-29）</div>
+    </div>
+
+    <!-- 关联洞察 -->
+    <div class="insights-section">
+        <div class="insights-title">🔗 关联洞察</div>
+        
+        <div class="insight-item">
+            <strong>趋势一：当模型能力被默认"足够强"，可靠性正从技术细节升格为AI服务的核心资产</strong>
+            一次登录系统故障，比模型答错几道题更能摧毁企业级信任，SLA、容灾与多供应商冗余成为部署刚需。本次两波"组合拳"：第二波直击SSO、把已登录与新进入者彻底分开，官方只能提示"千万别退出"，且部分消息未保存，暴露模型、对话、代码会话、Cowork与购买都挂在同一套身份认证上。结合9月3日多模型因共享Azure底层集体宕机，"模型可以宕机、架构不能"正成为共识。
+        </div>
+        
+        <div class="insight-item">
+            <strong>趋势二：AI产业在"狂飙"与"踩刹车"间继续分化，资本与巨头同时向"智能体"和"安全"两端下注</strong>
+            谁能定义Agent安全标准、谁能把单位经济模型跑通，谁就握住下一阶段门票。9月28日英伟达一边追加创纪录1500亿回购、宣示算力景气，一边发布开放智能体安全平台、延伸为全栈基础设施提供者；Instinct百亿融资显示热钱涌向Agent层，而智能体自主操作使安全从成本项变准入门槛。Meta把Muse推向小企业，是C端降级后对更稳定、更高付费场景的寻找。
+        </div>
+        
+        <div class="insight-item">
+            <strong>趋势三：中国医药BD从"单点授权"走向"常态化、平台化"，交易开始收到真实里程碑</strong>
+            资产从前沿创新药扩展到AI制药、生物类似药，2027年海外商业化兑现窗口正被当下交易提前定价。恒瑞、思璞锐、康方接连大额BD，诚益生物收到5000万里程碑证明BD进入实质兑现期；国内ICL、新生儿筛查、颅内药涂球囊密集获批，四川推住院分娩"无自付"、广东上线个账跨省共济，创新激励与民生保障并行。中国资产全球权重提升，正重塑跨国企业管线与合作策略。
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>吐司日报 · 第162期 · 2026年9月29日</p>
+        <p>关注 AI科技 · 医疗健康 · 商业财经</p>
+    </div>
+
+</div>
+
+</body>
+</html>

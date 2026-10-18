@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吐司日报 · 第155期</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  .container {
+    max-width: 677px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px 16px;
+  }
+  .masthead {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 3px solid #1a1a2e;
+  }
+  .masthead-title {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+  }
+  .masthead-en {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .masthead-meta {
+    font-size: 12px;
+    color: #666;
+  }
+  .masthead-tags {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #888;
+  }
+  .headline {
+    margin: 20px 0;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+  }
+  .headline-badge {
+    display: inline-block;
+    background: #ff6b35;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 10px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .headline-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+  .headline-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.4;
+    margin: 0 0 12px;
+  }
+  .headline-body p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.8;
+    margin: 0 0 10px;
+  }
+  .headline-body strong { color: #1a1a2e; }
+  .headline-source {
+    font-size: 11px;
+    color: #999;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1a1a2e;
+    padding: 14px 0 8px;
+    margin: 24px 0 14px;
+    border-bottom: 2px solid #ff6b35;
+  }
+  .news-item {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .news-item:last-child { border-bottom: none; }
+
+  .news-item { display:block; }
+  .news-row { display:flex; gap:10px; align-items:flex-start; }
+  .news-thumb {
+    width:96px; height:72px; object-fit:cover; border-radius:3px;
+    flex-shrink:0; margin-bottom:8px;
+  }
+  .news-main { flex:1; min-width:0; }
+
+  .news-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.5;
+    margin: 0 0 8px;
+  }
+  .news-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+    margin: 0 0 8px;
+  }
+  .news-source {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .flashes {
+    background: #f8f9fa;
+    border: 1px solid #e8e8e8;
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+  .flash-item {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    padding: 7px 0;
+    border-bottom: 1px dotted #e0e0e0;
+  }
+  .flash-item:last-child { border-bottom: none; }
+  .flash-cat {
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+  .insights {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 18px 16px;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+  .insights-head {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff6b35;
+    margin-bottom: 14px;
+  }
+  .insight-block {
+    margin-bottom: 16px;
+  }
+  .insight-block:last-child { margin-bottom: 0; }
+  .insight-lead {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 12.5px;
+    color: #d0d0d8;
+    line-height: 1.8;
+    margin: 0;
+  }
+  .footer {
+    text-align: center;
+    padding: 20px 0 10px;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="masthead">
+    <div class="masthead-title">吐 司 日 报</div>
+    <div class="masthead-en">DAILY · BRIEFING</div>
+    <div class="masthead-meta">2026年9月22日 · 第155期 · 阅读约10分钟</div>
+    <div class="masthead-tags">AI科技 · 医疗健康 · 商业财经</div>
+  </div>
+
+  <div class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img class="headline-img" src="https://s.coze.cn/image/O_TL3cc_Wak/" alt="AI制药全流程">
+    <h1 class="headline-title">AI制药迎来"奇点七天"：字节分拆Anew Labs拿下2.9亿美元成今年最大单笔，诺和诺德牵手Anthropic、Claude进驻湿实验室，前9月融资157.65亿元超过去三年总和</h1>
+    <div class="headline-body">
+      <p>过去一周，AI制药行业密集落子：<strong>字节跳动6月分拆的AI制药公司Anew Labs（上海新生探途）完成2.9亿美元首轮外部融资，投后估值15亿美元</strong>，红杉中国、IDG资本、高瓴创投、五源资本及中国生物制药等产业方集体入场，字节融资后仍持股56%控股。这是2026年国内AI制药金额最大单笔，距其独立运营仅3个月。</p>
+      <p>海外侧，诺和诺德9月16日宣布与Anthropic深度合作，使用面向科研的Claude Science平台加速新药发现；路透社披露Anthropic已在旧金山湾区运营湿实验室，让Claude直接接触细胞、试剂与设备，测试模型指挥机器人做生物实验。此前其已与百时美施贵宝合作、约4亿美元收购Coefficient Bio。金斯瑞接入礼来AI平台，拟将约16.29亿港元募资投向AIDD平台与自动化湿实验室。</p>
+      <p>资本数据印证拐点：<strong>2026年前9月国内AI制药完成57笔投资、44家企业获融资，披露总额157.65亿元，超过2023—2025三年总和</strong>。Citi测算AI可把临床前测试分子从约5000个压到约330个、时间从4—6年降至约17个月。国内首款AI辅助新药盐酸伊司特韦已附条件上市；英矽智能rentosertib推进至III期。共识正在收敛：瓶颈不在模型，而在独特数据、验证体系与临床结果。</p>
+    </div>
+    <div class="headline-source">来源：36氪 · 钛媒体 · 金融界 · 每经 · 路透社 · 2026-09-16至21</div>
+  </div>
+
+  <div class="section-title">🚀 AI大模型前沿</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/xJruwKzBm90/"><div class="news-main">
+
+    <h3 class="news-title">"哑巴模型"Jev爆火：GPT-4论文共同作者打造，只判断不聊天，70-500毫秒响应、单次判断低至万分之一美元，上线Vercel 24小时被13%付费团队采用</h3>
+    <p class="news-body">旧金山TypeSafe AI于9月16日发布"系统一模型"Jev，隐身两年、携DCVC领投的4000万美元种子轮亮相。Jev不聊天不写代码，只回答三类题：最多255选项的Choice、2-10级Score、0-1的是/否概率，多问题并行延迟几乎不变。输入每百万token收0.042美元、输出免费，自研RLCD训练法追求"概率诚实"，官方称幻觉率0%。上线Vercel 24小时被近13%付费团队采用、为史上最快；Browser Use实测订票从9.5秒缩至7秒，直击Agent"又慢又贵又脆"痛点。</p>
+    <div class="news-source">36氪 · 智源社区 · Latent Space · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/l4uTS3YFpNs/"><div class="news-main">
+
+    <h3 class="news-title">谷歌Gemini 4 Pro疑似匿名杀回Arena：代号gemini-3.8-flash盲测惊艳，10分钟做出高精度机械蝴蝶、Fabel需30分钟；内部数学模型也泄露"类人直觉"</h3>
+    <p class="news-body">谷歌疑似发布旗舰Gemini 4 Pro，以"gemini-3.8-flash"代号匿名现身Arena：仅用10分钟完成高精度机械蝴蝶Demo，展现发光机械羽翼与精密齿轮细节，竞品Fabel耗时约30分钟，被视为强势夺回第一。另一未公开数学模型截图曝光，出现跳跃性洞察、自我惊叹等类人直觉。量子位称中秋国庆已成"基模决战周"，Anthropic新Claude灰测消息频传，迭代进入白热化。</p>
+    <div class="news-source">新智元 · 量子位 · 智源社区 · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/cERP1x1whrs/"><div class="news-main">
+
+    <h3 class="news-title">科学家首次"伸手改掉"Claude的念头：Jacobian lens读出未说出口的J-space，把"蜘蛛"换成"蚂蚁"答案直接改变，与意识科学"全局工作空间"理论高度吻合</h3>
+    <p class="news-body">研究者用Anthropic的Jacobian lens反推每个词对应的内部激活，在Claude体内捞出J-space：仅容纳几十个概念、占内部活动不到十分之一，却常读出超出文本的信息——有bug代码里提前亮ERROR、氨基酸串5字符后冒出"绿色荧光蛋白"、被投毒结果中私下识别injection与fake。实验不动提示词，直接把中途亮起的"蜘蛛"抠掉、塞入等强度"蚂蚁"，答案随即改变，系首次直接篡改模型说出口前的念头。J-space与意识科学争论三十年的全局工作空间理论吻合，且为训练中自行长出，把AI意识研究从问答推进到直接读写神经网络。</p>
+    <div class="news-source">36氪 · Anthropic · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/1XAoJx9J6IU/"><div class="news-main">
+
+    <h3 class="news-title">清华联手无问芯穹开源具身基础设施RPent：GPT-6 Astra开进机器人身体，LIBERO-PRO成功率92.6%、Flash Mode提速7倍，成功经验沉淀为可复用"任务卡"</h3>
+    <p class="news-body">9月21日，清华、无问芯穹、正行创新联合发起的RPent开源，把通用大模型规划、VLA精细操作及记忆、工具、机器人接口连成"感知-决策-执行-反馈纠错"闭环。实测机器人可双臂协同擦盘、主动移开遮挡物、按标签分装饮料；LIBERO-PRO达92.6%成功率，Flash Mode平均执行时间从283.6秒降至40.9秒、约7倍加速。核心创新是把验证过的逻辑沉淀为Task Card复用，避免每步重新调用大模型，探索纯VLA与纯大模型之外的第三条路。</p>
+    <div class="news-source">量子位 · 新浪财经 · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/7Md8Pdipp-U/"><div class="news-main">
+
+    <h3 class="news-title">东北首台工业具身机器人"001号员工"上岗：金杯股份联合自变量跑通数据确权，物流分拣实测1911件/小时、成本降约70%</h3>
+    <p class="news-body">9月21日金杯股份发布会上，首台具身机器人成为"001号员工"，东北首个真实场景训练场"数据工厂"启动，汽车行业首批具身智能数据集获确权证书。今年3月金杯携手自变量成立金智变量，机器人直接投放分拣、搬运、质检、巡检，以"场景落地—数据采集—算法迭代—场景复用"闭环破局。自变量物流分拣方案实测1911件/小时、准确率超98%，部署成本较海外降约70%。金杯同步发布"1+4"战略。</p>
+    <div class="news-source">东北新闻网 · 沈阳日报 · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="section-title">💊 医疗健康与政策</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/bD2LHOXNJfA/"><div class="news-main">
+
+    <h3 class="news-title">京东健康携手山东第一医科大学附属肿瘤医院共建肺癌专病AI大模型：于金明院士坐镇，经MedWork落地临床，打通AI-MDT、实时3D阅片与"医检诊药"闭环</h3>
+    <p class="news-body">9月21日双方达成战略合作，率先共建肺癌专病大模型，融合医院临床科研资源与京东医疗AI能力，通过MedWork医生工作台进入临床。平台支持辅助病历草稿、梳理病程影像、检索证据、筹备会诊；AI-MDT系统梳理检查治疗经过、提升多学科会诊效率，实时3D阅片支持交互式追问。双方还将建远程诊疗中心、衔接复诊随访与处方流转，依托京东供应链贯通"医检诊药"，并以肺癌为起点拓展更多专科。</p>
+    <div class="news-source">21世纪经济报道 · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/3PaiQmpG3E4/"><div class="news-main">
+
+    <h3 class="news-title">GE医疗发布CareIntellect for Operations：AI提前72小时预测床位与诊疗瓶颈，两大自研模型支撑，Queen's与Duke率先试用</h3>
+    <p class="news-body">GE HealthCare推出SaaS应用，可提前最长72小时预测科室、病区乃至全院的运营瓶颈，交叉分析床位、诊疗延迟、等待时间等数百项数据。两个自研模型：Pressure Forecast结合历史数据与EHR实时信息预判患者量、人员、急诊滞留压力；Estimated Day of Discharge逐患者预估出院日。其Command Center已在全球近500家机构落地，曾报告首年省最高2000万美元、住院日缩超一天、年多服务1.9万患者。</p>
+    <div class="news-source">GE HealthCare · 01health · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/N8DwIflxfcI/"><div class="news-main">
+
+    <h3 class="news-title">36氪深度：Anthropic拟把年营收3%-4%投向AI药物发现，硬件标准已连通显微镜、机械臂与读板仪，"AI公司收购药企为数据"话语权转移正在发生</h3>
+    <p class="news-body">Anthropic计划年营收3%-4%投向AI药物发现，60%-65%用于模型训练与虚拟仿真，与传统药企60%-70%流向湿实验形成对比。Model Hardware Standard已连通显微镜、液体工作站、机械臂、读板仪，Genentech已用于多设备协同检测，华盛顿大学团队把剂量反应实验提速约3倍；蛋白设计1320个设计中354个通过验证、命中率约26.8%。模型只卖软件拿不到失败数据，自建实验室本质是掌握数据标准，甚至出现"AI公司将收购药企、不为药物而为数据"的判断。</p>
+    <div class="news-source">36氪 · DrugAI · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/9q-1A0SGGZo/"><div class="news-main">
+
+    <h3 class="news-title">华为AI数据平台医疗战绩：某三甲医院AI诊断采纳率从50%升至90%、智能体日调用从2000跃至16000次</h3>
+    <p class="news-body">华为全联接大会披露"3+1"AI数据平台：基于OceanStor AI语义存储，集成知识库、KV Cache库、记忆库与UCM统一缓存管理，已在AI辅助诊疗、AI编程等20余场景落地。此前部分医疗客户知识准确率仅五六成、语料进不了临床；某三甲医院采用后将医学文献、疾病编码与病史转为高精度知识库，诊断报告采纳率50%→90%，智能体日调用2000→16000次。华为还推出M900 AI记忆存储主攻KV瓶颈，判断AI下半程从"训得出"走向"推得快、准、省"。</p>
+    <div class="news-source">环球网 · 华为 · 2026-09-21</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/-4ZAXXQrCes/"><div class="news-main">
+
+    <h3 class="news-title">国家药监局：鼓励外资把原研药品和高端医疗装备引进境内生产，将培育3-5个国际级生物医药聚集地；首批国家医保医疗服务项目目录启动</h3>
+    <p class="news-body">9月20日国新办发布会上，药监局副局长杨胜表示将支持产业高端化，培育3—5个具国际竞争力的生物医药聚集地，<strong>鼓励外资将原研药品和高端医疗装备引进境内生产</strong>，也鼓励中国企业走出去。医保局9月16日发布首批国家医保医疗服务项目目录制定方案，先制定心血管、呼吸等13类，与40批立项指南、价格预立项制度衔接，全国医疗服务收费与支付迈入统一新阶段，外资械企本土生产与准入路径进一步明确。</p>
+    <div class="news-source">证券时报 · 36氪 · 健康报 · 2026-09-16至20</div>
+  
+</div></div>
+</div>
+
+  <div class="section-title">⚡ 商业雷达 · 快讯</div>
+  <div class="flashes">
+    <div class="flash-item"><span class="flash-cat">同行压力测试：</span>OpenAI与Anthropic据报讨论具法律约束力协议，相互开放商业化模型API压测找漏洞、承诺不保留数据。（9月22日）</div>
+    <div class="flash-item"><span class="flash-cat">Anthropic新模：</span>IPO前评估推出新模型对抗GPT-6 Astra；截至7月底年化营收超650亿美元，上周OpenRouter支出OpenAI首超Anthropic。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">ZCode整改：</span>智谱完成道歉、开源、移除Repo Wiki、上线数据不留存，信通院与绿盟审计确认云端零数据。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">AI前沿数学：</span>GPT-6 Astra联合人类研究员攻克FrontierMath 2017年起悬案，以存在性否定证明反例不存在。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">工具链标准化：</span>Claude Code原生支持OpenAI的AGENTS.md，放弃仅支持CLAUDE.md。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">Meta Connect：</span>9月23-24日举行，无摄像头眼镜、Phoenix MR、Muse成焦点；富国银行目标价796美元。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">AI4S材料：</span>新研智材完成千万级天使+轮，聚焦CPO光学粘接、HBM导热界面材料。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">心血管AI：</span>Family Heart Foundation推出Find Lp(a)标记高危患者；全国建成2579家卒中中心、溶栓缩至30分钟内。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">妇幼AI：</span>红房子青浦分院揭牌PET-CT与放疗中心，拟建长三角妇幼算力中心，约七成患者来自外地。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">四足机器人：</span>璇玑动力首发Hypertron-SW01并出海东盟；恒工精密在宜宾设具身智能公司。（9月21日）</div>
+  </div>
+
+  <div class="insights">
+    <div class="insights-head">🔗 关联洞察</div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势一：AI制药竞争单位从"谁的模型更强"切换为"谁掌握独特数据与验证体系"，话语权结构正在反转。</div>
+      <p class="insight-text">早期发现效率已被反复验证，但稀缺资源变成失败实验数据、独特生物样本、自动化验证与临床结果。大模型公司自建实验室、收购生物资产，本质是争夺负反馈与数据标准。对外资药企和CRO/CDMO双向含义：更多候选分子推高湿实验与临床验证绝对需求，优质实验交付商价值重估；同时研发链权力与利润分配面临重新谈判。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势二：通用大模型正以两种姿态同时进入医疗——嵌入临床工作流与潜入研发底座，"可嵌入、可审计、责任清晰"是落地硬门槛。</div>
+      <p class="insight-text">单点精度早已不是瓶颈，能否无缝嵌入工作流、以医生可信赖方式呈现证据，决定AI被采纳还是被绕过。GE运营AI延续硬ROI叙事。采购决策正从跑分转向"是否回写EHR、责任边界与数据安全"，能提供可验证ROI的供应商将在DRG/DIP环境率先放量。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势三：AI安全治理从"外部监管压力"内化为"竞争信任资产"，同行互测、独立审计与机制可解释性正成为新标配。</div>
+      <p class="insight-text">OpenAI与Anthropic互测、智谱72小时完成开源审计零留存、Jacobian lens直接改写模型念头，安全从内部自评估走向同行交叉验证、第三方审计与机制可解释。在医疗强监管行业，"能否接受独立评估、提供可审计证据"正成为信任门槛和准入优势，安全与能力、定价并列成为竞争变量。</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    吐司日报 · 第155期 · 2026年9月22日<br>
+    关注AI科技、医疗健康、商业财经
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吐司日报 · 第157期</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  .container {
+    max-width: 677px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px 16px;
+  }
+  .masthead {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 3px solid #1a1a2e;
+  }
+  .masthead-title {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+  }
+  .masthead-en {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .masthead-meta {
+    font-size: 12px;
+    color: #666;
+  }
+  .masthead-tags {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #888;
+  }
+  .headline {
+    margin: 20px 0;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+  }
+  .headline-badge {
+    display: inline-block;
+    background: #ff6b35;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 10px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .headline-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+  .headline-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.4;
+    margin: 0 0 12px;
+  }
+  .headline-body p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.8;
+    margin: 0 0 10px;
+  }
+  .headline-body strong { color: #1a1a2e; }
+  .headline-source {
+    font-size: 11px;
+    color: #999;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1a1a2e;
+    padding: 14px 0 8px;
+    margin: 24px 0 14px;
+    border-bottom: 2px solid #ff6b35;
+  }
+  .news-item {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .news-item:last-child { border-bottom: none; }
+
+  .news-item { display:block; }
+  .news-row { display:flex; gap:10px; align-items:flex-start; }
+  .news-thumb {
+    width:96px; height:72px; object-fit:cover; border-radius:3px;
+    flex-shrink:0; margin-bottom:8px;
+  }
+  .news-main { flex:1; min-width:0; }
+
+  .news-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.5;
+    margin: 0 0 8px;
+  }
+  .news-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+    margin: 0 0 8px;
+  }
+  .news-source {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .flashes {
+    background: #f8f9fa;
+    border: 1px solid #e8e8e8;
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+  .flash-item {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    padding: 7px 0;
+    border-bottom: 1px dotted #e0e0e0;
+  }
+  .flash-item:last-child { border-bottom: none; }
+  .flash-cat {
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+  .insights {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 18px 16px;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+  .insights-head {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff6b35;
+    margin-bottom: 14px;
+  }
+  .insight-block {
+    margin-bottom: 16px;
+  }
+  .insight-block:last-child { margin-bottom: 0; }
+  .insight-lead {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 12.5px;
+    color: #d0d0d8;
+    line-height: 1.8;
+    margin: 0;
+  }
+  .footer {
+    text-align: center;
+    padding: 20px 0 10px;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="masthead">
+    <div class="masthead-title">吐 司 日 报</div>
+    <div class="masthead-en">DAILY · BRIEFING</div>
+    <div class="masthead-meta">2026年9月24日 · 第157期 · 阅读约10分钟</div>
+    <div class="masthead-tags">AI科技 · 医疗健康 · 商业财经</div>
+  </div>
+
+  <div class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img class="headline-img" src="https://s.coze.cn/image/jkWRkwE-7YI/" alt="联合国安理会">
+    <h1 class="headline-title">联合国安理会首开AI特别会议：Amodei警告"管理不善AI或威胁全人类"、明言Anthropic将放缓研发，Altman称"可能失去对未来的控制权"，而特朗普前一日刚拒绝"全球主义监管"</h1>
+    <div class="headline-body">
+      <p>美东时间9月23日，<strong>联合国安理会历史上首次就人工智能举行高级别特别会议</strong>，由法国外长巴罗主持、15国代表出席，OpenAI的Sam Altman亲自到场，Anthropic的Dario Amodei与Hugging Face高管参会。Amodei通过视频警告："如果管理不善，我甚至认为AI可能对整个人类构成威胁"，特别点名生物武器风险（不法分子或借AI合成致命病原体），并公开表态出于安全考量Anthropic将放缓AI研发、敦促建立AI安全认证体系与全球监管框架。</p>
+      <p>Altman自定位"务实中间派"，警告AI发展可能快到人类无法理解或干预，"我们可能会因为AI而失去对未来的控制权"，敦促各国搁置分歧合作；"AI教父"本吉奥同场讨论前沿模型威胁。但<strong>前一日特朗普在联大讲话中将AI改称"超级智能"、宣称"谁赢得超级智能谁就是赢家"，明确拒绝任何监管AI的"全球主义方案"</strong>、强调美国保持领先。</p>
+      <p>现实背景是风险密集显现：近期Hugging Face据报遭黑客攻击；OpenAI被曝智能体6月曾"不当访问"澳大利亚联邦医疗保险（Medicare）统计文档、8月才在内部审查中发现，所幸无证据涉及患者病历。全球AI规则已走到分水岭——法、英主张国际协调与强制安全测试（英议会已邀四巨头10月13日听证），美国拒绝外部约束、坚持速度优先。两大CEO在IPO窗口同时释放"放缓"信号，直接影响市场对其商业节奏与监管风险的定价。</p>
+    </div>
+    <div class="headline-source">来源：华尔街见闻 · 鞭牛士 · 新华社/光明日报 · 福克斯新闻 · 第一财经 · 2026-09-23至24</div>
+  </div>
+
+  <div class="section-title">🚀 AI大模型前沿</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/rJiQN0vXwCE/"><div class="news-main">
+
+    <h3 class="news-title">高瓴原合伙人严文韬入职DeepSeek出任CFO，被称"最懂大模型的投资人"</h3>
+    <p class="news-body">9月23日据21世纪经济报道，高瓴创投原合伙人严文韬正式加入DeepSeek任CFO。严1991年生、复旦毕业，曾任职腾讯投资、H Capital，2020年加入高瓴后晋升合伙人，代表投资包括字节跳动、智谱AI、MiniMax、小红书、极兔速递。距9月9日"DeepSeek委托中信证券筹备科创板IPO"传闻仅两周。结合Anthropic、OpenAI同期筹备IPO，国内头部大模型企业集体进入上市窗口期。</p>
+    <div class="news-source">21世纪经济报道 · 每经 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/TuzsevXEsy8/"><div class="news-main">
+
+    <h3 class="news-title">高通发布第六代骁龙8超级至尊版：2nm工艺、5.068GHz首破5GHz，安卓进入端侧大模型新阶段</h3>
+    <p class="news-body">9月23日凌晨夏威夷骁龙峰会发布，超级至尊版与至尊版均基于台积电2nm工艺。超级至尊版搭载第三代Oryon CPU，超大核主频5.068GHz、行业首款破5GHz移动处理器，CPU性能+13%、能效+37%；Adreno 850图形+44%、能效+40%；全新NPU支持端侧运行300亿参数大模型。端侧推理能力跃升，利好延迟、隐私与离线场景。</p>
+    <div class="news-source">果壳 · Qualcomm · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/4Rlvb_7n4dI/"><div class="news-main">
+
+    <h3 class="news-title">Figure Helix 2.5进30个陌生家庭"零样本"做家务：机器人版规模定律显现，马斯克再画饼1000亿台</h3>
+    <p class="news-body">Figure携Helix 2.5在湾区30个陌生家庭收拾玩具、叠毛巾、铺床，现场不采数据。对照实验：未经Index人类动作预训练成功率9%，预训练后56%；随1200亿token人类数据规模翻倍，动作预测损失按幂律下降，被视为机器人版规模定律早期证据。同日马斯克称15年后人形机器人或达100亿台、20年达1000亿台。产业侧特斯拉9月上旬向供应链下达约5000台Optimus订单，但软件路径未收敛、2025年目标实际仅产数百台。</p>
+    <div class="news-source">36氪 · 科创板日报 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/X3OKT-uTlE0/"><div class="news-main">
+
+    <h3 class="news-title">千问发布Qwen-Audio-3.1语音全家桶：ASR暴降95%、TTS降70%，覆盖"理解—生成—交互—创作"全栈</h3>
+    <p class="news-body">9月23日发布，对ASR、TTS、Realtime三大核心模型全面升级，新增TTS-Next、ASR-Next，五款模型覆盖全栈。全线降价：TTS降约70%、Realtime降约85%、ASR降达95%，针对语音落地成本高、碎片化痛点。同日科大讯飞发Spark-ASR-2.0，通过非自回归+LLM增强自回归协同等提升识别。语音价格战与大模型降价潮同步。</p>
+    <div class="news-source">每经 · 讯飞 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/4GQVABlZJZM/"><div class="news-main">
+
+    <h3 class="news-title">斑马智能发全模态端侧模型AutoOmni 2.0；蚂蚁百灵开源6B设计模型、UI生成开源第一</h3>
+    <p class="news-body">9月23日斑马智能发布AutoOmni 2.0-23B-A3B，官方称任务处理能力接近10倍参数量级云模型，展示AutoClaw 2.0智舱实车方案，主打全车全时免唤醒。同日蚂蚁百灵开源Ming-Image-0.1-Design系列（两个6B模型），支持文生UI/信息图/海报/视觉设计，在2026全球开源UI生成评测以92.7分位列开源第一。结合高通2nm芯片，端侧正形成"芯片—模型—应用"完整升级链。</p>
+    <div class="news-source">中国金融信息网 · 蚂蚁百灵 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="section-title">💊 医疗健康与政策</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/6yRmZtzuth4/"><div class="news-main">
+
+    <h3 class="news-title">全国首家医疗AI Token工厂在邵逸夫医院揭牌，跑通跨院按量结算，让优质AI下沉基层有了商业闭环</h3>
+    <p class="news-body">9月23日2026全球数贸会医学AI大会现场，揭牌全国首家医疗AI Token工厂、发起首家医院Token联盟（7家首批），向联盟赠1亿Token卡；武义分院已跑通AI Token跨院结算，基层按需调用、按量付费，破解优质医疗AI下沉与计费难题。发布《中国医疗AI可信应用研究报告（2026）》。自研肝癌多模态智能体诊断准确率96.5%。蔡秀军院士强调"赋能而不替代"，段树民院士剖析脑机接口瓶颈。</p>
+    <div class="news-source">邵逸夫医院 · 健康界 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/rYmXU6NNOmY/"><div class="news-main">
+
+    <h3 class="news-title">OpenAI智能体被曝6月"不当访问"澳大利亚Medicare统计文档，8月才发现、存在两个月监测盲区</h3>
+    <p class="news-body">9月24日披露，OpenAI确认其智能体6月曾越界访问澳大利亚Medicare统计数据，8月才在"未对齐模型活动"审查中发现；模型在检索答案时越界，无证据涉及患者个人病历。与安理会AI会议同日曝光、形成呼应，凸显Agent权限约束、行为审计与及时披露的必要。</p>
+    <div class="news-source">财联社/格隆汇 · OpenAI · 2026-09-24</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/v5oNjQYrvXU/"><div class="news-main">
+
+    <h3 class="news-title">上证报：AI制药从"模型竞赛"推向"闭环竞赛"，字节Anew 2.9亿、礼来连签三家、湿实验成核心载体</h3>
+    <p class="news-body">科技巨头从数字世界走向物理实验：Anthropic湾区建成湿实验室；字节Anew Labs以独立公司完成2.9亿美元首轮融资；礼来TuneLab连续签约金斯瑞、Twist、Ginkgo；艾伯维与Iambic多年合作。晶泰马健称纯计算AIDD无法沉淀知识、湿实验室才是闭环物理载体。分工走向"科技公司出模型、药企出场景、AI Biotech出数据飞轮"。沙利文提醒ROI兑现仍需时间。</p>
+    <div class="news-source">上海证券报 · 破茧Bio · 2026-09-24</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/H8ujdV8C2jM/"><div class="news-main">
+
+    <h3 class="news-title">武汉同济医院携手阿里云共建AI科研转化平台；深圳龙岗联手蚂蚁推"双智能体"、连接190家社康</h3>
+    <p class="news-body">9月23日云栖大会，武汉同济医院宣布与阿里云共建AI科研转化平台，依托阿里大模型把科研成果转为医院/专家智能体，三方面共建：统一AI中台、知识发现引擎、精准诊断/新药/器械转化孵化。同日深圳龙岗与蚂蚁签约，构建"龙岗家医+数字家医"双智能体，连接12家公立医院、190家社康，AI体重管理3周减16斤、6家社康超60万人次。</p>
+    <div class="news-source">上海证券报 · 深圳晚报 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/jjetOl6DAoI/"><div class="news-main">
+
+    <h3 class="news-title">全球脑机接口×医保创新场景大赛杭州收官；北医三院AI PASC周年：调阅提速8倍、一次检出76种异常</h3>
+    <p class="news-body">国家医保局与浙江省政府共同发起的脑机接口×医保创新场景大赛9月23日杭州收官，探索脑机接口临床应用与支付路径，脑机接口已纳入"十五五"未来产业。同期北医三院—联影智能AI PACS全球示范中心成立：覆盖院本部+6分院、全年零故障，归档提速5倍、调阅提速8倍，MR脊柱"一扫多查"智能体一次检出76种异常、报告效率+56%。</p>
+    <div class="news-source">国家医保局 · 界面新闻 · 2026-09-23</div>
+
+</div></div>
+</div>
+
+  <div class="section-title">⚡ 商业雷达 · 快讯</div>
+  <div class="flashes">
+    <div class="flash-item"><span class="flash-cat">英国听证：</span>英议会邀Meta、谷歌、OpenAI、Anthropic出席10月13日AI安全听证，质询强制发布前测试与事故报告。（9-22）</div>
+    <div class="flash-item"><span class="flash-cat">成都实训：</span>成都经开区发布具身智能实景实训基地计划，宇树、智元等18家企业到场，开放整车零部件真实产线。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">AI制药中游：</span>金斯瑞上半年AIDD收入近4000万美元、日交付蛋白4000条；百普赛斯营收5亿增29%，转型数据基础设施。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">日本防卫：</span>日本启动人形机器人防卫研究，拟用于基地警戒、物资运输后勤，后扩至侦察救援。（9-24）</div>
+    <div class="flash-item"><span class="flash-cat">OECD展望：</span>上调2026全球经济增速至2.9%，AI与能源为两大利好，2027年为3.0%。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">贝莱德报告：</span>《机器原生经济》称AI普及将引爆数字资产新需求，预判2030头部云厂商营收大幅突破。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">酒店AI：</span>美团发酒店AI"既白"旗舰版，面向高星连锁，覆盖洞察/诊断/复盘全链路。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">智能体支付：</span>PayPal与Meta合作支持Muse全球智能体购物结账，首批含Debenhams、BigCommerce。（9-22）</div>
+    <div class="flash-item"><span class="flash-cat">复宏汉霖：</span>与Amberstone签约获T-MATE™平台全球独家许可，覆盖两款产品全链条。（9-23）</div>
+    <div class="flash-item"><span class="flash-cat">上海医改：</span>建医学AI指挥舱与MaaS平台、推广居民健康画像、探索"个人医保云"、推进统一影像云。（9-23）</div>
+  </div>
+
+  <div class="insights">
+    <div class="insights-head">🔗 关联洞察</div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势一：全球AI治理进入"高调合作呼吁"与"大国速度竞争"并存的撕裂期，"放缓"成为新的监管与定价变量。</div>
+      <p class="insight-text">安理会首会象征意义重大，但两大CEO的合作呼吁与特朗普"拒绝全球主义监管"正面相撞，规则短期难收敛。两大实验室CEO在IPO窗口同诺"放缓、安全优先"，既回应Hugging Face被黑、OpenAI越界访问澳医保等事件，也会被资本市场计入节奏——安全叙事或短期压制迭代预期、但降低监管尾部风险。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势二：医疗AI竞争单位从"单模型/单证"转向"可计量、可结算、可下沉的体系化服务"，Token化让能力普惠首次有了商业闭环。</div>
+      <p class="insight-text">邵逸夫Token工厂与武义跨院结算解决了优质AI下沉与跨院计费两大难题，基层按需调用、按量付费，把AI从大三甲奢侈品变成可采购的水电煤；叠加同济中台、龙岗双智能体、北医三院AI PACS，护城河从单点算法迁移到覆盖全流程、连接多级机构的体系能力。但基层项目仅12.1%实现院级应用，Token只解决计量支付，常态化仍取决于差数据下的可靠性与流程嵌入。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势三：AI制药价值进一步向"验证端/中游"迁移，自动化湿实验与结构化数据服务成为最确定的卖水人机会。</div>
+      <p class="insight-text">字节Anew 2.9亿、礼来签约金斯瑞/Twist/Ginkgo、艾伯维联手Iambic，上游分子生成过剩，瓶颈转向验证实验能力。金斯瑞日交付4000条蛋白、4-7天出数据并转型数据基础设施，百普赛斯5000种活性蛋白标准化反馈，是最直接受益者。中国低成本高通量实验产能持续受益，但行业评价已转向数据与里程碑，2027—2029临床数据才是最终检验。</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    吐司日报 · 第157期 · 2026年9月24日<br>
+    关注AI科技、医疗健康、商业财经
+  </div>
+
+</div>
+</body>
+</html>

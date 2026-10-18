@@ -1,0 +1,263 @@
+# -*- coding: utf-8 -*-
+import re, os
+
+SRC = "/Coze/Drive/吐司/所有对话/主对话/吐司日报/第177期/公众号排版_177期.html"
+OUT = "/Coze/Drive/吐司/所有对话/主对话/吐司日报/第178期/公众号排版_178期.html"
+
+with open(SRC, "r", encoding="utf-8") as f:
+    tpl = f.read()
+
+css = re.search(r"<style>.*?</style>", tpl, re.S).group(0)
+
+HEAD="https://s.coze.cn/image/gZqp2-K4MJM/"
+A1="https://s.coze.cn/image/AWOnBALsCZE/"
+A2="https://s.coze.cn/image/XftTIqLBfuI/"
+A3="https://s.coze.cn/image/YFBjQCsDrow/"
+A4="https://s.coze.cn/image/TLSFdS2j7ZU/"
+M1="https://s.coze.cn/image/ZAIhzYLtG88/"
+M2="https://s.coze.cn/image/VnskOJzD4HI/"
+M3="https://s.coze.cn/image/vo8gdGshYZ0/"
+M4="https://s.coze.cn/image/8ibsahD9JoI/"
+
+flashes = [
+ ("AI IPO","Anthropic投资者日：Q3营收168亿美元、单季首度调整后盈利，自由现金流转正、毛利率85%，估值锚1.8万—2万亿"),
+ ("模型免费","OpenAI全量免费开放GPT-6（Luna版），Codex/ChatGPT Work默认窗口272k扩至500k，贴身抢入口"),
+ ("降价九成","Claude Haiku 5.5最高降价90%、典型负载成本降约75%，处能力-成本Pareto最优"),
+ ("具身投资","DeepSeek领投Swin Transformer作者胡瀚的Winverse AI种子轮数千万美元、投后约4亿美元，美团龙珠跟投"),
+ ("世界模型","禾赛发布三维世界数据引擎Kosmo（8K AI空间相机+云平台），与银河通用、原力灵机战略合作"),
+ ("太空算力","蓝箭朱雀二号“一箭十星”，国星宇航8颗智算卫星单星10 POPS组网；谷歌TPU搭SpaceX上天测辐射"),
+ ("AI视频","可灵Kling 4.0、Vidu Q4（0.09元/秒）、Seedance三足鼎立，“黄仁勋世界巡演”二创火到海外"),
+ ("供应链","黄仁勋伦敦表态：英伟达将对开发“不安全AI”的客户断供芯片，断供前会先沟通"),
+ ("企业AI","红帽发布Red Hat AI 3.5企业平台，单一控制平面统管基础设施、模型与智能体"),
+ ("数据迁移","豆包工作上线数据导入与同步，一键迁移ChatGPT、Claude Code、Trae Work的技能、记忆与会话"),
+ ("医保创新","国家医保局：探索医疗服务价格预立项制度，建全国统一医保影像大数据，推行长护险"),
+ ("集采","人民日报评集采“极端低价不通吃”：双标准差锚点、畸低价不带量、新增“不带量复活”"),
+ ("长护险","甘肃印发长护险方案、基准费率0.3%三年建成；广西参保超560万、惠及3.2万失能人员"),
+ ("创新药械","英伟达参股AI制药Iambic 15日纳斯达克挂牌募1.5亿美元；泽璟制药吉卡昔替尼强直NDA获受理"),
+]
+flash_html = ""
+for i,(cat,txt) in enumerate(flashes,1):
+    flash_html += f'''            <div class="flash-item">
+                <span class="flash-num">{i:02d}</span>
+                <span class="flash-cat">{cat}</span>
+                <span class="flash-text">{txt}</span>
+            </div>
+'''
+
+html = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 · 第178期 · 2026-10-15</title>
+    {css}
+</head>
+<body>
+<div class="container">
+
+    <div class="cover-card">
+        <div class="cover-inner">
+            <div class="cover-logo">吐 司 日 报</div>
+            <div class="cover-title">DAILY BRIEFING</div>
+            <div class="cover-en">VOL.178 · 2026.10.15 · THU</div>
+            <img class="cover-image" src="{HEAD}" alt="Anthropic冲刺2万亿美元IPO">
+            <div class="cover-meta">
+                <span>📅 2026年10月15日</span>
+                <span>📖 阅读约10分钟</span>
+                <span>🔢 第178期</span>
+            </div>
+            <div class="cover-tags">
+                <span class="cover-tag">AI科技</span>
+                <span class="cover-tag">医疗健康</span>
+                <span class="cover-tag">商业财经</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="headline-section">
+        <div class="headline-banner">
+            <span>🔥</span>
+            <span class="headline-banner-text">今日头条</span>
+        </div>
+        <div class="headline-body">
+            <div class="headline-title">Anthropic投资者日首次亮账：Q3营收168亿美元、单季首度调整后盈利，自由现金流转正、毛利率85%，最早11月9日当周路演、感恩节前挂牌，估值锚1.8万—2万亿美元、有望刷新SpaceX成史上最大IPO</div>
+            <img class="headline-img" src="{HEAD}" alt="Anthropic IPO">
+            <div class="headline-summary">
+                美西时间10月14日周三，Anthropic在旧金山总部举办Pre-IPO投资者日，首次向潜在机构投资者披露三季度财务数据。据彭博社援引知情人士，公司<strong>第三季度营收达168亿美元</strong>（约合人民币1126亿元），并在该季度<strong>实现调整后盈利</strong>；截至三季度已实现正向自由现金流，<strong>调整后毛利率约85%、调整后营业利润率超11%</strong>。一季度营收约47.3亿、二季度初步超115亿，上半年约163亿、已达2025年全年的3.5倍。<br><br>
+                <strong>路径</strong>：最早11月9日当周启动路演，有望11月26日感恩节前挂牌、年内完成上市；今年早些时候已秘密递交S-1，10月23日前后是公开文件关键窗口。部分机构给出合理估值<strong>1.8万亿—2万亿美元</strong>，期望发行规模达到甚至超过SpaceX今年6月约1.77万亿美元的IPO，成为全球AI史上最大公开上市。<br>
+                <strong>分歧</strong>：看多者以年化营收年底破千亿、企业客户超30万、财富100强约70%深度采用为锚；看空机构New Constructs给出仅1500亿美元、斥为“2026最荒谬IPO”。叠加上周OpenAI约500亿年化营收口径拖累AI板块、博通CEO警告高利率下融资制约，这份“首次盈利”成绩单正是对估值质疑最直接的回应。
+            </div>
+            <div class="headline-source">彭博社 · 财联社 · 每日经济新闻 · CNBC · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <div class="section-icon ai">🚀</div>
+        <div class="section-title-group">
+            <div class="section-title">AI大模型前沿</div>
+            <div class="section-subtitle">AI FRONTIER</div>
+        </div>
+        <div class="section-line"></div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number ai">NO.01</span>
+        <img class="article-image" src="{A1}" alt="大模型入口与价格战">
+        <div class="article-content">
+            <div class="article-title">硅谷掀起“反向薅羊毛”：OpenAI全量免费GPT-6，Claude Haiku 5.5最高降价90%，马斯克让Grok Bot免费跑Opus 5.5</div>
+            <div class="article-body">
+                紧接谷歌Argon以“五分之一价格”上线，海外巨头集体打补贴战：OpenAI向用户投喂额度重置卡、把Codex与ChatGPT Work默认窗口从272k扩到500k；Anthropic按月免费发API额度（Max 20x达200美元、Team最高500美元），10万token内Haiku 5.5输入仅<strong>0.10美元/百万token</strong>、缓存读取0.01美元，并首次引入可调推理强度。浙商证券周报显示Haiku 5.5已处能力-成本Pareto最优。<strong>模型分层（旗舰拼智能、轻量拼成本）+免费入口，正挤压中低端生存空间。</strong>
+            </div>
+            <div class="article-source">Tech星球 · 浙商证券 · 新浪财经 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number ai">NO.02</span>
+        <img class="article-image" src="{A2}" alt="DeepSeek领投Winverse">
+        <div class="article-content">
+            <div class="article-title">梁文锋再落子具身：DeepSeek领投Swin Transformer作者胡瀚的Winverse AI种子轮、数千万美元、投后约4亿美元</div>
+            <div class="article-body">
+                胡瀚为清华自动化系本博、<strong>ICCV 2021马尔奖（最佳论文）唯一通讯作者</strong>，曾任职百度IDL、微软亚研院，2025年加入腾讯负责混元多模态与具身基础模型团队。Winverse偏底层模型加速，目标让机器人理解语音指令、处理复杂任务而非仅运动控制。同日禾赛发布三维世界数据引擎Kosmo（8K AI空间相机+Kosmo World云平台）并与银河通用、原力灵机签约，济南AI大会定调“具身落地元年”。继8月1.41亿元战投宇树后，梁文锋正把AGI六阶梯里的<strong>具身智能</strong>提前。
+            </div>
+            <div class="article-source">科创板日报 · 虎嗅 · 财联社 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number ai">NO.03</span>
+        <img class="article-image" src="{A3}" alt="国产AI视频">
+        <div class="article-content">
+            <div class="article-title">中国视频模型三足鼎立：可灵Kling 4.0拼影视级可控、Vidu Q4 Preview 0.09元/秒、Seedance拼工业化，“黄仁勋世界巡演”火到海外</div>
+            <div class="article-body">
+                头豹研究院数据，AI视频生成市场规模2026年约<strong>36.6亿元、预计2030年近1497亿元</strong>（年复合152.9%）。可灵深度绑定短剧、电商、直播与电影并谋求分拆上市，生数凭《青山》等短片验证导演级叙事，旗舰模型调用成本已进入普通创作者可高频使用区间。“世界巡演”86秒二创（马斯克转发调侃“这就是RAM这么贵的原因”）带火零基础2分钟出片，也引发<strong>AI换脸肖像权与二创版权</strong>讨论，律师提示谨防侵权。
+            </div>
+            <div class="article-source">36氪 · 华西都市报 · 头豹研究院 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number ai">NO.04</span>
+        <img class="article-image" src="{A4}" alt="朱雀二号一箭十星">
+        <div class="article-content">
+            <div class="article-title">太空算力走向批量部署：蓝箭朱雀二号“一箭十星”，国星宇航8颗智算卫星单星10 POPS组网，谷歌TPU搭SpaceX上天测辐射</div>
+            <div class="article-body">
+                10月14日19时40分，朱雀二号改进型Y4从东风商业航天创新试验区发射，将国星宇航星时代-39、44-50星等<strong>8颗太空智算卫星</strong>及蓝塔光传2颗光传卫星送入轨道；8星单星算力达10 POPS、组网后构成在轨分布式算力集群。同期谷歌TPU搭乘SpaceX Transporter-18、携手Planet测试抗辐射与极端温度。星地通信产业规模预计2030年达<strong>2000亿—4000亿元</strong>，天地一体化算力成为AI基础设施新前沿。
+            </div>
+            <div class="article-source">每日经济新闻 · The Automated Daily · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <div class="section-icon med">💊</div>
+        <div class="section-title-group">
+            <div class="section-title">医疗健康与政策</div>
+            <div class="section-subtitle">HEALTHCARE & POLICY</div>
+        </div>
+        <div class="section-line"></div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number med">NO.01</span>
+        <img class="article-image" src="{M1}" alt="国家医保局部署">
+        <div class="article-content">
+            <div class="article-title">国家医保局部署六项重点：首提探索“医疗服务价格预立项制度”、定价前置到临床研究阶段，建全国统一医保影像大数据、全面推行长护险</div>
+            <div class="article-body">
+                继全国卫生与健康大会后，医保局党组书记、局长章轲主持会议。增量最足的是<strong>价格预立项</strong>：通过“一省立项、全国跟进”压缩新药新械落地临床周期，直接利好处于创新医疗器械特别审查程序的产品；“医保综合价值评价”意味定价从单纯控费转向体现临床价值的多元评估。同时提出加快全国统一异地就医耗材和服务项目目录、归集医保影像云索引、推进个人医保云试点，并发挥<strong>中国—东盟区域医药集采平台</strong>作用助力中国医药走出去。
+            </div>
+            <div class="article-source">国家医保局 · 医疗器械经销商联盟 · 每日经济新闻 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number med">NO.02</span>
+        <img class="article-image" src="{M2}" alt="长期护理保险">
+        <div class="article-content">
+            <div class="article-title">长护险全国建制提速：甘肃印发方案、基准费率0.3%三年建成，广西参保超560万、惠及3.2万失能人员，医疗保障法第55条确立第六险</div>
+            <div class="article-body">
+                甘肃2026年从单位职工、退休人员、灵活就业人员起步、2027年纳入城乡居民，年度基金最高支付限额不超当地人均可支配收入<strong>50%</strong>，职工报70%左右、居民50%左右，并将长期护理智能化服务和<strong>支持性辅助器具纳入支付</strong>。广西8个统筹地区已建制、基金累计支出11.44亿元、定点机构302家。2026年8月医疗保障法以法律形式确立长护险，对应3.2亿老龄人口、3500万失能老人刚需，居家社区护理支付倾斜，催生康复机器人、辅具与照护服务新产业。
+            </div>
+            <div class="article-source">甘肃省政府办公厅 · 人民网 · 中国医疗保险 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number med">NO.03</span>
+        <img class="article-image" src="{M3}" alt="AI制药">
+        <div class="article-content">
+            <div class="article-title">英伟达参股AI制药Iambic定价16美元、10月15日登陆纳斯达克募1.5亿美元；西湖大学高维医药完成数亿元Pre-A</div>
+            <div class="article-body">
+                Iambic以AI结合自动化化学、生物实验研发抗癌药，平台<strong>Enchant</strong>预测化合物属性、<strong>NeuralPLexer</strong>预测生物分子结构，候选药IAM1363已进临床，ARK与Duquesne家族办公室表达约6000万美元认购，募资推进三款早期抗癌候选药。国内高维医药由西湖大学李旭教授创立、华泰金斯瑞与东方嘉富领投，其“靶点世界模型”把靶点发现从静态识别升级为<strong>动态干预模拟</strong>，GW-01靶向Notch通路晚期癌症、国内外尚无同类靶点应用。AI制药一二级市场同步升温。
+            </div>
+            <div class="article-source">环球市场播报 · 界面新闻 · 智药局 · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="article-card">
+        <span class="article-number med">NO.04</span>
+        <img class="article-image" src="{M4}" alt="安贞医院手术机器人">
+        <div class="article-content">
+            <div class="article-title">智慧医疗样本：北京安贞医院“机器人+医疗”示范单位20余款机器人临床试用，构建心脏疾病全链条AI方案、辐射京津冀</div>
+            <div class="article-body">
+                新华社10月14日报道，安贞医院通州院区作为北京首家获批<strong>“机器人+医疗”应用示范单位</strong>，启用近两年已投入20多款医疗机器人，搭建预警早筛、精准诊疗手术导航、随访管理AI板块，构建从筛查、影像判读、手术规划到术后管理的全链条AI诊疗方案。国际层面，美敦力Touch Surgery手术视频AI分析在荷兰Catharina医院完成500—600台试点后转正规、自动分步骤并去标识化用于教学质控——医疗AI正从<strong>“单点辅助”走向“围术期全流程数据闭环”</strong>。
+            </div>
+            <div class="article-source">新华社 · Catharina Ziekenhuis · 2026-10-14</div>
+        </div>
+    </div>
+
+    <div class="insight-section">
+        <div class="insight-header">
+            <span>🔗</span>
+            <span class="insight-header-text">关联洞察</span>
+        </div>
+        <div class="insight-body">
+            <div class="insight-item">
+                <div class="insight-label">趋势一 · AI定价标尺从“为叙事定价”切换到“为兑现定价”</div>
+                <div class="insight-text">Anthropic选在路演前首次亮明“单季调整后盈利+自由现金流转正+85%毛利率”，是对“2026最荒谬IPO”质疑的正面回应。当OpenAI约500亿年化营收拖累半导体板块、博通警告高利率下融资制约，AI头部公司必须用<strong>真实收入质量</strong>而非算力故事支撑估值。一级市场尽调正回归ARR质量、现金流转正时点与单位经济模型，讲故事的窗口期正在关闭。</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">趋势二 · 前沿模型进入“免费入口+极致单位成本”双线绞杀，价值沿微笑曲线迁移</div>
+                <div class="insight-text">通用能力快速商品化，“调用模型”本身利润被迅速摊薄。价值向上游<strong>算力基础设施</strong>（太空算力、硅光、自研芯片）和下游<strong>入口/工作流/行业纵深</strong>（Antigravity、豆包工作迁移、Red Hat企业平台）迁移。模型公司终局不是卖token，而是“模型+芯片+终端+具身+内容”垂直闭环；企业应按任务做多模型组合，而非单押跑分第一。</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">趋势三 · 医保治理从“单一控费”迈向“控费与创新再平衡”，价值医疗+银发经济两条赛道</div>
+                <div class="insight-text">价格预立项把政策前移到临床研究阶段、综合价值评价为创新留空间；集采“极端低价不通吃”为高质量企业保留利润；长护险借医疗保障法全国建制、智能辅具纳入支付。对外资械企：单纯设备溢价收窄，需以<strong>“设备+AI软件+服务+临床结局/卫生经济学证据”</strong>整体方案应对；创新准入、康复护理与智能辅具、基层居家、手术机器人与影像AI是政策鼓励的增量方向。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-flash">
+        <div class="flash-header">
+            <span>⚡</span>
+            <span class="flash-title">商业雷达 · 快讯</span>
+        </div>
+        <div class="flash-list">
+{flash_html.rstrip()}
+        </div>
+    </div>
+
+    <div class="footer-card">
+        <div class="footer-logo">🍞 吐司日报</div>
+        <div class="footer-info">
+            第178期 · 2026年10月15日<br>
+            DAILY BRIEFING · 每日精选
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-info" style="font-size:10px;">
+            AI科技 · 医疗健康 · 商业财经
+        </div>
+        <div class="footer-disclaimer">
+            本内容基于公开信息整理，仅供参考，不构成投资建议
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+'''
+
+with open(OUT,"w",encoding="utf-8") as f:
+    f.write(html)
+print("已生成:", OUT)
+print("字节数:", os.path.getsize(OUT))
+print("img数:", html.count("<img"))

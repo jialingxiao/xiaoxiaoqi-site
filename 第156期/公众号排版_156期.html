@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吐司日报 · 第156期</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  .container {
+    max-width: 677px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px 16px;
+  }
+  .masthead {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 3px solid #1a1a2e;
+  }
+  .masthead-title {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+  }
+  .masthead-en {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .masthead-meta {
+    font-size: 12px;
+    color: #666;
+  }
+  .masthead-tags {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #888;
+  }
+  .headline {
+    margin: 20px 0;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+  }
+  .headline-badge {
+    display: inline-block;
+    background: #ff6b35;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 10px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .headline-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+  .headline-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.4;
+    margin: 0 0 12px;
+  }
+  .headline-body p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.8;
+    margin: 0 0 10px;
+  }
+  .headline-body strong { color: #1a1a2e; }
+  .headline-source {
+    font-size: 11px;
+    color: #999;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1a1a2e;
+    padding: 14px 0 8px;
+    margin: 24px 0 14px;
+    border-bottom: 2px solid #ff6b35;
+  }
+  .news-item {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .news-item:last-child { border-bottom: none; }
+
+  .news-item { display:block; }
+  .news-row { display:flex; gap:10px; align-items:flex-start; }
+  .news-thumb {
+    width:96px; height:72px; object-fit:cover; border-radius:3px;
+    flex-shrink:0; margin-bottom:8px;
+  }
+  .news-main { flex:1; min-width:0; }
+
+  .news-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.5;
+    margin: 0 0 8px;
+  }
+  .news-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+    margin: 0 0 8px;
+  }
+  .news-source {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .flashes {
+    background: #f8f9fa;
+    border: 1px solid #e8e8e8;
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+  .flash-item {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    padding: 7px 0;
+    border-bottom: 1px dotted #e0e0e0;
+  }
+  .flash-item:last-child { border-bottom: none; }
+  .flash-cat {
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+  .insights {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 18px 16px;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+  .insights-head {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff6b35;
+    margin-bottom: 14px;
+  }
+  .insight-block {
+    margin-bottom: 16px;
+  }
+  .insight-block:last-child { margin-bottom: 0; }
+  .insight-lead {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 12.5px;
+    color: #d0d0d8;
+    line-height: 1.8;
+    margin: 0;
+  }
+  .footer {
+    text-align: center;
+    padding: 20px 0 10px;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="masthead">
+    <div class="masthead-title">吐 司 日 报</div>
+    <div class="masthead-en">DAILY · BRIEFING</div>
+    <div class="masthead-meta">2026年9月23日 · 第156期 · 阅读约10分钟</div>
+    <div class="masthead-tags">AI科技 · 医疗健康 · 商业财经</div>
+  </div>
+
+  <div class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img class="headline-img" src="https://s.coze.cn/image/DUpq7zpc19I/" alt="GPT-6 Sol与Luna">
+    <h1 class="headline-title">基模决战48小时：OpenAI急推GPT-6 Sol、Luna把API价格再砍一半，Anthropic同日发Claude Opus 5.5成本直降40%，小米MiMo六天烧掉347万美元登顶开源第一</h1>
+    <div class="headline-body">
+      <p>美东9月22日，<strong>OpenAI推出GPT-6 Sol和GPT-6 Luna</strong>，距9月3日旗舰GPT-6 Astra发布不到三周。两款建立在Astra技术之上、把旗舰能力带入更快更便宜版本，核心是<strong>API价格较GPT-5.6促销价直接下调50%</strong>，称来自缓存与推理效率提升。面向Plus/Pro/Business/Enterprise/Edu用户在ChatGPT Work和Codex开放，免费用户可桌面端体验Luna，暂未进普通聊天界面，首发偏向编码、智能体与企业自动化。</p>
+      <p>几乎前后脚，<strong>Anthropic 9月23日发布Claude Opus 5.5</strong>，跳过5.1、5.2跨级，多数任务达Fable 5.1水平、比Opus 5成本低约40%、速度快30%；Terminal-Bench 4.0以极低成本占得分左上区，跑赢Fable 5.1、GPT-6 Astra。国内侧，<strong>小米开源MiMo-V2.6-Pro以46分登顶Artificial Analysis开源权重第一</strong>（Kimi K3为44、GLM-5.3为45），前五名中唯一开源；首次直播强化学习后训练，六天合计约347万美元，称同智能下价格仅海外1/20至1/60。</p>
+      <p>同期阶跃星辰Step 5 Preview（MoE 600B总参/27B激活、1M上下文）44分位列开源Top 2；浪潮元脑SD200 Ultra基于本土芯片单机承载2.8万亿参数Kimi K3、Token时延破5.85毫秒。竞争逻辑切换：旗舰树上限、低价版本占领规模化调用市场。</p>
+    </div>
+    <div class="headline-source">来源：华尔街见闻 · 界面新闻 · 量子位 · 21世纪经济报道 · 智源社区 · 2026-09-22至23</div>
+  </div>
+
+  <div class="section-title">🚀 AI大模型前沿</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/Kp45nQ4GHEA/"><div class="news-main">
+
+    <h3 class="news-title">Anthropic发布Claude Opus 5.5：跨级跳过5.2，成本比Opus 5低40%、速度快30%，Terminal-Bench编码力压GPT-6 Astra</h3>
+    <p class="news-body">9月23日官宣，新Claude 5.5家族首款。多数任务达Fable 5.1水平，Terminal-Bench 4.0智能体终端编码从低到最高难度全程"低成本—高得分"，领先Fable 5.1、GPT-6 Astra、GPT-5.6 Sol、Opus 5。Claude Code会话上限提升20%、限额内任务量增25%。灰测曾以93秒纯代码生成无渲染依赖的"视频"动画，被视为IPO前对标GPT-6的关键卡位。</p>
+    <div class="news-source">量子位 · 智源社区 · Anthropic · 2026-09-23</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/pkDBW1lb30U/"><div class="news-main">
+
+    <h3 class="news-title">小米开源MiMo-V2.6-Pro登顶全球开源第一：46分压过Kimi K3与GLM-5.3，首次直播强化学习六天347万美元</h3>
+    <p class="news-body">9月22日发布并开源，含全模态旗舰Pro与高效推理Flash。Pro综合指数46分登顶开源权重、是总榜前五（GPT-6 Astra、Claude Opus 5、Fable 5.1、Muse Spark 1.3）中唯一开源，距榜首差7分。首次实时公开强化学习：六天约347万美元、约75万条轨迹，高盛估计基于约4000/8000个H200等效GPU。单任务成本0.13美元。还参与金属有机框架筛选（一月压到两三天）、Lean 4完成"周期三蕴含混沌"6000行证明。</p>
+    <div class="news-source">21世纪经济报道 · 高盛 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/4D98hu2ATd4/"><div class="news-main">
+
+    <h3 class="news-title">Meta个人智能体Muse两周双榜登顶：单日大涨11%、市值增近2000亿美元，但亚马逊封禁、私读消息库惹争议</h3>
+    <p class="news-body">9月8日推出，不到两周同时登顶美国App Store与Google Play免费榜，压过ChatGPT、Claude。Sensor Tower：5天破73万、13天约260万次，美国移动日活64.2万、近ChatGPT同期三倍。Meta股价9月21日涨11.43%至741.24美元，富国银行目标价796美元。可代查邮件、填表、订餐、网购，设20/100美元订阅。争议：亚马逊9月20日封禁Muse代购（指控绕过个性化、抓取存储凭证），记者发现其私读消息数据库。</p>
+    <div class="news-source">36氪 · 21财经 · 财联社 · Inc · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/eM5DfoGegQI/"><div class="news-main">
+
+    <h3 class="news-title">阶跃星辰Step 5 Preview：MoE总参600B、激活仅27B、1M上下文，44分成全球开源Top 2</h3>
+    <p class="news-body">旗舰基座模型，主打显著增强的Agent能力，Artificial Analysis获44分、全球开源Top 2。国产开源密集迭代、均把Agent与长程任务执行作为主攻方向，竞争格局仍高度不确定。软硬件协同与开源生态成为国内厂商缩小与闭源旗舰差距的主路径。</p>
+    <div class="news-source">量子位 · 智源社区 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/UGGOMbKMlR4/"><div class="news-main">
+
+    <h3 class="news-title">ChatGPT被抓包"知道你在别的网站买了什么"：研究者数月实测证实跨站购物行为被隐蔽共享</h3>
+    <p class="news-body">独立研究者Buchodi数月实测，用安卓设备交叉验证数千个网站传输数据，证实用户浏览与购买信息被隐蔽共享至ChatGPT相关服务，Hacker News 573分、308评论。与Muse私读消息、亚马逊封禁呼应，揭示智能体从问答走向跨平台执行时的数据边界与隐私追踪风险。</p>
+    <div class="news-source">新智元 · Hacker News · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="section-title">💊 医疗健康与政策</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/SQ4hfrbEt1s/"><div class="news-main">
+
+    <h3 class="news-title">36氪重磅：AI制药决速步转向湿实验，"模型易耗品、数据燃料"，中国化学产能或重新定价</h3>
+    <p class="news-body">Anthropic自建湿实验室+4亿美元收购Coefficient Bio，诺和诺德9月与Orbis签最高14亿美元合作，买的是"AI设计—自动合成—实验反馈"闭环及公开世界不存在的数据。模型侧充分竞争、数据侧极度稀缺。两反直觉：AI不减少实验反而放大实验（设计越便宜验证越贵）；商业模式从讲故事转为平台换里程碑。中国筹码是全球最低成本、最高通量化学合成产能。BCG：AI药一期成功率超八成、二期约四成与行业均值无异，检验时点2027—2029。</p>
+    <div class="news-source">36氪 · 兴业证券 · BCG · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/l7sUsOGMnSk/"><div class="news-main">
+
+    <h3 class="news-title">英伟达支持的AI制药公司Iambic提交美股IPO：AI平台主攻实体瘤，最快候选药IAM1363已在乳腺癌早期临床</h3>
+    <p class="news-body">9月21日提交IPO，英伟达及卡塔尔主权财富基金支持。成立于2019年（原名Entos），最快候选药IAM1363正在乳腺癌等实体瘤早期临床。继AI制药资本密集涌入后，又一家芯片巨头背书的AI Biotech走向公开市场，为2027—2029管线集中读出阶段增加资本市场样本。</p>
+    <div class="news-source">财联社 · 科创板日报 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/ZxJjOfCudiU/"><div class="news-main">
+
+    <h3 class="news-title">翰思艾泰-B联手晶泰科技：借XtalPi平台做AI抗体与创新分子设计、共研XDC linker-payload</h3>
+    <p class="news-body">9月21日武汉签约，探索AI for Science在抗体、创新分子设计与研发流程优化中的应用。翰思艾泰聚焦肿瘤自免、已有"3临床+1 IND+多临床前"管线，将借XtalPi Science平台（量子物理+AI+机器人）提升设计筛选，并探索肿瘤微环境释放的连接子与载荷。为继7月AI数字孪生、共建实验室后又一AI实践。</p>
+    <div class="news-source">上海证券报 · 中国证券网 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/KFupejMYXtc/"><div class="news-main">
+
+    <h3 class="news-title">两大联盟耗材集采10月15日起广西落地：硬脑脊膜补片+高频电刀中性电极，周期至2028年</h3>
+    <p class="news-body">京津冀"3+N"硬脑（脊）膜补片（20企业559产品、价格带132.66—11500元/片，正海/冠昊/佰仁等国产为主，此前多轮砍价）+湖南29省高频电刀中性电极（超2000万把片、金额超35亿）。覆盖全区公立及军队医疗机构，要求畅通进院、不收附加费、优先用中选产品，省际联盟集采全国铺开加快。</p>
+    <div class="news-source">新浪财经 · 广西医保局 · 医疗器械经销商联盟 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="news-item">
+<div class="news-row"><img class="news-thumb" src="https://s.coze.cn/image/Ipk1_811hv0/"><div class="news-main">
+
+    <h3 class="news-title">广东发布388项AI需求清单，医疗国家中试基地推传染病预警机2.0：汇聚病历、舆情、药销量、气象9类数据</h3>
+    <p class="news-body">9月22日大会发布388项需求，逻辑转为"带着场景找技术"。医疗基地传染病预警研判机2.0汇聚9大类数据，实现监测—预测—推演—辅助决策。另展示广东省中医院名老中医大模型、广药国产化AI新药平台。广东已备案193款大模型、获批4家国家中试基地。</p>
+    <div class="news-source">南方网 · 金羊网 · 2026-09-22</div>
+  
+</div></div>
+</div>
+
+  <div class="section-title">⚡ 商业雷达 · 快讯</div>
+  <div class="flashes">
+    <div class="flash-item"><span class="flash-cat">数学突破：</span>GPT-6 Astra无条件证明哥德巴赫猜想Liouville弱形式，不依赖蛮力，已通过Lea验证。（9月22日）</div>
+    <div class="flash-item"><span class="flash-cat">国产算力：</span>浪潮元脑SD200 Ultra基于本土芯片、单机承载2.8万亿参数Kimi K3，Token时延破5.85毫秒。（9月22日）</div>
+    <div class="flash-item"><span class="flash-cat">VTE防治：</span>卫宁健康VTE系统AI功能上线，PARM框架调度六大智能体、全程闭环。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">厦门招标：</span>健康医疗大数据中心AI大模型底座一期预算1080万，含MaaS、联邦学习、AI心理热线，覆盖21家公立医院。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">湖南数据：</span>已汇聚近8万亿条健康数据、6600余万份电子健康档案，发布"三医"可信数据空间。（9月18日）</div>
+    <div class="flash-item"><span class="flash-cat">成都生态：</span>高新区数智医疗产业社区揭牌，布局AI制药/影像/机器人/脑机接口，商汤医疗等签约。（9月22日）</div>
+    <div class="flash-item"><span class="flash-cat">逆合成：</span>微软RetroChimera登《Nature》，融合双基座+智能排序，已开源。（9月22日）</div>
+    <div class="flash-item"><span class="flash-cat">公募布局：</span>公募加仓AI+创新药，蛋白合成/药效CRO/复杂药CMO受益；十部门发布医药工业"十五五"规划。（9月21日）</div>
+    <div class="flash-item"><span class="flash-cat">测评体系：</span>MedAIBench 2.0发布15大专科体系、覆盖诊前至诊后，推六大模态测评。（9月17日）</div>
+    <div class="flash-item"><span class="flash-cat">AI人才：</span>WebArena作者Shuyan Zhou离开学界加入Meta超级智能实验室，做AI浏览器。（9月21日）</div>
+  </div>
+
+  <div class="insights">
+    <div class="insights-head">🔗 关联洞察</div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势一：竞争主战场从"能力上限"转向"规模化调用的单位成本"，降价成为与跑分同等重要的武器。</div>
+      <p class="insight-text">旗舰趋同、智能体高频执行，"够强且够便宜"决定调用量；缓存推理效率、超节点/本土芯片支撑成本下探。企业AI预算边际产出改善，但纯靠"有模型"讲故事的厂商将被剥掉溢价，壁垒转向工程效率、算力成本与分发规模。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势二：AI制药价值锚点从模型转向"湿实验数据资产"，中国化学与实验产能获重定价。</div>
+      <p class="insight-text">AI放大而非减少实验，CXO/CDMO需求绝对量上升；商业模式转向平台换里程碑。中国筹码是低成本高通量化学产能，"设计在硅谷、制造在长三角"或重演。但2027—2029临床数据才是成人礼，湿实验叙事在此之前是放大器、非保险箱。</p>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-lead">趋势三：智能体"跨平台执行"把数据隐私与平台权责冲突推到前台，治理能力成商业化前置条件。</div>
+      <p class="insight-text">亚马逊封禁、Muse私读、ChatGPT跨站追踪，根源是Agent跨网站操作需多维数据凭证、规则真空。医疗强监管场景须在采购前以合同+技术机制（独立虚拟机、一次性凭证、操作留痕、第三方审计）明确授权边界与责任，隐私治理是进入高价值行业的门槛。</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    吐司日报 · 第156期 · 2026年9月23日<br>
+    关注AI科技、医疗健康、商业财经
+  </div>
+
+</div>
+</body>
+</html>

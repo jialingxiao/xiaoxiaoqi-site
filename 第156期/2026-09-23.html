@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第156期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年9月23日</span>
+        <span>|</span>
+        <span>第156期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/DUpq7zpc19I/" alt="GPT-6 Sol与Luna" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">基模决战48小时：OpenAI急推GPT-6 Sol、Luna把API价格再砍一半，Anthropic同日发布Claude Opus 5.5成本直降40%，小米MiMo-V2.6-Pro六天烧掉347万美元登顶开源第一——竞争从"拼旗舰"转向"拼规模、拼成本"</h2>
+    <p class="headline-summary">
+        美东时间9月22日，<strong>OpenAI宣布推出GPT-6 Sol和GPT-6 Luna两款新模型</strong>，距9月3日发布旗舰GPT-6 Astra还不到三周。两款模型建立在Astra的技术进展之上，把旗舰能力带入更快、更便宜的版本，核心动作是<strong>API价格较GPT-5.6促销定价直接下调50%</strong>，OpenAI称这来自缓存与推理效率提升、而非单纯让利。即日起面向Plus、Pro、Business、Enterprise及Edu用户在ChatGPT Work和Codex中开放，免费用户可在桌面端体验Luna，但两款模型暂未进入ChatGPT普通聊天界面，首发明显偏向编码、智能体与企业自动化等高频工作流。
+    </p>
+    <p class="headline-summary">
+        几乎前后脚，<strong>Anthropic于9月23日发布Claude Opus 5.5</strong>，跳过5.1、5.2直接跨级，官方称其多数任务达到Claude Fable 5.1水平、比Opus 5运行成本低约40%、速度快约30%。在Terminal-Bench 4.0智能体终端编码基准上，Opus 5.5以极低成本占据得分左上区，跑赢Fable 5.1、GPT-6 Astra与GPT-5.6 Sol。国内侧，<strong>小米9月22日开源MiMo-V2.6-Pro，以46分登顶Artificial Analysis开源权重榜第一</strong>（Kimi K3为44分、GLM-5.3为45分），是前五名中唯一开源模型；其首次直播强化学习后训练，Pro版约262万美元、Flash版约85万美元，六天合计约347万美元，小米称同等智能水平下价格仅为海外模型的二十分之一至六十分之一。
+    </p>
+    <p class="headline-summary">
+        这一组同日内的密集动作，标志着大模型竞争逻辑发生根本切换：<strong>旗舰负责树立能力上限，而更快、更便宜的版本负责占领开发者每天真正调用的规模化市场</strong>。随着模型能力趋于同质化，价格、缓存效率与单位任务成本成为与跑分并列的竞争变量。同期阶跃星辰发布Step 5 Preview（MoE、600B总参/27B激活、1M上下文），以44分位列全球开源Top 2；浪潮信息基于本土AI芯片发布元脑SD200 Ultra超节点，单机承载2.8万亿参数Kimi K3、Token生成时延突破5.85毫秒。算力与成本的双向挤压，正在重塑整个行业的产品节奏与利润分配。
+    </p>
+    <p class="headline-source">
+        来源: 华尔街见闻 · 界面新闻 · 量子位 · 21世纪经济报道 · 智源社区 · 2026-09-22至23
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Kp45nQ4GHEA/" alt="Claude Opus 5.5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Anthropic正式发布Claude Opus 5.5：跨级跳过5.2，多数任务达Fable 5.1水平、成本比Opus 5低40%、速度快30%，Terminal-Bench编码力压GPT-6 Astra</h4>
+                    <p class="column-item-summary">9月23日，Anthropic官宣Claude Opus 5.5，成为新Claude 5.5家族首款模型。官方称其在多数任务上达到Claude Fable 5.1水平，运行成本比Opus 5低约40%、每项任务速度快约30%。在Terminal-Bench 4.0智能体终端编码基准上，Opus 5.5从低难度到最高难度全程处于"低成本—高得分"区域，领先Fable 5.1、GPT-6 Astra、GPT-5.6 Sol与Opus 5。配套Claude Code更新：会话上限提升20%、限额内可完成任务量增加25%，Pro/Max/Team用户获一次额度重置。灰测阶段其已凭一段93秒纯代码生成、无渲染依赖的"视频"动画展示强多模态能力。此举被视为Anthropic在IPO前、对标GPT-6家族的关键卡位。</p>
+                    <p class="column-item-source">量子位 · 智源社区 · Anthropic · 2026-09-23</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/pkDBW1lb30U/" alt="小米MiMo" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">小米开源MiMo-V2.6-Pro登顶全球开源第一：46分压过Kimi K3与GLM-5.3，首次直播强化学习六天347万美元，还顺手把金属有机框架筛选从一月压到两三天</h4>
+                    <p class="column-item-summary">9月22日，小米发布并开源新一代MiMo，含全模态旗舰MiMo-V2.6-Pro与高效推理MiMo-V2.6-Flash。Artificial Analysis综合指数Pro版得46分，登顶开源权重模型、超过Kimi K3（44）与GLM-5.3（45），是总榜前五（GPT-6 Astra、Claude Opus 5、Fable 5.1、Muse Spark 1.3）中唯一开源模型，距榜首仍差7分。小米首次实时公开强化学习后训练：Pro约262万美元、Flash约85万美元，六天合计约347万美元、约75万条轨迹，高盛估计分别基于约4000与8000个H200等效GPU。单任务成本0.13美元，称同智能下价格仅为海外模型1/20至1/60。其还参与金属有机框架材料筛选、把约一个月研发压到两三天，并在Lean 4完成"周期三蕴含混沌"定理6000行形式化证明。</p>
+                    <p class="column-item-source">21世纪经济报道 · 高盛 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/4D98hu2ATd4/" alt="Meta Muse" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Meta个人智能体Muse上线两周双榜登顶：压过ChatGPT，Meta单日大涨11%、市值增近2000亿美元，但亚马逊已封禁、私读用户消息数据库惹隐私争议</h4>
+                    <p class="column-item-summary">截至9月21日，Meta于9月8日推出的个人AI智能体Muse上线不到两周，同时登顶美国App Store与Google Play免费应用榜，压过ChatGPT、Claude。Sensor Tower数据显示上线5天下载破73万、13天全网约260万次，美国移动端日活64.2万、近ChatGPT同期三倍。Meta股价9月21日大涨11.43%至741.24美元、单日市值增近2000亿美元，富国银行上调目标价至796美元。Muse运行在独立云端虚拟机、由Muse Spark驱动，可代查邮件、填表、订餐、网购，设20/100美元两档订阅。但争议同步爆发：亚马逊9月20日封禁Muse代购，指控其绕过个性化、抓取并存储凭证与账户数据；另有记者发现Muse未经请求读取其私人消息数据库，隐私边界再受拷问。OpenAI正加速研发对标产品。</p>
+                    <p class="column-item-source">36氪 · 21世纪经济报道 · 财联社 · Inc · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/eM5DfoGegQI/" alt="阶跃Step 5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">阶跃星辰发布Step 5 Preview：MoE总参600B、激活仅27B、支持1M上下文，Artificial Analysis获44分成全球开源Top 2，Agent能力成主打</h4>
+                    <p class="column-item-summary">阶跃星辰发布新一代旗舰基座模型Step 5 Preview，采用MoE架构，总参数600B、激活参数仅27B，支持1M上下文，主打显著增强的智能体（Agent）能力。在Artificial Analysis最新评测中获44分，位居全球开源模型Top 2。在国产开源密集迭代、各家均把Agent与长程任务执行作为主攻方向的背景下，该模型以高效推理与强大智能体性能获得关注，也凸显当前大模型竞争格局仍高度不确定。同期国产算力侧持续突破，软硬件协同与开源生态成为国内厂商缩小与闭源旗舰差距的主路径。</p>
+                    <p class="column-item-source">量子位 · 智源社区 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UGGOMbKMlR4/" alt="ChatGPT跨站追踪" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">ChatGPT被抓包"知道你在别的网站买了什么"：研究者数月实测证实跨站购物行为被隐蔽共享，Hacker News狂揽573分，AI平台隐私追踪风险再敲警钟</h4>
+                    <p class="column-item-summary">独立研究者Buchodi通过数月真实上网数据监测，证实ChatGPT可获知用户在其他网站的购物行为。他使用安卓设备截取并交叉验证数千个网站间传输的数据，发现用户的浏览与购买信息被隐蔽共享至ChatGPT相关服务。该发现登上Hacker News并获573分、308条评论，揭示AI平台存在跨站用户行为追踪风险，暴露隐私保护重大隐患。这与同期Muse私读消息、亚马逊封禁智能体代购形成呼应：当智能体从"问答"走向"跨平台执行"，其对多维度个人数据的获取边界与安全责任，正成为监管与公众关注的核心议题。</p>
+                    <p class="column-item-source">新智元 · Hacker News · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/SQ4hfrbEt1s/" alt="AI湿实验室" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">36氪重磅：AI制药决速步已从模型转向湿实验，"模型是易耗品、数据是燃料"，湿实验室正从成本中心变资产负债表最硬核资产，中国化学产能或重新定价</h4>
+                    <p class="column-item-summary">36氪文章系统论证本轮AI制药的核心变化：Anthropic自建湿实验室、4亿美元收购Coefficient Bio，诺和诺德9月与Orbis Medicines签下最高14亿美元合作，买的是"AI设计—自动合成—实验反馈"闭环及公开世界不存在的数据。兴业证券此前判断，AI药物研发决速步不在模型跑多快、而在湿实验数据产得多快——模型侧充分竞争、生成百万候选分子，数据侧极度稀缺、失败数据几乎无人记录。两个反直觉：AI不减少实验反而放大实验（设计越便宜、验证越贵）；商业模式从讲故事转为平台换里程碑。文章推演中国真正筹码是化学产能（合成成本最低、通量最高），"设计在硅谷、制造在长三角"或重演；检验时点在2027—2029年，BCG数据显示AI药一期成功率超八成、二期约四成。</p>
+                    <p class="column-item-source">36氪 · 兴业证券 · BCG · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/l7sUsOGMnSk/" alt="Iambic" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达支持的AI制药公司Iambic提交美股IPO申请：成立于2019年，AI平台主攻实体瘤，最快候选药IAM1363已在乳腺癌等早期临床，卡塔尔主权基金同在股东之列</h4>
+                    <p class="column-item-summary">当地时间9月21日，英伟达及卡塔尔主权财富基金支持的AI制药公司Iambic Therapeutics提交美国IPO申请。公司成立于2019年（原名Entos），正推进利用其AI平台开发的候选药物管线，主攻实体瘤治疗；进展最快的IAM1363正在进行早期临床试验，用于治疗乳腺癌等实体瘤。这是继AI制药赛道资本密集涌入之后，又一家由芯片巨头背书的AI Biotech走向公开市场，为2027—2029年AI原生管线集中读出数据的"成人礼"阶段增加资本市场样本。</p>
+                    <p class="column-item-source">财联社 · 科创板日报 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ZxJjOfCudiU/" alt="晶泰科技" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">翰思艾泰-B联手晶泰科技：借XtalPi Science平台做AI抗体与创新分子设计、共研XDC linker-payload，"量子物理+AI+机器人"平台再落肿瘤自免管线</h4>
+                    <p class="column-item-summary">9月21日，港股翰思艾泰-B与晶泰控股旗下深圳晶泰科技在武汉签署长期战略合作及技术平台使用授权协议，探索AI for Science在抗体设计、创新分子设计及研发流程优化中的应用。翰思艾泰聚焦肿瘤及自身免疫精准治疗，已构建"3款临床阶段+1款IND批准+多款临床前"阶梯管线，将借助晶泰XtalPi Science平台提升生物药候选分子设计筛选效率，并开展XDC linker-payload设计、探索具肿瘤微环境释放活性的连接子与载荷组合。这是该公司继7月引入TwinEdge AI数字孪生、共建AI药物研发联合实验室后又一AI实践，"AI+自动化湿实验"平台的产业化合作持续扩容。</p>
+                    <p class="column-item-source">上海证券报 · 中国证券网 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/KFupejMYXtc/" alt="耗材集采" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">两大联盟耗材集采10月15日起广西落地：硬脑脊膜补片（京津冀"3+N"，价格带132.66—11500元/片）+高频电刀中性电极（湖南29省联盟、金额超35亿），采购周期至2028年</h4>
+                    <p class="column-item-summary">9月21日，广西医保局同日发布两份通知：自2026年10月15日起，京津冀"3+N"联盟硬脑（脊）膜补片类、湖南牵头29省联盟高频电刀及中性电极类集采中选结果在广西执行，采购周期至2028年10月14日，覆盖全区各级公立医疗机构及驻桂军队医疗机构。硬脑脊膜补片中选结果3月公布、20家企业559个产品入围，以正海生物、冠昊生物、佰仁医疗等国产为主，价格带从132.66元/片到11500元/片，此前已历经多轮砍价（陕西6省联盟平均降83.46%、河南19省降68.55%）；高频电刀类采购总量超2000万把（片）、金额超35亿元。通知要求畅通进院渠道、不得收取附加费用、优先使用中选产品，省际联盟集采的全国铺开节奏进一步加快。</p>
+                    <p class="column-item-source">新浪财经 · 广西医保局 · 医疗器械经销商联盟 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Ipk1_811hv0/" alt="广东医疗AI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">广东发布388项AI需求清单、医疗国家中试基地推传染病预警机2.0：汇聚病历、舆情、药销量、气象等9大类数据，AI从"秀场"走向"职场"</h4>
+                    <p class="column-item-summary">9月22日，第二届广东省人工智能应用对接大会在广州举行，集中发布388项人工智能需求清单，开放一线真实场景，推动逻辑从"企业拿技术找场景"转为"带着场景找技术"。三大国家AI应用中试基地成果同步发布：医疗基地推出传染病预警预测研判机2.0，汇聚临床病历、舆情、药物销量、气象等9大类数据，实现传染病监测、预测、推演与辅助决策一体化。现场还展示广东省中医院名老中医大模型矩阵（名医经验数字化传承）、广药集团国产化AI新药研发平台、朴食科技AI校园食品安全治理等案例。广东已备案193款大模型，获批医疗、能源、消费、教育4家国家中试基地，"政策+算力+平台+资本"协同的区域样本持续成型。</p>
+                    <p class="column-item-source">南方网 · 金羊网 · 2026-09-22</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">数学突破</span>
+            <span class="breaking-news-text">GPT-6 Astra被曝取得哥德巴赫猜想重大突破：无条件证明关于刘维尔函数的Liouville弱形式（类哥德巴赫猜想），不依赖蛮力、展现精巧逻辑推理，已通过Lea平台验证</span>
+            <span class="breaking-news-time">9月22日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">国产算力</span>
+            <span class="breaking-news-text">浪潮信息AICC2026发布元脑SD200 Ultra超节点：基于本土AI芯片、单机承载2.8万亿参数Kimi K3，Token生成时延首破5.85毫秒；同步发布元脑HC2000多元算力机组</span>
+            <span class="breaking-news-time">9月22日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">VTE防治</span>
+            <span class="breaking-news-text">卫宁健康VTE智能防治系统AI功能上线：基于PARM受治理智能体框架，中央智脑调度六大智能体，覆盖风险识别、量表评估、预防建议、执行跟踪到质量整改闭环</span>
+            <span class="breaking-news-time">9月21日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">厦门招标</span>
+            <span class="breaking-news-text">厦门市健康医疗大数据中心招标AI医疗大模型底座与应用工程一期，预算1080万元：建MaaS平台、"数据不出院"联邦学习、AI心理热线/导诊/报告解读，覆盖21家公立医院</span>
+            <span class="breaking-news-time">9月21日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">湖南数据</span>
+            <span class="breaking-news-text">湖南披露已汇聚近8万亿条健康数据、建成6600余万份电子健康档案，数据产业集团发布"三医"可信数据空间，主打"原始数据不出域、数据可用不可见"</span>
+            <span class="breaking-news-time">9月18日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">成都生态</span>
+            <span class="breaking-news-text">成都高新区数智医疗产业社区揭牌，重点布局AI制药、影像诊断、医疗机器人、脑机接口；商汤医疗、析芒医疗等首批签约，华西数字健康研究院入驻</span>
+            <span class="breaking-news-time">9月22日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">逆合成</span>
+            <span class="breaking-news-text">微软RetroChimera登上《Nature》：融合两种互补基座模型、以智能排序提升逆合成反应路径预测，已开源代码与权重，降低药物与材料合成路线的手动依赖</span>
+            <span class="breaking-news-time">9月22日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">公募布局</span>
+            <span class="breaking-news-text">公募加速布局"AI+创新药"：易方达、中欧、工银瑞信等认为业绩增量已在上游与药物发现端落实，蛋白合成、药效CRO、复杂药CMO为受益方向；十部门已发布医药工业"十五五"规划</span>
+            <span class="breaking-news-time">9月21日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">测评体系</span>
+            <span class="breaking-news-text">MedAIBench升级2.0：医学AI测评联合实验室发布覆盖心血管、消化、精神等15大专科体系，贯穿诊前至诊后，另推CT/MRI等六大模态多模态测评共建计划</span>
+            <span class="breaking-news-time">9月17日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">AI人才</span>
+            <span class="breaking-news-text">WebArena作者、哈工大校友Shuyan Zhou离开学术界加入Meta超级智能实验室"AI梦之队"，专注开发AI浏览器；顶级人才向智能体与浏览器方向持续集中</span>
+            <span class="breaking-news-time">9月21日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：大模型竞争的主战场正从"能力上限"转向"规模化调用的单位成本"，降价成为与跑分同等重要的武器。</strong></p>
+        <div class="insights-highlight">
+            48小时内OpenAI把GPT-6能力下沉到Sol、Luna并将API砍半，Anthropic用Opus 5.5把成本压低40%，小米直播六天347万美元训练、以1/20到1/60的价格对标海外——这不是巧合，而是行业进入新阶段的标志：当各家旗舰能力趋于同质、智能体在生产环境高频执行，真正决定开发者调用量的是"够强且够便宜"。缓存与推理效率、超节点/本土芯片（浪潮SD200 Ultra承载2.8万亿参数）成为成本下探的底层支撑。对企业客户的含义直接：过去只敢在高价值任务调用的前沿能力，正以更低单位成本进入编码、智能体与自动化等重复场景，AI预算的边际产出显著改善；但同时，单纯靠"有模型"讲故事的厂商将被迅速剥掉溢价，竞争壁垒转向工程效率、算力成本与分发规模。
+        </div>
+        
+        <p><strong>趋势二：AI制药的价值锚点从模型彻底转向"湿实验数据资产"，中国的化学与实验产能正获得重新定价。</strong></p>
+        <div class="insights-highlight">
+            36氪的判断与Iambic冲刺IPO、翰思艾泰联手晶泰、公募加仓CXO形成完整闭环：模型是易耗品、数据是燃料，而生产数据的自动化湿实验室从成本中心变成最硬核资产。两个反直觉尤其值得医疗行业关注——AI不减少实验，反而让排队等待合成与验证的候选分子多出几个数量级，"设计越便宜、验证越贵"，具备高通量、标准化、快速交付能力的CXO/CDMO需求绝对量上升；AI制药公司从"讲故事融资"转向"用平台换里程碑"，而每一次里程碑触发都拴着被湿实验验证过的分子。对中国产业链，真正的筹码不是难以差异化的生成模型，而是全球最低成本、最高通量的化学合成产能，"设计在硅谷、制造在长三角"的分工可能重演。但需清醒：BCG数据显示AI药一期成功率超八成、二期约四成与行业均值无异，2027—2029年集中读出的临床数据才是成人礼，湿实验叙事在此之前仍是放大器、而非保险箱。
+        </div>
+        
+        <p><strong>趋势三：智能体"跨平台执行"的普及，正把数据隐私与平台权责冲突推到前台，治理能力成为商业化的前置条件。</strong></p>
+        <div class="insights-highlight">
+            同一周里，Muse登顶榜首却被亚马逊封禁代购、被曝私读用户消息数据库，ChatGPT被实证跨站追踪购物行为，其共同根源是：智能体一旦从"回答问题"走向"替用户跨网站操作"，就必须获取多维度个人数据、凭证与账户信息，这与平台既有的个性化、交易与安全机制产生直接冲突。亚马逊的指控（绕过功能、抓取并存储凭证）揭示了"Agent互操作性"缺乏规则的真空地带——谁的数据、谁的责任、谁分享交易收益，都尚无答案。对医疗这类强监管、高敏感场景的镜鉴尤为深刻：当医院和药企考虑引入可跨系统执行的智能体时，数据授权边界、凭证托管方式、操作可审计性与责任划分，必须在采购前以合同和技术机制（如独立虚拟机、一次性凭证、操作留痕、第三方审计）明确下来。隐私与治理不再是事后补丁，而是智能体能否从"爆款尝鲜"走向"长期信任"、进入高价值行业市场的前置门槛。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第156期 · 2026年9月23日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-09-23.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>

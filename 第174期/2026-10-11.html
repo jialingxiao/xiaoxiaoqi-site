@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第174期</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年10月11日</span>
+        <span>|</span>
+        <span>第174期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/79o-tg_mIw8/" alt="医疗康复护理扩容提升" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">经国务院批复同意，国家卫健委、发改委联合印发《医疗康复护理扩容提升工程实施方案》：聚焦"扩容、提质、均衡、连续"，提出6部分13项任务，目标到2030年每千人口康复护理床位达0.48张左右，明确数智赋能、完善多元支付、按床日付费，支持社会力量办规模化连锁化康复护理机构</h2>
+    <p class="headline-summary">
+        《方案》是指导医疗康复护理服务体系建设发展的重要文件，实施健康优先发展战略和积极应对人口老龄化国家战略，<strong>以基层为重点统筹增加医疗康复护理资源供给，目标到2030年基本建成功能完备、上下联动、中西医结合、高效可及的服务体系，更好满足全人群、全方位、全生命周期健康需求</strong>。
+    </p>
+    <p class="headline-summary">
+        在体系建设上，《方案》健全以<strong>二级医院为主体、基层医疗卫生机构为网底、三级医院指导支持</strong>的康复护理服务网络，引导发展康复医院、护理院、安宁疗护中心，支持社会力量举办规模化、连锁化康复医疗中心、护理中心。在支撑保障上，<strong>提出强化数智赋能康复护理、加强创新产品研发应用、壮大康复护理相关产业；完善多元支付体系，将疗效确切、群众急需的康复护理项目纳入医保，对短期住院患者实行按病种付费、对长期住院患者探索按床日付费，鼓励商业保险与长护险、工伤保险衔接</strong>。
+    </p>
+    <p class="headline-source">
+        来源: 国家卫生健康委 · 国家发展改革委 · 央视新闻 · 2026-10-08
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+    
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TTz4hGudI7I/" alt="英伟达收购Reflection" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达洽谈收购开放权重模型商Reflection AI：重点方案为"人才收购"以绕开监管，将聘用员工并获技术许可；此前已向其投资8亿美元，收购有望补齐英伟达缺少前沿自有模型的短板</h4>
+                    <p class="column-item-summary">Reflection由两名前谷歌DeepMind研究员创立，本月发布开放权重模型Beam，主打代码与智能体、性能比肩GLM-5.2。若不成，英伟达也考虑追加股权投资、扩大芯片与算力供应，双方或数周内达成交易。</p>
+                    <p class="column-item-source">财联社 · 2026-10-11</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/PQifilZDcIM/" alt="谷歌Gemini 4 Argon" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌发布Gemini 4 Argon前沿模型，内部更强版本Carbon同步测试：Carbon编程能力直逼Claude Opus 5.5，被视为Argon架构增量检查点；Argon已统一low/medium/high三档推理强度</h4>
+                    <p class="column-item-summary">内部文档显示谷歌推送Gemini 4正式版进入最后阶段，员工测试反馈积极，代码生成能力显著提升，加速攻坚AI编程代理、缩小与头部竞品差距。</p>
+                    <p class="column-item-source">商业内幕 · AI圈报 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ObS4KaL4gvA/" alt="阶跃Step 5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">阶跃星辰Step 5 Preview登顶OpenRouter Trending榜：稀疏MoE总参数6000亿、每Token激活约270亿，综合智能指数44分居全球开源前三，10月15日正式开源</h4>
+                    <p class="column-item-summary">模型兼顾旗舰级综合智能、效率与成本，针对AI编程、软件工程、专业知识工作、金融等场景优化，成为近期全球开发者社区最受关注的旗舰模型之一。</p>
+                    <p class="column-item-source">澎湃新闻 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/aBJ5nW8zqOw/" alt="Figure 03人形机器人" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Figure AI发布第三代人形机器人Figure 03：把Helix VLA感知-决策-动作闭环从工厂推向家庭场景；同期英伟达被曝拟再投约10亿美元加码，该轮融资前估值约380亿美元</h4>
+                    <p class="column-item-summary">OpenAI同日上线GPT-6.1 Sol Ultrafast极速模式，推理速度最高达标准版8倍；谷歌云推出企业级通用智能体Gemini Agent，可自主拆解多步任务并按需路由第三方模型。</p>
+                    <p class="column-item-source">CSDN · The Information · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- 💊 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/-8ySd4ARzhI/" alt="DeepGEM 2.0" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">钟南山团队联合金域医学发布肺癌病理基因大模型DeepGEM 2.0：最快1分钟"看图识基因"，一次完成已获批肺癌靶向药对应靶点预筛，预测精度最高90%，有望把检测费降至数百元，将轻量化部署超500家机构</h4>
+                    <p class="column-item-summary">依托全国31省近8000张数字病理切片迭代，全国50家机构启动多中心科研。钟南山称科研要"顶天立地为人民"，推动成果下沉基层"强基降本"，未来有望延伸至其他肿瘤。</p>
+                    <p class="column-item-source">上海证券报 · 羊城晚报 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/J1Xtx4Or8pI/" alt="京医千询" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">京东健康"京医千询"通过十门2026正高医师资格真题测试：医疗AI首次达到专家级临床认知，十门科目全部达合格线，评测标尺从"执业医师及格线"上移到"高级职称评审线"</h4>
+                    <p class="column-item-summary">在考试机构授权监督下用真题、按同一评分口径测试，覆盖放射、呼吸、精神、肿瘤内外等十科。其HealthBench Total得分69.3、Hard子集50.6排名第一，定位仍为医生辅助、需持证医师把关。</p>
+                    <p class="column-item-source">央广财经 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/sFHlwggBB8Y/" alt="世界精神卫生日" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">第35个世界精神卫生日主题活动在京举行：今年主题"悦纳情绪，心有阳光"，引导公众正确认知、接纳、表达、调适情绪；国家卫健委发布4张公益海报、10条宣传口号</h4>
+                    <p class="column-item-summary">抖音同日上线反网暴AI短片《回声》并披露小安第三季度网暴保护数据。各地精神卫生机构进校园、进社区开展义诊与睡眠科普，推动破除心理求助病耻感、扩容基层心理服务。</p>
+                    <p class="column-item-source">国家卫健委 · 央广网 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/x1oDSyimq2Q/" alt="湖南医保待遇提升" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">湖南11月1日起提升医保待遇：乙类药品个人先行自付统一降至10%，"双通道"药品职工报销提至75%、居民提至65%，高值耗材自付比例由20%降至10%，个人账户可家庭共济</h4>
+                    <p class="column-item-summary">口腔医用耗材集采接续启动、预计年底前完成：三年全国公立机构累计采购种植体347万套，单颗种植牙均价从1.5万元降至6000—7000元，申报企业由53家增至101家。</p>
+                    <p class="column-item-source">长沙晚报 · 21世纪经济报道 · 2026-10-10</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">康复护理</span>
+            <span class="breaking-news-text">国务院批复康复护理扩容提升工程，13项任务，2030年每千人床位0.48张，数智赋能+按床日付费</span>
+            <span class="breaking-news-time">10月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">英伟达收购</span>
+            <span class="breaking-news-text">英伟达洽谈收购Reflection AI，拟人才收购绕开监管，补齐前沿自有模型短板，此前已投8亿美元</span>
+            <span class="breaking-news-time">10月11日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">Gemini 4</span>
+            <span class="breaking-news-text">谷歌发布Gemini 4 Argon，内部Carbon版编程直逼Claude Opus 5.5，统一三档推理强度</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">开源模型</span>
+            <span class="breaking-news-text">阶跃Step 5 Preview登顶OpenRouter，6000亿MoE、激活270亿，10月15日开源</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">人形机器人</span>
+            <span class="breaking-news-text">Figure发第三代Figure 03进军家庭，英伟达拟再投10亿美元，融资前估值380亿美元</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">极速模式</span>
+            <span class="breaking-news-text">OpenAI上线GPT-6.1 Sol Ultrafast，推理速度最高8倍；谷歌云发企业级Gemini Agent</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">病理AI</span>
+            <span class="breaking-news-text">DeepGEM 2.0一分钟看图识基因，精度最高90%，检测费有望降至数百元、部署超500家</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">专家级AI</span>
+            <span class="breaking-news-text">京医千询通过十门正高真题，医疗AI首次达专家级临床认知，HealthBench排名第一</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">精神卫生</span>
+            <span class="breaking-news-text">世界精神卫生日主题"悦纳情绪心有阳光"，抖音发反网暴短片《回声》</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医保提待</span>
+            <span class="breaking-news-text">湖南11月起乙类药自付降至10%、双通道报销上调，高值耗材自付减半</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">口腔集采</span>
+            <span class="breaking-news-text">口腔耗材集采接续启动，三年采购种植体347万套，单颗均价降至6000-7000元</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">专用模型</span>
+            <span class="breaking-news-text">TypeSafe完成8.7亿美元A轮、估值75亿，非文本决策模型上线三周获三分之一财富500强采用</span>
+            <span class="breaking-news-time">10月10日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：康复护理被提升为应对老龄化的国家级工程，"床位+人才+支付+数智"四要素同步补课。</strong></p>
+        <div class="insights-highlight">
+            《方案》经国务院批复，把康复护理从医疗服务的"末梢"变成独立的体系建设：明确每千人口0.48张床位的硬指标、健全以二级医院为主体的网络，并放开社会力量办规模化连锁化机构。更关键的是支付端破题——疗效确切项目纳入医保、长期住院探索按床日付费、商业保险与长护险衔接，首次让康复护理的长期照护有了可持续付费来源；同时"数智赋能"被单列为任务，为远程康复、网约护理、智能评估设备打开入口。对医疗器械与康养产业的含义：康复设备、护理机器人、居家监测与数字化康复平台将迎来确定性扩容，机会在于把硬件与连续服务、按床日/按人头付费机制打包，而非单纯卖设备。
+        </div>
+        
+        <p><strong>趋势二：巨头竞争从"买算力"转向"拥有模型"，芯片厂商垂直整合与开源前沿模型同步加速。</strong></p>
+        <div class="insights-highlight">
+            英伟达拟以人才收购拿下Reflection，谷歌在Argon之外密测更强的Carbon，阶跃6000亿MoE即将开源，Figure 03把VLA闭环搬进家庭——这些信号说明：英伟达不甘只做"卖铲人"、要补齐前沿自有模型，谷歌用内部迭代快速追赶编程代理，开源模型则持续把前沿能力推向平价。竞争焦点正从单一模型跑分，转向"芯片—模型—智能体—终端"的全栈垂直整合与生态控制权。对企业用户而言，多模型策略成为常态，应警惕被单一生态锁定，按场景在闭源前沿、开放权重与本地部署之间动态选型，并把权限管控、日志审计纳入采购标准。
+        </div>
+        
+        <p><strong>趋势三：医疗AI的能力标尺上移到"专家级"，落地胜负从"能不能用"转向"强基降本"的真实价值。</strong></p>
+        <div class="insights-highlight">
+            京医千询通过十门正高真题、DeepGEM 2.0把肺癌基因预筛降到数百元，二者共同标志医疗AI评测从"执业医师及格线"跃升到"高级职称线"，但真正打动人的不是分数，而是钟南山所说的"立地"——让基层用得起、用得简便。DeepGEM瞄准地市级医院缺NGS条件、患者错失靶向治疗的痛点，走"AI初筛+特定基因验证"路线并轻量化部署500家机构；这与康复护理工程下沉基层、湖南/口腔集采持续降本形成同一逻辑：医疗AI的商业价值将由"节约多少成本、减少多少外转、覆盖多少基层"来衡量。对外资医疗企业的启示是，差异化在真实世界疗效证据、合规本地化部署与基层可及性，商业模式向按服务、按效果分成演进。
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+    <p>吐司日报 · 第174期 · 2026年10月11日</p>
+    <p>关注AI科技、医疗健康、商业财经 · <a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-10-11.html" target="_blank">访问官网</a></p>
+</footer>
+
+</body>
+</html>
