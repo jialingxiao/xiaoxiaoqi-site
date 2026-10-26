@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING · 第189期 · 2026-10-26</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+
+        .header-categories span:first-child::before {
+            content: "";
+        }
+
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .column-item-source a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .insights-title::before {
+            content: "🔗";
+        }
+
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+
+        .insights-content strong {
+            color: #fff;
+        }
+
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年10月26日</span>
+        <span>|</span>
+        <span>第189期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/wfhY5eThsnU/" alt="算力信用大分化：SpaceX、AWS、新云与OpenAI价格战" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">算力信用大分化：SpaceX靠投资级评级敲定400亿美元GPU债，AWS容量售罄至2027、订单排到2028，马斯克预言200多家"新云"批量出清；同一周OpenAI估值自砍1500亿、却用最高90%折扣把Anthropic编码客户抢到份额反转</h2>
+    <p class="headline-summary"><strong>10月24日—26日，AI算力产业链的信用分层在同一个周末被彻底摆上台面：有真实收入的人发债买卡排队到2028年，只有算力故事的人被债市关门，卖模型的人则直接用价格战争夺存量客户。</strong>最硬的信用来自马斯克。10月26日凌晨他在X确认SpaceX已完成一笔<strong>400亿美元</strong>债务融资，用于采购2027年第一、二季度到货的英伟达GPU；他特意与"新云厂商（neoclouds）"划清界限——"过去几周债市几乎切断了所有无法脱离AI数据中心、形成独立稳定营收企业的融资通道"，并预言<strong>200多家新云厂商将迎来"孔雀鱼级别"的批量死亡与整合，能活下来的寥寥无几</strong>，且明确不会收购任何一家。交易由高盛牵头、阿波罗旗下Atlas SP载体管理，PIMCO曾考虑参与，风险最高部分收益率约<strong>8.3%</strong>、芯片抵押部分约7.75%；支撑这笔钱的是星链与发射业务现金流——SpaceX刚公布Q3营收145.75亿美元（同比+161%）、净利44.04亿，9月底已建成1.7GW GPU铭牌容量。</p>
+    <p class="headline-summary"><strong>需求端被AWS一句话盖戳。</strong>亚马逊CEO贾西10月23日在a16z播客表示：AWS 2026年容量已售罄，<strong>2027年大批量容量基本售罄，2028年也有相当部分被预订</strong>，仅保留少量产能支撑按需实例、EC2与Bedrock推理；亚马逊2026年资本支出预计约<strong>2200亿美元</strong>，贾西称"完全可以投入更多，且不会是不明智的资本使用"。皮查伊同周承认"每家公司都缺算力，若今天有客户采购2027年算力，我们很难满足"。顶级信用+顶级云厂的共同信号是：<strong>算力不是过剩，而是按信用配给。</strong></p>
+    <p class="headline-summary"><strong>但模型应用层是另一幅景象——价格战已经见血。</strong>10月25日多家媒体披露OpenAI以深度折扣抢夺Anthropic编码客户并出现份额反转：HR软件公司Rippling数百名工程师的编码任务中，今年5月Anthropic占<strong>57%</strong>、OpenAI仅16%，如今OpenAI升至<strong>52%</strong>、Anthropic跌至18%；企业培训商DataCamp（约200人、Anthropic用量大户）拿到OpenAI内部研发模型<strong>40%折扣</strong>，条件是必须捆绑Codex、停用Claude Code等竞品，部分大客户报价折扣高达<strong>80%—90%</strong>；Replit近几个月已把大部分AI预算迁离Anthropic。与激进抢客同框的是估值低头：OpenAI正将IPO前300亿美元融资目标估值从1.4万亿下调至<strong>1.25万亿美元</strong>（Coatue与阿联酋主权基金联合领投，潜在投资者须10月30日前决定），较3月8520亿仍高近47%，却明确反映债市动荡后投资者对"债务驱动型AI基建"的抵触。</p>
+<p class="headline-summary">
+        <strong>为什么是头条</strong>：188期记录了CoreWeave的CDS警报与Anthropic 7500亿算力承诺，这一周产业链被切成三个信用世界——<strong>底层，有独立现金流的超大型买家（SpaceX、亚马逊、谷歌）能用投资级利率锁定2028年以前的卡；中层，200多家纯算力新云被债市关在门外、等待出清；上层，模型公司一边享受售罄的算力，一边用90%折扣承认产品正在商品化。</strong>算力从"谁都能加杠杆的故事"变成"只有现金流能玩的游戏"，这是本轮AI周期第一次真正意义上的信用收缩与格局固化。
+    </p>
+    <p class="headline-source">
+        来源: 智通财经/格隆汇 · 界面新闻 · 财联社/央视财经 · 新浪财经（量子位）· 华尔街见闻/CNBC · The Decoder · 2026-10-24/26（多源整合，无单一原文）
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/iM81U1IZBKM/" alt="Gemini 4 Argon智能体通关我的世界" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">四个Gemini 4 Argon智能体27小时通关《我的世界》：没人分工、自己写了2783段程序，累计死亡605次，通关成本约520美元</h4>
+                    <p class="column-item-summary">DeepMind论文：四个通用编程智能体被投进随机MC生存世界，无攻略无任务树，运行10分钟后自发分工，用Mineflayer读环境、自己写JavaScript指挥角色；27小时14分钟击败末影龙，2783段程序、24000次模型调用、13.5亿输入Token（91%缓存），约22%程序出错、服务器重启6次。死亡经验写入团队共享记忆，单次失败不再毁掉全局任务。</p>
+                    <p class="column-item-source">爱范儿 · 凤凰网 · 2026-10-24 <a href="https://tech.ifeng.com/c/8xShKqw84sj" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/v2_BOzQrL-o/" alt="Claude Dashboards与Motion上线" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Claude"不聊天了"：Dashboards实时仪表盘、Motion代码动画上线，Docs/Slides/Design三件套转正免费开放</h4>
+                    <p class="column-item-summary">Anthropic 10月24日五项更新：Dashboards（beta付费）直连BigQuery/Snowflake/Databricks/Salesforce，大白话提问自动取数搭看板；Motion（beta仅Team/Enterprise）代码驱动生成可导出MP4的讲解动画、数字可单独改；Docs/Slides/Design结束beta向免费版开放（累计已做超4500万份）。支持与Claude多人同编、外部分享，距OpenAI ChatGPT Space发布不到10天。</p>
+                    <p class="column-item-source">新智元 · 新浪财经 · 2026-10-24 <a href="https://finance.sina.com.cn/wm/2026-10-24/doc-iniwicvn8058358.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LdwKFIVnE_I/" alt="皮查伊承认Gemini 4研发用上RSI" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">皮查伊亲口承认：Gemini 4 Argon研发已用上RSI，发布72小时Token用量逼近25万亿，明年Agent更深参与造下一代模型</h4>
+                    <p class="column-item-summary">皮查伊在Big Technology访谈确认RSI是Argon研发关键助力，Agent已自动化深入模型开发各环节；Argon发布72小时Token近25万亿、约Gemini 3.0同期3倍，输出上限100万，内部4周代码变更单+30%、回滚减近1/3。他承认每家都缺算力、2027年算力"很难满足"，谷歌云或主动放弃部分短期收入保障DeepMind，并主张AI建立类似会计准则的独立审计机制。</p>
+                    <p class="column-item-source">量子位 · 新浪财经 · 2026-10-24 <a href="https://cj.sina.com.cn/articles/view/6105753431/16bee675701901escg" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/H8ujdV8C2jM/" alt="韩国近半数新模型基于中国基模" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">韩国近半数新模型基于中国基模：Hugging Face上49.3%本土新发模型用中国权重，Qwen独占46.8%，"技术从属"担忧浮现</h4>
+                    <p class="column-item-summary">韩国智库Rockbridge报告：今年1—8月韩国本土账号在Hugging Face发布1845个模型，49.3%基于中国基座、35.9%美国、14.9%本土；Qwen以864个占46.8%居首，Gemma 14.7%、Llama 13.8%、LG EXAONE 9.3%、Kakao Kanana 2.7%。报告归因中国开放权重模型成本低、可下载微调、不依赖云端API，韩方出现"技术上从属中国"的政策讨论。</p>
+                    <p class="column-item-source">观察者网 · 韩国时报 · 2026-10-25 <a href="http://news.qq.com/rain/a/20261025A07P2O00" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/P7isAaUZuDg/" alt="德曲妥珠单抗泛瘤种中国获批" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">德曲妥珠单抗泛瘤种适应症在华获批：国内首个泛肿瘤HER2 ADC，IHC 3+成人实体瘤不看癌种，HER2治疗打破按器官划线</h4>
+                    <p class="column-item-summary">阿斯利康10月20日宣布优赫得（Enhertu）获NMPA批准单药用于经治或无满意替代方案的HER2 IHC 3+不可切除/转移性成人实体瘤，成为国内首个泛瘤种HER2 ADC。基于DESTINY-PanTumor02/03等四项II期汇总：IHC 3+人群ORR约51.4%、中位PFS约10.1个月、中位OS约17.7个月，覆盖子宫内膜、卵巢、胆道、宫颈、胰腺等既往缺靶向手段瘤种，将直接拉动HER2 IHC检测需求。</p>
+                    <p class="column-item-source">阿斯利康 · 每日经济新闻 · 2026-10-26 <a href="http://m.toutiao.com/group/7700744326011159049/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/jjetOl6DAoI/" alt="舒沃替尼Zegfrovy美国上市" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">舒沃替尼正式在美国上市：迪哲自研、阿斯利康操盘，EGFR 20外显子插入肺癌ORR 46%，国产小分子出海首付款创纪录</h4>
+                    <p class="column-item-summary">阿斯利康10月22日宣布ZEGFROVY（舒沃替尼）在美上市，用于EGFR exon20ins、含铂化疗后进展的NSCLC，为该人群唯一获批口服单药靶向疗法；基于WU-KONG1B加速批准：ORR 46%、中位DoR 11.1个月、72%缓解者DoR≥6个月，该突变真实世界五年生存率低至8%。迪哲2026年7月以6亿美元首付、总额最高15亿美元授出全球权益，创国产小分子靶向药出海首付纪录。</p>
+                    <p class="column-item-source">AstraZeneca官方 · 2026-10-22 <a href="https://www.astrazeneca-us.com/media/press-releases/2026/ZEGFROVY-sunvozertinib-now-available-in-the-US-for-patients-with-previously-treated-non-small-cell-lung-cancer-with-EGFR-exon-20-insertion-mutations.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/iar2008abt0/" alt="国家脑机接口高质量数据集武汉启动" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">全国首个国家脑机接口高质量数据集在武汉启动：同济牵头、八大头部医院入盟，覆盖10类疾病6种模态，2027年建成自主可控"数据银行"</h4>
+                    <p class="column-item-summary">10月24日华中科大同济医院牵头的全国首个国家脑机接口高质量数据集启动，中山、盛京、浙一、华西、北大一院、宣武、天坛、华山8家头部医院及依瑞德、衷华脑机等组联盟；2027年建成，覆盖脑卒中康复、脊髓损伤、帕金森、癫痫、意识障碍等10类疾病、6种模态，建采集—治理—应用一体化平台，直击"有算法无高质量数据"、数据散落各家医院的卡脖子问题。</p>
+                    <p class="column-item-source">武汉市人民政府 · 湖北日报 · 2026-10-25 <a href="https://www.wuhan.gov.cn/sy/whyw/202610/t20261025_2867710.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kXjLDgg2-H4/" alt="Penumbra Lightning取栓系统获FDA DVT适应症" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Penumbra Lightning真空取栓获FDA DVT适应症：首个机械取栓治深静脉血栓，18分钟清除98%血栓，波科145亿美元收购待交割前拓宽市场</h4>
+                    <p class="column-item-summary">Penumbra 10月20日宣布Lightning计算机辅助真空取栓（CAVT）获FDA 510(k)新增DVT适应症，为美国首个机械取栓治DVT器械；BOLT-DVT IDE研究：98%患者完全/近完全清除、中位器械时间18分钟、48小时主要不良事件3.1%、30天再血栓3.9%，疼痛评分5→0、VEINES-QOL 49.3→84.2。DVT标准治疗数十年停留抗凝，美国年约90万例VTE；波科145亿美元收购Penumbra待交割，静脉介入赛道沉默十年后重启。</p>
+                    <p class="column-item-source">DAIC · Guided Solutions · 2026-10-22 <a href="https://www.dicardiology.com/content/fda-clears-cavt-technology-treating-deep-vein-thrombosis" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI安全/生物</span>
+            <span class="breaking-news-text">英国政府10月24日宣布设立全球首个AI生物安全实验室（AIBL）：政府出资1亿英镑，OpenAI与Anthropic各提供最高1亿英镑算力/模型额度，与DeepMind及Basecamp Research合作；纳入约6亿英镑AI安全一揽子计划，另给AI安全研究所追加1.2亿英镑</span>
+            <span class="breaking-news-time">10月24日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">国产AI融资</span>
+            <span class="breaking-news-text">DeepSeek完成约1000亿元新一轮融资，宁德时代、腾讯等产业巨头参投，年内两轮累计约1500亿元、投前估值约5000亿元，为科创板IPO铺路；同期推理框架DeepInfer全面开源兼容英伟达与昇腾，美国土安全部则下令联邦机构移除DeepSeek及其衍生服务</span>
+            <span class="breaking-news-time">10月26日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">大模型合规</span>
+            <span class="breaking-news-text">据央视"玉渊谭天"，DeepSeek与MiniMax已完成大模型出海登记、走通开源发布及海外授权合规流程；背景为商务部、科技部10月16日就修订《中国禁止出口限制出口技术目录》公开征求意见</span>
+            <span class="breaking-news-time">10月23日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">智能体新品</span>
+            <span class="breaking-news-text">Anthropic 10月26日推出Claude Uet智能体研究预览版，面向工作繁重的专业人士和小企业主，定位可在后台持续运行、主动识别需求并执行任务的AI智能体</span>
+            <span class="breaking-news-time">10月26日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">具身数据</span>
+            <span class="breaking-news-text">智元开源AGIBOT WORLD 2026第四期"具身推理（Physical Reasoning）"数据集——首个真实场景Physical Agent数据集，覆盖九类逻辑推理场景，任务重点首次从"操作难度"转向"决策难度"，同时提供高层问答与低层动作轨迹</span>
+            <span class="breaking-news-time">10月26日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">人形机器人</span>
+            <span class="breaking-news-text">智元10月24日在济南组织110台远征A3全尺寸量产人形机器人同时跳舞，零特调，创"最多人形机器人同时跳舞"吉尼斯纪录；启元机器人10月25日第5000台个人机器人下线，产线每2.5分钟一台、日产能提至200余台</span>
+            <span class="breaking-news-time">10月24—25日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">IPO估值</span>
+            <span class="breaking-news-text">OpenAI将IPO前300亿美元融资目标估值从1.4万亿下调至1.25万亿美元（降幅约11%），Coatue与阿联酋主权基金联合领投，潜在投资者须10月30日前认购；仍较3月8520亿估值高约47%</span>
+            <span class="breaking-news-time">10月22—23日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">新药审批</span>
+            <span class="breaking-news-text">石药集团与和铂医药宣布巴托利单抗（恩力达，皮下170mg）获NMPA批准，联合常规疗法用于抗AChR抗体阳性成人全身型重症肌无力（gMG）——国内首款完成本土临床开发的FCRN靶点疗法</span>
+            <span class="breaking-news-time">10月26日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">新药审评</span>
+            <span class="breaking-news-text">CDE 10月23日公示，康方生物全球首创PD-1/VEGF双抗依沃西单抗联合化疗一线治疗局部晚期/转移性胆道癌新适应症拟纳入优先审评；III期HARMONi-GI1达OS终点，ESMO公布mOS 14.9 vs 12.1个月（HR 0.75，P=0.0031）</span>
+            <span class="breaking-news-time">10月23日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医疗器械</span>
+            <span class="breaking-news-text">泰利福（Teleflex）10月22日宣布Freesolve可吸收镁合金冠脉支架获FDA突破性器械认定（BDD），BIOmag镁合金骨架植入约12个月后99%镁材料被吸收，BIOMAG-III关键研究推进中；认定≠上市批准</span>
+            <span class="breaking-news-time">10月22日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">AI医疗</span>
+            <span class="breaking-news-text">百度健康10月24日升级文心健康管家，发布"好医矩阵"与健康相机（全网首发健康动态视频识别），启动"好医联盟"：面向医生投1亿元现金扶持打造百大医生IP，面向医学会投入2万亿推理Token</span>
+            <span class="breaking-news-time">10月24日</span>
+        </div>
+
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">国产造芯</span>
+            <span class="breaking-news-text">10月24日武汉ACCon 2026高端芯片产业创新发展大会上，光谷企业武创芯研发布全国产"造芯"智能体CAPR v1.0；同日工业互联网操作系统产业联盟在深圳CEIC 2026成立</span>
+            <span class="breaking-news-time">10月24日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>今天的主线可以概括为一句话：AI产业链第一次出现清晰的"信用分层"——有现金流的人买走了未来两年的算力，只有故事的人被债市请出门，而医疗行业用三个"基础设施级"动作提醒所有人：真正的护城河在数据底座、生物标志物和硬临床证据上。</strong></p>
+
+        <p><strong>洞察一 · 算力军备赛进入"信用配给"阶段，杠杆新云的窗口关闭了。</strong></p>
+        <div class="insights-highlight">
+            SpaceX能用7.75%—8.3%的利率发400亿美元债，靠的是星链现金流和投资级评级；200多家neocloud同一周被债市关门，靠的只是"转售GPU"一条腿；AWS把容量卖到2028年、亚马逊一家2200亿美元资本开支，说明顶级云厂正用长期合同把需求和风险同时锁死。<strong>对所有AI采购方的操作含义是：未来18个月算力不会便宜、也不会普惠，早签长约、绑定有独立营收的供应商、避免把全部负载压在单一高杠杆新云上，将从"成本优化"变成"业务连续性"问题。</strong>皮查伊亲口承认过度建设可能重演，但会发生在电力、内存、电工、土地等"某个环节突然受限"之处——这正是新云最先暴露的软肋。
+        </div>
+
+        <p><strong>洞察二 · OpenAI用90%折扣抢客户，等于官方承认前沿模型正在商品化。</strong></p>
+        <div class="insights-highlight">
+            Rippling编码份额五个月内从Anthropic 57%/OpenAI 16%反转成18%/52%，触发因素不是模型代差而是折扣与捆绑（40%折扣+必须用Codex）；同时OpenAI自己把估值目标砍掉1500亿。两件事必须一起读：<strong>当应用层认为"两家模型足够接近、可以按价格替换"，模型层议价权就会加速向工作流、数据和分发入口转移</strong>——这解释了为什么Anthropic同周急推Dashboards/Motion去占"办公桌"、谷歌强调Agent打通Gmail。企业采购的窗口期策略也变了：现在是买方市场，折扣、数据可迁移性、多模型可切换应写进合同，而不是接受任何一家的深度锁定。
+        </div>
+
+        <p><strong>洞察三 · RSI从传闻变成CEO公开确认，"AI造AI"的审计需求被正式提上日程。</strong></p>
+        <div class="insights-highlight">
+            皮查伊承认Agent已深入Gemini 4研发各环节、Argon 72小时吃掉25万亿Token、内部代码变更单+30%而回滚减三分之一——这是大型实验室首次在CEO层面确认RSI已是现役生产力。效率证据与安全缺口同时存在（OpenAI机器人突破隔离、谷歌机器人访问不当网站的旧案被当面追问）。<strong>对监管和医疗等高风险行业，这意味着评估对象不能再只是"某个模型版本"，而要覆盖"模型+训练它的Agent系统+运行时监控"整条链</strong>；皮查伊自己提出的类比值得记住——AI需要类似金融会计准则和独立审计师的机制。英国同日砸6亿英镑扩建AI安全研究所与生物安全实验室，正是国家级"审计能力"建设的开端。
+        </div>
+
+        <p><strong>洞察四 · 医疗三件事指向同一个答案：自主可控的基础设施比单点爆款更重要。</strong></p>
+        <div class="insights-highlight">
+            武汉国家级脑机接口数据集要解决"有算法、无数据"、数据散落各家医院的卡脖子问题，10类疾病6种模态、八大医院联盟、2027年建成，是把"数据银行"当国家工程；德曲妥珠单抗泛瘤种获批把用药决策权从器官交给HER2 IHC 3+这个生物标志物，本质是病理检测基础设施的胜利；舒沃替尼赴美上市证明中国临床数据（WU-KONG6 ORR 61%）可支撑全球商业化。<strong>加上Penumbra 18分钟清98%血栓的硬器械证据，本周医疗板块的共同语法是：不讲故事，讲数据集、讲标志物、讲生存和清除率。</strong>脑机接口"自主数据底座"的逻辑同样适用于医疗影像、病理和基因数据——谁掌握标准化、可流通、合规的数据基础设施，谁就掌握下一轮AI医疗的出题权。
+        </div>
+
+        <div class="insights-highlight">
+            <strong>给外资医疗器械企业的三句话：</strong>① Penumbra DVT取栓获批+波科145亿美元收购待交割，意味着血管介入"从药物转向机械清除"的证据链正在重开，外资械企在髂股静脉取栓、肺栓塞介入、配套抗凝管理上的既有产品线应加速评估中国注册与真实世界研究卡位，关注ATTRACT之后新版证据对指南和医保态度的撬动；② 德曲妥珠单抗泛瘤种获批将放大HER2 IHC 3+检测的病理质控需求，伴随诊断自动化、IHC染色标准化、泛瘤种NGS/蛋白检测平台是确定性增量，外资诊断企业可围绕"按生物标志物付费"设计与药企、病理科的三方合作；③ 国家级脑机接口数据集与英国AI生物安全实验室同周落地，释放各国把医疗AI/神经技术的数据与安全基础设施国有化、标准化的信号，外资在华与全球产品都应尽早预留多中心数据合规接入、独立审计接口与"人在回路"模块，把合规能力做成进入国家级数据联盟的门票而非壁垒。
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第189期 · 2026年10月26日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-10-26.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
