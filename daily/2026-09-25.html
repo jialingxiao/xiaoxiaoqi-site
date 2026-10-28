@@ -384,6 +384,7 @@
                 font-size: 18px;
             }
         }
+            .column-item-source a { color:#ff6b35; text-decoration:none; font-weight:600; }
     </style>
 </head>
 <body>
@@ -439,7 +440,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">Claude Opus 5.5被疑是首个RSI"递归自我改进"模型：谷歌工程师推测由内部更强的Model 2蒸馏而来，更强与更便宜或同时发生，代码库80%已由Claude撰写</h4>
                     <p class="column-item-summary">Opus 5.5"性能跃升、成本反降40%"的反常组合，引发对其训练路径的猜测。谷歌工程师Patrick C Toulme在X上推测：它可能由Anthropic内部更强的"教师模型"Model 2蒸馏而来，或是首个体现"递归自我改进（RSI）"路径的产品模型；目前并无公开证据证实，但Anthropic已确认Model 2存在。更宏观的背景是AI正深度参与AI研发——截至2026年5月，Anthropic代码库逾80%代码由Claude撰写（2025年初仅个位数），工程师人均日合并代码量较2024年增约8倍。若"强模型教出便宜模型"的路径成立，能力提升与成本下降可能同时发生；同时Anthropic也把"蒸馏攻击"单列为安全威胁，并在Opus 5.5引入保留推理链等反蒸馏机制。</p>
-                    <p class="column-item-source">36氪 · 华尔街见闻 · 2026-09-24</p>
+                    <p class="column-item-source">36氪 · 华尔街见闻 · 2026-09-24 <a href="https://36kr.com/p/3996604524793736" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -450,7 +451,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">GPT-6 Sol/Luna补齐"三档分工"：API永久腰斩，Sol每任务成本仅Opus 5的9%，Luna比Fable 5便宜96%，缓存命中打1折，剑指DeepSeek低价护城河</h4>
                     <p class="column-item-summary">旗舰Astra发布不足一个月，OpenAI便在其下铺出中端Sol与轻量Luna。官方跑分几乎全部以Claude为对照、横轴都是每任务成本：AutomationBench跨应用工作流中Sol（xhigh）得33.2%、每任务0.27美元，超越Fable 5.1且成本降88%，仅为Opus 5最高分成本的约9%；Agents' Last Exam得56.4%；DeepSWE编程测试中Luna达66.6%、与Opus 5中档相当，但单任务成本比Opus 5低93%、比Fable 5低96%。OpenAI强调这是长期价、非促销，并优化缓存（命中输入token打1折）。至此Astra/Sol/Luna三档分工明确，开发者可按任务难度路由模型；Sol事实错误较上代减半，Luna已直接进入DeepSeek价格区间。</p>
-                    <p class="column-item-source">36氪 · 上海证券报 · 2026-09-23</p>
+                    <p class="column-item-source">36氪 · 上海证券报 · 2026-09-23 <a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -461,7 +462,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">xAI发布Grok 4.7：50万token超长上下文，电气工程基准64%登顶，终端操作得分从20.3%跃至38.3%，主打编程与长时智能体；网友实测先"玩坏"SpaceX</h4>
                     <p class="column-item-summary">Grok 4.7升级底模规模并将上下文扩展至50万token，重点强化编程、智能体（Agent）及长时间复杂任务处理，覆盖软件工程、电气工程、长时办公、终端操作与法律等领域。官方评测中其在电气工程基准以64%准确率登顶，终端操作能力得分由上代20.3%跃升至38.3%。定价采用分档：200K prompt以下为输入2美元、输出6美元，超过200K后翻倍至4美元/12美元。这一价格梯度恰好插在GPT-6 Sol（2/10美元）与低价模型之间。另据新智元转述的网友实测，Grok 4.7在"星际争霸"等高推理开销场景表现不稳，暴露出过度堆叠推理token反而拖垮任务的风险。</p>
-                    <p class="column-item-source">量子位 · 新智元 · 2026-09-24</p>
+                    <p class="column-item-source">量子位 · 新智元 · 2026-09-24 <a href="https://hub.baai.ac.cn/view/58192" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -472,7 +473,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">Meta Connect改旗"个人超级智能"：Muse上线数周登顶美区免费榜、下载超250万，宣布交易抽佣、连接器接沃尔玛，最强模型Watermelon数周内发布，小摩目标价升至920美元</h4>
                     <p class="column-item-summary">扎克伯格为Muse定下"帮全球数十亿人完成目标"的定位，每个Muse配备独立Muse Secure VM安全计算环境、底层为Muse Spark模型，可自定义角色（默认名Jolly）、跨应用持续执行任务。商业化上，Meta不向用户收大量token费，而拟对经由Muse完成的交易收取小额佣金——Muse Connector已收到超2000份接入申请，新增沃尔玛、百思买、丝芙兰、Wayfair及Box、GitHub、Notion等，并与Stripe、Shopify、PayPal打通支付。硬件端发布第三代Ray-Ban Meta（449美元、续航9小时、3K拍摄）、首款无摄像头Ray-Ban Meta Audio（349美元）、约100克Meta VR Glasses（1299美元、2027春）和钥匙扣Muse Charm。小摩预计最强模型Watermelon数周内发布，给予2028年26倍市盈率。</p>
-                    <p class="column-item-source">36氪 · 智东西 · 华尔街见闻 · 2026-09-24</p>
+                    <p class="column-item-source">36氪 · 智东西 · 华尔街见闻 · 2026-09-24 <a href="https://www.cls.cn/detail/2491973" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -483,7 +484,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">DeepSeek公开Agent训练系统DSec（梁文锋署名）：每秒生成超5000个沙盒、日产300万、峰值38万并行；同日千问一号位落定，前华为天才少年刘大一恒接棒林俊旸</h4>
                     <p class="column-item-summary">DeepSeek新论文公开DSec（DeepSeek Elastic Compute）系统，专为智能体训练构建高并发沙盒环境：每秒可生成超5000个沙盒、日产能达300万个、峰值支持38万沙盒并行运行。其通过弹性计算架构解决了Agent训练高度依赖高质量、多样化仿真环境的瓶颈，标志竞争从大模型算力延伸至智能体训练基础设施。人事侧，云栖大会官宣前华为天才少年刘大一恒出任千问（Qwen）LLM项目负责人（ATH事业群Token Foundry Qwen LLM项目负责人），位列嘉宾C位、紧接吴泳铭发表《Qwen：迈向真实世界智能体》主题演讲，凸显阿里对Qwen路线与新一号位的战略重视。国内大模型在"低价+基础设施+人才"三线同步加码。</p>
-                    <p class="column-item-source">量子位 · 36氪 · 2026-09-24</p>
+                    <p class="column-item-source">量子位 · 36氪 · 2026-09-24 <a href="https://hub.baai.ac.cn/view/58226" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -499,7 +500,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">商汤医疗B轮超1亿美元、投后估值站上100亿：将成首个百亿医疗世界模型公司、进入Pre-IPO，"大医"调度多专科模型，已出海新加坡百汇医院、累计服务超千万人次</h4>
                     <p class="column-item-summary">据36氪9月24日报道，上海商汤善萃医疗8月初完成超1亿美元B轮融资（距A轮仅数月），投资方含联创资本、中电数融、联美集团及多家险资与券商直投；自2025年初拆分以来一年半累计融资超10亿元，B轮投后估值达100亿元，下一步进入Pre-IPO、筹备上市前末轮。其核心是"医疗世界模型"：自研"大医"坐镇中枢，调度影像、病理、内镜等专科模型并叠加知识库与诊疗规则。目前与新华、瑞金、肺科等三甲合作的5大场景入选上海卫健AI核心成果，方案辐射华西、清华长庚等数百家医院，并入驻IHH旗下新加坡百汇医院、累计服务超千万人次，跑通了多数同行难走通的商业化闭环。</p>
-                    <p class="column-item-source">36氪 · 投中网 · 2026-09-24</p>
+                    <p class="column-item-source">36氪 · 投中网 · 2026-09-24 <a href="https://m.36kr.com/p/3996681736687493" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -510,7 +511,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">阿里达摩院连发两篇顶刊：不插管CT查食管癌DAMO EAGLE登《自然·医学》（3国8万例验证、敏感性90%），通用影像RADAR登《科学》、一次识别146种病症并开源</h4>
                     <p class="column-item-summary">达摩院联合四川省肿瘤医院、中山大学肿瘤防治中心等研发食管癌筛查模型DAMO EAGLE：无需插管、不注射造影剂，仅分析普通胸部CT即可发现食管癌及早癌前病变，已在3个国家、超8万例中验证，论文登《自然·医学》；机会性筛查敏感性达90%、癌前病变敏感性52.5%、特异性高达99.2%。至此达摩院已围绕胰腺、胃、肠、食管及主动脉夹层发表5篇《自然·医学》。上周（9/18）其联合浙大一院等推出的通用影像模型DAMO RADAR登《科学》并开源，面向腹部增强CT一次识别超146种病症、平均AUC 0.913，首次达到影像科专家水平。同期浙江首批14家医学AI临床验证中心揭牌。</p>
-                    <p class="column-item-source">科创板日报 · 阿里巴巴 · 2026-09-24</p>
+                    <p class="column-item-source">科创板日报 · 阿里巴巴 · 2026-09-24 <a href="https://m.ithome.com/html/1006720.htm" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -521,7 +522,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">治疗性降压疫苗I期达成终点、将启II期：塞力医疗控股的华纪元生物，皮下注射、1到3个月一针，调动人体自身产生降压抗体，破解高血压患者服药依从性难题</h4>
                     <p class="column-item-summary">武汉华纪元生物宣布，其自主研发、用于原发性高血压的1类创新生物药HJY-ATRQβ-001注射液（治疗性降压疫苗）I期临床达成预设终点、即将开启II期。该疫苗通过调动人体免疫系统、使其自行产生具降压作用的抗体，抗体可在体内存在数月，从而免去每日服药、显著改善依从性与控制率。华纪元为上市公司塞力医疗（603716）控股子公司（持股约41%）；公司证券部回应：皮下注射、预计每1至3个月一针，II期或于明年9月左右结束后进入III期，成本较低、未来定价有望比国外同类更便宜。目前全球仅诺华等少数企业在研治疗性降压疫苗。</p>
-                    <p class="column-item-source">红星资本局 · 2026-09-24</p>
+                    <p class="column-item-source">红星资本局 · 2026-09-24 <a href="http://m.toutiao.com/group/7689014133974434340/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -532,7 +533,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">国家医保局接连规范长护险服务：9月23日《护理服务建议》衔接评估与服务、9月24日《护理服务计划表》按需定计划，长护险从试点走向标准化经办，聚焦失能老人照护</h4>
                     <p class="column-item-summary">国家医保局连续发布长期护理保险配套规范解读：9月23日《长期护理保险护理服务建议》重在衔接失能评估与后续服务，9月24日《长期护理保险护理服务计划表》强调"按需定计划、服务有遵循"。这是在8月26日《关于做好长期护理保险支付管理工作的指导意见》之后，长护险在评估—计划—服务—支付链条上的进一步细化，标志着长护险正从地方试点走向全国统一的标准化经办。结合此前全民医保"十五五"规划与医疗保障法（2027年1月1日施行），应对老龄化、保障失能人员照护的制度框架正加速成型；对护理服务机构、商保及照护产业均意味着规范化扩容机会。</p>
-                    <p class="column-item-source">国家医保局 · 西安市医保局转载 · 2026-09-24</p>
+                    <p class="column-item-source">国家医保局 · 西安市医保局转载 · 2026-09-24 <a href="https://www.nhsa.gov.cn/art/2026/9/24/art_14_22345.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
@@ -543,7 +544,7 @@
                 <div class="column-item-content">
                     <h4 class="column-item-title">医疗器械板块拐点确认：2026Q2归母净利同比+29.8%、结束连续9个季度负增长，集采"反内卷"降价趋温和+设备以旧换新+脑机接口/AI/手术机器人新技术共振；河南公开征求耗材收费目录调整</h4>
                     <p class="column-item-summary">开源证券9月24日策略报告指出，2026Q2医疗器械行业归母净利润同比增长29.8%、结束连续9个季度利润负增长，板块拐点已现；其中IVD净利润大增186.8%、耗材增20.9%。驱动来自三方面：集采进入第六年、高耗降价趋于温和（反内卷落实），设备以旧换新与乙类大型设备省级集采放量，叠加脑机接口、AI医疗、手术机器人商业化落地与出海增量；手术机器人已在立项、收费、医保逐步打通，湖南/广东率先明确按主手术系数加收。地方政策同步：河南省医保局9月24日就《拟调整可单独收费医用耗材目录》公开征求意见（10月12日截止）。</p>
-                    <p class="column-item-source">开源证券 · 河南省医保局 · 2026-09-24</p>
+                    <p class="column-item-source">开源证券 · 河南省医保局 · 2026-09-24 <a href="https://pdf.dfcfw.com/pdf/H3_AP202609241829872911_1.pdf" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
                 </div>
             </div>
         </article>
