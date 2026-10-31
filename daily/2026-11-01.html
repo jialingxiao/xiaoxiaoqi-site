@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 第195期 · 2026-11-01 · DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+            .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}
+        .headline-source a{color:#ff6b35;text-decoration:none;font-weight:600}
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月1日</span>
+        <span>|</span>
+        <span>第195期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/HIfq0xpbWU4/" alt="AI估值重定价与器械准入同日落地" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">钱的耐心先到期：OpenAI把融资目标砍掉100亿美元、估值退到1.25万亿，认购承诺被报仅约110亿；美东10月30日纳指跌2.86%、费半跌7.20%、英伟达单日市值蒸发2170亿美元，苹果以5.03万亿反超重回全球第一</h2>
+    <p class="headline-summary">美东时间10月30日（周五）收盘，AI交易遭遇本月最剧烈的一次抛售：<strong>纳斯达克综指跌2.86%</strong>，创6月以来最差单日表现、较近期高点回落约8%；标普500跌1.82%，道指跌1.09%。<strong>费城半导体指数跌7.20%</strong>，为6月以来最大跌幅——英特尔因第四季度指引低于预期、PC需求放缓单日跌<strong>28.58%</strong>，AMD、高通均跌超11%，<strong>英伟达跌4.08%、单日市值缩水2170亿美元</strong>（约合人民币1.4万亿元）；苹果以<strong>5.03万亿美元</strong>市值反超英伟达（4.93万亿）重回全球第一。资金从AI核心标的撤向必需消费与医疗保健等防御板块。触发点是Alphabet、Meta、英特尔、亚马逊接连不及预期的财报，这些财报"重新点燃了市场对AI支出及回报前景的担忧"。</p>
+    <p class="headline-summary">同日，英国《金融时报》报道<strong>OpenAI已把本轮融资目标从约300亿美元下调至约200亿美元</strong>，目标估值从此前向投资者提出的1.4万亿美元<strong>退到1.25万亿美元</strong>；投资者出资承诺截止日为10月30日，部分投资者缩减了认购额度，首轮交割到位资金预计不足200亿，另有报道称实际出资承诺<strong>仅约110亿美元</strong>。阿联酋投资者财团（含科技投资基金MGX）为最大参与方，并附带在当地租赁新建算力的选择权；Founders Fund、Coatue、红杉资本、a16z与软银亦计划参与，后续将面向高净值个人按1.25万亿估值零售配售。OpenAI今年3月完成1220亿美元融资、投后估值8520亿美元，7月以来营收快速增长是其支撑估值近乎翻倍的依据；公司希望在2027年上市，并赶在Anthropic之前完成本轮。</p>
+    <p class="headline-summary">对手的账本也同日摊开。Anthropic 10月26日公开S-1（纳斯达克代码ANT）：上半年营收<strong>162.86亿美元</strong>、同比增长约13倍，上半年净亏损807.48亿美元、营业亏损从21.35亿收窄至<strong>6.93亿美元</strong>，第二季度首次实现单季营业利润<strong>9.74亿美元</strong>、调整后利润率19%、算力费用率压到48%（每1美元算力对应约<strong>2.08美元</strong>营收）。按招股书口径倒推，<strong>第三季度营收约169亿美元、环比增速从144%降至约45%</strong>；Q3有<strong>79%</strong>收入来自前五大客户之外。黑石被报看淡其上市后评级前景，投资者交流会讨论的估值区间已落到1.5万亿美元附近。技术侧仍在往前推：英伟达在SEMICON West 2026展示下一代共封装光学<strong>OOI</strong>，拿掉有机封装基板、把光引擎直接集成到承载GPU的硅中介层上，配8波长DWDM（单纤8×32Gb/s、合计256Gb/s），原型样品已就位但无商业化时间表；商汤开源<strong>SenseNova Loop-9B-Preview</strong>，用参数共享循环计算把9B模型的有效深度做到56层、自报媲美27B；OpenAI把Pro 100/200/500与Business Premium的工作与Codex额度全部翻倍，Anthropic把Max 20x改名Ultra并取消5小时上限。</p>
+    <p class="headline-summary">医疗侧三条线同日推进。<strong>准入</strong>：国家药监局10月30日公示，华为终端"持续葡萄糖监测系统"获三类医疗器械注册证（<strong>国械注准20263072228</strong>），为其首个三类证，从腕部血压、睡眠呼吸暂停筛查等二类"健康监测"跨入临床级连续监测。<strong>支付</strong>：国家医保局部署力争2026年全国基本实现政策范围内分娩个人"无自付"，上海、沈阳已于10月1日落地；吉林省医保局10月31日印发吉医保规〔2026〕3号，生育保险不设起付线、政策范围内<strong>100%报销</strong>，一个生育周期最高支付限额<strong>不超1.6万元</strong>，按孕早期30%、孕中期50%、孕晚期70%、分娩及产后100%逐步释放额度，并探索把有无分娩镇痛作为按病种付费分组依据。<strong>区域协同</strong>：《粤港澳大湾区精准医学发展共识（2026）》发布，锚定2030年"四高地"，构建跨境可信数据空间、深化"港澳药械通"、扩大真实世界数据在审评审批中的应用。海外：FDA批准Instylla的Embrace水凝胶栓塞系统，用于6mm及以下外周动脉出血。</p>
+    <p class="headline-source">来源：金融时报 · 21世纪经济报道 · 证券时报 · 华盛通 · 科创板日报 · 财联社 · 新浪财经 · 国家药监局 · 吉林省医保局 · 南方网 · FDA · 2026-10-31（多源整合）</p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/CEnmTP6mlQc/" alt="OpenAI融资目标下调与AI估值重定价" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI融资目标缩水100亿美元：从300亿降至约200亿、估值从1.4万亿退到1.25万亿，投资者认购承诺被报仅约110亿，阿联酋财团（含MGX）为最大出资方</h4>
+                    <p class="column-item-summary">10月31日，《金融时报》援引知情人士称，OpenAI已把最新一轮融资目标<strong>下调100亿美元至约200亿美元</strong>，目标估值<strong>1.25万亿美元</strong>，低于上月向投资者提出的300亿美元/1.4万亿美元方案。公司要求投资者在10月30日（周五）前完成出资承诺，部分投资者缩减了认购额度，本轮"首次交割"预计到位资金<strong>不足200亿美元</strong>；另有市场机构统计称，投资者实际承诺规模<strong>仅约110亿美元</strong>。预计最大参与方为由阿联酋多家投资机构组成的财团（含国有科技基金MGX），作为交易的一部分，OpenAI将获得在该地区租赁新建算力资源的选择权——资本引入与算力扩充被捆在同一份协议里。Founders Fund、Coatue、红杉资本、a16z以及软银也计划参与；后续还将面向富裕个人投资者开启零售配售，按1.25万亿美元估值入股，有望把总额推回200亿美元左右。公开市场AI板块抛售、头号对手Anthropic即将上市，是本轮承压的直接背景。OpenAI今年3月完成1220亿美元融资、投后估值8520亿美元；公司称7月以来营收快速增长，支撑估值近乎翻倍，并寻求在2027年上市、赶在Anthropic之前完成本轮融资。</p>
+                    <p class="column-item-source">金融时报 · 新浪财经 · 格隆汇 · 36氪 · 2026-10-31 <a href="https://finance.sina.com.cn/stock/bxjj/2026-10-31/doc-inixakvc7697319.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ahES0cKUono/" alt="英伟达OOI中介层集成光学" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达把光引擎搬上硅中介层：OOI方案拿掉有机封装基板、配8波长DWDM单纤256Gb/s，原型样品已就位但无商业化时间表，散热与良率是拦路虎</h4>
+                    <p class="column-item-summary">英伟达在SEMICON West 2026公开展示下一代共封装光学技术<strong>OOI（optics-on-interposer，中介层上集成光学）</strong>。与现有CPO方案不同，OOI舍弃有机封装基板，把光引擎直接集成到承载GPU的硅中介层之上，让电信号不必绕经基板，从而缩短光路、降低损耗与功耗、提升带宽密度。英伟达研究院首席研究科学家尼古拉·内多维奇（Nikola Nedovic，负责多GPU/多芯粒互连与硅光I/O）介绍，该方案以更大面积中介层取代现行有机基板，<strong>目前公司已拿到原型样品</strong>。参照系是：当前量产CPO已把光引擎从可插拔模块拉近到交换芯片旁的有机基板上，电信号损耗从传统方案约<strong>22dB压缩至4dB左右</strong>，但仍需穿越硅中介层与有机基板两层介质。同步展出的还有<strong>8波长DWDM</strong>密集波分复用方案，单光纤8路32Gb/s通道并行、单纤带宽达<strong>256Gb/s</strong>，与OOI的高密度电接口形成搭配。内多维奇坦言仍在攻克商业化难题：<strong>散热最棘手</strong>——把温度敏感的光学元件与功耗动辄数百瓦的计算芯片共封在同一中介层，热管理难度远超现有CPO；制造良率与可维修性同样悬而未决。OOI与DWDM目前均处研究阶段，<strong>暂无商业化时间表</strong>。</p>
+                    <p class="column-item-source">科创板日报 · 财联社 · 2026-10-31 <a href="http://m.toutiao.com/group/7702753936788193792/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Y7cJmC4HZV8/" alt="OpenAI与Anthropic订阅额度战" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">订阅战打进"算力配额"：OpenAI把Pro 100/200/500与Business Premium的工作与Codex额度全部翻倍、撤销Pro 200降额；Anthropic把Max 20x改名Ultra、对已认证Ultra取消5小时上限</h4>
+                    <p class="column-item-summary">两场调整相隔一天。OpenAI方面，官方帮助中心确认自<strong>10月29日</strong>起，Pro 100与Pro 500所含的"工作"和Codex使用限额<strong>翻倍</strong>，并<strong>取消9月29日邮件中宣布的Pro 200降额计划</strong>；使用限额较低的Pro 200订阅者，其工作与Codex限额同样翻倍至与高档一致，Business Premium一并适用。此前因算力吃紧拟对Pro 200"砍一刀"引发社区强烈反弹，额度从砍半到翻倍只用了一个晚上。Anthropic方面，<strong>10月31日凌晨</strong>通过Claude官方账号宣布：Max 5x更名<strong>Max</strong>（维持100美元/月）、Max 20x更名<strong>Ultra</strong>（维持200美元/月），价格不变、现有订阅者自动迁移；并对<strong>已认证的Ultra账户取消5小时用量限制</strong>。两家的动作指向同一件事：底层模型能力差距在缩小，<strong>算力配额与稳定性正在成为对高净值专业用户（程序员、分析师、架构师）的护城河</strong>；20美元档的Plus/Pro用户，对厂商已不再"香"。对企业的直接含义是：采购决策应从"跑分第一"转向"单位任务成本+配额确定性+数据合规"的组合评估。</p>
+                    <p class="column-item-source">36氪 · 新智元 · OpenAI Help Center · Claude官方 · 2026-10-31 <a href="https://36kr.com/p/4049021975886084" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/gKVe_MJ87mU/" alt="商汤循环计算架构开源" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">商汤开源SenseNova Loop-9B-Preview：首尾各留4层原始解码器、中间层改为参数共享循环计算，9B参数跑出56层有效深度、自报媲美27B</h4>
+                    <p class="column-item-summary">北京时间10月30日20:51，商汤科技宣布开源<strong>SenseNova Loop-9B-Preview</strong>：一个约9B参数的<strong>Looped Transformer</strong>架构多模态模型，采用Apache 2.0许可，权重发布在Hugging Face（sensenova/SenseNova-Loop-9B-Preview）、代码在GitHub（OpenSenseNova/SenseNova-Loop）。结构上，模型以9B尺度为基座，<strong>保留首尾各4层原始解码器模块，把中间层改造为参数共享的循环计算模块</strong>，通过多轮迭代扩展有效计算深度（官方口径为32层权重循环出56层深度），并引入流形约束超连接（Manifold-Constrained Hyper-Connections）改善信息交互。商汤称其"在仅9B的有限参数规模下媲美27B参数模型"，并在WorkBuddy Bench、RaccoonPPT Bench、AutomationBench上超过Qwen3.5-27B——<strong>上述跑分为公司自报，仍待独立评测验证</strong>。商汤同时承认：如何让多轮计算真正转化为能力提升，尤其在信息传递、特征交互与训练稳定性上仍有空间；更大规模下如何兼顾计算深度、模型能力与实际应用需求，也待推进。在算力账单被反复审视的当下，"不堆参数、堆有效深度"是成本侧的另一条路径，也填补了社区缺少可直接使用的9B级Looped Transformer的空白。</p>
+                    <p class="column-item-source">商汤科技 · 界面新闻 · 新浪财经 · 2026-10-30 <a href="https://www.jiemian.com/article/15274918.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/FRXS7cPWxdE/" alt="华为持续葡萄糖监测系统获三类证" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">华为终端首个三类医疗器械落地：持续葡萄糖监测系统获证（国械注准20263072228），从二类"健康监测"跨进临床级连续监测</h4>
+                    <p class="column-item-summary">国家药监局10月30日公示的医疗器械批准文件送达信息中，出现"华为终端有限公司"的<strong>持续葡萄糖监测系统（CGM）</strong>，注册证编号<strong>国械注准20263072228</strong>。三类医疗器械是国内最高监管等级，与心脏支架、人工关节同级，对安全性与有效性要求极严。此前华为在健康监测上的合规路径集中在二类：腕部动态血压记录仪、睡眠呼吸暂停筛查软件、脉搏波房颤和早搏提示软件。此次获证意味着华为从"健康监测"进入<strong>"临床级连续监测"</strong>的准入区间。CGM的核心价值不在单点血糖读数，而在连续的组织间液葡萄糖趋势；行业以<strong>MARD</strong>（平均绝对相对误差）衡量精度，共识是<strong>MARD≤10%属高精度、可用于临床辅助决策</strong>；国家药监局对CGM的审评要求检测结果与静脉血一致性达<strong>95%以上</strong>、误差控制在<strong>±15%以内</strong>。产品并非凭空出现：华为终端BG CEO何刚2026年9月确认血糖检测设备研发已进行四年、目标是"可接受、可产业化"的方案；余承东同期预告过一款独立血糖测量医疗器械将在年内上市。2023年华为Watch 4系列已通过脉搏波、血管弹性与睡眠数据做高血糖风险评估，但只输出趋势概率、不给具体血糖值。截至发稿，产品名称、售价与上市时间尚未公布。对在华外资CGM与糖尿病管理厂商，这意味着消费电子巨头以"硬件+算法+证照"直接进入院内连续监测赛道。</p>
+                    <p class="column-item-source">IT之家 · 动脉网 · 国家药监局 · 2026-10-31 <a href="http://m.toutiao.com/group/7702767302281855503/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/S_cVA38cN98/" alt="生育医疗费用个人无自付政策落地" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">生育"无自付"从部署走向落地：国家医保局力争2026年全国基本实现政策范围内分娩个人"无自付"，上海、沈阳10月1日已执行；吉林10月31日印发新政，生育周期最高支付限额1.6万元、按孕周释放额度</h4>
+                    <p class="column-item-summary">国家医保局在2025年12月13日全国医疗保障工作会议上部署，<strong>力争2026年全国基本实现政策范围内分娩个人"无自付"</strong>。地方已开始兑现：<strong>上海</strong>自2026年10月1日起，参保人群"产前检查+产后42天康复检查"可直接刷医保卡结算，合规生育医疗费用实现个人"无自付"，住院分娩费用由生育保险支付；<strong>沈阳</strong>同日起在全面取消住院分娩起付标准的基础上推出"住院分娩生育服务包"，服务包内符合标准费用实行"零自付"。10月31日，<strong>吉林省医保局印发吉医保规〔2026〕3号</strong>《关于完善生育保障有关政策的通知》，机制最细：生育保险<strong>不设起付标准、政策范围内100%报销</strong>；一个生育周期内设最高支付限额<strong>不超过1.6万元</strong>，按孕早期（12周及以前）30%、孕中期（13—27周）50%、孕晚期（28周至产前）70%、分娩及产后100%逐步释放可支付额度，超出部分由基本医保按规定支付；产前检查不再单独设最高支付限额，产褥期42天检查与合并症治疗纳入，新生儿出生后矫正年龄28天内费用随母亲由生育保险支付；辅助生殖8个项目参照门诊特殊疾病待遇、基本医保限3次/人；<strong>探索将有无分娩镇痛技术操作作为按病种付费分组依据</strong>；并建立生育保险反欺诈大数据模型。同期，广州2027年度城乡居民医保自10月31日起集中参保缴费（在校学生425元/人、其他参保人员565元/人，财政补助985元/845元），未在集中参保期参保或断保者设3个月固定待遇等待期。对器械与耗材企业，产前检查服务包、分娩镇痛分组与产褥期康复是最直接的增量场景。</p>
+                    <p class="column-item-source">吉林省医保局 · 上观新闻 · 广州医保 · 2026-10-31 <a href="https://news.cnjiwang.com/jlxwdt/sn/202610/4094570.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/U4Xl3NHz3FQ/" alt="粤港澳大湾区精准医学发展共识发布" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">《粤港澳大湾区精准医学发展共识（2026）》发布：锚定2030年"四高地"，构建跨境可信数据空间、深化"港澳药械通"、扩大真实世界数据用于审评审批，筹建国际精准医学科技组织</h4>
+                    <p class="column-item-summary">10月30日至31日，2026年大湾区科学论坛"国际精准医学论坛"在广州举办，形成<strong>《粤港澳大湾区精准医学发展共识（2026）》</strong>。作为2020年《新时代下精准医学发展广州共识》的升级，其疾病谱从肿瘤拓展到全病种，内容从技术规范拓展到<strong>数据治理、审评审批、支付保障与国际合作</strong>。共识把精准医学外延界定为四大板块：生命组学与数据智能技术、精准诊疗装备与生物材料、精准药物与先进疗法、支撑性前沿与产业技术，覆盖预防、诊断、治疗、康复、健康管理全链条。目标上，提出到<strong>2030年</strong>把大湾区建成<strong>科技创新高地、转化应用高地、产业发展高地、国际合作高地</strong>，成为全球精准医学创新发展的示范区；建议编制《粤港澳大湾区精准医学发展行动方案》，争取纳入粤港、粤澳合作联席会议机制，实现从专家共识向制度安排的跃升。任务上，构建安全可控的<strong>跨境可信数据空间</strong>，推进生物样本、健康数据与技术标准互认；深化<strong>"港澳药械通"</strong>，扩大<strong>真实世界数据</strong>在审评审批中的应用，打通"研发—临床试验—审评审批—临床应用"通道，把大湾区建成国际多中心临床试验枢纽、国际创新药械进入内地市场的首站；聚焦精准诊断、精准药物与细胞基因治疗、<strong>医疗机器人与脑机接口</strong>实施产业链协同培育工程；建立精准医学卫生技术评估机制，探索纳入基本医保或引导商业健康险覆盖。共识也直言短板：三地数据跨境流动、伦理审查互认、检测结果互认、支付体系衔接等"软联通"仍不充分，且缺乏国际性学术组织载体，建议在湾区发起设立国际精准医学科技组织。</p>
+                    <p class="column-item-source">南方网 · 粤学习 · 2026-10-31 <a href="http://m.toutiao.com/group/7702819963941290538/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/fibBN-QUuH0/" alt="FDA批准水凝胶栓塞系统" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">FDA批准Instylla的Embrace水凝胶栓塞系统用于6mm及以下外周动脉出血：HALT试验130例/22中心，术后约11个月经水解自然液化；韩国MFDS同日启用"数字融合药品"一站式联合审评</h4>
+                    <p class="column-item-summary">FDA于10月31日批准<strong>Embrace水凝胶栓塞系统</strong>，用于治疗<strong>直径6mm及以下小血管的外周动脉出血</strong>。该器械以水基聚乙二醇（PEG）水凝胶实现持续血管闭塞，属非手术方案，术中可维持微导管通路，术后约<strong>11个月</strong>经水解自然液化。支持性证据来自<strong>HALT临床试验</strong>：全美<strong>22个中心、130例</strong>患者。开发商Instylla（马萨诸塞州伯灵顿）曾于2025年8月就该技术获首次上市前批准（PMA），适应症为直径≤5mm的富血供肿瘤栓塞；此次扩展至外周动脉出血，标志着介入放射学向"专用、可吸收栓塞材料"演进。同日邻域监管也在补章法：韩国食品医药品安全处（MFDS）<strong>10月30日</strong>发布《数字融合药品审查业务程序书》并即日适用，对"药品+数字医疗器（含AI/软件）"物理或功能结合的产品实行<strong>一站式联合审评</strong>——由药品、生物药、医疗器械三领域审查员组成联合审查组，各自独立审查的同时共同评估结合特性。适用四类产品：经临床试验或实使用评价证明临床/治疗流程改善的、通过用法用量变更或新算法支持个体化给药对象选择的、显著提升用药安全性的、与药品物理结合测量传输生物信号的。韩方称年内还将出台《数字融合药品临床试验设计指南》。对跨国械企，这意味着"器械+算法+药品"的合并申报路径正在各国监管同步被重写，先手是把软件证据链前置到研发阶段。</p>
+                    <p class="column-item-source">FDA · Wisevoter · 韩国MFDS · 电子新闻 · 2026-10-31 <a href="https://wisevoter.com/world/us/2026/10/31/fda-approves-embrace-hydrogel-arterial-bleeds" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">市场抛售</span>
+            <span class="breaking-news-text">纳指跌2.86%创6月以来最差单日、费半跌7.20%、英特尔跌28.58%、英伟达跌4.08%市值蒸发2170亿美元，苹果以5.03万亿反超重回全球第一</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">融资缩水</span>
+            <span class="breaking-news-text">OpenAI本轮募资目标从300亿美元下调至约200亿、估值1.25万亿美元，认购承诺被报仅约110亿，阿联酋财团（含MGX）为最大出资方</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">增速换挡</span>
+            <span class="breaking-news-text">Anthropic招股书倒推Q3营收约169亿美元、环比增速由144%降至约45%，79%收入来自前五大客户之外，黑石被报看淡其上市后评级</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">额度翻倍</span>
+            <span class="breaking-news-text">OpenAI将Pro 100/200/500与Business Premium的工作、Codex限额全部翻倍，并撤销Pro 200降额计划，10月29日起生效</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">取消上限</span>
+            <span class="breaking-news-text">Anthropic将Max 5x/20x更名为Max/Ultra（100/200美元不变），对已认证Ultra账户取消5小时用量限制</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">硅光进阶</span>
+            <span class="breaking-news-text">英伟达展示OOI中介层集成光学：光引擎直接上硅中介层、8波长DWDM单纤256Gb/s，原型样品已就位、无商业化时间表</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">循环计算</span>
+            <span class="breaking-news-text">商汤开源SenseNova Loop-9B-Preview，参数共享循环把9B有效深度做到56层、自报媲美27B，Apache 2.0许可</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">太空算力</span>
+            <span class="breaking-news-text">谷歌Project Suncatcher达成"hello world"：向在轨原型卫星发出指令、启动TPU跑通提示词，并向地面发回一首俳句</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">模块化机房</span>
+            <span class="breaking-news-text">Runware称罗马尼亚工厂2028年做到日产30兆瓦模块化数据中心（接近每月1吉瓦），Sonic Inference Pod现场48小时上线</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">器械准入</span>
+            <span class="breaking-news-text">华为终端"持续葡萄糖监测系统"获三类医疗器械注册证（国械注准20263072228），为其首个三类证</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">生育医保</span>
+            <span class="breaking-news-text">吉林印发吉医保规〔2026〕3号：生育保险不设起付、政策范围内100%报销，生育周期最高支付限额1.6万元按孕周释放</span>
+            <span class="breaking-news-time">10月31日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">药械融合</span>
+            <span class="breaking-news-text">韩国MFDS启用"数字融合药品"一站式联合审评，药品/生物药/器械审查员组成联合审查组，年内出临床试验设计指南</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：AI的定价标尺从"能力叙事"切到"现金流对账"，折现率变了。</strong></p>
+        <div class="insights-highlight">
+            本周三个数字构成同一条证据链：OpenAI融资目标从300亿砍到约200亿、估值从1.4万亿退到1.25万亿，投资者实际承诺被报仅约110亿；Anthropic招股书倒推的Q3环比增速从144%骤降至约45%，同时79%收入来自前五大客户之外（客户集中度反而是加分项）；美东10月30日费半跌7.20%、英伟达单日蒸发2170亿美元、CoreWeave债券收益率飙升、10月股价跌超37%。<strong>市场不再为"算力投入=未来收入"的线性叙事付溢价，而是要求看到每一美元算力对应的营收</strong>——Anthropic的1:2.08与48%算力费用率，是目前唯一可公开比对的基准线。这对医疗AI的含义非常直接：医院与医保不会为"模型能力"付费，只会为单病种成本节约、平均住院日下降、质控合格率提升付费；<strong>进院谈判前必须先把自己的"1:2.08"算出来</strong>，否则在DRG/DIP与价格立项的双重约束下无法立项。
+        </div>
+        <p><strong>趋势二：算力瓶颈正从"有没有卡"转向"封装内的光与热"，效率路线开始分流。</strong></p>
+        <div class="insights-highlight">
+            英伟达OOI把光引擎从有机基板搬到硅中介层，电信号少穿一层介质、带宽密度上一个台阶，但散热（温度敏感光学元件与数百瓦计算芯片共封）、良率与可维修性三道工程关都没过，官方明确无商业化时间表；商汤则从算法侧给出另一条路：首尾各留4层、中间层参数共享循环，用9B参数跑出56层有效深度、自报对标27B。<strong>一个在物理层压缩损耗，一个在结构层压缩参数，回答的是同一个问题：单位算力的有效产出。</strong>对采购方的启示是双重的：硬件侧不要为"未量产的技术路线"提前锁死供应链；模型侧应把"同等任务质量下的token与算力成本"作为硬指标纳入选型，而不是只看榜单跑分。
+        </div>
+        <p><strong>趋势三：监管在给"软件+器械+药品"的融合形态补章法，边界正在被重写。</strong></p>
+        <div class="insights-highlight">
+            四条线同周落地：国家药监局《医疗器械生产质量管理规范独立软件检查指导原则》<strong>11月1日起施行</strong>，203项检查项目（关键41、主要94、一般68）把软件当器械管、软件组件参照执行；华为终端以消费电子身份拿到首个三类CGM证，硬件公司正式进入临床级监测；韩国MFDS启用"数字融合药品"一站式联合审评，把药品与AI器械的合并申报制度化；《粤港澳大湾区精准医学发展共识（2026）》则提出用真实世界数据支撑审评审批、探索精准医学卫生技术评估纳入基本医保或商业健康险。<strong>监管逻辑正在从"按产品形态分头管"转向"按风险与证据链合并管"</strong>。对在华外资械企，这意味着三件事：一是软件与算法必须进入生产质量管理体系（203项检查不是形式）；二是"器械+算法+药品"的组合产品要提前设计合并申报路径与证据包；三是支付端会越来越依赖卫生技术评估与真实世界证据，临床价值必须能被量化成可比较的成本-效果数据。
+        </div>
+        <p><strong>🧈 判断：</strong>扩张的账本已经摊开在桌面，接下来比的不是谁跑得快，而是谁能把每一美元算力换成可核对的营收。Anthropic的1:2.08是目前公开的最好成绩，OpenAI的融资缩水是市场给出的第一个折扣——故事没变，折现率变了。同一周，英伟达把光引擎搬进硅中介层、商汤用循环计算省下参数、华为拿首个三类证进临床、吉林把生育保障做成"按孕周释放额度"的精细账，技术、监管、支付三条线都在往"单位投入的有效产出"这一个方向收。对在华外资械企：讲能力的窗口在关，讲成本-效果与临床结局的窗口在开。</p>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第195期 · 2026年11月1日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-01.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
