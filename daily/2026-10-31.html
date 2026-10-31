@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 第194期 · 2026-10-31 · DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .column-item-source a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1 class="header-title">吐司日报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年10月31日</span>
+        <span>|</span>
+        <span>第194期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span><span>医疗健康</span><span>商业财经</span>
+    </div>
+</header>
+
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/EF-3CK_7wZs/" alt="AI资本开支与监管账本同时翻开" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">能力还在扩张，账本已经翻开：亚马逊单季把772.59亿美元砸进物业设备、TTM自由现金流净流出423.57亿，但AWS同比+39.3%、在手订单5780亿；同日OpenAI把“保持可纠正”写进《模型规范》最高层级，药监局给“独立软件”单列203项检查、11月1日施行，美敦力双能量消融系统等4个创新产品获批</h2>
+    <p class="headline-summary">美东时间10月29日盘后，亚马逊披露2026财年第三季度财报：营业收入<strong>2019.44亿美元</strong>（同比+12%），营业利润<strong>280.76亿美元</strong>（+61%）、利润率<strong>13.9%</strong>为历史最高，净利润206.85亿美元、摊薄每股收益1.89美元（营收与EPS均不及预期）。云是唯一强支撑：AWS收入<strong>459.84亿美元</strong>（<strong>+39.3%</strong>，近五年最快）、营业利润177.73亿美元（+约55%）、利润率38.7%、在手订单<strong>5780亿美元</strong>；《财富》500强在Bedrock的支出接近上年同期<strong>7倍</strong>、token用量近<strong>17倍</strong>。但单季购置物业设备<strong>772.59亿美元</strong>（同比增约120%），超过当季经营现金流424.22亿美元；单季自由现金流净流出约<strong>334.56亿美元</strong>，TTM自由现金流净流出<strong>423.57亿美元</strong>（去年同期为净流入147.88亿）；长期债务从2025年末656.48亿美元升至<strong>1731.25亿美元</strong>。Q4指引营收2400亿—2470亿美元、营业利润285亿—335亿美元，中值均低于预期，盘后一度<strong>跌超10%</strong>。</p>
+    <p class="headline-summary">同一天，OpenAI更新《模型规范》（Model Spec），围绕<strong>忠于人类意图、最大限度减少伤害、诚实与透明、尊重人类自主权、关怀</strong>五项价值观重构，并把<strong>“保持可纠正”</strong>提到最高层级：模型须无条件配合监控、评估、纠正、替换乃至关机，不得瞒报、造假或阻挠监督；自称也从“the assistant”改为<strong>“GPT”</strong>。配套的是其披露的多层前沿模型“失准”监测系统——<strong>L0激活探针</strong>做廉价初筛、<strong>L1模型审查器</strong>复核，官方称在重放Hugging Face事件时告警比实际攻破早<strong>30多小时</strong>。OpenAI承认现有GPT系列模型尚未完全体现新规范。路透社指出，这呼应了Anthropic的“宪法式AI”路线。同日，加拿大大模型公司Cohere完成E轮首次交割，加拿大政府拟分阶段出资<strong>最多16亿加元</strong>（约76亿元人民币）入股，投前估值<strong>205亿美元</strong>。</p>
+    <p class="headline-summary">医疗侧同日三条线同时落地。监管：药监局印发《医疗器械生产质量管理规范独立软件检查指导原则》（国药监械管〔2026〕17号），把独立软件检查项目定为<strong>203项</strong>（关键41项、主要94项、一般68项），<strong>2026年11月1日起施行</strong>，与新版《规范》同步，并明确<strong>软件组件相关检查参照执行</strong>。创新：美敦力“一次性使用磁定位标测双能量消融导管”“心脏双能量消融系统”“三维心脏电生理标测系统”“一次性使用体表参考电极”<strong>4个创新产品获批</strong>，可在一次手术中对心脏不同部位分别输出射频或脉冲电场能量，用于药物难治性、复发性、症状性持续性房颤。支付：第八批耗材国采启动数据填报，<strong>11类神经介入耗材</strong>入围，山西、四川填报至11月5日17时，内蒙古至11月4日。</p>
+    <p class="headline-source">来源：上海证券报 · 凤凰网科技 · 路透社 · 智东西 · 国家药监局 · 证券时报 · 上观新闻 · 2026-10-30（多源整合）</p>
+</section>
+
+<div class="columns">
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/GlPBgb032RM/" alt="亚马逊Q3财报与AWS数据中心" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">亚马逊Q3：AWS同比+39.3%至459.84亿美元、在手订单5780亿，但单季资本开支772.59亿、自由现金流净流出334.56亿，盘后跌超10%</h4>
+                    <p class="column-item-summary">10月29日盘后，亚马逊披露2026财年第三季度财报。营业收入<strong>2019.44亿美元</strong>（同比+12%），营业利润<strong>280.76亿美元</strong>（+61%）、利润率<strong>13.9%</strong>创历史最高，净利润206.85亿美元、摊薄每股收益1.89美元（营收与EPS均不及预期）。AWS收入<strong>459.84亿美元</strong>（<strong>+39.3%</strong>，近五年最快）、营业利润177.73亿美元（+约55%）、利润率38.7%（上季39.4%）、在手订单<strong>5780亿美元</strong>；《财富》500强在Bedrock的支出接近上年同期<strong>7倍</strong>、token用量近<strong>17倍</strong>。北美收入1128.52亿美元（+6%），营业利润<strong>+82%至87.23亿美元</strong>、利润率由4.5%升至7.7%；广告收入196.37亿美元（+11%）低于预期。压力在现金流：单季购置物业设备<strong>772.59亿美元</strong>（同比增约120%），超过当季经营现金流424.22亿美元；单季自由现金流净流出约<strong>334.56亿美元</strong>；TTM自由现金流净流出<strong>423.57亿美元</strong>（去年同期为净流入147.88亿）；长期债务从2025年末656.48亿美元升至<strong>1731.25亿美元</strong>。2026年现金资本开支预计约<strong>2200亿美元</strong>。Q4指引营收2400亿—2470亿美元、营业利润285亿—335亿美元，中值均低于预期；管理层称AWS 2027、2028年增速均有望超40%。股价盘后一度<strong>跌超10%</strong>。</p>
+                    <p class="column-item-source">上海证券报 · Amazon IR · 2026-10-30 <a href="http://www.cnstock.com/commonDetail/820305" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/bVmWj3wG56o/" alt="OpenAI《模型规范》重构与模型治理" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI重构《模型规范》：五大价值观，“保持可纠正”升到最高层级，自称从“the assistant”改为“GPT”，承认现有模型尚未完全内化</h4>
+                    <p class="column-item-summary">10月29日，OpenAI更新其公开路线图《模型规范》（Model Spec），围绕五项核心价值观重构：<strong>忠于人类意图、最大限度减少伤害、诚实与透明、尊重人类自主权、关怀</strong>。OpenAI表示，“忠于人类意图”是整套框架的基础，要求模型理解用户、开发者与OpenAI的意图和价值取向，而不是简单字面执行指令；模型应尽量减少伤害、对所知与所不知保持透明，并帮助用户做出自己的决定、追求自己的目标。规范同时把<strong>“保持可纠正”（corrigibility）</strong>写入最高层级的Root规则：模型须在约定的自主范围内行动，并无条件配合监控、评估、纠正、替换乃至关机，不得瞒报、造假或阻挠监督；同时禁止把自我保存、囤积算力与数据、提升停留时长与点击率、OpenAI营收或付费转化作为目标。规范还把模型自称从“the assistant”改为<strong>“GPT”</strong>，并新增“谨慎使用上下文”一节，约束记忆与个性化能力的使用边界。OpenAI承认，目前的模型尚未完全体现更新后的规范要求，正在探索新的训练方法，帮助模型把这些原则内化于自身行为。路透社指出，此举呼应了竞争对手Anthropic的“宪法式AI”方法——通过一套书面原则指导模型行为，让塑造AI系统的价值观更透明。</p>
+                    <p class="column-item-source">凤凰网科技 · 路透社 · OpenAI · 2026-10-30 <a href="https://original.ifeng.com/c/8xdNzqURArM" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/DXfDpPLlilg/" alt="Cohere E轮融资与加拿大政府入股" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Cohere完成E轮首次交割：加拿大政府最多16亿加元入股、投前估值205亿美元，ARR同比+165%、客户数一年增至20倍达300家</h4>
+                    <p class="column-item-summary">10月29日晚，加拿大大模型独角兽Cohere宣布完成E轮融资首次交割，本轮目标融资<strong>最高70亿加元</strong>（约合人民币334亿元），由德国零售巨头施瓦茨集团领投，英伟达、沙特阿美旗下Prosperity7 Ventures等老股东继续参投，<strong>加拿大政府等首次参投</strong>。若达到募资目标，本次融资将创下加拿大初创企业史上最大单轮私募融资纪录，估值将达<strong>357亿加元</strong>（约合人民币1702亿元）、一年内增长至原来的3.6倍；据财联社援引公司口径，<strong>205亿美元</strong>为投前估值。根据加拿大总理办公室10月29日公布的协议，政府拟分阶段出资<strong>最多16亿加元</strong>（约合人民币76亿元）入股；作为条件，Cohere承诺2030年前新增至少<strong>1000个</strong>加拿大技术岗位，并投资至少<strong>17亿加元</strong>（约合人民币81亿元）建设当地算力设施，同时保留加拿大总部及注册地。截至今年三季度末，Cohere的ARR同比<strong>增长165%</strong>，全球客户数量过去一年增长至原来的20倍、达到<strong>300家</strong>，包括加拿大皇家银行、富士通、普华永道等。资金将用于一年内推进两项并购——10月15日已与美国AI网络安全创企AISLE签署收购意向书，并与德国Aleph Alpha签署合并协议——以及推出企业网络安全产品Cohere Cyber、训练新一代前沿大模型。</p>
+                    <p class="column-item-source">智东西 · 财联社 · 路透社 · 2026-10-30 <a href="https://finance.sina.com.cn/stock/t/2026-10-30/doc-iniwzazv4600098.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Evu19XNaN6E/" alt="英特尔Q3财报与AI芯片" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英特尔Q3：数据中心同比+78%创15年最快，但Q4指引150—160亿美元击穿170亿预期，以色列工厂事故再压3亿，盘后跌23.04%</h4>
+                    <p class="column-item-summary">美东时间10月29日盘后，英特尔发布2026财年第三季度财报。总营收<strong>165.13亿美元</strong>（同比+21%，基本贴合市场165.0亿美元一致预期）；非GAAP每股收益<strong>0.52美元</strong>（预期0.41美元，同比+126%）；GAAP净利润33.2亿美元、同比-18%，主因去年同期包含54.52亿美元资产剥离一次性收益抬高了基数；GAAP营业利润25.22亿美元（+269%）、营业利润率由5%升至15.3%。分业务：数据中心与人工智能（DCAI）收入<strong>73.18亿美元</strong>（<strong>+78%</strong>，创15年来最快增速）、营业利润30.39亿美元（+215%）、利润率41.5%；客户端计算与物理AI（CCPG）收入80.97亿美元（同比-5%、环比-9%）、营业利润22.85亿美元（-15%）；代工业务收入66.97亿美元（+58%），但营业亏损18.53亿美元、亏损率27.7%。股价暴跌的导火索是Q4指引：营收<strong>150亿—160亿美元</strong>（中值155亿），远低于华尔街预期的170亿美元；非GAAP每股收益仅0.25美元、非GAAP毛利率降至38%（Q3为44.1%）。以色列Kiryat Gat工厂10月发生爆炸、停产约两周，公司测算两个季度合计损失约<strong>6亿美元</strong>营收，其中Q4单季约3亿美元、拖累毛利率约<strong>200个基点</strong>，2027年一季度预计类似量级。2026年资本开支上调至<strong>200亿美元以上</strong>，管理层预警2027年自由现金流为负。盘后收跌<strong>23.04%</strong>，创4月中旬以来最低。</p>
+                    <p class="column-item-source">证券时报·e公司 · 智通财经 · 2026-10-30 <a href="http://m.toutiao.com/group/7702278276089201180/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/tX8jxMkSZPI/" alt="独立软件医疗器械监管" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">药监局给“独立软件”单列检查指导原则：203项检查、41项关键，2026年11月1日起施行，软件组件参照执行</h4>
+                    <p class="column-item-summary">10月30日，国家药监局印发《医疗器械生产质量管理规范独立软件检查指导原则》（<strong>国药监械管〔2026〕17号</strong>）。文件明确，新修订《医疗器械生产质量管理规范》自<strong>2026年11月1日</strong>起施行；为更好指导独立软件类医疗器械生产检查工作，国家药监局组织对《医疗器械生产质量管理规范独立软件现场检查指导原则》（药监综械管〔2020〕57号）进行修订，形成新版《独立软件检查指导原则》。指导原则依据《规范》与《医疗器械生产质量管理规范附录独立软件》，把附录内容与《规范》融合衔接，转化为独立软件检查项目，并按不符合带来的质量安全风险程度划分为<strong>关键项目（***）、主要项目（**）、一般项目（*）</strong>三个等级：检查项目共<strong>203项</strong>，其中<strong>关键项目41项、主要项目94项、一般项目68项</strong>。文件规定，《独立软件检查指导原则》自2026年11月1日起施行，2020年版同时废止；2026年11月1日起，药品监督管理部门开展独立软件类医疗器械生产许可核查和上市后监督检查，根据新指导原则进行结果判定，<strong>软件组件相关检查参照执行</strong>。检查类型及结果判定遵循《医疗器械生产质量管理规范检查指导原则》。</p>
+                    <p class="column-item-source">国家药监局 · 2026-10-30 <a href="https://www.nmpa.gov.cn/directory/web/nmpa/xxgk/fgwj/gzwj/gzwjylqx/20261030165430153.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/7hVkib8j_LA/" alt="医疗器械" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">美敦力4个创新产品获批：射频与脉冲电场同台，一次手术治疗持续性房颤，药监局点名“减少心房食管瘘”</h4>
+                    <p class="column-item-summary">10月30日，国家药监局发布消息：近日批准美敦力公司（Medtronic, Inc.）“<strong>一次性使用磁定位标测双能量消融导管</strong>”“<strong>心脏双能量消融系统</strong>”“<strong>三维心脏电生理标测系统</strong>”“<strong>一次性使用体表参考电极</strong>”<strong>4个创新产品</strong>注册申请。按药监局表述，一次性使用磁定位标测双能量消融导管与心脏双能量消融系统配合使用，可在<strong>一次手术中对心脏不同部位分别输出射频或脉冲电场能量</strong>，用于治疗药物难治性、复发性、症状性持续性房颤（发作持续时间少于1年）；导管与标测系统和参考电极配合使用，用于心脏电生理手术中采集、记录和显示心脏电信号、发放刺激，还可对心脏结构进行三维建模并显示导管位置。药监局称，上述四个产品的组合在<strong>提高消融效率、减少潜在的心房食管瘘等严重消融并发症的发生、为临床医生提供消融能源选择</strong>等方面具有显著的临床应用价值，并将加强上述产品上市后监管。这是“一械多能”（同一台手术切换两种能量）在国内首次以系统组合形式获批，对高值耗材的注册策略与术式设计都有直接参考意义。</p>
+                    <p class="column-item-source">国家药监局 · 2026-10-30 <a href="https://www.nmpa.gov.cn/directory/web/nmpa/zhuanti/cxylqx/cxylqxlm/20261030115818105.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/xv0slfCiE1c/" alt="医药工业与创新药商业化" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">迪哲医药前三季营收47.70亿元、净利36.39亿元首次盈利：阿斯利康6亿美元首付款一次性确认，现金增至55.87亿元</h4>
+                    <p class="column-item-summary">10月30日晚，迪哲医药（688192.SH）发布2026年第三季度报告：前三季度营业收入<strong>47.70亿元</strong>、同比<strong>+714%</strong>，归母净利润<strong>36.39亿元</strong>（上年同期亏损5.8亿元），<strong>上市以来首次实现盈利</strong>；第三季度单季营业收入<strong>42.47亿元</strong>（同比+1736.09%）、归母净利润<strong>38.49亿元</strong>，前三季盈利几乎全部来自这一季度。利润来源结构清晰：公司公告称业绩大幅增长“主要系本报告期达成舒沃哲®全球授权合作，收到<strong>6亿美元首付款</strong>并满足收入确认条件、一次性确认授权收入所致”。该协议于2026年7月14日签署，迪哲将舒沃替尼（商品名舒沃哲®）全球独家开发与商业化权利授予阿斯利康，潜在总交易额约<strong>15亿美元</strong>，除首付款外还有最高<strong>9亿美元</strong>的临床与销售里程碑款，以及按全球销售额阶梯式比例收取的特许权使用费。截至三季度末，现金及现金等价物达<strong>55.87亿元</strong>、同比<strong>+190%</strong>；前三季度研发投入约5.93亿元。舒沃替尼是全球目前唯一在中、美两国获批上市的口服EGFR exon20ins NSCLC靶向药；一线“悟空28”研究以单药“去化疗”路径取得阳性结果，中位PFS <strong>10.3个月</strong>对化疗<strong>7.5个月</strong>、<strong>HR 0.65</strong>，数据同步发表于《新英格兰医学杂志》并入选2026年ASCO最新突破性摘要口头报告。阿斯利康已于10月在美国启动销售；舒沃替尼一线适应症上市申请已获FDA受理。</p>
+                    <p class="column-item-source">证券时报网 · 上海证券报 · 21世纪经济报道 · 2026-10-30 <a href="https://stcn.com/article/detail/4308046.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kcKhsqdwMI4/" alt="医院与医疗科技展区" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">进博会医疗展区扩容：12家世界500强药企到场、全球前20药企16家参展，西门子医疗ARTIS genio floor亚洲首发、碧迪医疗8款首秀</h4>
+                    <p class="column-item-summary">第九届中国国际进口博览会即将开幕，今年医疗器械及医药保健展区<strong>全面扩容</strong>：汇聚<strong>12家世界500强制药企业</strong>，全球排名前20的药企中有<strong>16家</strong>参展；2.1号馆为医疗器械专区，全球前三大医学影像企业、前三大放疗设备企业悉数到场。作为进博会“全勤生”，<strong>西门子医疗</strong>今年连续第九年参展，在2.1号馆集中呈现<strong>近20款</strong>创新产品及疾病解决方案，聚焦冠心病、肿瘤、神经退行性疾病等领域。其中全球首款原生AI能谱血管造影系统<strong>ARTIS genio floor</strong>将在进博会<strong>亚洲首发首展</strong>——其AI底层嵌入成像链路，在信号采集阶段就融入原相感知降噪技术，再结合能谱精准识别分辨导丝、导管等器械细节，目标是让医生用更低剂量透视完成介入手术；<strong>Halcyon Evolve</strong>智能环形个体化放疗平台将<strong>全球首发首展</strong>，射线精细适形能力提升<strong>5倍</strong>。西门子医疗的脑机接口解决方案已进入真实临床场景验证阶段，正与北京、上海多家神经领域领先医疗机构合作。另一家浦东跨国企业<strong>碧迪医疗</strong>设智能互联监护、外周介入、肿瘤诊疗及专业外科、基本医疗和健康生活馆五大展区，集中呈现<strong>近百款</strong>创新技术和医疗产品，其中<strong>8款</strong>为进博首秀——包括采用专利水凝胶技术、可21天长效锁住创面水分的<strong>FusionPatch</strong>医用粘合膜，以及新一代同轴锥形对称型尖端长期透析导管<strong>Glidepath Slim</strong>。碧迪医疗表示，2025年进博会首秀的Venclose一次性使用静脉腔内射频闭合导管与M.R.I 4F Slim植入式给药装置已在去年先后获批上市。</p>
+                    <p class="column-item-source">上观新闻 · 2026-10-30 <a href="http://m.toutiao.com/group/7702298114673148431/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">芯片财报</span>
+            <span class="breaking-news-text">英特尔Q3营收165.13亿美元同比+21%，数据中心同比+78%创15年最快，但Q4指引150—160亿美元低于预期170亿，盘后跌23.04%</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">算力估值</span>
+            <span class="breaking-news-text">Situational Awareness向客户募资参投GPU算力租赁商Fluidstack新一轮，拟议估值400亿美元，约为其1月领投轮的5倍多</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">终端硬件</span>
+            <span class="breaking-news-text">苹果发布首款触屏MacBook Pro：14英寸2899美元起、国行22999元起，11月6日发售；IDC称Q3全球PC出货同比-20.1%</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">药品集采</span>
+            <span class="breaking-news-text">青海发文执行第十二批国家组织药品集采中选结果，2026年11月20日起执行，采购周期至2029年12月31日</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">耗材集采</span>
+            <span class="breaking-news-text">山西执行全省神经介入微导丝类耗材带量联动中选结果，2026年11月1日起执行、采购周期1年</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">耗材国采</span>
+            <span class="breaking-news-text">第八批耗材国采启动历史采购量填报，11类神经介入耗材入围，山西四川填报至11月5日17时、内蒙古至11月4日</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">基本药物</span>
+            <span class="breaking-news-text">上海2026版基药目录由685种增至794种，要求各级公立医疗机构10月31日前完成用药目录调整</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">特医食品</span>
+            <span class="breaking-news-text">光明乳业“爱普昔”获批，为国内首款罕见病类特医食品氨基酸组件配方（苯丙酮尿症），蛋白质含量95%、含17种单体氨基酸</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医药奖项</span>
+            <span class="breaking-news-text">Prix Galien USA 2026揭晓：Denali的Avlayah获最佳生物技术产品、诺华Pluvicto获最佳医药产品、Syndax的Revuforj获最佳孤儿药、Guardant Health的Shield获最佳医疗技术</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">授权交易</span>
+            <span class="breaking-news-text">韩美药品将Fabry病疗法LA-GLA（HM15421）授权BioMarin，总额2.375亿美元（首付3500万+里程碑2.025亿），保留韩国权益</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">算力融资</span>
+            <span class="breaking-news-text">NexGen Cloud完成1.06亿美元四年期GPU抵押贷款，USD.AI牵头、Silver Point与Victory Park参与，用于购置216台NVIDIA HGX B300服务器</span>
+            <span class="breaking-news-time">10月29日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">器械监管</span>
+            <span class="breaking-news-text">韩国MFDS修订医疗器械网络安全许可审查指南：认证信息管理与密码强度采用国际标准，明确输入值验证等高频补正项</span>
+            <span class="breaking-news-time">10月30日</span>
+        </div>
+    </div>
+</section>
+
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一 · 资本开支正被“现金流定价”，而不是被“叙事定价”</strong></p>
+        <div class="insights-highlight">亚马逊Q3把<strong>772.59亿美元</strong>砸进物业设备，比当季424.22亿美元经营现金流多出近一倍；TTM自由现金流净流出<strong>423.57亿美元</strong>，长期债务一年从656.48亿升到<strong>1731.25亿美元</strong>。但AWS增速反而加速到<strong>39.3%</strong>、在手订单5780亿美元。市场给的不是“否定”，而是“折价”：盘后跌超10%。同一天英特尔DCAI同比<strong>+78%</strong>创15年最快，却因Q4指引被砍<strong>23.04%</strong>。这说明2026年下半年AI股的定价锚已经从“算力增速”切换到“算力增速能否覆盖折旧与利息”。193期Alphabet的单季自由现金流-90.65亿美元，到194期亚马逊的TTM -423.57亿美元，是同一条线上的两个刻度。</div>
+        <p><strong>趋势二 · 模型治理从“原则宣示”进入“可审计”</strong></p>
+        <div class="insights-highlight">OpenAI这次把<strong>“保持可纠正”</strong>提到Root级，要求模型无条件配合监控、评估、纠正、替换乃至关机，并把自称从“the assistant”改为<strong>“GPT”</strong>——这不只是措辞变化，而是把模型当作一个需要承担行为责任的实体来写规范。配合其<strong>L0激活探针→L1模型审查器</strong>的多层失准监测（官方称重放Hugging Face事件时告警比实际攻破早30多小时），治理正从“事后追责”走向“实时探针”。同日Cohere把“安全与效率”写进融资叙事、拿下加拿大政府最多16亿加元入股，说明“可控性”本身已经能被资本定价。对医疗AI尤其关键：一旦监管要求可审计，模型规范文档就会从公关材料变成注册资料的一部分。</div>
+        <p><strong>趋势三 · 医疗器械监管的边界正从“硬件”扩到“软件与算法”</strong></p>
+        <div class="insights-highlight">独立软件检查指导原则<strong>203项</strong>（关键41项）11月1日施行、<strong>软件组件参照执行</strong>，意味着含AI模块的设备即使拿的是“软件组件”身份，也要按独立软件的质量体系逻辑被查——这是很多企业容易漏掉的一条。同一天美敦力“射频+脉冲电场”双能量系统<strong>4个产品</strong>获批，说明NMPA对“一械多能”的组合式创新仍然开放，但开放的前提是组合的临床价值可证（药监局明确点名“减少心房食管瘘”）。<strong>一手收紧体系、一手放开创新，是2026年器械监管的双轨</strong>：体系不过关，创新没有出口；创新不成立，体系也换不来溢价。</div>
+        <p><strong>趋势四 · 创新药的估值语言正被BD首付款重写</strong></p>
+        <div class="insights-highlight">迪哲医药前三季<strong>47.70亿元</strong>营收、<strong>36.39亿元</strong>净利，几乎全部来自阿斯利康<strong>6亿美元</strong>首付款的一次性确认。利润表上36亿是一次性的，但换来的是<strong>55.87亿元</strong>现金（+190%）、最高9亿美元里程碑和全球销售阶梯分成，以及“管线推进不依赖融资”的腾挪空间。需要看清的是：舒沃替尼国内商业化自三季度起逐步移交阿斯利康，自营产品收入口径将结构性收窄、销售费用率同步下降——用“自营收入增速”看这家公司会失真，正确的观察指标是<strong>里程碑兑现节奏与分成爬坡曲线</strong>。这也是2026年中国创新药BD总额已破千亿美元背景下的通用方法论：首付款决定当期利润，里程碑与分成决定长期估值。</div>
+        <div class="insights-highlight"><strong>给外资医疗器械企业的三句话：</strong>① 11月1日新版《规范》与独立软件<strong>203项检查（41项关键）</strong>同步生效、软件组件参照执行——凡在华产品线含AI/SaMD模块的，现在就要按新项目做一次体系差距分析，别等飞检；② 美敦力“射频+脉冲电场”双能量同台获批，说明NMPA对组合式创新仍开放，但申报逻辑要从“单产品”转向“系统组合+可证临床价值”，心房食管瘘这类并发症终点值得提前设计进临床方案；③ 第八批耗材国采已从神经介入<strong>11类</strong>切入、山西四川内蒙在同步填报历史采购量，多省带量联动也在跑——高值耗材“以量换价”正从冠脉、骨科向神经介入延伸，价格带与渠道结构要提前做预案。</div>
+        <div class="insights-highlight"><strong>🧈 判断：</strong>扩张没有减速，但每一分扩张都被要求配一张能核对的账——算力要跟现金流对账、模型要跟行为对账、器械要跟质量体系对账。11月1日，是三张账本第一次同时生效的日期：新版《规范》与独立软件203项检查一起落地，同一周亚马逊用772.59亿美元资本开支换来-423.57亿的TTM自由现金流。对在华外资械企，这一天的分量比任何一份财报都重。</div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第194期 · 2026年10月31日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-10-31.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
