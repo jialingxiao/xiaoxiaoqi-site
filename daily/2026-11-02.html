@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 · 第196期 · 2026-11-02</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月2日</span>
+        <span>|</span>
+        <span>第196期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/cd4IDVXaoiU/" alt="同周两本账：中国AI一级市场与医保支付端同时改道" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">同周两本账：DeepSeek 1055亿元、可灵198.02亿元同日落袋，OpenAI融资目标却从300亿砍到200亿、实收承诺仅约110亿；医保端同步把疫苗与特医食品写进个账支付白名单、AI辅助诊断按“扩展项”合并结算</h2>
+    <p class="headline-summary">
+        中国这一侧是<strong>产业资本与国资的集体下注</strong>。10月30日，The Information披露DeepSeek第二轮融资最终锁定<strong>1055亿元人民币</strong>（约158亿美元）、投后估值<strong>6155亿元</strong>（约860亿美元），近30家投资方参与：腾讯本轮100亿元（两轮累计200亿元），宁德时代及董事长曾毓群合计100亿元、较首轮50亿元翻倍，<strong>长鑫存储与中芯国际首次入股</strong>，vivo、美团、美的、立讯精密、吉利、携程、小红书单家10亿—30亿元，中国移动与中信证券各80亿元，国家人工智能发展基金再投10亿元。从两轮累计看，科技企业贡献约42%、国有投资者约19%。治理上沿用首轮框架——除国家基金外，外部投资者放弃投票权并锁定股份五年，梁文锋以极低外部股权换取极高控制权集中度。
+    </p>
+    <p class="headline-summary">
+        同一天晚间，快手公告旗下<strong>可灵AI增资交割完成</strong>，实际到账<strong>198.0184亿元</strong>（约29.05亿美元），较204.47亿元上限缩减约6.45亿元（达康兰五与BFI MIDCO未按期缴款被终止，份额转由金蝶3亿元、温州睿达2.1亿元、共青城君可2亿元、沐曦上海1亿元等承接）。投后估值约<strong>179亿美元</strong>、人民币口径超1200亿元，已<strong>超过快手自身约968亿元的收盘市值</strong>——等于“第二个快手”。股东名单里阿里1.38%、腾讯0.56%、百度0.28%，上海国方数科16.9亿元、国家人工智能产业投资基金14亿元、阿里云13.63亿元同列。这是全球视频生成大模型赛道单轮融资的最高纪录；可灵已在200多个国家和地区吸引超1亿用户、服务超5万家企业，截至2026年3月ARR近5亿美元、为2025年同期的四倍，高盛预计其2026年底ARR突破10亿美元。
+    </p>
+    <p class="headline-summary">
+        对照之下，美国侧是另一种定价。OpenAI的融资目标已从300亿美元下调至200亿美元、实际承诺仅约110亿美元，而Anthropic的S-1按约1.5万亿美元递表、投资者日估值锚定1.8万—2万亿——<strong>一边是“公开市场折现率”，一边是“产业协同折价”</strong>。同一天，中国支付端给出了第三条线：10月30日国家医保局党组会议明确“将符合要求的<strong>疫苗和特医食品纳入医保个账支付白名单</strong>”、“全面推进医保个账跨省共济”；而AI辅助诊断的收费路径也已定调——<strong>不单独立项、作为原有诊断项目的“扩展项”合并结算</strong>，2026年4月纳入国家医保乙类目录后已有27个省份给出价格参考。10月28日，重庆就医保病理云（数字切片）集采公开征求意见，<strong>15元/人次限价、综合评估法</strong>，成为全国首个省级病理云集采，配套“缺数减收”（每张切片减收5—15元）用支付杠杆倒逼数字化。
+    </p>
+    <p class="headline-source">
+        来源: 虎嗅 · 21世纪经济报道 · 证券时报 · 新浪科技 · 中国基金报 · 和讯网 · 国家医保局 · 2026-10-31 / 11-01
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ITHlxSw6PH4/" alt="DeepSeek完成1055亿元二轮融资" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">DeepSeek二轮融资锁定1055亿元、投后6155亿元：腾讯与宁德时代各100亿领投，长鑫存储与中芯国际首次入股；同晚发布Super-agent架构，内部实例在群聊无人@也能识别缺陷、复现并修</h4>
+                    <p class="column-item-summary">据The Information 10月30日报道，DeepSeek第二轮融资规模最终锁定1055亿元人民币（约158亿美元）、投后估值6155亿元（约860亿美元），近30家投资方参与。腾讯两轮各投100亿元、累计200亿元；宁德时代及董事长曾毓群本轮合计100亿元、较首轮50亿元翻倍；长鑫存储及董事长朱一明、中芯国际两家芯片制造企业首次入局但未披露金额；vivo、美团、美的、立讯精密、吉利、携程、小红书单家10亿—30亿元；国有资本集中入场——中国移动与中信证券各80亿元，中国电信、中金公司、中国人寿单家20亿—80亿元。10月31日晚，DeepSeek Harness团队发布《Super-agent 设计探索：迈向更自主的Agent系统》，以双层架构、事件驱动、异步多信道交互、存算分离与外部Watchdog突破“多任务上限取决于人的注意力”的瓶颈，内部实例已参与缺陷复现、代码审查与自身迭代。</p>
+                    <p class="column-item-source">虎嗅 · 21世纪经济报道 · 证券时报 · 11-01 <a href="https://www.huxiu.com/moment/1292587.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mpF-rA-D-dU/" alt="可灵AI 198亿元增资交割" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">可灵AI 198.02亿元增资交割落定：投后约179亿美元、人民币口径超1200亿元，超过快手自身市值；阿里1.38%、腾讯0.56%、百度0.28%同列股东，金蝶与沐曦新进，创全球视频生成单轮融资纪录</h4>
+                    <p class="column-item-summary">10月30日晚快手港交所公告，北京可灵增资全部条件达成、投资者足额缴款、股份购买完成交割，实际到账198.0184亿元（约29.0533亿美元），较204.47亿元上限缩减约6.45亿元。投后控股股东Lucky Labs持66.68%股权与52.45%表决权，董事兼CEO盖坤持3.02%股权但依托特殊股份安排享23.72%表决权。投后估值约179亿美元，以人民币计超1200亿元，高于快手10月30日约1141亿港元（约968亿元）的收盘市值。本次增资伴随多笔权利义务转让：金蝶软件（中国）3亿元、温州睿达2.1亿元、共青城君可2亿元、沐曦上海1亿元、宁波知春华燕0.15亿元承接达康兰五份额，天津源峰另受让12.65亿元；金蝶与沐曦均为首度入股并获得回购权。可灵10月中旬推出Kling 4.0，10月ARR接近5亿美元、一年增长约四倍。</p>
+                    <p class="column-item-source">新浪科技 · 中国基金报 · 证券时报e公司 · 10-31 <a href="https://finance.sina.com.cn/tech/digi/2026-10-31/doc-inixakuy5060249.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/xvzgX1gItPM/" alt="OpenAI把访问权做成产品" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI把“访问权”做成了产品：GPT-6 Rosalind Research与GPT-6 Astra同权重、API报价却高50%，仅向通过审批的生命科学客户开放、Chat标签页不可选；GPT-6.1 Terra同步以每百万token输入1美元、输出5美元铺量</h4>
+                    <p class="column-item-summary">10月30日OpenAI发布GPT-6 Rosalind Research并同步公开系统卡附录。引人注意之处在于：它与GPT-6 Astra使用完全相同的模型权重、未增加训练数据或后训练，但标准API价格高出50%，且需组织与授权用户双重审批——企业空间先进入两周管理员预览、默认关闭；普通Plus/Pro订阅不自动获得权限，聊天标签页不可选，API模型ID为gpt-6-rosalind，仅限获批机构内部研究用途、暂不支持对外商业应用。能力上MedChemBench v7由28.9%升至49.6%、GeneBench Pro v13由16.7%升至37.7%、LifeSciBench Gold由44.0%升至61.3%，生物安全评级为High（低于Critical）。与之配套的是同期上线的GPT-6.1 Terra：输入1美元、输出5美元每百万token，缓存输入0.05美元，约为Sol的一半、GPT-6 Luna的10倍，速度约为前代三倍，主打视觉理解与桌面操作，定位高频agent工作模型。两条线合起来是同一套分层逻辑：能力趋同，靠准入与单位成本切分市场。</p>
+                    <p class="column-item-source">OpenAI 模型发布说明 · AI Weekly · 新浪财经 · 10-31 / 11-01 <a href="https://help.openai.com/zh-hans-cn/articles/9624314-model-release-notes" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/C_7sQaMHvDM/" alt="2026世界顶尖科学家论坛闭幕" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">2026世界顶尖科学家论坛闭幕：33位诺奖/图灵奖/菲尔兹奖得主、近300位科学家聚沪，发布《上海宣言》、发起世界顶尖科学家联盟倡议、启动2027顶科奖提名；六场平行论坛把“AI重塑科研范式”列为共同议题</h4>
+                    <p class="column-item-summary">11月1日论坛在上海临港中心闭幕，主题“范式变革：科学突破的下一个十年”。3天会期近300位中外科学家与4000多位嘉宾，参会人数较去年翻番；6场平行论坛聚焦未来半导体、生物医药、空天信息、人工智能、未来能源、量子科学（首设），共征集论文132篇。机制上首次成立中外联合学术委员会（15位权威科学家对议题、议程、嘉宾全流程把关），各平行论坛统一设中外联合主席，并搭建顶尖科学家与青年科学家社区；81位青年科学家占科学家嘉宾近三分之一，顶科大奖首设“青年科学家奖”、11人获奖其中6位在40岁以下。闭幕式启动2027顶科奖全球提名，并向全球发起世界顶尖科学家联盟（WLO）倡议，定位“开放科学的连接器”。论坛共识指向同一件事：AI已把“提出假设—生成方案”的成本压到极低，稀缺环节转移到“选对问题”与“验证结果”。</p>
+                    <p class="column-item-source">上观新闻 · 文汇报 · 上海市人民政府 · 11-01 <a href="http://www.shobserver.com/sgh/detail?id=4086123" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Wuh7J2Xpaiw/" alt="医保个账支付白名单" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国家医保局首提“疫苗与特医食品进个账支付白名单”、全面推进个账跨省共济：疫苗端上海已放开116款非免疫规划疫苗，特医食品端22省已出文件、海南河北云南江西明确落地</h4>
+                    <p class="column-item-summary">10月30日国家医保局党组会议明确，将符合要求的疫苗和特医食品纳入医保个账支付白名单，并全面推进医保个账跨省共济。政策脉络清晰：2026年5月国家医保局与财政部已首次在国家层面允许职工个账支付定点医疗机构发生的流感疫苗费用及注射服务费，其余非免疫规划疫苗由各省自行放开——上海9月15日起目录内116款非免疫规划疫苗（含23款流感疫苗）可刷个账，北京、天津、安徽、新疆已覆盖流感疫苗，浙江、贵州、福建、江苏更早把HPV、带状疱疹、23价肺炎纳入；特医食品截至10月中旬已有22个省份出台正式文件或公开征求意见，海南、河北、云南、江西明确落地。边界需要看清：刷的是个人账户余额而非统筹报销，须在定点医疗机构、限于目录内产品，米面油、保健品、械字号“马甲”仍被明确排除。券商评价这是“上周最具估值重估意义的政策信号”，支付端首次在国家层面为疫苗打开个账口子。</p>
+                    <p class="column-item-source">和讯网 · 国家医保局 · 各地医保局 · 11-01 <a href="http://stock.hexun.com/2026-11-01/225206709.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/jEKEKyiebyk/" alt="医疗AI收费路径与病理云集采" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">医疗AI的收费答案浮出水面：AI辅助诊断不单独立项、作为原有诊断项目的“扩展项”合并结算，27省已给价格参考、全国超200个三类证产品、北京实现收费全覆盖；重庆病理云集采15元/人次限价、全国首个省级</h4>
+                    <p class="column-item-summary">2026年4月AI辅助诊断被纳入国家医保乙类目录，半年后据不完全统计全国已有27个省份给出明确价格参考。但关键细节被普遍误读——AI辅助诊断不能单独收费，而是作为原有诊断项目的扩展项合并结算，“进医保”不等于“向医保收钱”。与之配套的是病理科的“缺数减收”：医院若不能提供数字化切片并上传病理报告，每张切片减收5—15元，用支付手段倒逼数字化。10月28日重庆市医保局就《重庆市医保病理云（数字切片）集中采购招标文件》公开征求意见，采用综合评估法、15元/人次限价，是全国首个省级病理云集采，意味着数字病理从“医院自建”转向“按服务付费”。北京作为首批国家人工智能应用中试基地（医疗领域）已实现AI医疗产品收费全覆盖，全国获三类注册证的AI医疗产品超200个。行业逻辑因此非常具体：病理是诊断金标准，全国注册病理医生不足2万人、缺口超10万、培养周期超10年、容错率为零，AI的第一价值是补人而不是替代人。</p>
+                    <p class="column-item-source">虎嗅 · 重庆市医保局 · 国家医保局 · 10-31 <a href="https://www.huxiu.com/article/4901860.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/a-oUj1-RFSI/" alt="23省高值耗材联盟集采执行" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">23省腔静脉滤器与消融电极联盟集采11月1日零时统一执行：69个产品、43家企业中选，平均降幅38.67%、部分超74.61%，微波消融电极报量65402个，采购周期1年</h4>
+                    <p class="column-item-summary">10月29日贵州医保局发布执行通知，黑龙江牵头的23省（区、市）联盟集采中选结果自2026年11月1日零时起全省统一执行，采购周期1年。品种为腔静脉滤器和消融电极两类高值耗材，2026年2月28日已公布中选结果：近百家国内外企业申报，69个产品中选、涉及43家企业，平均降幅38.67%、部分产品降幅超74.61%；腔静脉滤器按回收周期分两组竞价（30天以内组最高有效申报价818元档），微波消融电极报量65402个，联盟各省自9月10日起启动协议采购量确定。执行端是硬约束：医疗机构须通过省级招采子系统交易、不得线下采购中选品种，未挂网产品由企业完成挂网确认，已挂网产品自11月1日零时起由系统自动调整项目和价格；中选企业为生产、供应、配送第一责任人，配送须覆盖全部采购主体，医疗机构不得以SPD供应商名义变相收费；提前完成协议量后，超出部分仍按中选价供应至周期届满。对腔静脉滤器这一外资占优品类，这是继密网支架后外周与神经介入领域的又一次价格重置。</p>
+                    <p class="column-item-source">新浪财经 · 贵州省医保局 · 医疗器械经销商联盟 · 10-31 <a href="https://finance.sina.com.cn/roll/2026-10-31/doc-inixavkx7590501.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/w7AR9aNmU0I/" alt="北京医疗AI头部研发基层应用" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">北京医疗AI的“头部研发、基层应用”样本：同仁眼底AI一张照片出50余种疾病风险、检查从20—30分钟压到2分钟、早诊率提升70%以上并落地9国；安贞胎儿心脏智能体覆盖31省1000余家机构、惠及130万孕妇，单切面准确率85%（全国平均43%）</h4>
+                    <p class="column-item-summary">11月1日《北京日报》披露北京作为首批国家人工智能应用中试基地（医疗领域）的落地数据：全市实现医疗卫生机构跨院信息调阅，累计推进检查检验结果互认近100万次，推广电子胶片年均节约患者费用超1.5亿元。具体案例上，同仁医院联合鹰瞳科技的眼底AI相机拍1张视网膜照片即可生成50余种疾病风险评估，检查流程由20—30分钟缩短至2分钟、致盲性眼底病早诊率提升70%以上，已在北京80余家社区卫生服务机构应用并推广至四大洲9个国家；安贞医院胎儿心脏智能体覆盖全国31个省区市1000余家医疗机构、惠及西藏新疆等地130万孕妇，单切面诊断准确率85%、远超全国43%的平均水平；北大第一医院肾脏多慢病数字医生助手在53家医院和社区上线，使慢性肾脏病诊断率从59%提升至81%。出海侧，中试基地产品在第32届China-Hospeq获赞比亚、马达加斯加现场订单，亚投行带队27国董事来京对接，北京友谊医院援非医疗队把国产AI骨科手术规划系统带入几内亚、已完成20余例AI辅助髋关节置换。</p>
+                    <p class="column-item-source">北京日报 · 北京市卫健委 · 11-01 <a href="http://m.toutiao.com/group/7703037122848932394/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI融资</span>
+            <span class="breaking-news-text">DeepSeek二轮1055亿元、投后6155亿元，腾讯与宁德时代各100亿元领投，长鑫存储、中芯国际首次入股</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">视频模型</span>
+            <span class="breaking-news-text">可灵AI 198.02亿元交割，投后约179亿美元超快手市值，阿里/腾讯/百度同列股东，金蝶、沐曦新进</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">模型定价</span>
+            <span class="breaking-news-text">OpenAI GPT-6.1 Terra 输入1美元/输出5美元每百万token，为Sol一半、Luna的10倍，速度约为前代三倍</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">科学智能</span>
+            <span class="breaking-news-text">OpenAI 推出生命科学专用GPT-6 Rosalind Research，与Astra同权重、报价高50%，仅向获批科研客户开放</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">使用政策</span>
+            <span class="breaking-news-text">Anthropic 新版Usage Policy 11月12日生效，禁建监控工具、禁武装自主载具，硬件须具备急停能力</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">具身降温</span>
+            <span class="breaking-news-text">宇树科技滚动市盈率465倍（行业均值38.54倍），Q3营收6.65亿+69.93%、净利1.13亿-17.37%，研发投入+249.58%</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">订阅改版</span>
+            <span class="breaking-news-text">Cursor 改为 The X Subscription，付费档共享Cursor与Grok周用量池，8美元档不含Auto/Cloud Agents</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">浏览器智能体</span>
+            <span class="breaking-news-text">Google Computer Use 转为正式可用，覆盖Interactions与GenerateContent两类API</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">视频生成</span>
+            <span class="breaking-news-text">Pika 推出 H3 Flex，采样50步压缩到6步、最多12个参考文件、同步立体声</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">开源模型</span>
+            <span class="breaking-news-text">Nace AI 开源27B决策模型Drex Max v1，输出选项概率而非文本，4bit版14.45GB</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">科研平台</span>
+            <span class="breaking-news-text">西湖大学成立世界模型研究中心，聚焦物理理解与交互决策</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">国家医保局10月30日会议：疫苗与特医食品进个账支付白名单、全面推进个账跨省共济</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">13</span>
+            <span class="breaking-news-cat">集采</span>
+            <span class="breaking-news-text">23省腔静脉滤器与消融电极联盟集采11月1日零时执行，平均降幅38.67%、最高74.61%</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">14</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">重庆医保病理云（数字切片）集采征求意见，15元/人次限价、综合评估法，全国首个省级</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">15</span>
+            <span class="breaking-news-cat">海外</span>
+            <span class="breaking-news-text">韩国首尔圈域远程重症监护11月1日启动，三星首尔医院为据点，AI辅助恶化预测与转院决策</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：一级市场正在分成两套定价体系，中国这一侧是“供应链入股”而不是财务投资。</strong></p>
+        <div class="insights-highlight">
+            DeepSeek的1055亿里出现长鑫存储、中芯国际、vivo、美的、立讯、吉利、美团、小红书——存储、晶圆、终端、场景被一次性绑进股权；可灵的198亿里出现阿里云、腾讯、百度、金蝶、沐曦——云、流量、企业软件、GPU同时到位。国资占比约19%、科技企业约42%，且外部投资者放弃投票权、锁定五年：<strong>出钱不出声，换的是算力与芯片生态的战略绑定</strong>。对照OpenAI把融资目标从300亿砍到200亿、实际承诺仅约110亿，Anthropic按约1.5万亿美元递表——美国侧是“公开市场折现率”定价，中国侧是“产业协同折价”定价。判断的含义很直接：看中国AI公司，别只看估值倍数，要看股东名单里有没有它的上游和下游。
+        </div>
+
+        <p><strong>趋势二：2026年医疗AI的分水岭不在模型，而在“能不能被单独收费”——答案是不能。</strong></p>
+        <div class="insights-highlight">
+            AI辅助诊断只能作为原有诊断项目的扩展项合并结算，这条规则基本决定了行业形态：<strong>卖“AI”没有独立价格，卖“用了AI之后原有项目更准更快”才有</strong>。病理云的15元/人次限价加“缺数减收”（每片减收5—15元）是同一逻辑的延伸——先用支付杠杆把数字化率推上去，再按服务量付费。对医院，意味着AI采购要从“科研预算”转向“效率预算”；对企业，报价必须能换算成单张切片、单次检查的成本节约；对外资械企，设备+AI+服务的打包能力比单点算法更值钱。北京样本（眼底2分钟、早诊率+70%、落地9国；胎儿心脏单切面85% vs 全国43%）证明的是可复制的场景，而不是参数。
+        </div>
+
+        <p><strong>趋势三：当生成的成本趋近于零，稀缺的是“选对问题”与“验证结果”。</strong></p>
+        <div class="insights-highlight">
+            顶科论坛把“范式变革”作为主题，诺奖得主反复讲的其实是同一件事：AI让假设生成和方案枚举变得廉价，科研瓶颈前移到问题选择与实验验证。这与DeepSeek的Super-agent架构同源——它解决的不是“模型会不会做”，而是“人同时能盯几个任务”。对医疗AI的直接推论：价值会从“能不能输出”转向“能不能被验证”，<strong>真实世界数据、前瞻性队列、卫生经济学评价会变成比跑分更硬的资产</strong>；对咨询与产业研究，判断力（选对问题）比信息量（生成内容）更稀缺。
+        </div>
+
+        <p><strong>🧈 我的判断：今天真正值得记的不是两个融资金额，而是它们和医保支付端出现在同一周——资本在赌“算力+场景”的闭环，支付在给“效率+验证”定价，两边指向的是同一件事：AI的价值必须落到可计量的产出上。</strong></p>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第196期 · 2026年11月2日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-02.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
