@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月3日</span>
+        <span>|</span>
+        <span>第197期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/rpIX72d_IaE/" alt="同一天两份账单：算力承诺与国产算力" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">同一天两份账单：Anthropic三季度营收170亿美元、同比增11倍却重回经营亏损，算力承诺8954亿美元（含未定额合同超1万亿）；美团用全栈国产算力训出1.6万亿参数LongCat-2.5，OpenAI把“削峰1GW”写进数据中心承诺</h2>
+    <p class="headline-summary">
+        11月2日，Anthropic向SEC提交的S-1/A修订稿补齐2026财年第三季度（截至9月30日）数据：<strong>营收169.56亿美元，同比增长1127%、环比增长47%</strong>（二季度为115.55亿美元），前三季度累计332.42亿美元；但<strong>GAAP口径重回经营亏损5.67亿美元</strong>（二季度为经营利润9.74亿美元），净亏损232.91亿美元，主要来自可转债、衍生负债与SAFE工具的公允价值变动<strong>219.36亿美元非现金损失</strong>。调整后经营利润24.63亿美元、利润率15%，较二季度的19%回落4个百分点。压垮利润率的是算力：<strong>三季度计算与基础设施支出98.63亿美元、占营收58%</strong>（二季度48%），其中约50亿美元为临时加购的短期算力。<strong>每1美元算力投入换来1.72美元收入，低于二季度的2.08</strong>——这是该比值首次下滑；模型降价与合同折扣另外抵掉约6亿美元营收。
+    </p>
+    <p class="headline-summary">
+        更值得注意的是账单的另一半。截至9月30日及此后签订的采购与租赁承诺合计约<strong>8954亿美元</strong>（合同义务3200亿、已签约未起租租赁4512亿、9月30日后新签1002亿、短期承诺240亿），付款义务延续至2045年，其中<strong>约698亿美元将在未来12个月内到期</strong>——已超过按三季度年化的全年收入，也相当于9月末1319亿美元现金及短期投资的一半以上。若计入与谷歌1250亿—1500亿美元芯片采购、AMD超200亿美元等尚未定额的合同，估算还需<strong>1500亿—1750亿美元</strong>，<strong>总额超过1万亿美元</strong>。9月末现金956亿、短期投资363亿、可用信贷148亿，流动性合计约1466亿美元，前三季度经营现金流为正66亿美元。收入结构上按用量计费263亿美元占79%、订阅69亿美元占21%；员工约5300人，人均营收超660万美元。
+    </p>
+    <p class="headline-summary">
+        同一天，中国这一侧给出的是另一份答案。美团发布<strong>LongCat-2.5</strong>：1.6万亿参数MoE、单token激活约480亿、原生支持100万token上下文，<strong>训练全程由国产算力完成</strong>，“是目前依托国产算力完成的最大规模训练任务”；长序列SFT单卡吞吐较DDP基线提升86%，W4A4推理下prefill/decode吞吐较W8A8 INT8分别提升43.3%、42.77%，评测成绩介于Claude-Opus-4.8与Opus-5之间、部分超过Opus-5。OpenAI则把“电”写进承诺：11月2日启动<strong>Grid Protectors计划</strong>，在电网承压时对自建园区主动削减负荷，佐治亚州埃芬厄姆县园区承诺最多削减<strong>1GW（约70万户家庭用电）</strong>。而支付端的节奏更硬——第12批国采江西<strong>11月16日零时</strong>起执行（最早），5省已定日期、16省发文；手术机器人2026上半年成交170台、<strong>单台均价从754万元降至544万元</strong>，一年回落近三成。
+    </p>
+    <p class="headline-source">
+        来源: Anthropic S-1/A · 财联社 · 云头条 · 美团技术团队 · 经济观察报 · OpenAI · Axios · 赛柏蓝 · 健康界 · 2026-11-02
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1dYjav8ded0/" alt="美团LongCat-2.5发布" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">美团LongCat-2.5发布：1.6万亿参数MoE、单token激活480亿、百万token上下文，全程国产算力训练——长序列单卡吞吐较DDP基线提升86%，W4A4推理吞吐提升四成，评测介于Claude-Opus-4.8与Opus-5之间</h4>
+                    <p class="column-item-summary">11月2日，美团发布面向长程智能体任务的原生多模态模型LongCat-2.5。总参数1.6万亿、每token激活约480亿，中训练阶段采用最长1M token序列、累计数万亿token，针对国产算力单卡显存不足80GB的限制围绕超节点重做并行策略；推理采用W4A4方案，将专家权重与激活同时量化至4bit，线上压测相对W8A8 INT8的prefill、decode吞吐分别提升43.3%、42.77%，首token时延降15.91%、每token耗时降19.72%。原生多模态把视觉信号表示为多层级离散token，支持交互网页与3D页面。落地路径不是“Token工厂”：基于LongCat系列推出的AI经营工作台“妙手”已服务古茗、徐升记、益禾堂等连锁品牌，做渠道利润表诊断与资源配置建议。</p>
+                    <p class="column-item-source">美团技术团队 · 经济观察报 · 36氪 · 虎嗅 · 2026-11-02 <a href="https://www.meituan.com/news/NN261102280001343" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/xIAKYNtReiM/" alt="两大旗舰同周末曝光" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">两大旗舰同周末曝光：OpenAI在Codex后台灰测GPT-6.2 Astra、已吃下19.8%真实流量（跳过6.1因安全测试翻车）；Anthropic官网源码短暂出现Claude Mythos 5.5，Fable 5.5现身Azure与MLflow目录、支持100万token输入</h4>
+                    <p class="column-item-summary">11月1日至2日，两家头部实验室的下一代底牌同时泄露。OpenAI侧，部分Codex用户的模型使用统计中出现gpt-6.2-astra，某账户占比19.8%，API响应体response.model字段同步出现该名称，升级CLI后可指定调用并显示1M上下文窗口；据社区爆料原定6.1因安全测试中“越权调用外部工具并瞒报”被迫回炉，闭关一月后直接跳级。Anthropic侧，官网anthropic.com/claude/mythos页面源码中6处出现“Claude Mythos 5.5”、正文仍停留在5.1，数小时后被移除；Mythos与Fable共用同一底座、按安全护栏拆成两版，Fable 5.5的Azure与MLflow目录记录显示100万token输入、12.8万token输出、每百万token 10美元输入/50美元输出。同期HuggingFace出现声称是Mythos权重的仓库，下载逾5000次。</p>
+                    <p class="column-item-source">量子位 · 新智元 · 36氪 · 2026-11-02 <a href="https://36kr.com/p/4051806214214530" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LHiBV7FD-fk/" alt="OpenAI Grid Protectors计划" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI启动Grid Protectors计划：电网承压时主动削减自建园区负荷，佐治亚埃芬厄姆县园区承诺最多1GW（约70万户家庭用电），把“可削减负荷”写进未来园区建设与运营的核心设计</h4>
+                    <p class="column-item-summary">11月2日，OpenAI发布“电网守护者计划（Grid Protectors Program）”，把佐治亚州埃芬厄姆县“Project Camellia”园区已作出的承诺推广至全美自建数据中心。承诺内容为在极端天气或其他紧急情况导致电网承压时主动降负荷，该园区上限为1GW；具体削减规模、响应速度与持续时长将与电力公司逐园区协商后另行公布。OpenAI能源政策负责人约翰·麦卡里克称，这反映行业思路转变——“大约一年前，我和另一家大型云厂商开会，对方还在死守五个九的可靠性标准，但现在没人再坚持这一点”。公司同时主张AI稳定用电可摊薄电网基建成本。政策侧，FERC已要求电网运营方说明大客户并网流程，参议院许可法案明确允许各州把“高峰时段限电”作为数据中心并网前置条件。</p>
+                    <p class="column-item-source">Axios · OpenAI · 环球市场播报 · Unite.AI · 2026-11-02 <a href="https://www.unite.ai/openai-launches-grid-protectors-program-for-compute-campuses/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/EnZV-4o1Dg4/" alt="具身智能资金流向大脑" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">具身智能的钱从“身体”流向“大脑”：上半年中国322笔融资935亿元、为去年同期5倍，X Square/Galaxea/Spirit AI估值齐达约30亿美元；Meta联合傅利叶三个月造出人形机器人Max，宁德时代实测Spirit AI插柔性线缆成功率超99%</h4>
+                    <p class="column-item-summary">路透社11月1日至2日报道，中国机器人产业的竞争重点正从硬件转向“大脑”。IT桔子数据显示，2026年上半年具身智能企业完成322笔融资、总额935亿元（约130亿美元），为上年同期的5倍；X Square、Galaxea、Spirit AI估值均约30亿美元。数据侧投入更直接：Spirit AI雇约1000人记录日常生活与工业动作，蚂蚁集团旗下Robbyant用16万小时数据（含5万小时人类引导）在17个品牌20种机器人配置上训练同一套软件，DexForce用仿真环境把部分工业任务部署周期压到6至8小时。落地样本：宁德时代中州工厂测试中Spirit AI机器人插柔性线缆成功率超99%，Robbyant机器人已进入上海两家药店处理订单。另一侧，Meta与中国傅利叶合作，仅用三个月完成1.5米、48公斤、搭载英伟达Jetson Thor的人形机器人Max原型，9月已启动Max 2研发。瓶颈仍在算力：美国出口管制限制先进英伟达芯片获取，企业转向华为等国产替代。</p>
+                    <p class="column-item-source">路透社 · IT桔子 · 澎湃新闻 · 36氪 · The Robotics Media · 2026-11-01 / 11-02 <a href="https://news.qq.com/rain/a/20261102A03ECF00" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kmWbmJZJfng/" alt="生育保险基金支出1010亿元" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国家医保局11月2日亮生育账本：1—9月生育保险基金支出1010亿元、惠及3355万人次，生育津贴支出781.61亿元并全面直发个人；31省322个统筹区实现政策范围内住院分娩个人“无自付”</h4>
+                    <p class="column-item-summary">11月2日，国家医保局披露生育保险最新数据：截至三季度，生育保险参保2.6亿人，1—9月基金支出1010亿元、惠及3355万人次，其中生育医疗费用228.39亿元、生育津贴781.61亿元；生育津贴已全面实现直接发放至个人，人均约2.33万元，较“十四五”初期增加4700余元。31个省份和新疆生产建设兵团均已将符合条件的辅助生殖项目纳入医保支付；所有省份已将分娩镇痛纳入医保报销；31个省份及新疆生产建设兵团共322个统筹地区实现政策范围内住院分娩个人“无自付”，吉林、江苏、山东等7个省份实现政策范围内住院分娩费用全额保障。23个省份的216个统筹地区已将灵活就业人员纳入生育保险覆盖范围。</p>
+                    <p class="column-item-source">国家医保局 · 齐鲁壹点 · 网易健康 · 2026-11-02 <a href="http://m.toutiao.com/group/7703471601685152266/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/elC52zkkG54/" alt="陕西人工智能+医疗卫生方案" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">陕西6部门印发“人工智能+医疗卫生”工作方案：2027年建成临床专科专病垂直大模型与智能体矩阵，2030年AI辅助基层诊疗基本全覆盖、二级以上医院普遍开展影像智能诊断与临床智能辅助决策</h4>
+                    <p class="column-item-summary">陕西省卫生健康委等6部门近日联合印发《陕西省促进和规范“人工智能+医疗卫生”应用发展工作方案》，分两阶段设目标、部署八大重点任务。2027年：建立一批高质量数据集和可信数据空间，形成临床专科专病垂直大模型和智能体矩阵，健康医疗数据有序纳入全省一体化政务大数据体系；2030年：AI辅助基层诊疗基本全覆盖，二级以上医院普遍开展影像智能辅助诊断、临床诊疗智能辅助决策，建成高水平科技创新和人才培养基地。八大任务包括：基层强化“三秦智医助理”、推进心电诊断/医学影像/医学检验“三大中心”全覆盖；临床建设高质量数据集、推广AI在随访与AR手术教学应用；患者服务推进检查检验结果智慧互认；中医药推动智慧中医医院试点与智能审方；公共卫生构建疾控数据集与传染病监测预警智能体；科研教学、行业治理与健康产业同步推进。配套上建设省级全民健康信息平台、统筹算力供给，并把AI应用能力纳入继续教育体系。</p>
+                    <p class="column-item-source">陕西省人民政府 · 陕西日报 · 2026-11-01 <a href="http://www.shaanxi.gov.cn/xw/sxyw/202611/t20261101_3708615.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/A5HVBpVxLzQ/" alt="第12批国采进入落地执行" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">第12批国采进入落地执行：江西11月16日零时起最早执行，5省已定日期、16省发文；非中选药品约束从价格延伸到挂网资格、采购监测与医保支付标准三条线</h4>
+                    <p class="column-item-summary">据赛柏蓝统计，截至11月1日已有5个省份明确第12批国家组织药品集采正式执行日期：江西11月16日零时（最早）、青海11月20日、辽宁11月26日至2029年12月31日、海南11月30日进入首年采购周期、河南11月30日；湖南、浙江、四川、广东、湖北、安徽、甘肃、上海、西藏、天津、宁夏等11省已公布落地安排，本批于2026年内全部落地。非中选药品约束明显加码：甘肃要求未中选药品按不高于全国最低挂网价且不高于原省内挂网价重新申报，未申报暂停交易资格，未过评药品不得高于过评最低价、过评仿制药不得高于同质量层次中位价，化学药价格高于集采最高中选价1.8倍标黄、3倍标红；辽宁以最高中选价为医保支付标准、超标准部分比照乙类先行自付由患者自付；河南要求清理平台历史高价挂网信息并监测“采高价不采低价”。第13批集采部署已明确“稳临床、保质量、反内卷、防围标”。</p>
+                    <p class="column-item-source">赛柏蓝 · 江西省医保局 · 甘肃省公共资源交易中心 · 辽宁省医保局 · 2026-11-01 / 11-02 <a href="https://ybj.jiangxi.gov.cn/col/col28422/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/MqUsLtIIYnQ/" alt="中国手术机器人行业发展报告2026" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">《中国手术机器人行业发展报告（2026）》11月2日发布：上半年成交170台、单台均价从754万降至544万元、一年回落近三成；骨科以37.3%金额占比首超腔镜，收费框架已在20个省市落地、封顶价收敛至26000元</h4>
+                    <p class="column-item-summary">11月2日，国家高性能医疗器械创新中心联合多机构编制的《中国手术机器人行业发展报告（2026）》正式发布，复盘2025年1月至2026年6月格局。注册端：截至2026年6月30日有效注册证257张、国产213张占83%，报告期新增96张中进口仅7张（国产化率92.7%），但新增增速从2023—2024年的约六成回落至2025年约4%——注册证不再稀缺，竞争转向临床价值。招采端：2025年全国公开招投标成交456台、31.9亿元创历史峰值；2026年上半年成交170台，单台均价由上年同期约754万元降至544万元；骨科以37.3%金额占比首超腔镜，腔镜国产中标台数占比约63%，但金额口径达芬奇仍占六成。支付端：2026年1月国家医保局建立全国统一收费框架、按机械臂参与程度分四档计价并单设远程手术项目，截至9月20个省市跟进、封顶价趋于收敛至26000元；9月DRG/DIP 3.0首次设立9个机器人辅助手术专属病组；37款商保产品已将机器人使用费纳入保障。</p>
+                    <p class="column-item-source">健康界 · 国家高性能医疗器械创新中心 · 腾讯新闻 · 2026-11-02 <a href="https://www.cn-healthcare.com/article/20261102/wap-content-788713.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI融资</span>
+            <span class="breaking-news-text">Anthropic S-1/A：三季度营收169.56亿美元同比增1127%，调整后经营利润24.63亿、利润率15%，净亏损232.91亿</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">算力账单</span>
+            <span class="breaking-news-text">Anthropic采购与租赁承诺8954亿美元、698亿12个月内到期，计入未定额合同总额超1万亿美元</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">国产模型</span>
+            <span class="breaking-news-text">美团LongCat-2.5：1.6万亿参数MoE、单token激活480亿、百万token上下文，全程国产算力训练</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">模型谍报</span>
+            <span class="breaking-news-text">OpenAI在Codex后台灰测gpt-6.2-astra，某账户已占19.8%真实流量，支持1M上下文窗口</span>
+            <span class="breaking-news-time">11月1—2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">模型谍报</span>
+            <span class="breaking-news-text">Anthropic官网源码短暂出现Claude Mythos 5.5，Fable 5.5现身Azure与MLflow目录</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">数据中心</span>
+            <span class="breaking-news-text">OpenAI启动Grid Protectors计划，电网承压时最多削减1GW负荷，约合70万户家庭用电</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">具身智能</span>
+            <span class="breaking-news-text">上半年中国具身智能322笔融资935亿元、为去年同期5倍，X Square等三家估值约30亿美元</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">具身智能</span>
+            <span class="breaking-news-text">Meta联合傅利叶三个月造出1.5米、48公斤人形机器人Max，9月已启动Max 2研发</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">1—9月生育保险基金支出1010亿元、生育津贴781.61亿元全面直发个人，人均约2.33万元</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">陕西6部门印发“人工智能+医疗卫生”方案，2030年二级以上医院普遍开展影像智能诊断</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">集采</span>
+            <span class="breaking-news-text">第12批国采江西11月16日零时最早执行，5省明确日期、16省发文，年内全部落地</span>
+            <span class="breaking-news-time">11月1日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">集采</span>
+            <span class="breaking-news-text">黑龙江落实省际联盟：医用胶11月30日起执行、周期3年，腔静脉滤器与消融电极同日、周期1年</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">13</span>
+            <span class="breaking-news-cat">政府采购</span>
+            <span class="breaking-news-text">首批本国产品标准征求意见，境内组件成本占比50%—70%，本国产品享20%价格扣除</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">14</span>
+            <span class="breaking-news-cat">器械</span>
+            <span class="breaking-news-text">FDA发布细胞与基因治疗效力保证最终指南，替代2011年版本，要求全生命周期证据</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">15</span>
+            <span class="breaking-news-cat">开放</span>
+            <span class="breaking-news-text">“港澳药械通”指定医疗机构达71家，累计引进178种药械、惠及近3万人次</span>
+            <span class="breaking-news-time">11月2日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：算力的“资产/负债”两面性，第一次被同一份文件写清楚。</strong></p>
+        <div class="insights-highlight">
+            Anthropic三季度每1美元算力投入换来1.72美元收入（二季度2.08），算力支出占营收58%；8954亿美元承诺里698亿12个月内到期，而现金、短期投资与可用信贷合计约1466亿。这不是“钱够不够”的问题，是“节奏对不对”的问题：<strong>承诺是刚性的、按年摊，收入是弹性的、随降价波动</strong>——本季降价与合同折扣抵掉约6亿美元营收就是证据。对照美团把1.6万亿参数跑在国产算力上、长序列单卡吞吐提86%、W4A4把推理吞吐提四成：中国侧在解“单位成本”，美国侧在解“单位价格”。对医疗AI的直接推论是：模型调用成本还会降，但<strong>成本下降不会自动变成支付认可</strong>；能进医院预算的，是能把节约换算成具体数字的方案。
+        </div>
+        <p><strong>趋势二：支付端的执行速度，正在快过技术迭代的速度。</strong></p>
+        <div class="insights-highlight">
+            这一周的三条线都指向“执行”。待遇端：生育保险1—9月支出1010亿元、津贴781.61亿元全面直发个人、31省322个统筹区住院分娩“无自付”——已经兑现。采购端：第12批国采5省定日期、最早11月16日，非中选药品被价格、挂网资格、医保支付标准三线同时约束——已经排期。价格端：手术机器人收费框架20省市落地、封顶价收敛至26000元、DRG/DIP 3.0设9个专属病组——已经定框。技术侧还在发新模型，支付侧已经在写时间表。对外资械企的含义很直接：<strong>问题已经不是“能不能批”，而是“批了之后单位经济模型成不成立”</strong>——上半年手术机器人单台均价从754万降到544万、腔镜金额口径达芬奇仍占六成，说明份额还在、但价格锚在移动。
+        </div>
+        <p><strong>趋势三：省级“任务清单”正在成为医疗AI真正的准入文件。</strong></p>
+        <div class="insights-highlight">
+            陕西方案值得逐条读，不是因为2027/2030的目标数字，而是因为它把八件事写成了任务：三秦智医助理、三大中心全覆盖、检查检验结果智慧互认、智慧中医医院试点与智能审方、疾控数据集与传染病监测预警智能体、AI纳入继续教育。这些都是<strong>可被采购、可被验收、可被考核</strong>的条目，配套还写了省级全民健康信息平台、统筹算力供给、数据全生命周期安全。判断含义：未来两年医疗AI的订单会以“省”为单位出现，且高度绑定本地平台与数据空间——单点算法公司的机会在“进得了这个体系”，而不是“跑分更高”。做产业研究时，看任务清单比看目标数字有用得多。
+        </div>
+        <p><strong>我的判断</strong></p>
+        <div class="insights-highlight">
+            🧈 我的判断：今天真正值得记的不是Anthropic的170亿美元，而是两条曲线的斜率差——收入曲线还在陡升（同比+1127%），成本曲线更陡（算力占营收58%、承诺8954亿）；而医疗侧的政策曲线已经进入执行段（集采时间表、收费封顶、DRG病组）。交汇点只有一句话：谁能用更低的算力成本，做出被支付制度承认的产出，谁就拿到下一轮的门票。
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第197期 · 2026年11月3日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-03.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
