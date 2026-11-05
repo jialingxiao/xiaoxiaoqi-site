@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月6日</span>
+        <span>|</span>
+        <span>第200期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/tWhYW2Ug5Y8/" alt="英伟达暴跌与AI内存全栈协同设计" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">美股AI交易单日剧烈回撤：英伟达盘中最深跌超9%、一度抹平年内全部涨幅、市值较10月峰值蒸发近1.4万亿美元；同一天公司发文把叙事从“堆HBM”改成“每美元token”——Vera Rubin单卡HBM仅增约3%、特定Agent负载下每美元吞吐量最高提升30倍</h2>
+    <p class="headline-summary">
+        美东时间11月5日，AI交易遭遇一次集中的估值校准。英伟达（NVDA）开盘后跌幅持续扩大，盘中一度跌超9%，为2025年4月以来最大单日跌幅，一度抹平今年内全部累计涨幅，<strong>市值较10月创下的历史高点蒸发近1.4万亿美元</strong>；截至北京时间23时14分报186.73美元、跌6.7%，总市值4.50万亿美元。抛售并不孤立：特斯拉跌近10%、闪迪（SNDK）重挫近19%、西部数据跌近13%、台积电跌约5%，存储与半导体板块集体下挫，恐慌指数VIX显著飙升，美股“科技七巨头”单日市值大幅缩水，前五大身价富豪财富单日蒸发约1500亿美元。触发点并非某一条坏消息，而是市场对AI基础设施投资回报周期、数据中心建设进度与产业链估值的重新审视——<strong>从“追逐算力扩张”转向“关注投资效率”</strong>。
+    </p>
+    <p class="headline-summary">
+        就在同一天，英伟达发布博客详解其<strong>AI内存全栈协同设计</strong>策略，给出的数字恰好是这场抛售的注脚：从Blackwell Ultra到Vera Rubin，<strong>单颗GPU的HBM容量仅增加约3%，但在特定Agent工作负载下，每美元可实现的吞吐量最高提升30倍</strong>；GB300 NVL72相比H200平台，每美元吞吐量最高提升10倍、单卡HBM容量约翻倍；Vera Rubin NVL72相比GB300 NVL72，HBM只多约3%、每美元吞吐量却最高提升30倍。技术路径有四条：用NVFP4把模型权重压到4位精度，并通过NVLink把权重分散到最多72颗GPU；用NVFP4压缩KV Cache；由Vera CPU承担工具调用加速、并以大容量LPDDR就近暂存暂不活跃的上下文；由Dynamo把闲置KV Cache卸载到每比特成本远低于HBM的CMX上下文内存存储层，并通过KV Cache reuse把GPU内存、CPU内存与存储当作一个系统级资源统一管理。英伟达给出的背景是：<strong>部分Agent任务轨迹的处理上下文已达300万token</strong>，单靠堆HBM容量解决不了问题；对AI工厂运营者真正重要的指标，不是拥有多少GPU或HBM，而是在既定电力预算内交付多少“有用token”。
+    </p>
+    <p class="headline-summary">
+        把这一天连起来看，逻辑就清楚了：当算力供给端的叙事从“规模”切换到“单位成本”，资本市场的估值锚也同步从“营收增速”切换到“兑现节奏”。同日其他信号指向同一方向——Alphabet旗下AI制药公司<strong>Isomorphic Labs被曝正洽谈约50亿美元融资、估值或达500亿美元</strong>；Anthropic的IPO路演仍预计11月9日当周启动，投资者给出的估值已从此前约2万亿美元退守至1.5万亿；国产算力巨头<strong>超聚变创业板IPO定于11月12日上会</strong>、拟募资约80亿元；AI安全评估机构METR称Anthropic模型能力进步速度约为2024年3月至2025年10月的2倍、其中约八成可能归因于AI参与研发；Claude Code前产品负责人Cat Wu则在离职消息公布一天后官宣加入OpenAI。对医疗产业而言，这一轮校准的含义很具体：模型和算力都会继续变便宜，但医院与药企的采购不会为“我们用了AI”付溢价，只会为“省了哪个科目、少了多少漏报、缩短多少研发周期”付钱。
+    </p>
+    <p class="headline-source">
+        来源：财联社 · 新浪财经 · 华尔街见闻 · 钛媒体 · 英伟达官方博客 · 36氪 · Reuters · 2026-11-05
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <!-- AI大模型前沿 -->
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kVqG2IVMY-k/" alt="OpenAI发布GPT-6 Cyber网络安全模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI发布GPT-6 Cyber：专为授权安全研究设计的网络安全模型，漏洞发现能力较上一代提升近50%，可识别可被远程利用的漏洞、自动核查网络交互并记录IP，官方称已协助发现数百个高危漏洞，首批仅向Daybreak Red获批客户开放</h4>
+                    <p class="column-item-summary">美东时间11月5日，OpenAI发布<strong>GPT-6 Cyber</strong>。按官方表述，这是一款“专为授权安全研究设计”的模型：在发现与修复漏洞方面能力显著提升，同时“更可靠地留在研究者设定的边界内”。与上一代GPT-5.6 Cyber相比，其<strong>发现网络漏洞的能力提升近50%</strong>，能更有效地处理大型代码库、长期数据开发与安全检查，并可识别“可被远程执行利用”的漏洞类型；在衡量模型能否利用指定漏洞攻击远程目标的ExploitGym基准上，新模型同样取得明显跃升，官方称已协助发现数百个高危漏洞。合规侧的动作是：模型会自动核查网络交互是否存在不当数据使用，并记录IP地址以防凭据被窃。开放节奏采取“先窄后宽”——初期仅通过API与Codex面向Daybreak Red平台的获批客户开放，随后逐步扩大到Daybreak Red全部用户，同时把GPT-5.6 Cyber开放给所有客户。这一发布与近期“AI参与攻防”的现实压力同步：把最强模型关进“授权+审计”的笼子里再放出来，正成为前沿实验室的默认做法。</p>
+                    <p class="column-item-source">新浪财经 · Fortune · OpenAI · 2026-11-05 <a href="https://cj.sina.com.cn/articles/view/5953740931/162dee083067044kpy?froms=ttmp" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/IVmm_USXglo/" alt="百度开源文心5.5 Flash Base基座模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">百度开源ERNIE-5.5-Flash-Base：280B稀疏MoE、每token仅激活14B，33.5万亿token预训练、支持100万token上下文；但权重只到预训练终点，许可排除欧盟/英国/韩国、相关年收入超5000万美元需书面许可</h4>
+                    <p class="column-item-summary">11月5日，百度文心团队发布并开源<strong>ERNIE-5.5-Flash-Base</strong>。这是一个纯文本稀疏MoE基座模型：总参数2800亿、每个token仅激活约140亿；43层、隐藏维度4096、64个注意力头；其中37层采用重度压缩注意力（Heavily Compressed Attention），每128个token只保留一个缓存条目并叠加近期未压缩窗口，另6层为多头潜在注意力（MLA）以保留对全量上下文的token级访问；除首层外每层配512个路由专家、每次激活10个加1个共享专家，专家在2048维潜空间内运算，官方称可把专家调度与组合的通信量和算力开销大致减半。预训练在<strong>33.5万亿token</strong>上完成，采用Muon优化器与FP8混合精度，训练上下文逐步扩到128K，微调与推理支持最长100万token。关键细节是：<strong>checkpoint止于预训练终点，没有mid-training与post-training</strong>——它的定位是给研究者与微调者一个共同起点，而不是一个开箱即用的聊天产品。许可上则留了两个“钩子”：欧盟、英国与韩国被整体排除，相关年收入超过5000万美元的商业使用需获得百度书面许可。</p>
+                    <p class="column-item-source">百度文心团队 · DEV Community · Unite.AI · 2026-11-05 <a href="https://dev.to/paullovelace/baidus-ernie-55-flash-base-a-280b-open-weight-model-you-can-fine-tune-explained-honestly-4315" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/PlxTFOVCgfI/" alt="OpenAI Images 2.6与ChatGPT动图生成" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI把“后期”塞进模型：Images 2.6整体提速50%、低画质约6秒出图，ChatGPT支持一句话生成循环GIF并可改单帧，新增SVG矢量导出与图像标注编辑接口，价格维持不变</h4>
+                    <p class="column-item-summary">11月5日早间，ChatGPT悄然上线动图能力：用户输入一句话或上传一张照片，即可生成一段循环播放的GIF，生成后可调播放速度、逐帧查看、甚至单独修改某一帧。底层是<strong>Images 2.6</strong>，OpenAI给出的数据是<strong>整体提速50%</strong>；API端拆成两版——偏重响应速度与效率的GPT-Image-2.6 Flare（低画质设置下最快约6秒出图，适合海报、商品图等快速迭代场景），以及偏重细节与多轮编辑一致性的Sunburst。功能上新增面向开发者的<strong>SVG矢量导出</strong>（放大不失真、便于再编辑）、图像标注编辑接口，以及可控制“生成前投入多少规划计算”的complexity参数。价格与上一代持平：图像输出30美元/百万token、图像输入8美元、文本输入5美元。OpenAI官方博客提到，AI办公助手公司Town已用新模型为产品虚拟角色制作“打字等待”动画。这条新闻真正的分量不在GIF：当模型厂商开始亲自补齐修图、排版、格式转换这些原本由第三方工具承担的环节，<strong>“单点功能型”AI工具公司的生存空间会被结构性压缩</strong>。</p>
+                    <p class="column-item-source">36氪 · OpenAI官方博客 · 2026-11-05 <a href="https://36kr.com/p/4056770966459268" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/U6hEYumDHgs/" alt="Sand.ai完成2亿美元A+轮融资" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Sand.ai完成2亿美元A+轮、10个月累计融资3亿美元跻身独角兽：基石资本与网宿科技联合领投，对应估值约68亿元，MAGI-2正式版近期发布；上半年营收1739.8万元、净亏1.52亿元</h4>
+                    <p class="column-item-summary">11月5日，视频生成基础模型公司<strong>Sand.ai</strong>（上海三呆科技）宣布完成<strong>2亿美元A+轮融资</strong>，基石资本与网宿科技联合领投，时代资本、磐霖资本、东证资本等参投，天创资本携山东铁投产投与山东铁路基金战略参投，浦东创投、上海国方等上海国资背景机构加入，经纬创投、华业天成、中科创星等老股东持续加注。这是公司2026年第三轮融资，<strong>10个月内累计融资3亿美元</strong>，本轮后正式跻身独角兽。资金将用于视频基础模型研发、训练与推理基础设施、产品迭代及全球拓展，新一代更大参数规模的MoE视频基础模型MAGI-2正式版将于近期发布。技术脉络上：2025年4月开源自回归视频模型MAGI-1；2026年3月开源MagiHuman，以统一单流Transformer对文本、画面与声音联合建模；2026年8月开源MAGI-2 Preview，总参约114B、单次前向激活约6B，10秒1080P视频推理成本仅0.5元（蒸馏后模型），发布时位列Artificial Analysis图生视频榜全球第六。产品侧VidMuse上线两个月ARR破千万美元。财务上仍处投入期：2025年营收36.6万元、净亏1.87亿元；2026年上半年营收1739.8万元、净亏1.52亿元。按网宿科技3亿元认购增发优先股、持股4.3963%推算，对应估值约68亿元。</p>
+                    <p class="column-item-source">36氪 · 雷递网 · 网宿科技公告 · 2026-11-05 <a href="https://36kr.com/p/4056263124784260" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- 医疗健康 -->
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/-bIoemFMAqE/" alt="Isomorphic Labs洽谈50亿美元融资" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">AI制药估值再上台阶：Alphabet旗下Isomorphic Labs洽谈约50亿美元新融资、估值或达500亿美元，相当于一家中等跨国药企；但其AI设计癌症药物才刚准备进人体临床，全球129个AI相关治疗资产仅约3.9%进入III期</h4>
+                    <p class="column-item-summary">11月5日，多家外媒报道Alphabet旗下AI药物研发公司<strong>Isomorphic Labs</strong>正洽谈新一轮融资，拟筹集约50亿美元、<strong>估值或达500亿美元</strong>。公司2021年从谷歌DeepMind分拆成立，今年5月刚完成21亿美元B轮、由Thrive Capital领投、Alphabet及其他投资者参与，刷新全球AI制药单笔融资纪录；400亿—500亿美元的估值，已相当于一家中等规模跨国药企。技术侧的进展是：其AI设计的癌症药物即将进入人体临床试验。但产业侧的对照数据更值得注意——AI可将临床前靶点筛选、化合物优化环节的效率提升2至4倍、降低30%以上无效试错成本（英矽智能口径：临床前候选药物成本从4亿美元以上降至300万—500万美元、周期从4年以上缩短至12—18个月、所需合成分子数从约1000个降至60—200个）；然而《Cancer Treatment Reviews》一项截至2026年3月的追踪显示，69家公司的129个AI相关治疗资产中，完成I期的72个（55.8%）、完成或进入II期的24个（18.9%）、<strong>进入III期的仅5个（约3.9%）</strong>，全球尚无一款由AI完全主导设计的药物完成III期并获批。<strong>估值先行、证据滞后</strong>，是当下AI制药最真实的状态。</p>
+                    <p class="column-item-source">36氪 · 界面新闻 · 虎嗅 · Cancer Treatment Reviews · 2026-11-05 <a href="https://36kr.com/newsflashes/4056091813532551" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/QXNTkqvkTQM/" alt="进博会开幕首日医疗展区首发首展" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">进博会开幕首日医疗展区“首发密度”最高：西门子医疗全球首款光子计数CT引导PCI中国首展、全球首款原生AI能谱血管造影亚洲首发、智能环形放疗平台把射线适形能力提5倍、计划速度提50%，达芬奇5中国首展；拜耳携近30项首展首发</h4>
+                    <p class="column-item-summary">11月5日，第九届进博会开幕首日，医疗器械及医药保健展区成为首发密度最高的板块。西门子医疗带来近20款新品，其中中国首展的是<strong>全球首款光子计数CT引导PCI（经皮冠状动脉介入治疗）解决方案</strong>，亚洲首发首展的是全球首款原生AI能谱血管造影系统，全球首发的智能环形放疗平台可在肿瘤治疗中把<strong>射线精细适形能力提升5倍、放疗计划速度提升50%</strong>。其中国区负责人给出的累计数据是：9年来已在进博会累计展出超过200款创新产品和解决方案，其中约85%已在中国获批上市、约60%实现本土生产。复星医药的中国首展是胸腹腔内窥镜手术控制系统“达芬奇5”，官方称含超过150项设计创新、可感知可学习可远程协作；从首届进博会首秀到2019年在华上市，达芬奇是“展品变商品”的典型样本。连续九年参展的拜耳带来近30项首展首发，处方药与影像诊断板块有8款创新产品及新适应症“进博首秀”，其中两款创新产品分别在10月26日、11月4日获NMPA批准相关适应症，阿舒克森片走优先审评、从受理到获批约半年。一个共同的变化是：外资展台的重点正从“把已获批设备卖进中国”转向“首发即中国首展、并把本土研发与本土生产写进展板”。</p>
+                    <p class="column-item-source">人民日报 · 人民网 · 澎湃新闻 · 上海发布 · 2026-11-05 <a href="http://finance.people.com.cn/n1/2026/1106/c1004-40828597.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/h02WuHKaQd8/" alt="医保双目录衔接与CAR-T首次上谈判桌" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">支付端在重排高价疗法的路径：2026医保国谈收官、首次实现基本医保与商保“双目录”衔接，百万元级CAR-T首次登上谈判桌；124款目录外药品入围竞价、12款进入商保创新药目录价格协商；北京普惠健康保特药增至165种并新增AI健康管家</h4>
+                    <p class="column-item-summary">11月5日，2026年国家医保药品目录与商保创新药目录的现场谈判、竞价与价格协商已完成收官，最受关注的结构性变化是<strong>“双目录”首次衔接</strong>：124款目录外药品入围谈判竞价、12款药品进入商保创新药目录价格协商，<strong>百万元级CAR-T疗法第一次被摆上基本医保的谈判桌</strong>——药明巨诺的瑞基奥仑赛依托“条件五”政策从商保目录进入基本医保谈判，采取“基本医保准入+商保扩面”的双轨打法；若谈判成功，将建立高价细胞疗法的医保定价新范式。资本市场当日给出正面反馈，药明巨诺-B盘中一度涨超11%。同日，商业补充层也有动作：2027年度“北京普惠健康保”11月4日开放参保，保费维持195元/年、累计保额350万元不变，特药清单新增肿瘤、高值慢病、罕见病等领域前沿药品17种、总数达165种（国内特药53种、海外特药60种、特药2共52种）、覆盖病种扩至94种；更值得注意的是保障边界从“病后赔付”向“病前预防”延伸，新增<strong>癌症早筛、阿尔茨海默病早筛与AI健康管家</strong>三项服务。上线6小时参保人数突破100万，六年来累计参保超1980万人次、获赔超74万人次、单笔最高赔付93.5万元。</p>
+                    <p class="column-item-source">财闻 · 同花顺 · 中国新闻网 · 北京商报 · 2026-11-05 <a href="https://stock.10jqka.com.cn/hks/20261105/c681499333.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/CmNoZMgtBxc/" alt="NMPA一日多批创新药械" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">NMPA在11月5日一天批出多款“首个”：艺妙神州首个国产自主原研CD19 CAR-T获批r/r DLBCL，百奥泰拿下国内首款戈利木单抗生物类似药；同日拜耳塞伐艾替尼获批HER2突变NSCLC一线、强生马昔腾坦扩至儿童PAH、辉瑞马塔西单抗覆盖血友病</h4>
+                    <p class="column-item-summary">11月5日，国家药监局官网一日内更新多款创新药批准信息。最受关注的是艺妙神州的<strong>IM19</strong>（通用名泊基奥仑赛、商品名赛泊华）获批上市，用于复发难治弥漫性大B细胞淋巴瘤，这是其首款自主原研的靶向CD19 CAR-T，采用独特的CAR分子保护肽设计以提升杀伤活性与体内存续；其II期确证性研究SD45共101例完成输注（94例为DLBCL），输注后3个月客观缓解率57%、最佳客观缓解率71%、最佳完全缓解率41%，中位无进展生存期5.98个月、1年总生存率63.7%，针对非霍奇金淋巴瘤二线的临床申请已获受理。百奥泰的<strong>戈利木单抗注射液（阿舒立）</strong>获批，成为国内首款戈利木单抗生物类似药，适应症为类风湿关节炎与强直性脊柱炎，该产品此前已获NMPA、FDA、EMA批准，商业化授权覆盖118个国家和地区。同日还有：拜耳塞伐艾替尼片获批用于HER2激活突变的不可切除局部晚期或转移性NSCLC一线治疗（此前已在日本、美国获批一线）；强生的马昔腾坦分散片获批、推测适应症为儿童肺动脉高压；辉瑞的马塔西单抗获批、推测用于12岁及以上伴抑制物的A/B型血友病。监管侧的配套动作是，国家药监局近期召开<strong>“人工智能+药品监管”工作推进会</strong>，提出制定专项计划、支持重点赛道率先突破、把审评服务前移到创新源头，营造鼓励创新、包容审慎的监管环境。</p>
+                    <p class="column-item-source">医药魔方 · 新浪财经 · NMPA · 亿欧 · 2026-11-05 <a href="https://finance.sina.com.cn/wm/2026-11-05/doc-inixsrry6057002.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">芯片</span>
+            <span class="breaking-news-text">英伟达盘中最深跌超9%、市值较10月峰值蒸发近1.4万亿美元，特斯拉跌近10%、闪迪重挫近19%，VIX飙升</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">内存</span>
+            <span class="breaking-news-text">英伟达AI内存全栈协同：Vera Rubin单卡HBM仅增约3%，每美元吞吐量最高提升30倍</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">安全</span>
+            <span class="breaking-news-text">OpenAI发布GPT-6 Cyber，漏洞发现能力较上一代提升近50%，首批仅向Daybreak Red获批客户开放</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">开源</span>
+            <span class="breaking-news-text">百度开源ERNIE-5.5-Flash-Base：280B MoE、每token激活14B、支持100万token上下文</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">图像</span>
+            <span class="breaking-news-text">OpenAI Images 2.6整体提速50%、低画质约6秒出图，ChatGPT支持一句话生成循环GIF，价格不变</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">融资</span>
+            <span class="breaking-news-text">Sand.ai完成2亿美元A+轮，10个月累计3亿美元、估值约68亿元，跻身独角兽</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">人才</span>
+            <span class="breaking-news-text">Claude Code前产品负责人Cat Wu离职一天后官宣加盟OpenAI，负责核心产品团队</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">评估</span>
+            <span class="breaking-news-text">METR：Anthropic模型进步速度约为此前2倍，约八成可能归因于AI参与研发</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text">超聚变创业板IPO定于11月12日上会，拟募资约80亿元，2025年营收582.46亿元</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">成本</span>
+            <span class="breaking-news-text">苹果重算AI账单：部分工程师AI日额度从300美元降至200美元，部分团队或降至100美元</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">2026国谈收官：124款目录外药品入围竞价、12款进商保创新药目录协商，CAR-T首登谈判桌</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">惠民保</span>
+            <span class="breaking-news-text">2027年度北京普惠健康保上线6小时参保破百万，特药增至165种、新增AI健康管家</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">13</span>
+            <span class="breaking-news-cat">审批</span>
+            <span class="breaking-news-text">艺妙神州首个国产CD19 CAR-T获批；百奥泰国内首款戈利木单抗生物类似药获批</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">14</span>
+            <span class="breaking-news-cat">脑机</span>
+            <span class="breaking-news-text">器审中心发布植入式脑机接口手部运动功能代偿系统临床试验审评要点；脑虎科技完成7亿元B轮</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>        <div class="breaking-news-item">
+            <span class="breaking-news-num">15</span>
+            <span class="breaking-news-cat">参保</span>
+            <span class="breaking-news-text">国家医保局回应居民医保参保连降7年：截至9月底基本医保参保13.28亿，规模稳定</span>
+            <span class="breaking-news-time">11月5日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：AI的定价基准从“算力扩张”切到“每美元token”，英伟达的暴跌和它的技术博客是同一天的两面。</strong></p>
+        <div class="insights-highlight">
+            11月5日最值得并置阅读的两件事，是英伟达盘中跌超9%、市值较10月峰值蒸发近1.4万亿美元，以及同一天它自己发文说“单卡HBM只多约3%，但每美元吞吐量最高提升30倍”。前者是市场在重新计算AI基础设施的回报周期，后者是供给端在主动承认“堆容量”这条路已经走到边际收益递减——NVFP4压权重、NVLink把权重摊到72颗GPU、KV Cache分层卸载到CMX、Vera CPU就近暂存，整套动作的核心不是让模型更强，而是让同样的电力预算产出更多“有用token”。<strong>这意味着明年的AI采购谈判桌上，第一页不再是跑分榜，而是“每美元/每瓦能交付多少有效任务”</strong>。对医疗场景尤其如此：医院不会为“我们上了大模型”付溢价，只会为“替我省了哪个科目”付钱。
+        </div>
+        <p><strong>趋势二：AI制药正在经历“估值先行、证据滞后”的窗口期，500亿美元和一纸3.9%的统计放在一起才完整。</strong></p>
+        <div class="insights-highlight">
+            Isomorphic Labs谈50亿美元融资、估值或达500亿美元，已经是一家中等跨国药企的体量；但同一周披露的行业统计是，69家公司129个AI相关治疗资产里，真正进入III期的只有5个（约3.9%），全球还没有一款由AI完全主导设计的药物完成III期并获批。前端的效率提升是真的——临床前成本从4亿美元级降到300万—500万美元、周期从4年以上压到12—18个月、合成分子数从千级降到百级——但II期临床的“死亡谷”没有被AI填平，I期的优势在II期断崖式衰减。<strong>因此AI制药的估值本质上是“期权定价”，而不是“现金流定价”</strong>。对做BD与投资判断的人来说，真正该问的问题从“它用了什么模型”变成“它的候选分子有没有在II期拿到差异化数据”。
+        </div>
+        <p><strong>趋势三：支付端在重排高价疗法的路径——不是降价，而是“分层准入+全周期管理”。</strong></p>
+        <div class="insights-highlight">
+            把11月5日的三条支付信号连起来看：2026年国谈收官，基本医保与商保“双目录”首次衔接，124款目录外药品入围竞价、12款进入商保创新药目录协商，百万元级CAR-T第一次坐上基本医保谈判桌并采用“基本医保准入+商保扩面”双轨；北京普惠健康保把特药扩到165种、覆盖94个病种，同时把保障边界从“病后赔付”推到“病前预防”，新增癌症与阿尔茨海默病早筛、AI健康管家。<strong>这是一个明确的方向：高价创新疗法不再靠“单一支付方一次性买单”，而是靠“基本医保定基础价+商保扩面+健康管理前置”三层结构分摊</strong>。对外资药械企业的含义是，产品准入的文件包要同时准备三套——医保谈判的价值证据、商保目录的卫生经济学模型、以及惠民保层面的特药准入与真实世界数据；少一套，就等于少一个支付出口。
+        </div>
+        <p><strong>我的判断</strong></p>
+        <div class="insights-highlight">
+            🧈 11月5日这一天，最该记住的不是英伟达跌了多少，而是“效率”这两个字同时出现在三张账本上。算力账上，它叫“每美元token”——单卡HBM只多约3%，吞吐量却要提升30倍；研发账上，它叫“临床前成本降两个数量级”，但II期的死亡谷一分没少；支付账上，它叫“双目录衔接”，用分层准入替代一次性买单。三张账本指向同一个结论：<strong>泡沫不在技术里，在“用叙事替代兑现”的习惯里</strong>。接下来两个月真正要盯的四件事：12月1日7类耗材旧医保编码停用的执行率、各省智能监管“两库”更新进度、2026版基本医保与商保双目录的最终名单，以及11月9日当周Anthropic路演给AI资产做的第二次定价校准。至于医疗AI，它不会因为估值回撤而停下，但会从“讲故事”被迫走向“报账”。
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第200期 · 2026年11月6日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-06.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
