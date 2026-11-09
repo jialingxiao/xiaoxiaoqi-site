@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月10日</span>
+        <span>|</span>
+        <span>第204期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/pVUaOv4470E/" alt="Anthropic冲刺IPO并发布Fable 5.2" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">Anthropic双线冲刺：11月10日启动纳斯达克路演、18日定价、19日挂牌，募资750亿—1000亿美元、估值1万亿—1.5万亿；同日发布Fable 5.2/Mythos 5.2，FrontierCode 2.0以49.1%登顶、价格降20%，千个智能体30小时形式化费马大定理；11月9日费半指数涨6.85%、AMD涨超13%，英伟达逆势跌4.22%创七个月新低</h2>
+    <p class="headline-summary">
+        财联社11月10日讯，Anthropic周一宣布发布新一代旗舰模型<strong>Claude Fable 5.2</strong>和<strong>Claude Mythos 5.2</strong>。两者采用相同底层模型，区别在安全限制与访问权限：Fable面向更广泛用户开放，Mythos通过审核项目向相关机构提供访问权限，支持特定网络安全与生命科学用途。测试显示，Fable 5.2在复杂编程、科研推理、电脑操作、机器人控制、跨学科推理与图表识别等多项测试中几乎全面领先OpenAI GPT-6 Astra与谷歌Gemini 4 Carbon：<strong>FrontierCode 2.0得分从32.4%升至49.1%</strong>，Chartography从44.8%升至73.4%，RoboDojo双臂机器人成功率64.9%（超GPT-6 Astra一倍有余），Humanity's Last Exam从65.6%升至74.2%；同时<strong>输出速度最高提升30%，标准输入、输出价格均下调20%</strong>。
+    </p>
+    <p class="headline-summary">
+        更受关注的是工程化兑现：一名工程师要求模型开发操作系统原型，Fable 5.2从空文件夹起步<strong>调度超1000个子智能体、连续八天编写测试审查代码</strong>，最终产出可在笔记本启动、含窗口/登录界面与内核的系统；约1000个智能体协作<strong>30小时完成费马大定理证明的形式化</strong>（同配置Opus 5.5加权完成度约27%）；与Diode合作让模型设计三款硬件、每块四层电路板一天内达到可交付制造状态；Mythos 5.2还基于开源蛋白质折叠模型开发病毒衣壳结构预测方法，34种衣壳准确建模28种。同期IPO节奏明确：<strong>11月10日启动纳斯达克路演、11月18日定价、11月19日挂牌，募资750亿—1000亿美元、估值1万亿—1.5万亿美元</strong>。资本市场同步给出分化信号：11月9日美股道指涨2.15%、纳指涨2.74%、标普500涨2.34%，费城半导体指数涨6.85%、AMD涨超13%、博通涨超8%，<strong>英伟达却逆势跌4.22%、创近七个月收盘新低</strong>。
+    </p>
+    <p class="headline-source">
+        财联社 · 网易科技 · 每日经济新闻 · 智通财经 · 彭博社 · 2026-11-09/10
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/cQmzEz3BrXU/" alt="谷歌TPU 8tx与8i Max" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌一年内推出四款TPU：8tx以硬件级隔离做机密推理、延迟较8t最高降一半，8i Max双芯片单封装把算力/片上SRAM/HBM带宽翻倍，TPU业务客户已近百家</h4>
+                    <p class="column-item-summary">谷歌11月9日宣布扩充第八代TPU产品线，新增<strong>TPU 8tx</strong>与<strong>TPU 8i Max</strong>，至此一年内共推出四款全新TPU系统（8t、8i、8tx、8i Max），把过去“两年一款”的节奏彻底改写。TPU 8tx采用与8t相同芯片、<strong>搭配AMD处理器</strong>，为敏感数据与模型权重提供运行期间的硬件级隔离保护，面向企业与政府的机密推理、模型微调和强化学习任务，<strong>推理延迟最高可较8t降低一半</strong>；TPU 8i Max将两颗TPU 8i整合进单一封装，<strong>算力、片上SRAM与HBM带宽均翻倍</strong>，重点支持超长上下文与多智能体任务，并提升单位机柜计算密度。谷歌称TPU业务目前已拥有<strong>近100家客户</strong>，应用范围延伸至客户自有数据中心；芯片业务负责人Amin Vahdat表示“未来将属于专业化”。TechTarget指出谷歌未公布8tx与8i Max的上市时间与价格，8t与8i仍计划年底前上线。</p>
+                    <p class="column-item-source">界面新闻 · 格隆汇 · Google Cloud Blog · TechTarget · 2026-11-09 <a href="https://www.jiemian.com/article/15313014.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/z5I2pLw4wys/" alt="字节Seedream 5.5" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">字节发布Seedream 5.5：百轮编辑像素级保持、原生RGBA透明素材、小字渲染显著提升，2K方图编辑单张0.28元较5.0 Pro便宜六成、速度快近四成</h4>
+                    <p class="column-item-summary">11月9日，火山引擎发布豆包图像创作模型<strong>Seedream 5.5</strong>，三项核心升级直指专业视觉生产流程的可靠性。一是<strong>更稳定的多轮编辑</strong>：实现非编辑区域像素级保持、消除色彩偏移，降低连续修改中的细节丢失与画质衰减，支持围绕同一作品展开多达<strong>100轮</strong>持续创作；二是<strong>原生RGBA透明素材生成</strong>，直接输出带Alpha通道的透明或半透明图像，精细处理轮廓边缘与透明区域，省去后期抠图修边；三是质感更自然、文字更清晰，改善光照、材质与皮肤纹理、减少过度油亮过曝，并显著提升复杂字形与密集小字还原。官方评测称在文字结构、文生图真实感方面领先GPT Image 2.5 Sunburst与Nano Banana 2.1。定价延续“输入图+输出图”两段计费、文本token免费，<strong>2K方图编辑单张约0.28元，不到Seedream 5.0 Pro一半、生成速度快近40%</strong>，已上线豆包、豆包工作、即梦，API即将上线火山方舟。</p>
+                    <p class="column-item-source">字节跳动Seed · 科创板日报 · 每日经济新闻 · 2026-11-09 <a href="https://seed.bytedance.com/zh/blog/more-realistic-images-more-stable-editing-across-100-rounds-introducing-seedream-5-5" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kxGQhnGIiyk/" alt="OpenAI大规模封号" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI突发大规模封号：200美元/月Pro亦遭停用、登录直接提示账户停用，官方把Go/Plus/Pro 100-500全部纳入硬性配额，申诉仅能走邮件链接或表单</h4>
+                    <p class="column-item-summary">11月8日起，多家技术社区集中曝出OpenAI突发大规模账号封禁，大量用户在Reddit与开发者社群反馈ChatGPT账号无预警停用，<strong>其中包括每月订阅费200美元的Pro用户</strong>，部分用户称被封前未收到任何通知、长期积累的聊天记录与工作资料无法访问。从反馈看本轮封号大多无前置邮件提醒、登录即提示账户已删除或停用，且由系统后台批量识别触发而非人工逐一审核，重灾区集中在低价区订阅、批量注册、共用支付卡或设备、中转反代、API额度转售及涉嫌模型蒸馏账户，也有合规用户自述因“与已封禁账号存在关联”被牵连。业内指出这并非突然：OpenAI此前已开启逆向反代、将ChatGPT与Codex合并为一个Token池，几天前悄悄锁死单设备付费号上限，并上线《理解ChatGPT的支付卡与设备限制》官方文件，把<strong>Go、Plus及Pro 100/200/500档位全部纳入硬性配额</strong>。OpenAI Support回应称涉及具体账号信息无法在公开社区处理申诉，用户应通过封禁通知邮件中的链接申诉，未收到邮件可通过官方申诉表单或帮助中心联系，但未解释具体封禁原因。</p>
+                    <p class="column-item-source">中国经济网 · 快科技 · OpenAI Support · 2026-11-08/09 <a href="http://m.toutiao.com/group/7706097799221232169/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/0mLAEIo81TE/" alt="天翼终端联手优必选" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">天翼终端联手优必选：三年家庭陪伴机器人破百万台、超仿生人形机器人10万台，人形机器人首次纳入运营商终端运营体系，优必选收涨8.99%</h4>
+                    <p class="column-item-summary">11月9日，天翼电信终端与优必选签署全面战略合作协议，围绕机器人规模化推广、联合创新攻关、商业模式创新、应用场景打造、能力组件封装、产业生态共建六大方向展开。双方定下明确目标：未来三年共同推动<strong>家庭陪伴机器人终端行业规模突破百万台</strong>，超仿生人形机器人、轮式人形机器人等终端行业规模<strong>突破十万台</strong>，让机器人成为AI服务的重要触点与典型应用场景入口；“天翼电信终端-优必选机器人联合创新实验室”同日揭牌，将把机器人语音交互、视觉识别、情感计算与电信云网、AI大模型、量子、卫星、安全及eSIM能力双向封装、相互调用。这是<strong>人形机器人首次被纳入运营商终端运营体系</strong>：天翼终端将把机器人作为创新终端品类统筹集采与营销推广，并以租赁等方式降低门槛。优必选2026年上半年总营收12.7亿元、在人形机器人公司营收规模中位列全球第一，当日股价盘中大涨超14%、收报70.3港元涨8.99%。</p>
+                    <p class="column-item-source">财联社 · 澎湃新闻 · 优必选 · 2026-11-09 <a href="https://www.cls.cn/detail/2529037" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/sL5JsRNTHJI/" alt="上海十五五药品安全规划" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">上海“十五五”药品安全规划：脑机接口医疗器械建“研检审监”联动、境外已上市器械鼓励转移境内生产、探索医疗器械注册证转让试点、临床急需境外未注册器械可在沪先行试用</h4>
+                    <p class="column-item-summary">上海市食品药品安全委员会11月9日印发《上海市保障药品安全促进医药产业高质量发展“十五五”规划》，明确到2030年药品监管“夯基拓能、提质增效、整体跃升”。医疗器械领域给出四条实质开放举措：一是<strong>强化脑机接口医疗器械全链条服务与监管</strong>，完善上市前监管体系、健全专用标准体系、研制微纳神经电极新功能新特性评价方法及测试评价工装，建立“研检审监”联动机制，探索审评审批、检验检测与上市后风险监测联动；二是鼓励医疗机构加快自行研制使用体外诊断试剂试点，推动已备案自研试剂转化注册，<strong>鼓励已在境内上市的境外生产医疗器械转移至境内生产</strong>；三是对符合国家优先审评政策的创新医疗器械提供注册申报预沟通服务，优化场地变更流程，支持已获境内注册证企业在沪生产第二类、第三类医疗器械，并<strong>积极探索医疗器械注册证转让试点</strong>；四是<strong>探索临床急需的境外已上市、国内未注册医疗器械在沪先行试用</strong>，支持产业园区内企业共享检验检测与工艺用水用气设施、支持医疗器械物流企业跨省设仓。</p>
+                    <p class="column-item-source">上海市食品药品安全委员会 · 财联社 · 界面新闻 · 证券时报 · 2026-11-09 <a href="http://m.toutiao.com/group/7706062260095713827/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/4ZPlbkMVKMk/" alt="FDA要求GLP-1新增眼病警告" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">FDA要求全部GLP-1说明书加“NAION”警告：126项RCT、逾13.4万患者汇总显示用药组每10万人年6.4例、对照3.8例，诺和诺德与礼来回应，EMA/MHRA/PMDA已先行</h4>
+                    <p class="column-item-summary">美国FDA于当地时间周一宣布，要求<strong>所有GLP-1受体激动剂药物</strong>在说明书“警告和注意事项”部分增加<strong>非动脉炎性前部缺血性视神经病变（NAION）</strong>风险提示，覆盖诺和诺德与礼来的多款热门降糖和减肥药。FDA对<strong>126项随机对照试验、涉及逾13.4万名患者</strong>的数据汇总分析发现，GLP-1组NAION发生率为<strong>每10万人年6.4例</strong>、安慰剂或其他类别降糖药对照组为3.8例，绝对发生率仍低但后果严重（可致永久性视力损伤，是仅次于青光眼的第二常见视神经病变）。真实世界研究显示与DPP-4抑制剂相比风险有所升高，但与SGLT-2抑制剂相比差异未达统计学显著，动物研究亦未确定生物学机制。FDA要求患者出现突然、无痛视力下降或视野异常时立即就医，确诊者应考虑停药（除非获益明确超过风险）。诺和诺德称将持续审查新研究、监测安全性并对获益风险状况有信心；礼来表示正评估更新、并指出通报未列举涉及礼来药物的具体病例。EMA已于2025年6月认定其为司美格鲁肽“非常罕见”副作用，MHRA今年2月、日本PMDA 5月与9月亦相继更新说明书。花旗分析师认为对处方行为影响可能有限。</p>
+                    <p class="column-item-source">财联社 · FDA · EMA · MHRA · PMDA · 2026-11-10 <a href="http://m.toutiao.com/group/7706240070205932074/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/mp8r7lGJXDI/" alt="2027年居民医保参保缴费" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国家医保局定调2027年居民医保：个人缴费最低标准400元、连续三年不涨，不得向村（社区）硬性摊派、不得与福利服务捆绑，医疗保障法2027年1月1日施行</h4>
+                    <p class="column-item-summary">随着全国各地陆续开启2027年度城乡居民医保参保缴费，国家医保局相关负责人近日明确：今年直面群众反映较多的加重基层负担问题，<strong>不得向村（社区）硬性摊派任务</strong>，不搞层层加码和频繁排名通报，<strong>不得将是否参保缴费与享受其他福利、服务强行捆绑</strong>，动员工作将更规范。筹资端，<strong>2027年城乡居民医保个人缴费最低标准继续稳定在400元，已连续三年保持不涨</strong>，财政补助标准同步提高。制度端，2026年8月28日通过的《中华人民共和国医疗保障法》<strong>自2027年1月1日起施行</strong>，首次以法律形式明确公民有依法参加基本医疗保险的权利和义务，为参保扩面、待遇保障与基金监管提供上位法依据。对地方而言，考核压力从“参保率排名”转向“精准动员+困难群体资助参保”；对医药与器械企业的含义是支付端扩面节奏更稳，但基金控费与监管刚性同步上升。</p>
+                    <p class="column-item-source">川观新闻 · 国家医保局 · 2026-11-09 <a href="https://cbgc.scol.com.cn/news/8127664" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vIBXllKFelQ/" alt="进博会医疗器械签约" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">进博会收官订单落地：上海交易团国资分团医疗器械等重点领域137笔、28.62亿美元；临港浦江牵手韩国PRP SCIENCE投2亿元建中国区总部与4100㎡基地；强生与畅医达深化“强易达plus”密网支架合作</h4>
+                    <p class="column-item-summary">第九届进博会闭幕之际，合作正从商品采购向渠道拓展、技术创新、产业协同乃至投资落地延伸。上海交易团国资分团在大宗商品、<strong>医疗器械</strong>、农食产品等重点领域达成<strong>意向采购订单137笔、意向采购金额28.62亿美元</strong>。投资端，临港集团下属临港浦江公司与韩国医疗科技企业PRP SCIENCE签署战略合作，推动其在上海临港浦江国际科技城建设中国区总部和生产基地，<strong>计划投资约2亿元、拟建约4100平方米生产基地</strong>，产品将面向中国并计划销往全球。产品端，强生医疗科技与江苏畅医达就新一代血流导向密网支架<strong>“强易达plus”</strong>深化合作，把“全球首秀”推进到产业实践；强生本届带来百余款创新成果、其中10余款为全球及中国首发首秀，其Monarch经自然腔道诊疗机器人自2021年亚洲首秀后已获批上市并落地多家三甲医院。此外，上药控股、镁信健康与阿斯利康签署三方协议，围绕创新药商业化在AI数智化、商业健康险准入、患者全周期管理与真实世界数据研究展开合作。</p>
+                    <p class="column-item-source">新华社 · 人民日报 · 上海市政府 · 2026-11-09/10 <a href="http://www.xinhuanet.com/20261109/44004c6c358449278518ac2248483f7d/c.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">AI芯片</span>
+            <span class="breaking-news-text">谷歌发布TPU 8tx与8i Max：8tx搭配AMD处理器做硬件级隔离机密推理、延迟较8t最高降一半，8i Max双芯片单封装算力与HBM带宽翻倍，一年四款TPU系统、客户近百家</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">图像模型</span>
+            <span class="breaking-news-text">字节Seedream 5.5发布：百轮编辑像素级保持、原生RGBA透明素材，2K方图单张0.28元较前代降约六成、速度快近四成</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">AI治理</span>
+            <span class="breaking-news-text">中国率先批准《关于成立世界人工智能合作组织的协定》，38国为创始成员国，将推进组织实体化运行</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">具身智能</span>
+            <span class="breaking-news-text">天翼终端×优必选：三年家庭陪伴机器人破百万台、超仿生人形机器人10万台，联合创新实验室揭牌，优必选收涨8.99%</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">账号治理</span>
+            <span class="breaking-news-text">OpenAI突发大规模封号，含200美元/月Pro用户，官方将Go/Plus/Pro 100-500全部纳入硬性配额，申诉仅能走邮件链接或表单</span>
+            <span class="breaking-news-time">11月8日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">医保目录</span>
+            <span class="breaking-news-text">2026年医保“双目录”谈判竞价已结束，业内预期11月中下旬发布、11月14日全国创新药高质量发展大会为可能节点</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">集采执行</span>
+            <span class="breaking-news-text">第十二批国家集采11月起落地：江西11月16日率先执行，青海11月20日、辽宁11月26日，京豫苏琼等11月28—30日跟进</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">支付改革</span>
+            <span class="breaking-news-text">DRG/DIP 3.0定于2026年12月31日正式切换，高值耗材、辅助用药与院内检验支付标准面临重定价</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">创新药BD</span>
+            <span class="breaking-news-text">荣昌生物引进泛RAS(ON)抑制剂全球权益：首付5000万元、里程碑最高48.7亿元、销售分成3%—7%</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">械企准入</span>
+            <span class="breaking-news-text">上海规划：探索医疗器械注册证转让试点，临床急需境外已上市未注册器械可在沪先行试用</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">宁夏首个护理场景AI语音模型落地：护理文书书写时长压缩88%、识别准确率98%，已在4家医院应用</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">盈康一生生命健康大模型IncGPT完成备案，“小盈”智能体累计形成近千个AI原生应用，40余项成果进博首展</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">13</span>
+            <span class="breaking-news-cat">进博签约</span>
+            <span class="breaking-news-text">京东健康集中与辉瑞、默克、诺和等超20家全球医药健康品牌签约，前9月线上首发新药超100款、超去年全年</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">14</span>
+            <span class="breaking-news-cat">器械本地化</span>
+            <span class="breaking-news-text">临港浦江×韩国PRP SCIENCE投约2亿元建中国区总部与4100平方米生产基地，产品拟面向中国并销往全球</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">15</span>
+            <span class="breaking-news-cat">创新药数据</span>
+            <span class="breaking-news-text">热景生物sgc001（急性心梗急救单抗）AHA公布Ib期数据：中高剂量组心梗面积中位数降20.5%/38.1%，已获FDA快速通道</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 关联洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一 · AI估值从“叙事定价”转向“兑现定价”，IPO窗口与产品迭代同周挤压泡沫。</strong></p>
+        <div class="insights-highlight">
+            Anthropic把Fable 5.2的发布安排在路演前夜，本身就是一次路演——<strong>FrontierCode 2.0 49.1%、Chartography 73.4%、RoboDojo 64.9%、HLE 74.2%</strong>这组硬指标，加上输入输出价格同降20%、输出速度提升30%，直接回应“1万亿—1.5万亿估值凭什么”的质疑；而千个智能体8天做出可启动的操作系统原型、30小时完成费马大定理形式化、一天内交付可制造的四层电路板，说明前沿模型的竞争单位已从“跑分”切换到<strong>端到端交付一个可验收的工程产物</strong>。但市场并不整体买单：同日费半涨6.85%、AMD涨超13%、博通涨超8%，英伟达却跌4.22%创七个月新低——资金正在把“算力普涨”拆成“ASIC/自研芯片受益者”与“通用GPU承压者”两笔账。<strong>对企业客户的直接含义：2027年的模型选型要看“单位任务完成成本”而非单价，多模型路由+可回退方案比押注单一跑分冠军更稳健。</strong>
+        </div>
+        <p><strong>趋势二 · 算力走向“专业化分工”，图像/办公/终端三条线同步把模型能力商品化。</strong></p>
+        <div class="insights-highlight">
+            谷歌一年四款TPU（8t通用、8i推理、8tx机密、8i Max长上下文）宣告“一颗芯片通吃”的时代结束，专业化带来的推理延迟减半、单机柜密度翻倍，正是云厂商在Agent长上下文场景压缩成本的关键；字节Seedream 5.5把“可编辑性”做成专业工作流准入门槛（百轮编辑、RGBA素材、0.28元/2K图），把图像模型竞争从“谁画得更好看”推向“谁更扛得住反复修改”；天翼终端把仿生人形机器人纳入运营商终端集采体系，意味着具身智能的分销渠道已从直客转向运营商与租赁。<strong>三条线指向同一结论：模型层利润被快速摊薄，价值向“算力专业化”与“渠道/工作流入口”两端集中。医疗场景的可复用启示是——不要为通用大模型付费，要为“能嵌进HIS/影像/病历工作流且可审计”的垂直能力付费。</strong>
+        </div>
+        <p><strong>趋势三 · 医疗政策进入“开放准入+支付稳态+安全加码”三重叠加期，外资械企的窗口在本地化与证据。</strong></p>
+        <div class="insights-highlight">
+            上海“十五五”规划同一天给出三个明确信号：<strong>境外已上市器械鼓励转移境内生产</strong>（本地化产能换准入效率）、<strong>医疗器械注册证转让试点</strong>（存量注册证可流转，并购与产品线交易通道打开）、<strong>临床急需境外未注册器械可在沪先行试用</strong>（未上市产品获得真实世界数据入口），叠加脑机接口“研检审监”联动与创新器械预沟通，上海正把“准入速度”做成招商工具。支付端则趋于稳态：居民医保个人缴费连续三年稳定400元、禁止摊派捆绑、医保法2027年落地，扩面靠精准动员而非行政摊派，意味着<strong>基金支出增速受限、价值评价与集采仍是主旋律</strong>。安全端，FDA对全部GLP-1加NAION警告提醒所有企业：<strong>上市后真实世界证据与风险沟通能力，正在成为与疗效同等重要的准入资产</strong>。对在华外资械企，2027年的竞争公式是“本地化产能×准入速度×真实世界证据”。
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第204期 · 2026年11月10日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-10.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
