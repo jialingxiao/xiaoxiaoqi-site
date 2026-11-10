@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月11日</span>
+        <span>|</span>
+        <span>第205期</span>
+        <span>|</span>
+        <span>阅读约10分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/8ne5og3vHIM/" alt="Anthropic启动IPO路演" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">Anthropic启动IPO路演：发行价70—78美元/股、拟发8.25亿股，最高募资643.5亿美元，代码“ANT”拟登纳斯达克全球精选；估值约1万亿美元、较递表时1.5万亿缩水三分之一，英伟达微软谷歌等7家产业链伙伴私募认购260亿美元N类股</h2>
+    <p class="headline-summary">
+        美东时间11月10日，Anthropic宣布启动A类普通股IPO路演，<strong>发行价区间定为每股70至78美元</strong>，并已申请在纳斯达克全球精选市场挂牌，<strong>股票代码“ANT”</strong>。按上限测算，本次IPO最高可筹集约<strong>644亿美元</strong>，有望成为近年来全球发行规模最大的科技新股之一。据公司声明及提交给SEC的更新文件，本次拟发行<strong>8.25亿股A类普通股</strong>：其中约8.01亿股由公司自身发行，约2365万股来自现有股东出售（售股收益不归公司）；公司另授予承销商30天超额配售权，可额外认购最多1.2375亿股。以70—78美元区间测算，<strong>募资规模在577.5亿至643.5亿美元之间</strong>。
+    </p>
+    <p class="headline-summary">
+        定价过程本身就有信号意义：11月9日公司曾短暂向多家投行传阅申报文件副本，其中提及的价格区间为<strong>70—80美元</strong>（对应募资607亿—693亿美元），但随即撤回；11月10日更新后的招股书将区间收窄至70—78美元，募资额相应缩水。估值口径上，按目前部分媒体报道，此次发行估值约<strong>1万亿美元</strong>，而此前部分投资者透露的区间为1.1万亿至2万亿美元——无论采哪个口径，都已较半个月前递表时的<strong>1.5万亿美元明显缩水</strong>，较更早前的2万亿目标接近腰斩。
+    </p>
+    <p class="headline-summary">
+        与估值回调同时浮出水面的，是一份罕见的基石名单：<strong>AMD、博通、谷歌、美光、微软、英伟达、台积电</strong>等产业链核心伙伴，计划通过私募配售方式合计认购价值<strong>260亿美元的N类普通股</strong>。承销阵容为高盛担任首席牵头行、摩根士丹利出任稳定价格经办人、花旗统筹国际零售发售，摩根大通等亦参与。时间安排上，公司计划下周完成定价，<strong>力争11月26日感恩节前正式登陆纳斯达克</strong>；为造势，联合创始人兼CEO Dario Amodei预计于当地时间周五与摩根大通CEO Jamie Dimon举行网上直播对谈。
+    </p>
+    <p class="headline-summary">
+        把这份招股书放回48小时的语境里看会更清楚：11月9日Anthropic刚发布Claude Fable 5.2与Mythos 5.2，输出速度最高提升30%、标准定价下调20%至每百万Token输入8美元/输出40美元；同日谷歌Gemini 4 Carbon以四分之一价格应战，Meta次日用0.136美元/任务的轻量模型补位。能力差距在收窄、价格在下行，而路演区间同步收窄——<strong>一级市场正在用真金白银给“AI溢价”重新划线</strong>。
+    </p>
+    <p class="headline-source">
+        来源: 上海证券报·中国证券网 · 新浪财经 · 观点网 · 彭博社 · 2026-11-10/11
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/87lx62-FmxM/" alt="DeepMind AlphaProof Code形式验证Signal协议" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">DeepMind发布AlphaProof Code：AI智能体生成650万行Lean证明、4周完成Signal协议libsignal形式验证，首次把安全性证明做到AArch64编译产物层，人类只需复核1%代码</h4>
+                    <p class="column-item-summary">11月10日，Google DeepMind公开AlphaProof Code——一个把形式验证拆成“人定目标、AI做证明”的多LLM智能体框架。研究者先用混合模型把Signal的安全目标翻译成形式化数学规范（人类逐条审核），再由<strong>Gemini Carbon驱动的智能体生成超600万行Lean代码</strong>完成证明，随后自动审计并标出仅占代码库<strong>1%</strong>的需人工复核区域。关键突破在于深度：以往协议验证多止步于设计层，这次一路证到设备上真正运行的编译代码，覆盖PQXDH握手与Triple Ratchet，验证前向保密、设备短暂失陷后的消息保护等性质。<strong>全程仅4周</strong>，而同类工作历史上需专家团队数年；这是AI首次对广泛部署的密码协议做此等深度的形式验证，也是有史以来首次有方法（无论是否用AI）验证此类协议的实现本身。为证伪能力，团队把两个真实且已修复的历史漏洞重新注入隔离版本，系统均产出机器可检验的“不安全”证明。</p>
+                    <p class="column-item-source">Google DeepMind · Wired · 2026-11-10 <a href="https://deepmind.google/blog/introducing-alphaproof-code/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/GqTdKdkgFh0/" alt="Meta Muse Ember轻量模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Meta发布迄今最小模型Muse Ember：100万Token上下文、单任务成本0.136美元仅为Claude Haiku 5.5三分之一，AutomationBench-AA 37.8%反超近两倍，FrontierCode 2.0-AA 27.2%仍明显落后</h4>
+                    <p class="column-item-summary">11月9日，Meta超级智能实验室发布Muse Ember，定位“最小、最高效”，与负责规划的Muse Wonder配成<strong>“Wonder想、Ember做”</strong>的执行层组合。规格上支持<strong>100万Token上下文、51.2万Token输出</strong>，原生多模态（文本/图像/音频/视频/PDF），定价每百万Token输入0.10美元、输出0.50美元。Artificial Analysis测得综合智能指数<strong>36分</strong>，与Claude Haiku 5.5同档并列第一，但<strong>单任务成本仅0.136美元</strong>——约为Haiku 5.5（0.42美元）的三分之一，也低于GPT-5.6 Luna的0.40美元。分项上呈现鲜明的“偏科”：AutomationBench-AA <strong>37.8%</strong>（Haiku 13.9%、Luna 20.2%）、Agents' Last Exam 61.6%、Terminal-Bench 4.0 <strong>40.9%</strong>（Haiku 29.1%），但FrontierCode 2.0-AA仅<strong>27.2%</strong>，落后于34.9%的头部水平。Meta的取舍很清楚：不为最难的那5%代码买单，而是把高频Agent任务的单位成本压到地板。</p>
+                    <p class="column-item-source">Meta · IT之家 · 36氪 · 智东西 · 2026-11-09/10 <a href="https://m.36kr.com/p/4063674770936969" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/i5ZkrAPF1II/" alt="谷歌Gemini 4 Carbon全面开放" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌Gemini 4 Carbon全面开放：尝鲜价每百万Token输入2美元/输出10美元、仅为Fable 5.2四分之一，12月1日起翻倍至4/20美元；CursorBench 4.0等三项基准第一，AI Pro会员仍不可用</h4>
+                    <p class="column-item-summary">谷歌美国时间11月10日宣布，10月28日亮相的前沿模型<strong>Gemini 4 Carbon</strong>即日起向付费开发者与企业客户开放——此前两周它只通过Fairwind计划供少数网络安全防御机构使用。接入渠道包括Google AI Studio的Gemini API与Gemini for business；<strong>Google AI Ultra（99.99美元/月起）</strong>用户可在Gemini应用、搜索AI模式及Antigravity中使用，而19.99美元/月的AI Pro会员此次不在名单内，免费用户亦未开放。定价是最大看点：推广期<strong>每百万Token输入2美元、输出10美元</strong>（与上一代Argon持平），<strong>11月30日到期，12月1日起翻倍至4/20美元</strong>；即便如此仍为Claude Fable 5.2（8/40美元）的一半。官方称Carbon是最强模型，主打网络安全、软件工程与长程智能体，在<strong>CursorBench 4.0、Perplexity WANDR、Zapier AutomationBench三项基准排名第一</strong>，单任务成本不到表现次优外部模型的一半；ARC Prize榜单标注其评测成本7200美元。需注意thinking tokens按输出计费，复杂任务实际开销会高于表面单价；同期Antigravity预览推出<strong>/swarm</strong>，可把单条提示词转成一支协同智能体团队。</p>
+                    <p class="column-item-source">凤凰网科技 · 新浪科技 · Google Blog · 2026-11-10/11 <a href="https://finance.sina.com.cn/tech/roll/2026-11-11/doc-iniyiauh5458850.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vQ5XfkwRXM0/" alt="蚂蚁灵波开源LingBot-Touch触觉基础模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">蚂蚁灵波开源LingBot-Touch触觉基础模型：近5000小时真实触觉数据、把磁触觉/视触觉/压阻式统一为触觉Token，26项真机测试四种动作模型成功率提升14—26个百分点，拧瓶盖从56.25%升至90%</h4>
+                    <p class="column-item-summary">11月10日，蚂蚁灵波科技开源触觉基础模型<strong>LingBot-Touch</strong>，基于近<strong>5000小时真实触觉数据</strong>预训练，覆盖<strong>磁触觉、视触觉、压阻式</strong>三类主流传感原理。核心做法是按传感原理设置编码入口，把不同布局的触点映射到统一指尖坐标空间、输出统一<strong>触觉Token</strong>，让触觉能力跨传感器、灵巧手、动作模型与任务复用。在Sharpa Wave与XHand1两款灵巧手上完成<strong>26项真机测试</strong>（翻书页、拧瓶盖、辨识麻将牌等），接入后LingBot-VLA、π0.5、Diffusion Policy、T-Rex四种动作模型平均任务成功率较无触觉提升<strong>14至26个百分点</strong>；其中T-Rex控制Sharpa Wave拧瓶盖，无触觉为56.25%、直输原始信号62.5%，接入后达<strong>90%</strong>。工程上更值得注意两点：一是泛化验证——XHand1所用磁触觉型号不在预训练数据中，模型参数不变、仅用操作示范训练动作模型即可迁移；二是端侧友好——轻量版LingBot-Touch-Tiny约<strong>530万参数</strong>，接入后动作模型参数量仅增0.13%—0.16%。技术报告、模型与代码已在Hugging Face、GitHub、魔搭开源。</p>
+                    <p class="column-item-source">央广网 · IT之家 · 北京商报 · 澎湃新闻 · 2026-11-10 <a href="http://tech.cnr.cn/techph/20261110/t20261110_527868076.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UplfC0qkbtM/" alt="四部门发文打通创新药进院" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">四部门发文打通创新药进院：二级以上医院须及时开药事会纳目录，两目录内1类新药不计入“一品两规”、不纳入门诊住院次均药费增幅考核，商保创新药病例可不纳入按病种支付</h4>
+                    <p class="column-item-summary">11月10日，国家卫健委、国家医保局、国家中医药局、国家疾控局联合印发《关于进一步做好创新药安全合理配备使用工作的通知》（国卫办医政发〔2026〕18号），从促进合理配备、加强培训指导、优化使用条件、完善管理举措四方面给出落地政策。进院端，二级以上医疗机构须优化流程、<strong>及时召开药事管理与药物治疗学委员会会议</strong>，将具备使用能力与条件的“两目录”（国家医保谈判药品目录、商业健康保险创新药品目录）内1类新药纳入用药目录并维护进信息系统；紧密型医联体动态调整目录，成员单位按需配备。考核端力度最大：<strong>不得限制总药品品种品规数量，两目录内1类新药不计入“一品两规”</strong>，且不纳入门诊患者基本药物处方占比、住院患者基本药物使用率、基本药物采购品种数占比、门诊/住院次均药品费用增幅等绩效监测指标。支付端，合理使用医保目录内创新药的病例可自主申报特例单议，医保部门<strong>按季度或按月</strong>组织专家评议；<strong>应用商保创新药目录内药品的病例可不纳入医保按病种支付范围</strong>，经审核评议后支付。文件还要求Ⅲ期临床试验牵头医院编写专家共识、在1类新药纳入两目录后半年内发布，并明确不得以区域性产品目录限制非本地产品使用。</p>
+                    <p class="column-item-source">国家卫健委 · 光明日报 · 第一财经 · 中新网 · 2026-11-10 <a href="http://m.toutiao.com/group/7706447619463086626/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/JhDpqwyy16w/" alt="全国人大常委会修改基本医疗卫生与健康促进法" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">全国人大常委会修改《基本医疗卫生与健康促进法》：政府举办医疗卫生机构须“坚持公益性质、所有收支均纳入预算管理、合理规划设置并控制规模”，同步修改《职业病防治法》强化职业健康保护</h4>
+                    <p class="column-item-summary">11月6日，第十四届全国人大常委会第二十五次会议通过《关于修改〈中华人民共和国突发事件应对法〉等十五部法律的决定》，其中对《基本医疗卫生与健康促进法》作出三处修改，11月11日经健康报等渠道披露后引发行业关注。最受关注的是<strong>第四十条第一款</strong>，修改为“政府举办的医疗卫生机构应当坚持公益性质，<strong>所有收支均纳入预算管理，合理规划设置并控制规模</strong>”——把“控规模”从政策口径升格为法律条文。另两处为：第二十三条第一款改为“国家加强职业健康保护，县级以上人民政府应当建立健全职业健康工作机制”；第三十七条第一款改为“县级以上人民政府应当<strong>科学配置医疗卫生资源</strong>，举办医疗卫生机构，为公民获得基本医疗卫生服务提供保障”。同期《职业病防治法》第十条第一款改为由国务院和省级政府制定职业健康保护规划并组织实施。对医疗装备与耗材企业而言，预算全口径管理与规模控制意味着新增院区、床位扩张带动的设备采购节奏将更受约束，<strong>存量更新、县域与基层能力建设、以及提升既有设备使用效率</strong>会成为更主要的增量来源；采购决策的合规性与成本论证权重也将同步上升。</p>
+                    <p class="column-item-source">新华社 · 健康报 · 2026-11-06/11 <a href="http://m.163.com/dy/article/LBEC5N8D05149LPQ.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/MsxqVqDF2rA/" alt="中保协发布医疗险示范条款与商保药品推荐清单" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">中保协发布三类医疗险示范条款与首版商保药品推荐清单：首批58款药械、32款为医保目录外自费药占近六成，1类创新药25款，采用短长期示范条款的产品院外特定药械清单须涵盖全部58款</h4>
+                    <p class="column-item-summary">11月10日，中国保险行业协会正式发布《一般商业医疗保险（短期）示范条款》《一般商业医疗保险（长期）示范条款》《城市定制型商业医疗保险示范条款》及《商业健康保险药品保障推荐清单（第一版）》。清单首批遴选<strong>58款药械</strong>：1类创新药25款、2类改良型新药2款（合计近半数），<strong>基本医保目录外自费药32款、占比近六成</strong>，适应症覆盖肺癌、肝癌、血液肿瘤等我国高发恶性肿瘤，也含神经母细胞瘤等国家罕见病目录内肿瘤。清单针对<strong>院外特定药械责任</strong>，与短期、长期两款一般商业医疗保险示范条款配套使用；采用这两类示范条款的产品，其约定的院外特定药械清单<strong>须涵盖这58款</strong>，保险公司可在此基础上自主扩展。三类示范条款分别51条、59条、36条，统一了“免赔额”“首次投保”“合理且必要”等<strong>24个常用概念释义</strong>，规范二级及以上公立医院普通部、特需部等机构类型表述，并<strong>首次将调解介入争议处理写入条款</strong>。文件均为示范性参考文本、不具强制性，中保协称将建立动态评估与调整机制。</p>
+                    <p class="column-item-source">中国保险行业协会 · 财联社 · 澎湃新闻 · 2026-11-10 <a href="https://www.cls.cn/detail/2530711" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/8qMPHnlmt9Y/" alt="AI医生分身进入真实诊疗" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">AI医生分身进入真实诊疗：紫荆AI医院建成27个科室54个智能体矩阵、9家医院近200位医生搭建专属分身，蚂蚁阿福8位院士领衔2000多名医生开设分身，有专家分身年服务368万人、相当于本人门诊量的368倍</h4>
+                    <p class="column-item-summary">11月11日《经济日报》报道，AI医生分身正从演示走向真实诊疗场景。清华大学团队打造的<strong>紫荆AI医院</strong>已构建覆盖<strong>27个临床科室的54个AI医生智能体矩阵</strong>，可覆盖多数常见病、重大疾病及部分罕见病；相关功能测试覆盖北京、江苏、广西等地<strong>9家医院、近200位医生</strong>搭建专属分身，试点含三甲医院与社区卫生服务中心。其路径是先让分身在模拟AI患者的虚拟环境中大量训练、达标后再部署到实体机构，在真实诊断中持续对齐医生的问诊逻辑与病历书写习惯；今年7月《Nature》曾将其作为中国AI智能体落地医疗的核心案例。蚂蚁集团的<strong>蚂蚁阿福</strong>则走名医资源数字化复用路线：廖万清、董家鸿、王俊等<strong>8位两院院士领衔、全国2000多名医生</strong>开设AI分身，覆盖约<strong>28个专科</strong>，但明确不开展诊疗行为、仅提供健康科普咨询。效果侧最直观的样本来自杭州市第七人民医院副院长、睡眠障碍专家毛洪京——他过去一年最多服务约1万人次患者，<strong>其AI分身一年服务了368万人</strong>，并把咨询内容同步至医生工作站，帮助快速完成基础健康信息采集。</p>
+                    <p class="column-item-source">经济日报 · 新浪财经 · 2026-11-11 <a href="http://paper.ce.cn/pad/content/202611/11/content_341726.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">模型开放</span>
+            <span class="breaking-news-text">谷歌Gemini 4 Carbon向付费开发者与企业开放：尝鲜价2/10美元每百万Token，12月1日起翻倍至4/20美元；AI Ultra与API付费用户可用，19.99美元AI Pro暂不可用</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">轻量模型</span>
+            <span class="breaking-news-text">Meta Muse Ember：100万Token上下文、输出上限51.2万，AA智能指数36分追平Claude Haiku 5.5，单任务成本0.136美元，定价0.10/0.50美元每百万Token</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">形式验证</span>
+            <span class="breaking-news-text">DeepMind AlphaProof Code：650万行Lean证明+人类仅复核1%代码，4周验证Signal的PQXDH握手与Triple Ratchet，重注入两个历史漏洞均被证不安全</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">企业渠道</span>
+            <span class="breaking-news-text">OpenAI ChatGPT Enterprise上线AWS Marketplace，可用既有AWS采购合同与承诺额度结算，Healthcare、Financial Services版本同步可购</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">商业生态</span>
+            <span class="breaking-news-text">OpenAI推出Businesses in ChatGPT测试版：Business Hub管理主页与数据、Business Agents可对话并投放赞助广告，仅美国电商与在线服务企业先行</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">具身开源</span>
+            <span class="breaking-news-text">蚂蚁灵波LingBot-Touch：近5000小时真实触觉数据、三类传感原理统一Token，轻量版仅530万参数、接入后动作模型参数增量0.13%—0.16%</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">图像模型</span>
+            <span class="breaking-news-text">MiniMax发布H3-Image并开放权重：衍生自全模态H3，针对图像生成与编辑做专门后训练优化</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">自动研究</span>
+            <span class="breaking-news-text">百度文心发布ERNIE Evolve：NanoChat AutoResearch验证集BPB与NanoGPT Speedrun两项公开基准，称超公开验证最好结果</span>
+            <span class="breaking-news-time">11月9日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">9</span>
+            <span class="breaking-news-cat">机器人</span>
+            <span class="breaking-news-text">苹果开源HALO：Unitree G1背负Mac mini全离线自主行动，360次真实测试成功率91%，论文11月4日发布</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">10</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">谷歌云发布Gemini for healthcare：只读接入Epic与Oracle Health，打通CMS、ICD-10、RxNorm，HCA、Northwell、Optum、斯坦福医学院为首批客户</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">11</span>
+            <span class="breaking-news-cat">卫健工程</span>
+            <span class="breaking-news-text">发改委：今年中央投资约200亿元支持399个紧密型县域医共体，“十五五”统筹医疗卫生强基、病房改造、康复护理扩容提升</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">12</span>
+            <span class="breaking-news-cat">器械监管</span>
+            <span class="breaking-news-text">国家药监局注销25个医疗器械注册证：涉迈柯唯手术无影灯、费森尤斯输液泵、日本光电动态心电、卡尔史托斯内窥镜等12家企业产品</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">13</span>
+            <span class="breaking-news-cat">中医药</span>
+            <span class="breaking-news-text">《中医药传统知识保护条例》32条细节披露、2027年1月1日施行：已整理约300部古籍、3万首古方、2.5万首民间验方</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">14</span>
+            <span class="breaking-news-cat">肿瘤登记</span>
+            <span class="breaking-news-text">我国肿瘤登记系统覆盖2847个县区、实现全国县区全覆盖，本轮上报覆盖人口首破10亿，成为全球最大肿瘤登记系统</span>
+            <span class="breaking-news-time">11月11日</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">15</span>
+            <span class="breaking-news-cat">器械质量</span>
+            <span class="breaking-news-text">惠泰医疗子公司埃普特亲水涂层导丝产线因质量体系严重缺陷被责令停产，主因原材料与工艺变更未充分评估风险</span>
+            <span class="breaking-news-time">11月10日</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：估值逻辑换挡：从“叙事定价”到“区间定价”，客户正在变成股东</strong></p>
+        <div class="insights-highlight">
+            Anthropic把路演区间从70—80美元收窄到70—78美元、估值从递表时1.5万亿退到约1万亿，只用了不到24小时。与此同时，AMD、博通、谷歌、美光、微软、英伟达、台积电七家用<strong>260亿美元私募认购N类普通股</strong>——这不是普通的基石背书，而是把未来几年的算力采购承诺前置成股权：芯片厂拿到订单的确定性，Anthropic拿到定价的锚。对一级市场的含义很直接，<strong>AI资产的定价权正从“讲增长故事的人”转向“出钱买单的人”</strong>；对二级市场，则意味着“AI溢价”开始按现金流而不是按愿景折价。
+        </div>
+
+        <p><strong>趋势二：竞争单位从“Token价格”下移到“任务成本”，分层路由成为默认架构</strong></p>
+        <div class="insights-highlight">
+            48小时内三家给出三种解法：Meta Muse Ember用<strong>0.136美元/任务</strong>把Haiku 5.5的0.42美元压到三分之一；Gemini 4 Carbon尝鲜价2/10美元但12月1日翻倍、且thinking tokens按输出计费；Claude Fable 5.2降价20%后输出仍为40美元。表面是价格战，实质是<strong>“完成一件事”的总成本之争</strong>——谁能用更少的思考Token把任务做完，谁就赢。这解释了为什么“规划用旗舰、执行用轻量”的分层路由会在半年内从优化技巧变成默认架构：企业不再为一个模型买单，而是为一组模型的调度策略买单。
+        </div>
+
+        <p><strong>趋势三：AI进入“可验证”阶段：形式证明从论文走向生产代码，医疗器械软件是下一个靶点</strong></p>
+        <div class="insights-highlight">
+            AlphaProof Code用4周生成600万行Lean、把安全性证明一路做到AArch64编译产物层，人类只需复核1%的代码——这打破的是“设计正确但实现有洞”的行业痼疾。对医疗行业的意义比对密码学更直接：<strong>医疗器械软件（SaMD）的合规证据链、手术机器人的控制固件、AI辅助诊断的推理可解释性</strong>，恰恰都是“纸面设计对、落地实现错”的高风险区。谁先把形式验证接进注册申报的技术文档，谁就在下一代审评规则里拿到话语权；反过来，这也给“AI生成代码能否进临床”提供了一个可审计的答案模板。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第205期 · 2026年11月11日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-11.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
