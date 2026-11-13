@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月14日</span>
+        <span>|</span>
+        <span>第208期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/UfRhkwWfv5Q/" alt="数据中心机房的服务器机柜与告警红光" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">微软全球宕机超10小时：Outlook峰值13.8万条报错、波及70国，日本政务改用电话</h2>
+    <p class="headline-summary">
+        美东时间11月12日，微软旗下Microsoft 365、Outlook、Exchange Online、Teams、SharePoint、OneDrive与AI助手Copilot同步中断，故障持续<strong>超10小时</strong>，影响范围以美洲为主并波及亚洲多地。故障监测网站Downdetector数据显示，Outlook故障上报在美东13点前后达到峰值<strong>138,058条</strong>，傍晚回落至约34,490条，17时47分降至约1.3万条、Teams访问故障763条。微软确认，本次并非流量激增，而是“多台服务器在负载抬升过程中意外离线、核心进程过载”。
+    </p>
+    <p class="headline-summary">
+        冲击迅速外溢到公共部门：日本数字大臣古川俊治13日表示，日本政府共用基础系统GSS高度绑定微软365，邮件无法正常收发，已改用电话等方式维持运转；新加坡多个政府部门、英国NHS（称“不可避免地”造成干扰但预约照常）、美国联邦政府与法院系统均报告异常。美国电动卡车企业Workhorse将三季报从11月12日推迟至11月16日。微软13日致歉，称故障“与网络攻击或人工智能/智能体无关”，由早先一次“网络容量升级”引发，尚无法预计完全恢复时间。
+    </p>
+    <p class="headline-summary">
+        下游AI服务同步受累：OpenAI称正在排查微软连接器故障、新增连接可能中断，Anthropic称上游供应商问题影响其Microsoft 365连接器。微软表示故障波及至少70个国家。值得注意的是，一个月前Azure刚发生过类似中断——当办公入口、身份、文件与模型调用压在同一朵云上，“AI办公”的可用性风险已经从单个应用放大到整条工作流。
+    </p>
+    <p class="headline-source">
+        来源：财联社 · 21世纪经济报道 · 央视新闻 · 2026-11-13/14
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/KSFGCq8NuxA/" alt="纳斯达克交易大厅大屏与交易员" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Anthropic IPO获6倍超额认购：拟募资最高644亿美元，定价70—78美元、11月18日定价</h4>
+                    <p class="column-item-summary">知情人士称，本次IPO认购需求约为可供认购股份的<strong>6倍</strong>，银行家已告知部分投资者配额将低于预期、并优先现有支持者。方案为发行8.25亿股（8.01亿新股+2365万老股）、定价区间70—78美元，11月18日定价、19日以代码ANT登陆纳斯达克；散户至高20%份额，高盛与摩根士丹利牵头。IPO募资最高644亿美元，叠加260亿美元私募配售合计最高<strong>904亿美元</strong>，超过SpaceX成为史上最大IPO，完全稀释估值约1.4万亿美元。基本面：前九个月营收332亿美元（同比+1206%）、Q3收入170亿、10月年化约810亿；毛利率超85%、算力利润率43%、Q3调整后营业利润率+15%（Q1'25为-221%）。风险同样清晰：Q3算力成本环比+77%快于收入+47%，营业利润由Q2的+9.74亿转为-5.67亿；至2045年算力合同承诺约9009亿美元。</p>
+                    <p class="column-item-source">来源：财联社 · 21世纪经济报道 · Wind万得 · 2026-11-13 <a href="https://finance.sina.com.cn/roll/2026-11-13/doc-iniyqfwh8060680.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/nPtvcCbhwY4/" alt="摩天楼玻璃幕墙与办公桌上的报表" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI完成150亿美元私募融资：投前估值1.25万亿美元，Q3营收100亿、运营亏损109亿</h4>
+                    <p class="column-item-summary">CNBC 11月13日报道，OpenAI最新一轮私募融资筹集<strong>150亿美元</strong>，高于此前披露的约110亿美元，投前估值1.25万亿美元；融资尚未正式关闭、预计未来几周完成，被知情人士描述为一次“机会性融资”，为2027年潜在IPO过渡。此前方案为至少募资300亿、投后估值1.4万亿，因投资人认为定价过高而下调估值并把规模削减三分之一。财务侧：Q3营收约100亿美元、环比增近50%，运营亏损109亿美元（Q2为101亿），调整后营业利润率由-150%改善至-109%；对照Anthropic同期调整后营业利润率约+15%。在AI板块回调、英伟达市值跌破4万亿美元的窗口里，头部模型公司选择“以估值换现金”，为算力长约与推理扩张储备弹药。</p>
+                    <p class="column-item-source">来源：CNBC · 财新 · 腾讯新闻 · 2026-11-13 <a href="http://news.qq.com/rain/a/20261113A033AY00" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/8GfIvGJNesc/" alt="机器人实验室中的人形机器人手臂" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">通用模型开始直控机器人：OpenAI解散独立机器人团队，马斯克裁撤xAI多模态70人</h4>
+                    <p class="column-item-summary">《财富》11月13日报道，OpenAI已解散独立机器人团队：机器人研究并入核心研究团队、向首席研究官Mark Chen汇报，应用机器人与硬件团队并入应用业务线、向总裁Greg Brockman汇报；公司确认重组，强调机器人仍是长期核心愿景、2027年首次公开展示人形机器人的计划不变。路线变化是关键——年初押注Sora式视频路线，但GPT-6 Astra等通用前沿模型已展现直接控制机器人的能力，英伟达研究显示Astra驱动的智能体在模拟操作基准成功率<strong>74.8%</strong>，高于最佳专用机器人模型的51.0%；CoRL大会OpenAI的208号展位空置。同一周，xAI裁撤约70人的整个多模态团队，SpaceXAI裁撤Grok Imagine约60人，同时新开“Model Engineer, Multimodal Understanding”岗位（16万—25万美元），资源转向AI编程与Grok Bot智能体。</p>
+                    <p class="column-item-source">来源：Fortune · 新浪财经 · 投资界 · 2026-11-13/14 <a href="https://fortune.com/2026/11/13/openai-disbands-robotics-team-as-its-general-models-start-running-robots/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/M_zxs0Q5Y2k/" alt="工业机械臂夹取金属零件" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Runway开源27B世界动作模型Praxis-1：RoboLab-120以46.2%登顶，RTX 5090可本地跑</h4>
+                    <p class="column-item-summary">Runway于11月11日以Apache 2.0开放Praxis-1的权重、推理与微调代码并允许商用。模型为272亿参数MoE扩散Transformer，单次推理激活约28亿参数：视频主干负责预判下一帧画面，动作专家读取特征输出机器人指令，单次推理输出1.6秒动作序列；训练四阶段从通用视频预训练到真机微调，跨本体只需替换轻量输入输出映射层。在英伟达RoboLab-120基准取得<strong>46.2%</strong>成功率（555/1200），位列世界动作模型与开源机器人基础模型第一，超过FLUX 3 Action（42.9%）、Cosmos3 Nano（36.8%）与π0.5（28.0%）；在训练中未见过的Google RT-1上微调后，SimplerEnv成功率达80.0%（原策略52.4%）。完整模型54.4GB、需80GB显存，NVFP4量化版17.5GB，可在RTX 5090与Jetson Thor上运行；Noble Machines、Standard Bots、Ultra已分别在足式人形、六轴工业臂与双臂仓储机器人上部署。</p>
+                    <p class="column-item-source">来源：Runway Research · 新浪财经 · IT时代网 · 2026-11-11/12 <a href="https://cj.sina.com.cn/articles/view/1654203637/629924f50200184ou?froms=ttmp" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Q_pfohuFepg/" alt="桌面上的文件、钢笔与数据表格" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">2026医保商保“双目录”今日苏州发布：第9次调整，前8轮已纳入199种创新药</h4>
+                    <p class="column-item-summary">11月14日上午9:15，2026创新药高质量发展大会在苏州开幕，现场发布2026年国家医保药品目录与商保创新药目录，为我国第二次同步发布“双目录”。本次是医保局成立以来<strong>第9次</strong>目录调整，继续坚持“基本医保保基本”，并建立商保目录与医保目录的衔接机制。供给端：前8轮累计已有199种创新药纳入医保，许多品种当年获批、当年准入；今年前三季度获批创新药国产占比达80%，对外技术授权1300亿美元接近去年全年；“十四五”五年共230个创新药获批。另一条线值得注意：中保协11月10日抢先发布《商业健康保险药品保障推荐清单（第一版）》58款药械，为2025首版商保目录18款的3倍余，含6款CAR-T与2款神经母细胞瘤罕见病药，由22名医学专家+54家保司投票产生；罗氏11款、百济神州6款、阿斯利康5款、恒瑞4款合计近45%，国内企业与跨国药企各29款。中保协明确其为“示范性参考文本，不具强制性”。</p>
+                    <p class="column-item-source">来源：第一财经 · 中国医疗保险 · 21世纪经济报道 · 2026-11-13/14 <a href="https://m.weibo.cn/detail/5364914925340322" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ruKjcUxumJQ/" alt="细胞与基因治疗实验室中的培养皿操作" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">药监局一日审议通过两项新政：CGT审评全周期优化、化学原料药批准证书可转让</h4>
+                    <p class="column-item-summary">11月13日，国家药监局局长黄果主持会议，审议通过《化学原料药登记主体变更管理规定》与《关于优化细胞与基因治疗药品审评审批有关事项的公告》，同意近日发布实施。原料药端：新修订《药品管理法实施条例》已明确化学原料药<strong>批准证书可以转让</strong>，新规细化申报要求、工作程序与各方责任义务，在守住质量安全底线的前提下盘活存量批文、推动产业链资源重组。CGT端：从提高临床研发质量和效率、服务支持重点创新品种、加强注册检验早期介入、强化专家支撑作用、持续完善技术标准五方面入手，覆盖临床研发、注册申报、审评审批、上市后变更全生命周期，为CGT企业与CDMO提供全流程制度支持。需要留意政策边界：优化的是流程与沟通效率，不降低临床有效性与安全性标准。</p>
+                    <p class="column-item-source">来源：国家药监局 · 财联社 · 金融界 · 2026-11-13 <a href="https://www.nmpa.gov.cn/yaowen/ypjgyw/ypyw/20261113162656198.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/o8-aqZ5yjs8/" alt="白色药片、药盒与软尺" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国内首个口服GLP-1减重药获批：礼来“穆优达”每日一片，72周平均减重12.4kg</h4>
+                    <p class="column-item-summary">11月12日礼来宣布，奥氟格列隆钙片（商品名<strong>穆优达</strong>）获国家药监局批准为1类新药，用于成人长期体重管理（BMI≥30，或BMI≥27且伴至少一种体重相关合并症），成为国内首个获批减重适应症的口服GLP-1，中国也是该药全球首批获批国家之一。作为口服小分子非肽类GLP-1受体激动剂，每日一次、不受饮食饮水限制；ATTAIN-1研究显示最高剂量治疗72周平均减重<strong>12.4kg</strong>，约40%患者减重≥15%，内脏脂肪减少超30%、腰围最大减约11cm；全球8项3期累计入组逾万人，中国参与6项。该药今年4月在美获批，Q2上市以来累计收入2.81亿美元（Q3为1.84亿）；成人2型糖尿病适应症在华审批中，礼来计划未来十年在华投资最高30亿美元扩产。竞品方面，诺和诺德口服司美格鲁肽在华仅获批降糖、减重申请8月获受理；FDA已于11月9日要求所有GLP-1药物在说明书加注NAION风险警示。</p>
+                    <p class="column-item-source">来源：国家药监局 · 澎湃新闻 · 南方+ · 2026-11-12 <a href="http://m.toutiao.com/group/7707291862020735503/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1mGODWMYV2A/" alt="受试者佩戴多通道脑电采集帽" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">脑机接口分类界定“二分法”落地：侵入式一律三类，非医疗用途彻底松绑</h4>
+                    <p class="column-item-summary">11月13日，国家药监局发布《脑机接口医疗器械产品分类界定指导原则》解读，明确<strong>四要件同时满足</strong>才属脑机接口医疗器械：测量中枢神经系统神经信号、实时解码、与外部设备实时双向交互或闭环反馈、改善修复或替代中枢神经系统功能。路径“二分法”：侵入式/植入式一律按第三类管理；非侵入式用于疾病治疗与功能代偿按三类；用于脑卒中康复训练且未采用AI技术按二类；不涉及医疗目的（功能增强、娱乐交互、日常辅助、基础脑科学研究）不作为医疗器械管理，但须标注“不用于医疗目的”且不得声称医疗效果。配套进展：6月30日已发布分类界定与通用名称命名两项指导原则，9月14日发布全球首个AI处理脑电数据的脑机接口器械标准（2027年9月1日实施），11月3日工信部9项脑机接口行业标准获批立项。产业侧：博睿康3月获全球首个侵入式三类证、7月华山医院开出首张处方；医保局已设侵入式置入/取出费（6000—6600元/次）与非侵入式适配费（约960元/次）价格项目。</p>
+                    <p class="column-item-source">来源：国家药监局 · 安徽省药监局 · 药智医械数据 · 2026-11-13 <a href="https://mpa.ah.gov.cn/ztgz/wyfy/zczx/123556771.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">诉讼</span>
+            <span class="breaking-news-text">美国四家非营利组织起诉OpenAI、Anthropic、谷歌、Meta与SpaceXAI，请求在证明“技术受控”前暂停下一代模型训练与部署；63页诉状援引加州反不正当竞争法</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">交通运输部推出首批354项“人工智能+交通运输”典型应用场景清单，覆盖智能驾驶、智慧公路、智能航运、智能建养、智慧出行、智慧货运与智能安全监管</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">Anthropic“史上最严封号机制”11月12日生效：三类地区准入禁令+股权穿透核查，医疗、金融、法律等11类高风险场景要求AI建议经资质人员复核</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">人事</span>
+            <span class="breaking-news-text">张一鸣内部讲话：字节有能力与OpenAI、Anthropic竞争，但真正追平前沿“最早也要到2029年或2030年”</span>
+            <span class="breaking-news-time">11-12</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">审批</span>
+            <span class="breaking-news-text">艾伯维乌帕替尼缓释片非节段型白癜风新适应症、利奥制药德戈替尼乳膏（全球首个外用泛JAK抑制剂）同日获华批准</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">英伟达市值跌破4万亿美元，自10月约5.8万亿峰值42天蒸发1.88万亿，回落至2025年7月前水平</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">并购</span>
+            <span class="breaking-news-text">同仁堂拟以24.438亿元收购天津同仁堂60%股份</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">药监</span>
+            <span class="breaking-news-text">恒瑞子公司芮弗西拜单抗注射液（国内首款ANGPTL3单抗）获批上市</span>
+            <span class="breaking-news-time">11-12</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：单点依赖：AI办公把可用性风险从“一个应用”放大到“整条工作流”</strong></p>
+        <div class="insights-highlight">
+            微软一次“网络容量升级”，让Outlook、Teams、Copilot与下游OpenAI、Anthropic的连接器同时失效，70国用户、日本政务与英国NHS同日受扰。<strong>问题不在故障本身，而在耦合度</strong>：当办公入口、身份认证、文件与模型调用压在同一朵云上，任何一层抖动都会穿透到业务流程。对企业AI架构的直接含义是三条硬约束：关键工作流要有第二云/第二模型的可切换路径；把“模型不可用”写进SLA与业务连续性预案；医疗等强合规场景保留本地或私有化兜底，别把“能用”当成“一直在”。
+        </div>
+
+        <p><strong>趋势二：组织随模型能力重构：专用团队被通用模型“吞掉”，护城河只剩场景数据</strong></p>
+        <div class="insights-highlight">
+            OpenAI解散独立机器人团队、把机器人研究并入核心研究；xAI裁撤多模态约70人、Grok Imagine约60人——<strong>不是不做了，而是不再单独做</strong>。当GPT-6 Astra这类通用模型直接控制机器人的模拟成功率能到74.8%，专用小模型的比较优势就被压缩到“真实场景数据+硬件闭环”。对企业的启示是：不必再为“自研一个专用模型”付费，而要为“独占数据+可验证闭环”付费；组织上把算法团队并进业务，比维持一个独立研究院更贴近收入。
+        </div>
+
+        <p><strong>趋势三：支付端三轨并行：医保、商保目录与行业清单开始互相竞价</strong></p>
+        <div class="insights-highlight">
+            今天苏州发布医保+商保“双目录”，而中保协在4天前抢先抛出58款药械推荐清单，选品偏“可保性”、与惠民保特药目录高度重合。<strong>同一个创新药，未来要同时过三道门</strong>：医保谈判的价格、商保目录的支付意愿、行业清单的赔付风险。对外资药械企业的现实含义是，准入团队要从“医保准入”升级为“支付组合管理”——按适应症拆分医保、商保、自费三条路径，用真实世界数据同时喂给三个决策口，而不是等目录公布后再补材料。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第208期 · 2026年11月14日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-14.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
