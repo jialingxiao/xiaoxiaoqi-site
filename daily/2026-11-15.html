@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月15日</span>
+        <span>|</span>
+        <span>第209期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/hM5BXyi9-tw/" alt="半导体晶圆特写与虚化的股市下跌曲线" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">黄仁勋辞任三日：英伟达创18个月最差单周、蒸发5733亿美元，33年“一人公司”被重新定价</h2>
+    <p class="headline-summary">
+        11月12日，英伟达宣布黄仁勋辞去总裁、CEO及董事职务，首席财务官科莱特·克雷斯（Colette Kress）出任临时CEO，前首席独立董事哈维·琼斯（Harvey Jones）出任公司首任董事长——这是英伟达33年历史上<strong>第一次</strong>把董事长与CEO分设。消息当日开盘股价一度暴跌约14%，收盘跌4.3%。
+    </p>
+    <p class="headline-summary">
+        一周之内抛压持续累积：本周股价下跌近<strong>13%</strong>，市值蒸发<strong>5733亿美元</strong>，创18个月来最差单周表现；这已是连续第6周下跌，累计跌幅超过30%、累计蒸发约1.71万亿美元，市值跌破4万亿美元关口，回落至2025年7月前的水平。卖方反应同样激烈：伯恩斯坦将目标价从400美元直接腰斩至200美元、评级下调至“与大盘持平”；Baird、花旗、摩根士丹利、美国银行相继下调预期或将其移出首选名单。
+    </p>
+    <p class="headline-summary">
+        公司内部与政治端则在双向拉扯。据报道，英伟达内部员工投票中约<strong>97%</strong>希望黄仁勋留任；参议院银行委员会主席Tim Scott已要求黄仁勋到该委员会作证。争议核心并非私德——黄仁勋与Alice Huang的关联、以及后者关联的新加坡公司Megaspeed被怀疑将先进AI芯片转运中国，才是国会两党共同关注的问题；英伟达2026财年第二季度按客户账单地址计算，新加坡贡献了<strong>22%</strong>的营收。美国商务部长卢特尼克家族公司Cantor Fitzgerald一边维持350美元目标价与“增持”评级，一边在2025年9月至2026年3月间减持英伟达近50%（CNBC统计，不含期权），利益冲突质疑同步升温。
+    </p>
+    <p class="headline-summary">
+        11月17日公司将发布第三财季财报，市场共识营收约<strong>549亿美元</strong>。<strong>真正的考题不是这一季的订单，而是“关键人溢价”还能剩下多少</strong>：过去十年英伟达的估值里，相当一部分押在黄仁勋对供应链、客户与政策的三重调度能力上；当这套能力被移交，市场会先按“制度折价”重估，再用几个季度的交付来证明折价是否收敛。
+    </p>
+    <p class="headline-source">
+        来源：36氪 · FX168财经 · 2026-11-14
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/vIWQyOXohxU/" alt="浅蓝色氢分子三维结构悬浮在深色科技背景" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌Gemini 4 Hydrogen全量开放：效率层反超自家旗舰，接管搜索AI Mode</h4>
+                    <p class="column-item-summary">11月12日，谷歌发布Gemini 4 Hydrogen，接替Gemini 3.8 Flash成为Gemini 4系列的“效率执行层”，发布当天即完成Gemini App、Google AI Studio、Gemini API、Gemini for Business与Antigravity全量上线——免费用户经自动路由即可使用，谷歌搜索的AI Mode同步把它设为默认模型，搜索产品副总裁Robby Stein称这是“谷歌搜索迄今最大的一次模型升级”。第三方Artificial Analysis智能指数显示：默认High档<strong>51分</strong>，已超过自家旗舰Argon的50分；新增xhigh档可达54分，仅比Claude Sonnet 5.5与GPT-6.1 Sol的最高档低1分。速度较3.8 Flash提升<strong>2.5倍</strong>，Terminal-Bench 4.1从18.2%跃升至57%，幻觉率降至<strong>8%</strong>（Sonnet 5.5为43%、GPT-6.1 Sol为52%）。API定价每百万输入1.5美元、输出7.5美元，是3.8 Flash的两倍。同场发布的Orchestrator可在同一会话内动态切换Carbon与Hydrogen，官方称配额消耗少24%、完成速度快19%。</p>
+                    <p class="column-item-source">来源：36氪 · 爱范儿 · 2026-11-13 <a href="https://36kr.com/p/4068060515997320" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/u53Y37nSgds/" alt="智能手机屏幕上的数字钱包与支付确认界面" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI上线ChatGPT Wallet：智能体可代付，三大卡组织共建支付令牌</h4>
+                    <p class="column-item-summary">11月13日，OpenAI宣布推出ChatGPT Wallet，与美国运通、万事达、Visa合作，让dots智能体在用户授权后完成商品购买、酒店预订等交易。核心设计是不把真实卡号交给模型：支付网络为每笔交易生成限定用途的支付令牌（替代卡号、安全码与有效期），款项仍从用户原卡扣除，原有积分与交易争议保障不变；每笔交易需Face ID等生物识别逐笔确认，并生成一条“真人已授权”的记录。初期仅面向美国18岁以上Pro订阅用户、且须持符合条件的美国信用卡，暂不从交易中抽佣。截至三季度末，ChatGPT周活已超<strong>12亿</strong>、付费用户接近<strong>1亿</strong>。落地仍受商户端制约——美联航周三表示将阻止智能体代订机票，亚马逊亦阻止智能体在其平台下单；OpenAI同步发布《商务合作伙伴操作指南》，指导商家认领身份、上传库存并配置CDN识别智能体签名请求。</p>
+                    <p class="column-item-source">来源：新浪科技 · 财联社 · 2026-11-14 <a href="https://finance.sina.com.cn/tech/digi/2026-11-14/doc-iniyriiv3477722.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/LVRBoidAO3k/" alt="夜色中的数据机房与远处虚化的美国国会大厦" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Axios：AI行业同时陷入政治、安全、金融、领导层四重信任危机</h4>
+                    <p class="column-item-summary">Axios 11月14日分析称，中期选举后民主党即将掌控国会，AI行业正面临四条线并发的信任危机。政治线：数据中心议题首次出现在选票上，<strong>41项</strong>相关投票中<strong>40项</strong>被否决，与数据中心关联的俄亥俄州共和党参议员Jon Husted、得州共和党州长Greg Abbott均在选举中落败；路透社称民主党计划1月掌权后推出大批AI法案，并要求部分行业高管到国会作证。安全线：OpenAI与Anthropic正在调查<strong>数万起</strong>安全事件，未经严格审查的AI代理曾进入美国银行账户。金融线：英伟达本周在黄仁勋去职背景下下跌13%，近期累计跌去近四分之一；Anthropic的上市估值比数月前预期低约6000亿美元。领导层线：黄仁勋因婚外情等风波辞职，令外界重新审视把如此大的权力集中于少数科技高管手中的风险。</p>
+                    <p class="column-item-source">来源：Axios · 2026-11-14 <a href="https://tldrdailynews.com/news/business/technology/ai-industry-faces-four-fold-trust-crisis-as-democrats-seize-congressional-power-3mvnbbh1nl" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/g4pWF_bc6Js/" alt="程序员屏幕上的代码与API接口调用界面" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">DeepSeek开放“全家桶”应用API：联网搜索、文件输入、语音接口一次放开</h4>
+                    <p class="column-item-summary">11月13日晚，DeepSeek宣布开放“全家桶应用API”：在原有API中开启对应参数，即可获得深度思考搜索、文件输入、阅读链接、模型安全审核等对话功能，工具调用与上下文拼接全部由服务端自动完成，官方称开发者可在自有应用中<strong>1:1复刻</strong>完整的DeepSeek App。搜索（Search）、网页抓取（Fetch）、文字识别（OCR）、语音识别（ASR）、语音合成（TTS）五项底层能力同步开放为独立接口，可单独或组合调用；目前仅DeepSeek-V4.1-Flash（模型名deepseek-flash）支持，OpenAI与Anthropic两种接口格式通用。定价除Token费外，文字/图片搜索与网页抓取均为<strong>5元/千次</strong>，文字识别1.5元/千页，ASR 0.39元/小时、TTS 1.5元/万字符且限时五折。这是继10月上线独立Search/Fetch API后的第二次能力开放，国产模型的能力边界正从“对话”扩张到完整的输入输出链路。</p>
+                    <p class="column-item-source">来源：澎湃新闻 · 北京商报 · 2026-11-14 <a href="https://finance.sina.com.cn/tech/roll/2026-11-14/doc-iniyryff0522548.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/3X6KwkYQK9Q/" alt="药房货架上排列整齐的药品包装盒" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">2026医保双目录落地：107种药进医保、51个一类新药创新高，CAR-T首次入保</h4>
+                    <p class="column-item-summary">11月14日，2026创新药高质量发展大会在苏州举行，2026年国家医保药品目录与商保创新药目录同步发布：基本医保目录新增<strong>107种</strong>药品，其中一类新药<strong>51个</strong>、数量创历史新高，CAR-T、双抗ADC等创新性药物<strong>首次</strong>纳入医保目录。新增药品含31种肿瘤用药、24种慢性病用药、18种罕见病药物、11种中成药、7种抗感染用药、5种精神疾病用药等。调整后基本医保目录总数达<strong>3331个</strong>（西药1935、中成药1396），新版目录2027年1月1日起执行。最受关注的是药明巨诺瑞基奥仑赛注射液（倍诺达）成为首个进入国家基本医保的CAR-T产品，按“50万不谈、30万不进”的谈判规则，业内估计价格或在30万元以下、患者自付可压到<strong>10万元以内</strong>（仅限大B细胞淋巴瘤、滤泡性淋巴瘤、套细胞淋巴瘤三项适应证）。商保创新药目录新增11家企业<strong>12种</strong>药品，含全球首个实体瘤CAR-T舒瑞基奥仑赛、全球首款渐冻症对因治疗药物托夫生，调整后共<strong>28种</strong>。国家医保局数据显示，2026年前10个月协议期内谈判药品基金支出已超<strong>1200亿元</strong>。</p>
+                    <p class="column-item-source">来源：新华社 · 澎湃新闻 · 2026-11-14 <a href="http://www.xinhuanet.com/20261114/8aee9289020c425385a666ed16bd5e4e/c.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/n3qT8fTqknc/" alt="医生查看AI辅助诊断界面与法律文书" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">AMA与FSMB发布医疗AI问责报告：厂商担责、强制使用方共担，禁止合同转嫁医生</h4>
+                    <p class="column-item-summary">11月12日，美国医学会（AMA）与州医学委员会联合会（FSMB）发布医疗AI问责联合报告，汇总9月14日华盛顿论坛上200余名医师、医学委员会代表、患者与政策制定者的观点，明确指出既有监管、执业许可与责任框架“并非为AI设计”，需要现代化。核心主张按“各方权限、信息可及性与损害可预防性”分配责任：<strong>医生</strong>只对可实际行使的临床判断负责；<strong>开发者</strong>对其系统与可控风险负责；<strong>部署机构</strong>对AI的使用场景与方式负责。AMA在10月29日的责任问题简报与11月10日的立法诉求中进一步要求：AI厂商须投保足额产品责任险、披露产品局限与性能数据；若医院、医疗系统或保险公司<strong>强制指定</strong>某产品，该机构须与供应商共同担责；禁止通过合同条款把产品缺陷责任转嫁给医生或医疗机构；医生拒绝使用AI或未采纳AI建议，不得因此承担责任。FSMB工作组计划2026年12月发布指引草案公开征求意见，2027年4月提交代表大会正式表决。AMA同时重申：AI不得被授予医师执照、专业职称或执业认证。</p>
+                    <p class="column-item-source">来源：AMA · FSMB · Digital Health Insights · 2026-11-12 <a href="https://www.dhinsights.org/news/how-is-liability-for-clinical-ai-being-defined-and-distributed" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/75akrv9UGyA/" alt="医生在急救技能培训室对模拟人进行操作" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">华西二院“AI考官”下沉基层：传感器打分、专家复核，已覆盖11省12家医院</h4>
+                    <p class="column-item-summary">11月13日，四川南充，四川省医师协会基层儿科医师培训班（第二期）间隙，华西二院儿童呼吸科医生杨文豪向参训学员演示“AI考官”——一个AI智慧辅助临床技能教学平台。原理并不复杂：<strong>压力传感器</strong>记录按压深度与频率，<strong>摄像头</strong>判读站位、解衣、清异物，<strong>音频传感器</strong>识别呼救与取AED，系统与专家标准比对后自动打分并回放录像。“按压快了慢了、深了浅了，AI考官都会告诉他们。练到80分、90分，肌肉记忆就形成了；连续几次分数不见涨，系统就预警、专家介入。”院长刘瀚旻说。该项目名为“留手人”，由华西二院牵头，现有指导教师7人、志愿者200余名；2024年起在西藏、雅安等地医院落地，已累计培训基层医生上千人次、支持百余名医生进修，目前在<strong>11个省份12家基层医院</strong>试点，下一步力争四川全省推广、西藏全域覆盖。项目先聚焦基层儿童急症重症救治，再按执业医师考试大纲逐步覆盖<strong>24项</strong>技能；商业模式上基础功能免费开放，高阶提升与临床训练中心建设收费，收益反哺偏远地区。</p>
+                    <p class="column-item-source">来源：川观新闻 · 2026-11-14 <a href="http://m.toutiao.com/group/7707982982766494208/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/xePnm2R6qwo/" alt="东欧城市医院走廊中医护人员查看医疗影像" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">乌克兰起草医疗AI监管法案：按风险分级，80.5%医务人员已在用AI</h4>
+                    <p class="column-item-summary">11月13日，乌克兰卫生部长维克托·利亚什科（Viktor Liashko）宣布，卫生部正在起草规范医疗领域人工智能的专门法律。法案将明确医疗AI系统的开发与使用规则、按<strong>风险等级</strong>分类，并对供应方与使用方同时提出<strong>安全性、透明度与可问责性</strong>要求；患者医疗数据须受保护，AI必须在医务人员监督下使用。法案将很快提交公众讨论，但未给出具体日期。推动立法的直接依据是卫生部在WINWIN 2030数字战略下于8月底发布的调查：7000余名医生、护士、药师及机构负责人中，<strong>80.5%</strong>已在工作中使用AI工具（21.6%经常使用、58.9%偶尔使用），65.7%支持在医疗中使用AI；需求集中在查找临床指南与诊疗规范（57.4%）、法规文件（54.1%），约三分之一希望用于鉴别诊断或工作规划，31%用于书写病历。受访者最担心系统错误，并要求AI工具必须基于经核实的官方来源、说明建议依据。利亚什科以本土产品CheckEye为例：AI分析眼底照片、约30秒判断患者是否需进一步检查，已在敖德萨与切尔尼戈夫州基层机构试用于873名患者。</p>
+                    <p class="column-item-source">来源：Kyiv Post · Daily AI Brief · 2026-11-14 <a href="https://dailyaibrief.com/news/ukraine-drafts-rules-medical-ai-IeT0b2iI" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">组织</span>
+            <span class="breaking-news-text">马斯克在X平台公开表态，将参与要求黄仁勋重返英伟达的请愿活动；此前英伟达内部员工投票中约97%希望黄仁勋留任</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">语音</span>
+            <span class="breaking-news-text">腾讯混元发布实时语音模型Hy Realtime，新增Agentic工具调用与唱歌能力，已在元宝语音通话、腾讯客服上线，近期将上线腾讯云对外提供API</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">器械</span>
+            <span class="breaking-news-text">第六届医疗器械质量管理创新发展大会在天津天开园召开；新版《医疗器械生产质量管理规范》已于11月1日实施，ISO 9001新版于9月16日发布</span>
+            <span class="breaking-news-time">11-12</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">市场</span>
+            <span class="breaking-news-text">Omdia：2026年全球AI软件收入将突破2000亿美元，达到2024年水平的两倍，生成式与代理式AI需求均加速增长</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">硬件</span>
+            <span class="breaking-news-text">华为首个动态血糖仪定名“维感G1”持续葡萄糖监测系统，贴肤佩戴、可连手机与手表，支持血糖异常提醒</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">Anthropic IPO定于11月18日定价、19日以代码ANT登陆纳斯达克，发行8.25亿股、定价区间70—78美元</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">模型</span>
+            <span class="breaking-news-text">谷歌六周内连发三款Gemini 4模型，OpenAI下一代旗舰仍未发布，市场开始讨论其产品节奏是否落后</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">审批</span>
+            <span class="breaking-news-text">国家药监局：今年以来已批准一类创新药69个，其中15个为新机制新靶点首创新药，2个全球同步申报、中国首批上市</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：关键人风险：英伟达把“创始人溢价”换成“制度折价”，重估才刚开始</strong></p>
+        <div class="insights-highlight">
+            黄仁勋辞职后一周，英伟达跌13%、蒸发5733亿美元、连续6周下跌累计跌超30%。<strong>这不是一次普通的CEO更替</strong>：过去十年英伟达的估值里，有一部分押在他个人对供应链（台积电产能与CoWoS封装）、客户（云厂商资本开支节奏）与政策（对华出口管制）的三重调度能力上——这三件事都不在财报科目里，却都落在利润表里。董事长与CEO首次分设，是把“一个人”的风险摊成“一套制度”，方向正确但代价明确：市场会先按制度折价重估，再用几个季度的交付证明折价能否收敛。11月17日三季报的看点不是订单，而是管理层能否在没有任何“老黄背书”的前提下，把2027年的产能与需求叙事讲清楚。对国内算力链的传导同样直接——海外算力链的组织层裂缝，正把订单确定性往国内环节推。
+        </div>
+
+        <p><strong>趋势二：效率层反超旗舰：AI竞争的主战场从“智能上限”转向“单位任务成本”</strong></p>
+        <div class="insights-highlight">
+            Gemini 4 Hydrogen在High档拿到51分、超过自家旗舰Argon的50分，同时速度快2.5倍、幻觉率只有8%，价格却是上一代Flash的两倍。这三个数字放在一起，说明<strong>模型分层正在重排</strong>：过去“贵=强”的对应关系在松动，日常任务的最优解不再是旗舰，而是“够用+便宜+快”。Orchestrator的意义比模型本身更大——它把“选哪个模型”从人的静态决策变成系统的动态调度，官方数据是配额少24%、速度快19%。对企业AI预算的直接含义是：不要再用“最强模型”做统一标准，而要按任务拆成“探索与规划用旗舰、执行与批量用效率层”，并把这套路由写进成本模型。医疗场景尤其如此——病历生成、随访提醒、编码这类高频低风险任务，用效率层的性价比远高于旗舰。
+        </div>
+
+        <p><strong>趋势三：医疗AI责任从“谁开发谁负责”走向“谁强制使用谁共担”</strong></p>
+        <div class="insights-highlight">
+            AMA与FSMB的联合报告把责任拆成三段：医生对可实际行使的临床判断负责、开发者对系统与可控风险负责、部署机构对使用场景负责；AMA更进一步要求厂商投保产品责任险、披露性能数据、禁止用合同把缺陷责任转嫁给医生。对照乌克兰草案的“按风险分级+供应方与使用方双问责”，<strong>全球监管正在收敛到同一条主线：责任跟着权限走，而不是跟着签字走</strong>。对外资器械与医疗AI企业的现实影响有三条：一是产品准入材料里要提前准备“性能边界与已知局限”的可审计文档；二是与医院签合同时，“责任转嫁条款”未来可能直接无效，需重写免责结构；三是若产品被医院或支付方列入强制使用清单，供应商的责任敞口会上升而非下降——强制使用不是护身符，是共担的起点。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第209期 · 2026年11月15日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-15.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
