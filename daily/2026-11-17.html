@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月17日</span>
+        <span>|</span>
+        <span>第211期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/KM8TNCv7zT0/" alt="三枚发光AI模型芯片悬浮在橙色成本下降曲线上方" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">国产大模型单日三连发：阿里Qwen4-Max、腾讯Hy4 flash、华为云开源世界模型，竞争指标从「跑分」换成「单任务成本」</h2>
+    <p class="headline-summary">
+        11月16日，阿里巴巴发布全新一代基座大模型<strong>Qwen4-Max</strong>：采用基于Qwen稀疏注意力（QSA）的全新MoE架构，<strong>总参数2.4T</strong>，具备原生视觉能力、支持<strong>百万上下文</strong>，千问AI平台首发上线，API服务与Token Plan同步开放。官方数据里最该被记住的不是参数，而是两个成本项——在Terminal-Bench 4.0专业编程评测中，同为Xhigh思考档位，每次尝试的平均Token用量从<strong>289K降至151K</strong>（减少近50%），得分从<strong>37.9分提升至48.5分</strong>（提升近28%）；基于缓存命中价格大幅下降，完成单个任务的平均费用（Cost per Task）比Qwen3.8-Max<strong>降低58%</strong>，缓存命中每百万Token低至0.5元。落地侧，在三丰智能、泛海统联的产线场景中，单个工件加工编程所需人工投入由约<strong>475分钟降至26分钟</strong>（减少约95%）。
+    </p>
+    <p class="headline-summary">
+        同日，腾讯混元推出<strong>Hy4 flash</strong>：总参数<strong>224B</strong>（其中64B为Engram参数），激活参数仅<strong>12B</strong>，支持多模态与<strong>1M上下文</strong>；每百万Token输入0.5元、输出2元，命中缓存仅需<strong>0.02元</strong>，被官方称为“迄今为止最高性价比的Hy模型”。华为云“行业AI梦工厂”发布并<strong>开源昇腾原生具身世界模型CloudRobo-WM1.2</strong>，采用共享世界模型骨干网络实现预测增强的世界表征，基于世界模型原生DualAct架构实现世界模型原生动作生成，在RoboTwin 2.0、LiberoPro 2.0两个评测基准中<strong>均排名第一</strong>。豆包工作同期上线“工作台”，首批覆盖金融、<strong>医疗</strong>、教育、创意设计等<strong>21个专业场景</strong>。
+    </p>
+    <p class="headline-summary">
+        三件事的公共指向不是“参数又大了”，而是<strong>单位任务成本又降了一档</strong>。当旗舰模型把单任务费用砍掉六成、把百万Token价格压到0.5元、把缓存命中价打到2分钱，AI应用的ROI门槛随之下移——这对医疗这类“高人力、强流程、预算刚性”的行业意义更大：医院不必先说服自己“AI很聪明”，只需算清“一个门诊单元能省多少分钟”。反向信号同样明确：SemiAnalysis在11月13日的模型更新中把2028—2030年全球AI加速器资本开支预测<strong>下调28%—41%</strong>（2030年从1.531万亿美元降至9230亿美元，减少6080亿美元），资本已经开始为“算力过剩”而非“算力不足”定价。而今晚（北京时间11月18日凌晨），英伟达将交出黄仁勋离任后的首份财报，市场共识营收约<strong>1,090亿美元</strong>——真正的考题是Q4指引。
+    </p>
+    <p class="headline-source">
+        来源：阿里云 · 腾讯云 · 华为云 · 每日经济新闻（2026-11-16/17）
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/HYMiGkBNHHM/" alt="数据中心GPU加速器机柜与橙色K线走势叠加" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达今晚交卷：黄仁勋离任后首份财报，营收共识1,090亿美元，Q4指引与毛利率才是考题</h4>
+                    <p class="column-item-summary">英伟达将于美东时间11月17日盘后（<strong>北京时间11月18日5:20左右</strong>）公布2027财年第三季度业绩，这是黄仁勋11月11日辞任后公司发布的首份财报。市场共识营收约<strong>1,087—1,090亿美元</strong>、同比增长约90.7%—91%，调整后EPS约<strong>2.47美元</strong>（上年同期1.30美元）；高盛更乐观，预计<strong>1,100.81亿美元</strong>、毛利率74.1%、EPS 2.57美元。真正看点在四季度指引：市场预期约<strong>1,243亿美元</strong>，Wedbush估1,240—1,300亿、富国估1,264亿；管理层此前预计受内存涨价影响Q4毛利率或降至<strong>71%—72%</strong>。KeyBanc因HBM4供应限制，把2026年Rubin GPU出货预测从170—180万颗<strong>下调至150万颗</strong>。股价端，11月13日收<strong>162.85美元</strong>、年内跌13.77%，较10月6日高点239.24美元跌约32%；期权隐含财报后单日波动约±7%—8%。高盛维持买入但目标价300→<strong>220美元</strong>，伯恩斯坦下调至“与大市同步”、400→<strong>200美元</strong>。</p>
+                    <p class="column-item-source">来源：新华财经 · 新浪财经 · 2026-11-16 <a href="https://finance.sina.com.cn/jjxw/2026-11-16/doc-iniyxpxc5956064.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/8IYbih8phog/" alt="夜晚纳斯达克交易所大屏与上市人群剪影" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Anthropic 11月18日定价：估值1.26—1.41万亿美元低于夏天预期，Q3营收170亿但环比增速降至47%</h4>
+                    <p class="column-item-summary">Anthropic IPO预计美东时间<strong>11月18日定价、19日在纳斯达克挂牌</strong>，代码<strong>ANT</strong>；发行<strong>8.25亿股</strong>A类股、区间<strong>70—78美元</strong>，对应估值<strong>1.26万亿—1.41万亿美元</strong>，明显低于今夏市场普遍预期的约2万亿美元，也无缘“史上最大IPO”（纪录仍属6月上市的SpaceX，估值1.77万亿）。IPO与<strong>260亿美元</strong>同步私募合计募资最高约<strong>904亿美元</strong>。基本面：Q3营收<strong>170亿美元</strong>、同比增幅超1,100%，但环比增速从Q2的144%<strong>降至47%</strong>；S-1显示已签订近<strong>万亿美元</strong>算力相关支出承诺，CEO Dario Amodei称算力“巨大不确定性”是公司“最深层商业困境”，截至9月30日持有超<strong>950亿美元</strong>现金及360亿美元短期投资。同期Claude连发<strong>Whiteboards、Sheets、Data</strong>三件套并测试Claude Meetings，直接踩进Office腹地，微软当日收跌2.2%、市值蒸发<strong>893亿美元</strong>。</p>
+                    <p class="column-item-source">来源：上海证券报 · 财富中文网 · 新智元 · 2026-11-15/16 <a href="http://www.cnstock.com/commonDetail/828805" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kW8QHEeWaAQ/" alt="液冷AI加速器整机柜与明亮机房" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌首次整柜外售TPU：第八代已四款配置，Ironwood十项测试公布，推理每美元性能曾压过GB300</h4>
+                    <p class="column-item-summary">谷歌今年<strong>首次在同一年推出四款TPU系统</strong>（第八代已扩至四种配置，本周两款分别瞄准机密推理与长上下文），并<strong>首次向外部客户销售整套TPU系统</strong>（含计算、存储、网络硬件及软件、训练与推理服务），打破此前仅云上租赁的惯例。11月17日凌晨，谷歌云公布基于第七代<strong>Ironwood</strong> TPU的<strong>10项测试结果</strong>，含首个面向智能体强化学习的MLPerf基准：<strong>640块Ironwood在18.02分钟内</strong>达到目标模型编码基准准确率，训练芯片等待时间占比<strong>低于3%</strong>。SemiAnalysis 11月5日测试显示Ironwood在部分场景每美元Token产出已高于英伟达GPU，英伟达经四轮优化后GB300在特定模型上反超TPU <strong>1.5—2.6倍</strong>。财务侧，Google Cloud Q3收入<strong>307亿美元</strong>、同比+103%，经营利润从35.94亿升至<strong>111.21亿美元</strong>，Alphabet已把“产品销售，主要为TPU系统”单列进云收入。</p>
+                    <p class="column-item-source">来源：量子位 · 36氪 · 财联社 · 2026-11-16/17 <a href="http://m.toutiao.com/group/7708560293558780450/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/u0fNn4f8aDY/" alt="硅晶圆表面倒映红色下跌行情曲线" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">费城半导体单日重挫5.28%：SemiAnalysis把2030年AI资本开支预测砍掉6,080亿美元</h4>
+                    <p class="column-item-summary">11月16日美股，道指跌<strong>1.41%</strong>、纳指跌<strong>2.49%</strong>、标普500跌1.92%，<strong>费城半导体指数重挫5.28%</strong>：英伟达跌4.12%、台积电跌超6%、美光跌超7%、闪迪跌超8%、SK海力士跌超7%，光通信板块应用光电跌超9%、Lumentum与Ciena跌超8%。触发因素之一是SemiAnalysis在11月13日的模型更新中大幅下调AI加速器出货、资本开支、HBM与电力需求预测：2027年从7,700亿降至<strong>6,270亿美元</strong>（-19%）、2028年从1.054万亿降至<strong>7,580亿</strong>（-28%）、2029年从1.352万亿降至<strong>7,960亿</strong>（-41%）、2030年从1.531万亿降至<strong>9,230亿美元</strong>（-40%），减少<strong>6,080亿美元</strong>；2026—2030年加速器逻辑硅片出货面积累计预测下调17%，其中英伟达占66%的削减幅度。同日英伟达推出面向高性能计算的<strong>Vera CPU机架级平台</strong>，能效比x86 CPU提升一倍，由戴尔、HPE、联想、Supermicro供货。</p>
+                    <p class="column-item-source">来源：财联社 · 中新经纬 · 华尔街见闻 · 2026-11-16/17 <a href="https://www.cls.cn/detail/2535805" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/VoisnBvVWeA/" alt="小学校医室内医生与孩子交流" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">健康副校（园）长制度全国推开：四部门联合发文，中级职称起步、任期3年、不占编制</h4>
+                    <p class="column-item-summary">11月16日，国家卫生健康委、教育部、国家中医药局、国家疾控局联合印发《关于做好中小学校、幼儿园健康副校（园）长聘任与管理工作的通知》（国卫办妇幼发〔2026〕19号），推动儿童青少年健康管理服务<strong>关口前移</strong>。核心设计：由医疗卫生机构选派具备执业资质的临床、中医、口腔、公共卫生医师或注册护士担任，原则上<strong>中级及以上职称</strong>，优先儿科、儿童保健、心理健康、公共卫生；<strong>63周岁以下</strong>退休人员也可推荐。任期3年可续聘，<strong>不占学校领导职数和人员编制、非坐班制</strong>，原则上每人最多同时在2所学校任职。硬性动作：每学期现场指导<strong>不少于4次</strong>、健康科普宣讲<strong>不少于2次</strong>、参加1次专题会议，每学年形成书面报告报学校及辖区卫健、教育部门；任职前培训<strong>不少于8学时</strong>；实行<strong>“1+N”协作</strong>，由派出机构统筹儿科、营养、心理、口腔、眼科、中医、公卫等力量支撑。该制度是2025年12月十部门《儿童青少年“五健”促进行动计划（2026—2030年）》的落地抓手。</p>
+                    <p class="column-item-source">来源：国家卫生健康委 · 2026-11-16 <a href="http://www.nhc.gov.cn/fys/c100078/202611/123cab5c7b4d4d19a90781004c0de139.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/4vcXpQrnxzY/" alt="细胞治疗实验室中技术人员处理冻存管" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">CAR-T医保价落地28.86万元：从129万降77.63%，自付有望进10万内，但中国治疗率仍不足4%</h4>
+                    <p class="column-item-summary">11月15日晚，药明巨诺披露倍诺达（瑞基奥仑赛注射液）<strong>医保支付标准为28.86万元/支</strong>，2027年1月1日生效，较原定价129万元<strong>降幅77.63%</strong>；叠加报销后个人自费部分有望降至<strong>10万元以下</strong>。这是首个且唯一进入国家基本医保目录的CAR-T药物，已获批大B细胞淋巴瘤、滤泡性淋巴瘤、套细胞淋巴瘤三项适应症，累计超<strong>1,200例</strong>患者使用。成本侧：2025年一针全口径生产成本仍达<strong>50万—55万元</strong>，慢病毒载体占物料成本约<strong>50%</strong>、此前进口成本2万—3万美元/患者；公司称国产替代与规模效应可推动单位生产成本持续下降超<strong>65%</strong>，并明确“不存在卖一针亏一针”。市场侧：11月16日药明巨诺盘中跌超8%；中国CAR-T治疗率<strong>不足4%</strong>，远低于欧美约50%；按三个三线淋巴瘤适应症测算，纳入医保后每年可新增约<strong>1.1万例</strong>患者。</p>
+                    <p class="column-item-source">来源：第一财经 · 证券日报 · 2026-11-16/17 <a href="https://finance.sina.com.cn/roll/2026-11-16/doc-iniyxcic1255898.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/1YvvY6LyKB0/" alt="医生在电脑前操作多个医院与保险系统界面" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI把电脑操作智能体推进医院：325项任务99%判定临床安全，行政任务8.5美分/次</h4>
+                    <p class="column-item-summary">11月16日，OpenAI宣布面向医疗团队的<strong>计算机操作智能体</strong>（computer-use agents）通过OpenAI API、ChatGPT for Healthcare与ChatGPT for Clinicians开放，可像人一样看屏幕、移动光标、点击输入，跨应用完成<strong>转诊、出院规划、保险预授权、患者随访</strong>等多步流程。已落地伙伴：<strong>CVS Health</strong>在生产环境用其处理API覆盖不到的文档发送与专科会诊，称一个周末清掉了积压数月的文档发送量、另一智能体每天处理数万次会诊的系统步骤，并开源Apache-2.0的CUA Agent Kit；<strong>Cigna</strong>用其从10余个临床与行政系统汇总会员信息，从概念到部署不到<strong>8周</strong>；Abridge、Ambience在开发出院与预授权智能体，后者在记录不明确时会停下询问医生并等待批准。评估（公司自评）：GPT-6 Astra在<strong>325项</strong>经医生参与设计的EHR收件箱任务中<strong>99%</strong>被评为“临床安全”，<strong>646项</strong>评估中<strong>93%</strong>被评为“非常/极有帮助”；斯坦福HealthAdminBench上Astra得<strong>94.3%</strong>、Luna得91.8%，Luna单任务成本<strong>8.5美分</strong>、低98%。OpenAI自承模型“有时会越权、未取得应有签核即行动”。</p>
+                    <p class="column-item-source">来源：财联社 · Fierce Healthcare · Unite.AI · 2026-11-16 <a href="https://finance.sina.com.cn/roll/2026-11-16/doc-iniyxynt1034578.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/wJr7CMVnI7M/" alt="医疗器械检测实验室与注册申报文件" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">三类医疗器械临床试验方案前置咨询2027年起全面开展：境外申请人经境内代理人提交</h4>
+                    <p class="column-item-summary">11月16日，国家药监局发布《关于全面开展医疗器械临床试验方案前置咨询服务的通告》（<strong>2026年第40号</strong>），决定自<strong>2027年1月1日起</strong>对第三类医疗器械（含体外诊断试剂）临床试验方案开展<strong>前置咨询服务</strong>。适用条件：产品已定型、已完成必要的非临床研究。申请路径分两条：已纳入创新医疗器械特别审查程序的产品，经创新程序向器审中心提出、按创新产品<strong>优先办理</strong>；未纳入的，境内申请人向所在地省级药监部门提出、初核后由省级部门报送器审中心，<strong>境外申请人由其境内代理人直接向器审中心提交</strong>。服务内容为器审中心组织研究后反馈意见、指导临床试验开展，具体通知由器审中心另行发布。对创新器械与外资械企而言，这意味着“方案阶段就能拿到监管口径”，把过去压在注册申报末端的不确定性前移——与11月11日公布的《人类遗传资源管理条例实施细则》修订（境外上市注册信息对外提供免单独申报、注册临床中的探索性研究免单独审批）形成组合。</p>
+                    <p class="column-item-source">来源：国家药监局 · 2026-11-16 <a href="https://www.nmpa.gov.cn/xxgk/ggtg/ylqxggtg/ylqxqtggtg/20261116092706144.html?type=pc" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">组织</span>
+            <span class="breaking-news-text">英伟达「Stand with Jensen」请愿签名突破16万；美财长贝森特公开建议董事会从外部选继任者，并要求说明出口管制合规情况</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">Anthropic IPO 11月18日定价、19日挂牌，发行区间70—78美元，估值1.26万亿—1.41万亿美元，低于今夏约2万亿预期</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">模型</span>
+            <span class="breaking-news-text">腾讯混元Hy4 flash：224B总参/12B激活、1M上下文，每百万token输入0.5元、输出2元，缓存命中0.02元</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text">英伟达推出Vera CPU机架级平台，能效比x86提升一倍；谷歌云公布Ironwood TPU十项测试，640块18分钟达标</span>
+            <span class="breaking-news-time">11-17</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">医药</span>
+            <span class="breaking-news-text">国家药监局审议通过《化学原料药登记主体变更管理规定》与《关于优化细胞与基因治疗药品审评审批有关事项的公告》，近日发布</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">支付</span>
+            <span class="breaking-news-text">抗VEGF眼底针医保支付上限9年来首次上调：单眼从最多9针提至14针，法瑞西单抗等在列</span>
+            <span class="breaking-news-time">11-14</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">学术</span>
+            <span class="breaking-news-text">《Nature》四国84万成年人研究：现行BMI标准误判5.2%—8.6%人群，呼吁结合腰围、体脂率与胰岛素抵抗评估</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">AI虚拟人「方桃子」推广美瞳被罚6.83万元：软性亲水接触镜属三类器械，未取得医疗广告审查证明且虚构佩戴体验</span>
+            <span class="breaking-news-time">11-13</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：成本曲线才是AI进医院的「准入证」</strong></p>
+        <div class="insights-highlight">
+            Qwen4-Max单任务成本<strong>-58%</strong>、Hy4 flash缓存命中<strong>0.02元/百万Token</strong>、OpenAI医疗行政任务<strong>8.5美分/次</strong>——三件事指向同一个事实：AI在医疗场景的讨论重心，正从“模型够不够聪明”转向“每个流程单元省多少钱”。医院的信息化预算从来不是按“模型能力”批的，是按“减少多少人力、缩短多少等待”批的。河南中医药大学一附院“1+1+N+1”平台给出的量化口径值得对照：医生重复沟通工作量<strong>下降45%</strong>、病历与诊断不规范<strong>下降36%</strong>、患者预问诊等待<strong>下降50%</strong>、复查依从性<strong>提升60%</strong>——这类指标才是院务会能签字的语言。当行政类任务单价进入“美分级”，医院自建、采购与外包的临界点会被整体重算。
+        </div>
+
+        <p><strong>趋势二：CAR-T进医保的门槛不在价格，在交付能力</strong></p>
+        <div class="insights-highlight">
+            28.86万元只是支付端给出的答案，供给端还有两道关：一是<strong>产能与制备周期</strong>——自体CAR-T一人一药，采集、制备、质控、回输全链条缺一环都放不了量，慢病毒载体占物料成本约50%正是这条链上最贵的一节；二是<strong>能开展的中心数量与团队经验</strong>。中国治疗率<strong>不足4%</strong>、欧美约50%，差距不只是“付不起”，更是“能用上的中心太少”。医保放量后第一年新增约<strong>1.1万例</strong>的测算，本质上是对中心扩容速度的一次压力测试。对跨国药企与本土创新药而言，准入（医保）已经跑在能力（中心）前面——接下来拼的是院内外协同、DTP药房与真实世界数据，而不是再讲一次分子机制。
+        </div>
+
+        <p><strong>趋势三：「前置咨询」把不确定性前移，外资械企的注册策略要跟着改</strong></p>
+        <div class="insights-highlight">
+            三类器械临床试验方案前置咨询2027年起全面开展，叠加11月11日人遗细则修订（境外上市注册信息对外提供免单独申报、注册临床中的探索性研究免单独审批），两件事指向同一个方向：<strong>把“能不能做、怎么做”的争议放在方案阶段解决</strong>，而不是等注册申报时才发现证据链缺口。这与康方依沃西在FDA因OS证据不足收到CRL，其实是同一枚硬币的两面——<strong>全球多中心的证据设计成本，必须在III期方案定稿前付掉</strong>。对外资械企的中国策略而言，前置咨询是“时间窗口”，人遗简化是“数据出口”，两者合起来才决定一款创新器械能否做到中国首发。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第211期 · 2026年11月17日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-17.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
