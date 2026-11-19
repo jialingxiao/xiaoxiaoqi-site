@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月19日</span>
+        <span>|</span>
+        <span>第213期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/xHRsFXg05MY/" alt="夜晚纳斯达克交易所大屏与仰望人群剪影" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">Anthropic以83美元定价上市：募资约813亿、加私募超千亿，1.5万亿估值成史上最大IPO</h2>
+    <p class="headline-summary">
+        当地时间11月18日，Anthropic完成IPO定价：A类普通股每股<strong>83.00美元</strong>，比此前公布的70—78美元区间<strong>上限还高出5美元</strong>。发行规模同步扩大——公司原计划发行8.0135亿股、7名联合创始人出售2364.86万股，合计约8.25亿股；最终发行<strong>9.8亿股</strong>A类普通股（980,000,000股），其中9.5635亿股由公司出售、2364.86万股由售股股东出售，公司不从后者所得中获取任何收益。按83美元计，IPO部分募资约<strong>813亿美元</strong>；叠加按发行价同步进行的<strong>260亿美元</strong>私募配售，合计约<strong>1073亿美元</strong>。作为对比，SpaceX今年6月基础IPO募资750亿美元、行使超额配售权后增至862亿美元——Anthropic在<strong>融资规模上已超过SpaceX，成为全球史上最大IPO</strong>；完全稀释估值约<strong>1.5万亿美元</strong>，在估值榜上仅次于SpaceX的1.77万亿。据彭博社，此次认购需求约为发行规模的<strong>7倍</strong>，正是超额需求把发行价推到区间之上，并促使公司扩大了发行规模。
+    </p>
+    <p class="headline-summary">
+        260亿美元私募由七家产业链伙伴按IPO同价认购无投票权N类股：<strong>谷歌与英伟达各100亿</strong>、AMD 25亿、博通10亿、美光10亿、微软10亿、台积电5亿。股权结构随之定格：亚马逊持已发行股本<strong>14.7%</strong>（可转债全部转股后升至23.8%）、谷歌13.7%，两家合计约28%；七位联合创始人通过F类股握有<strong>50.1%</strong>投票权。基本面上，招股书显示2026年第三季度收入约<strong>169.6亿美元</strong>、环比增长47%，明显低于第二季度约144%的环比增速；截至10月末年化收入运行率约<strong>810亿美元</strong>；而截至9月30日及此后签订的采购承诺与租赁协议累计约<strong>9009亿美元</strong>，绝大部分与算力及基础设施相关；第三季度算力与基础设施支出98.6亿美元、占收入58%，单季经营由第二季度的盈利9.74亿转为<strong>亏损5.67亿</strong>。按1.5万亿与810亿年化收入计算，市销率约<strong>18.5倍</strong>。CEO达里奥·阿莫代伊上周五与摩根大通CEO戴蒙对话时说，公司并不特别在意选在哪个月份、哪一天、或什么市场环境下上市，并分享了自己在上市过程中得到的一条建议：<strong>“永远不要让公司的估值比它实际价值高出哪怕1美元。”</strong>
+    </p>
+    <p class="headline-summary">
+        这次上市踩在一个不算友好的窗口上：截至11月18日收盘前一周，纳斯达克100指数累计下跌<strong>4.4%</strong>；英伟达股价<strong>连续第五个交易日下跌</strong>、当日常规交易时段再跌2.9%；前SEC主席根斯勒同期警告AI泡沫可能在2028年大选前破裂。但结构性因素仍在托底——按原8.25亿股对约131亿总股本计算，公开流通盘仅约<strong>6.3%</strong>，再扣掉私募锁仓部分，首日可交易筹码更少；承销商手中还握着1.2375亿股超额配售权。高盛与摩根士丹利牵头、另有20家银行参与承销；芝加哥期权交易所已敲定在挂牌<strong>两个交易日后</strong>上线个股期权，最快下周一。另一面，软银创始人孙正义在东京一场活动上坦言，内部曾认真讨论投资Anthropic但最终没有出手，<strong>“真希望我当时就投了”</strong>。今日（11月19日）起，Anthropic以代码<strong>“ANT”</strong>在纳斯达克全球精选市场开始交易。
+    </p>
+    <p class="headline-source">
+        来源：IT之家 · 界面新闻 · 彭博社 · 财联社 · 招股书 · 2026-11-19
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/JCQ3kNInGcs/" alt="青蓝色霓虹神经网络与中心发光芯片" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">谷歌发布Gemini 4 Neon：100万token、每百万输入3美元，比Carbon快3倍、成本六成</h4>
+                    <p class="column-item-summary">11月18日，Google发布<strong>Gemini 4 Neon</strong>，位置很明确：不冲“最大最强”，而是补上高频复杂任务里“够强、够快、够省”的那一层。官方给的坐标是——Carbon啃最难的长周期项目，Hydrogen做日常快执行，<strong>Neon在深度与效率之间取平衡</strong>。硬参数：<strong>100万token上下文</strong>，定价<strong>每百万输入3美元、输出15美元</strong>，缓存输入<strong>每百万0.15美元</strong>（相当于95%折扣）。能力侧，Artificial Analysis智能指数在xhigh档拿到<strong>61分、位列第三</strong>，仅次于更大更慢的模型；Vals指数第2（70.9%），并在Legal Research Bench与Tax Agent Bench上登顶；在Arena新出的Agent Arena Index上以1336分排第2，靠的是4200多场真实agent会话里对“中途纠偏”的适应力。相比Carbon，官方称同等质量下<strong>速度快3倍、成本为60%</strong>，默认high档每任务成本比Carbon低<strong>32%</strong>。工程侧，Terminal-Bench 4.1 得65.2%、FrontierCode 2.0 得46.2%，主打跨仓库的多文件调试与外科手术式重构。上线渠道：Gemini API（AI Studio、Android Studio）、Gemini for business、Google Antigravity、Gemini App；面向防御者的安全版本将通过<strong>Fairwind计划</strong>在未来几天开放。同期Google还把Project Genie推进到<strong>Genie 4</strong>。</p>
+                    <p class="column-item-source">来源：Google官方博客 · 2026-11-18 <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/uGW7UMq56tc/" alt="暗色交易屏幕上的下行K线与服务器机柜" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达13F大挪移：减持英特尔四分之一、SpaceX升为第一重仓，两项占组合八成</h4>
+                    <p class="column-item-summary">11月16日，英伟达向SEC递交截至9月30日的13F持仓报告，11月17日盘前被集中解读。截至季末，其美股持仓总市值<strong>483.31亿美元</strong>，较二季度末的634.40亿<strong>环比下降23.82%</strong>，共披露8项持仓，增持1只、减持3只、4只不变。最大的两笔变动发生在前两大重仓之间：<strong>减持英特尔约5370万股</strong>，持股从2.1478亿股降至<strong>1.6108亿股</strong>、减幅<strong>25%</strong>，持仓占比从47.27%降至40.07%；同时<strong>增持SpaceX约770.81万股</strong>、增幅6.28%至<strong>1.3047亿股</strong>，占比从33.06%升至<strong>40.73%</strong>，市值196.83亿美元——SpaceX由此反超英特尔成为<strong>第一大美股持仓</strong>。两项合计390.50亿美元、占组合<strong>80.80%</strong>，集中度不降反升。此外减持诺基亚美国存托凭证<strong>56.2%</strong>（剩7290万股，占比3.48%→1.53%）、新思科技9.7%（剩435.4万股），CoreWeave、Coherent、Nebius、Generate Biomedicines仓位未动。英特尔这笔投资的起点是2025年9月18日：黄仁勋宣布以每股23.28美元、总价50亿美元入股，持股约2.15亿股、占英特尔总股本4.91%；到二季度末随股价飙升，市值一度达299.9亿美元。同期英伟达股价<strong>连续第五个交易日下跌</strong>、11月18日常规时段再跌2.9%，一周内纳斯达克100累跌4.4%。</p>
+                    <p class="column-item-source">来源：财联社 · 智通财经 · SEC 13F · 2026-11-17/18 <a href="http://m.toutiao.com/group/7708975576870928946/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/NGbzj-N0Q7o/" alt="医生在多屏工作站前查看病历与数据图表" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">三家医院同一天交卷：AI病历采用率内科80%、外科50%，智能体正在重写医院流程</h4>
+                    <p class="column-item-summary">11月18日《健康报》刊出一组来自2026中国卫生健康科技创新与学科建设大会（11月7日·温州）“数字革新·智启未来”平行会议的发言，拼出医疗AI从“给医生手边放搜索引擎”到“重塑业务流程”的转折。<strong>中国医学科学院阜外医院</strong>信息中心副主任韩作为的判断最直接：2025年的AI还只是搜索工具，今年的智能体已开始重塑全部业务流程——医生查房只带平板，系统按患者术前状态自动编排待办、依历史数据与当日检验检查结果推送任务；目前<strong>内科AI病历自动生成采用率已达80%、外科约50%</strong>。支撑它的是去年起建设的统一算力平台，同时也是安全治理边界：数据不出院、智能体编排出入可追溯、模型建立内部资产白名单（未备案不得上线）、代码必须通过白盒审计、内外网传文件经审批流关联交换平台用模型动态扫描敏感信息并异步人工追查。他用一句话总结：“安全治理不是给业务踩刹车，而是让业务更敢踩油门。”<strong>北京大学第三医院</strong>信息管理与大数据中心主任计虹给出的框架是“五位一体”：医生工作站集成院内历次就诊与院外<strong>30多家</strong>医疗机构数据、各类功能模块统一到一个AI智能体上协同；患者端“智诊家”由多个智能体分工做报告解读、健康咨询、用药咨询与预问诊；管理端用数字孪生构建“智慧大脑”，人才画像模块可追踪医生在多院区的出诊与手术。<strong>浙江省中医院</strong>副院长吴建浓则把中医做成了可计算的对象：门诊病历、中药处方、中医外治全部编码标准化，落地<strong>5个名老中医孪生机器人</strong>与中医智慧决策系统，建成舌脉数据库，中药从种植到煎煮全链条可溯源、煎煮<strong>100%数字化</strong>、中药房无纸化，并开出全省首家“夜门诊”。</p>
+                    <p class="column-item-source">来源：健康报 · 2026-11-18 <a href="https://www.jkb.com.cn/depth/2026/1118/515578.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/BhXe0KfBczs/" alt="两个西装剪影对峙于数据中心走廊两侧" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">合肥AI创新生态大会：星火X2.6医疗能力达专家水准，主动健康大模型落地50余家三甲、服务超百万人</h4>
+                    <p class="column-item-summary">2026人工智能创新生态大会日前在安徽合肥举行，由合肥综合性国家科学中心人工智能研究院与华为联合主办，目标是把基础研究到产业落地的链路打通。会上披露的医疗侧进展值得记录：<strong>科大讯飞</strong>联合创始人、认知智能全国重点实验室主任胡国平提出，“全链路自主创新的端云一体大模型，是AI安全与高性价比发展的重要路径”，并介绍星火大模型最新<strong>X2.6</strong>版本攻克了适配自主创新芯片的长程训练与推理技术难题，在<strong>教育、医疗垂直领域的专业能力达到行业专家水准</strong>，相关应用已规模化落地。<strong>中科院合肥物质科学研究院智能机械研究所</strong>基于国产算力底座打造的<strong>iMedGPT全模态主动健康大模型</strong>，围绕慢病康复、科学健身、基层康养、青少年健康构建“精准检测—综合评估—智能决策—精准干预”闭环，已自主研发四大类<strong>40余种</strong>主动健康智能装备、取得<strong>20余项二类医疗器械注册证</strong>，技术成果落地全国<strong>50余家三甲医院、200多个基层公共卫生与体育服务机构</strong>，常态化服务群众超<strong>百万人</strong>。前沿方向上，浙江大学段树民院士指出神经调控距脑机接口仅一步之遥、<strong>医疗应用将是先行场景</strong>，而无创精准调控技术的突破才是其走向未来产业的关键；复旦大学陈颉则提出非动物评价的核心瓶颈在于构建完整临床证据链，需要“模型—评价—验证—迭代”闭环。</p>
+                    <p class="column-item-source">来源：经济参考报 · 光明网 · 2026-11-18 <a href="http://m.toutiao.com/group/7709391147398955583/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/nv0I5b-Alrk/" alt="药师在药架前核对创新药与处方单" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">51种1类创新药进医保之后：四部门拆掉「不能进」的门槛，「不愿进」的账还没算平</h4>
+                    <p class="column-item-summary">2026版医保目录新增107种药品、其中<strong>51种为1类创新药</strong>，数量再创历史新高。目录公布当天，药明巨诺的瑞基奥仑赛以<strong>28.86万元</strong>的医保支付标准成为首个进入基本医保的CAR-T产品——从129万元降到不足30万元，行业测算患者自付有望压到10万元上下。但患者的下一个问题是：医院有吗？这正是“进了医保却进不了医院”这道多年未解的老问题。原因在于“进目录”和“进医院”不是一件事：前者解决报销资格，后者要过药事会审议是否纳入本院用药目录、采购部门对接供应商与配送、信息部门编码维护、临床科室医生培训四道关。药品零加成政策下，创新药入院即成为成本项，而国谈药多为生物制品、需冷链储存与用药监测，进一步抬高仓储与人力成本。一位三甲医院药剂科主任的说法很实在：不仅看患者需求，还要看新药比现有药品疗效好多少、是否真需要纳入药房、医保结算会不会超支；而且“引进相对容易，想再清退就非常难”，所以药房引入新药时非常谨慎。叠加卫健部门对“一品两规”的品规数量管控、医保总额与DRG/DIP支付方式带来的支出压力、以及药占比和次均药费等考核指标的隐形约束，创新药就卡在了最后一公里。破局动作在11月10日：国家卫健委等<strong>四部门</strong>联合印发《关于进一步做好创新药安全合理配备使用工作的通知》，要求二级以上医疗机构及时将创新药纳入本机构用药目录、<strong>不对总药品品种品规数量进行限制</strong>、1类新药<strong>不纳入门诊及住院次均药品费用增幅等绩效监测指标</strong>、商保创新药目录内药品病例经审核评议后<strong>可不纳入按病种付费</strong>、并支持医院对不适合按病种标准支付的病例<strong>自主申报特例单议</strong>，同时推动临床使用专家共识在1类新药纳入两目录后半年内发布。上海卫生和健康发展研究中心主任金春林的评价是：文件解除了品种数量限制和一品两规的硬约束，拿掉了医院以品规超限、费用考核为由把创新药挡在门外的“挡箭牌”。但他也提醒，<strong>及时纳入目录不等于强制配备</strong>，医院的隐性动机还没被触动——创新药占用额度却不带来服务性收入，在公立医院补偿机制未变的情况下，院长和科主任不愿进的经济学逻辑仍然存在：<strong>四部门通知管的是“不能卡”，管不了“不愿意推”的正向激励机制</strong>。落地端，国家医保局将于<strong>11月21日起</strong>在北京、吉林、上海等<strong>12个省份</strong>陆续开展“医药保学面对面”系列活动，推动新药“预进院”；《定点医疗机构医疗保障服务协议范本（2026版）》则把配备责任写进了约谈条款。</p>
+                    <p class="column-item-source">来源：第一财经 · 央视网 · 国家医保局 · 2026-11-19 <a href="https://news.cctv.cn/2026/11/19/ARTIQWt1RC6bnFxYVZ6o3ind261119.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/YlO5BJ5pLzA/" alt="戴白手套的手持扫码枪扫描药盒追溯码" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">医保服务协议2026版落地：回流药「零容忍」不看主观故意，80类违规情形一张负面清单</h4>
+                    <p class="column-item-summary">国家医保局近日开展《定点医疗机构医疗保障服务协议范本（2026版）》解读，在2024版基础上进一步细化了对定点医药机构违规、违约行为采取协议处理措施的具体情形与处理依据。三个变化值得关注。<strong>一是回流药零容忍</strong>：新规不再考虑是否有主观故意，医保中心经办指导处处长张晓楠的说法是“无论是倒卖还是销售，发现并核实为回流药的就要严肃处理”；配合药品追溯码，医保中心副主任赵欣表示“过去回流药难以甄别，现在信息技术可实现<strong>一扫即辨</strong>”。<strong>二是首次集中提出负面清单</strong>：把<strong>80类</strong>违规情形归入一张清单，作为协议附件一并印发，对应<strong>约谈整改、暂停拨付、不予支付、中止协议、解除协议</strong>五种处理方式。<strong>三是把数据异常写进线索</strong>：医保数据工作组会盯住医疗服务需求与报销对象年龄性别不符、门诊与住院人次比达到<strong>1.5∶1</strong>（意味两个人就诊就有一人被收治住院）这类异常，背后往往是基金违规使用。针对创新药入院难，新版范本要求优先配备使用医保目录内药品并建立与本机构用药目录的联动机制，明确<strong>不得以医保总额、医疗机构用药限制、药占比等为由，减少国谈药品与商保创新药目录药品的合理配备和使用</strong>，未按规定配备的机构负责人将被约谈。</p>
+                    <p class="column-item-source">来源：科技日报 · 大众网 · 国家医保局 · 2026-11-19 <a href="http://m.toutiao.com/group/7709658061421560363/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Gnu1B579aPA/" alt="医生手持掌上超声探头与AI标注影像" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">AI原生超声从三甲走到县域：南皮患者等候时间降60%、设备利用率升110%，凉山一年筛查超7万人</h4>
+                    <p class="column-item-summary">11月12日，数坤科技在中华医学会第二十六次超声医学学术会议上发布<strong>乾坤·AI原生超声平台</strong>，并展出配套的掌上超声与便携超声设备，把模型、智能体、影像系统与检查设备纳入同一体系，覆盖扫查、报告、质控、归档与远程复核。产品形态回应的是一个具体抱怨：中国防痨协会超声分会专业委员会副秘书长、杨凌示范区医院超声医学科主任贾明提到，过去一些方案要在超声设备旁另配电脑，医生得在两块屏幕间切换，“首先就很不方便，反而可能降低了效率，而且影响了质量”。新方案把AI集成进机身——掌上超声将探头与显示合在同一机身，便携超声自带屏幕、可装进体检车；扫查时按切面给出提示、在图上标出病灶位置与边界，报告发出前系统复核切面、测量与分级，医生可用语音生成结构化报告。落地数据来自三类场景：<strong>河北南皮</strong>县域医共体（今年3月19日交付，数坤超声AI与迈瑞便携超声联合方案，覆盖县医院急诊、重症、超声科与全县9个乡镇卫生院、8个社区卫生服务机构）<strong>患者等候时间缩短60%、设备利用率提升110%</strong>；<strong>四川凉山</strong>州妇幼保健院自2024年起引入乳腺超声AI，布局<strong>17个筛查点位</strong>，2025年17个县市完成筛查<strong>超7万人</strong>；<strong>新疆和田</strong>形成“乡里初筛、县里复核、北京兜底”的分级模式。AI承担初筛与辅助复核，专家更多参与远程会诊，最终确认签字仍由医生完成。公司层面，数坤目前持有<strong>19张</strong>国家药监局三类医疗器械注册证，产品进入全球<strong>5000余家</strong>医疗机构，国内百强医院覆盖率达<strong>90%</strong>，每年生成诊疗报告超<strong>1亿份</strong>。</p>
+                    <p class="column-item-source">来源：证券之星 · 财经报道网 · 2026-11-18 <a href="http://m.toutiao.com/group/7709469707459396123/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/rdLeFCLKbHQ/" alt="放射科医生观看带AI标注的胸部CT影像" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">车祸拍CT顺带查出肠癌：达摩院平扫CT模型敏感性86.6%、特异性99.8%，已捞出41例无症状患者</h4>
+                    <p class="column-item-summary">上海交通大学医学院附属新华医院近日披露一组数据：与阿里巴巴达摩院联合研发的肠癌AI模型<strong>DAMO COCA</strong>，无需注射造影剂，就能从<strong>普通CT平扫影像</strong>中自动识别可疑病灶，实现“无感”肠癌筛查。截至目前，靠这套模型已让<strong>41名无症状患者</strong>及时查出肠癌、均已获得手术治疗，且大都处于早期或中早期。典型病例是48岁的AI算力工程师梁先生：骑电瓶车被撞后在新华医院做CT，确认无骨折就回了家，随后接到结直肠肛门外科副主任医师吴庭玉的电话——那张为排查外伤拍摄的胸部CT顺带拍到了一段结肠，AI从中捕捉到一处细微病变，肠镜证实为<strong>II期肠癌</strong>，及时手术大概率可根治。他平时没有任何不适，每年体检的肿瘤标志物也一直正常。性能上，模型<strong>敏感性86.6%</strong>（防漏诊）、<strong>特异性99.8%</strong>（防误报）；国际肿瘤学权威刊物《肿瘤学年鉴》今年发表社论，指出该模型有望成为肠癌筛查的<strong>“安全网”</strong>。最新一代<strong>DAMO COCA 2.0</strong>不仅提升识别精度，还能识别肠道息肉，把筛查关口从早期肠癌进一步前移到<strong>癌前病变</strong>。背景是国家癌症中心最新报告显示，我国结直肠癌发病率持续攀升、发病率与死亡率均高居所有癌症第三；而传统肠镜需提前服泻药做肠道准备、检查过程有一定不适，直接影响筛查的主动性与依从性。平扫CT我国每年开展上亿人次，等于给了一次“机会性筛查”的入口。</p>
+                    <p class="column-item-source">来源：新闻坊 · 沈阳晚报 · 阿里巴巴达摩院 · 2026-11-19 <a href="http://m.toutiao.com/group/7709658689535230464/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">芝加哥期权交易所敲定Anthropic个股期权挂牌节奏：股票首秀两个交易日后上线，最快下周一</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">软银孙正义坦言错失Anthropic：“真希望我当时就投了”，软银最终押注OpenAI 646亿美元</span>
+            <span class="breaking-news-time">11-18</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">前SEC主席根斯勒警告：AI泡沫或在2028年美国大选前破裂并引发衰退，冲击量级与2000年互联网泡沫相当</span>
+            <span class="breaking-news-time">11-17</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text">马斯克称SpaceX对OpenAI算力销售额“预设为零”，奥尔特曼同平台回应，OpenAI算力需求之争公开化</span>
+            <span class="breaking-news-time">11-18</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">模型</span>
+            <span class="breaking-news-text">谷歌Project Genie升级至Genie 4，面向Google AI Ultra订阅用户开放更强的世界内控制与建造分享能力</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">集采</span>
+            <span class="breaking-news-text">全国中药饮片联盟采购处置4家违规企业：北京三和药业被取消全部品规中选资格并禁入18个月</span>
+            <span class="breaking-news-time">11-11</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">器械</span>
+            <span class="breaking-news-text">山外山子公司血液透析器获III类医疗器械注册证（国械注准20263102325），为国内首次注册品类</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">新药</span>
+            <span class="breaking-news-text">吉贝尔氢溴酸特吉西汀（抗抑郁1类新药）原料药上市申请获国家药监局受理</span>
+            <span class="breaking-news-time">11-18</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：AI的资本来源，正在从VC换成供应商的资产负债表</strong></p>
+        <div class="insights-highlight">
+            把Anthropic这轮260亿私募的名单摊开看：谷歌100亿、英伟达100亿、AMD 25亿、博通10亿、美光10亿、微软10亿、台积电5亿——<strong>买家名单就是采购清单</strong>。这不是财务投资，是锁定订单的预付款。这个结构直接决定了三件事：首日大概率涨（流通盘仅约6.3%，加锁仓筹码更少）；半年内可能回落（收入在减速——Q3环比47%对Q2的144%，单季由盈转亏，而同等智能的token价格两年降了97%，单价掉97%意味着用量要涨33倍收入才持平）；一年半内大概率还要再融（9009亿采购承诺是刚性的，收入是弹性的）。英伟达那边是同一枚硬币的另一面：应收账款810亿、销售未收款天数从45天拉到64天、表外供应承诺3900亿；临时CEO自己都说，部分新兴云厂商与前沿实验室的增长速度已超过其资产负债表能支撑的水平。<strong>这句话从卖方嘴里说出来，比任何做空报告都重。</strong>
+        </div>
+
+        <p><strong>趋势二：创新药政策拆掉了「不能进」，但还没解决「不愿进」</strong></p>
+        <div class="insights-highlight">
+            四部门这份通知的分量，在于它把医院挡药的三块挡箭牌全拿掉了：一品两规的品规数量限制、药占比、次均费用增幅考核；医保服务协议2026版又把配备责任写进约谈条款，这是硬约束。但金春林那句判断更值得记住——<strong>政策管的是“不能卡”，管不了“不愿意推”</strong>。经济学逻辑很朴素：药品零加成下，创新药入院就是纯成本项，占用额度却不带来服务性收入，还要冷链、用药监测、人力。所以真正能改变行为的不是禁令，是<strong>让“用创新药”变成可计价的劳务</strong>——今年2月医保局已把药学门诊、住院临床药学服务立项为独立收费项目，这次通知又要求各地落地；叠加特例单议与商保除外支付，才构成完整的三件套。对药企的实务含义：<strong>进目录只是拿到入场券，接下来的战场在省级特例单议细则、医院药事会的排期，以及能不能拿出让药剂科算得过账的药物经济学证据。</strong>
+        </div>
+
+        <p><strong>趋势三：医疗AI的分水岭不在模型分数，在「谁签字」</strong></p>
+        <div class="insights-highlight">
+            今天这几条医疗AI新闻有个共同结构：达摩院肠癌模型的敏感性86.6%、特异性99.8%，41例无症状患者被捞出来；数坤超声在南皮把等候时间压了60%、设备利用率提了110%；阜外医院AI病历采用率内科80%、外科50%。但没有一个案例里AI是责任主体——<strong>AI做初筛、复核、起草，最终签字的是医生</strong>。这不是技术保守，是制度设计的必然，也恰好是医疗AI能规模落地的原因。更值得复制的是阜外那套治理框架：数据不出院、智能体编排出入可追溯、模型内部白名单（未备案不得上线）、代码白盒审计、内外网交换动态扫描。<strong>对医院信息科来说，未来两年真正的门槛不是“接哪个模型”，而是“能不能把模型的边界管住”</strong>——这套东西建不起来，再好的模型也只能停在试点。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第213期 · 2026年11月19日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-19.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
