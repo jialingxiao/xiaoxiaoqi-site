@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月20日</span>
+        <span>|</span>
+        <span>第214期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/GC0l0UquKAU/" alt="夜晚纳斯达克大楼巨幅屏幕红绿股价曲线与楼下人群剪影" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">Anthropic首日收涨17%、市值一度破2万亿，同一天道指跌1101点：AI在狂欢，大盘在撤退</h2>
+    <p class="headline-summary">
+        北京时间11月20日凌晨00:48，Anthropic以代码“ANT”在纳斯达克全球精选市场开始交易，发行价83美元，高于此前70至78美元的推介区间。开盘后5分钟，股价一度冲至<strong>115.10美元</strong>、涨幅最大时接近39%，按完全稀释股本计算的市值短暂突破<strong>2万亿美元</strong>，一度成为全球第六大上市公司，超过Meta与博通。随后获利盘涌出，涨幅一度收窄至12%报92.72美元，最终收于<strong>97.17美元、涨幅17.07%</strong>——按发行在外股本计市值约<strong>1.271万亿美元</strong>，在全球上市公司中排第12位，介于特斯拉与伯克希尔之间；按完全稀释股本计约1.75万亿美元，盘后续跌约1%。全天成交量超过<strong>8.4亿股</strong>，显著高于SpaceX上市首日的5.22亿股。此次公开发行9.8亿股A类普通股，其中9.56亿股由公司出售，募资<strong>813亿美元</strong>，超过SpaceX今年6月的750亿美元，为史上规模最大的股票发行；若计入260亿美元私募配售，整体融资额达1073亿美元。
+    </p>
+    <p class="headline-summary">
+        但把镜头拉远，同一天的美股讲的是另一个故事。周四三大股指高开低走、全线重挫：纳指早盘一度上涨约2%，在Anthropic开始交易后跌至日内低点，最终<strong>跌550.69点、跌幅2.25%</strong>报23879.20点；道指<strong>跌1101.11点、跌幅2.19%</strong>报49097.06点，<strong>跌破五万点、为6月以来首次</strong>；标普500跌147.80点、跌幅2.02%报7175.83点。被称为华尔街“恐慌指数”的VIX在Anthropic开始交易、投资者撤离科技股后不久日内一度逼近<strong>29</strong>，为3月以来最高。英伟达、美光、微软与Meta随后都回吐了涨幅。Miller Tabak首席市场策略师马特·马利的说法很直白：“市场对这只股票的狂热程度实在太高了”“随着大量流动性涌入……现在可能出现了一种‘买预期、卖事实’的情况，催化因素已经兑现”。
+    </p>
+    <p class="headline-summary">
+        基本面上，招股书显示Anthropic今年前三季度营业收入<strong>332.4亿美元</strong>、较去年同期增长约<strong>12倍</strong>，其中第三季度单季进账169.6亿美元；但经营亏损约<strong>12.6亿美元</strong>，每股收益为<strong>-59.62美元</strong>，采购承诺与租赁协议累计约9009亿美元，高盛预计其自由现金流要到<strong>2030年</strong>才转正。造富效应同样惊人：约4250名员工身家将超百万美元，去年9月一轮融资后公司估值还是1830亿美元，14个月涨了约11倍。首席财务官克里希纳·拉奥称，上市将帮助公司降低资本成本，从而继续推动创新。另一面也不平静——敲钟仪式期间纽约、旧金山有抗议者示威，呼吁放缓AI发展步伐，有国会议员呼吁加强监管，上市前夜还有人联署质疑它“不是一家安全的AI公司”。CEO达里奥·阿莫代伊回应称，公司将审慎把握AI系统训练和部署的节奏，投入必要时间，直至确信这些系统安全可靠并始终处于人类控制之下。Walser Wealth Management首席投资官沃尔泽的判断是：随着投资者重新审视对人工智能的担忧，首日火爆之后，未来几周股价可能出现波动。
+    </p>
+    <p class="headline-source">
+        来源：财联社 · 第一财经 · 智通财经 · 腾讯新闻 · 36氪 · 彭博社 · 2026-11-19/20
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/81CVAqZ8Jr8/" alt="暗色机房里一排不同品牌AI芯片与伸入挑选的手" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">微软高管：客户正加速寻找英伟达替代芯片，Maia 300锁定30万颗台积电产能</h4>
+                    <p class="column-item-summary">11月19日，微软商业业务首席执行官<strong>贾德森·奥尔特夫</strong>（Judson Althoff）在接受彭博社采访时说了一句很重的话：早在黄仁勋宣布离职之前，客户就已经希望扩充AI芯片供应商，而这次人事风波“<strong>无疑让更多人确信，寻求其他选择是一个正确的决定</strong>”。他预计客户未来会广泛采购不同厂商的算力芯片，其中既包含AMD的产品，也有各大云厂商自研的处理器。“过去一年我一直大声疾呼，<strong>模型多样性和芯片多样性将主宰未来</strong>。”但他同时给了英伟达一个缓冲：大多数客户目前仍在“<strong>等待尘埃落定</strong>”，“他们有一些治理层面的问题需要理顺，而且他们会做到的。我们将继续与他们保持合作。”微软自己的动作更实在——自研<strong>Maia 300</strong>计划2027年推出，已与台积电敲定产能、目标拿到超过<strong>30万颗</strong>、全部安排在2027年交付；今年10月微软还表示目标是让AI软件主要运行在自家硬件之上。这番话的场合也值得注意：奥尔特夫是在微软年度<strong>Ignite</strong>大会上讲的，会上微软把自身定位为客户部署各类AI工具的“中立平台”，并发布了新的自研模型、称其比OpenAI和Anthropic的产品更具成本效益。市场层面，黄仁勋离任带来的不确定性正在重塑算力采购偏好，华尔街部分人士认为AMD或博通是潜在受益者；而英伟达自辞任消息曝光以来股价已累计下挫约13%，较52周高点回撤达37%。</p>
+                    <p class="column-item-source">来源：快科技 · 彭博社 · 智通财经 · 2026-11-18/19 <a href="https://finance.sina.com.cn/stock/t/2026-11-19/doc-inizhmki0963720.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TCyfF-6x83Y/" alt="硅晶圆上多颗小芯片经互连桥接结构精密连接" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英特尔与微软扩大合作：微软成首家采用英特尔EMIB封装的客户，用于Azure自研芯片</h4>
+                    <p class="column-item-summary">11月19日，英特尔与微软宣布达成一项<strong>长期协议</strong>，扩大持续数十年的合作，在Azure基础设施的若干特定领域携手推进，以应对日益增长的云与AI需求。协议里最有分量的一条是：<strong>微软成为首家宣布采用英特尔代工EMIB</strong>（嵌入式多芯片互连桥接）<strong>先进封装技术的公司</strong>，将用于Azure自研芯片。同时协议确认了<strong>多年期的英特尔至强产能供应</strong>，其中包括代号为<strong>Diamond Rapids</strong>的下一代服务器CPU的相关实例，并进一步扩大了双方在Azure路线图以及基于英特尔的Azure硬件系统方面的合作。把这条与上一条并排看，逻辑就清楚了：微软一边公开说客户该找英伟达的替代方案、一边把自己的自研芯片交给英特尔代工封装——<strong>云厂商的自研芯片不再只是“设计出来”，而是要解决“在哪儿封、封得出来多少”的产能问题</strong>。对英特尔来说，这是代工业务拿到的最有说服力的一个外部大客户背书；对整个算力供应链来说，先进封装正在成为继制程之后的第二个瓶颈位。</p>
+                    <p class="column-item-source">来源：每日经济新闻 · 英特尔中国 · 2026-11-19 <a href="https://news.ifeng.com/c/8yCNuW5iYLh" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/YrtgolYUU0w/" alt="深色屏幕上集成电路版图与RTL代码，光点沿走线流动" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI让模型改芯片：AMD旗舰GPU的PPA最高提升14%，一年的活压到5个月</h4>
+                    <p class="column-item-summary">当地时间11月18日，OpenAI发布技术报告《Advancing chip design with OpenAI models》，第一次系统披露AI模型在芯片底层设计上的实际产出。自研侧，工程师从<strong>2025年初</strong>就用GPT-4o参与推理芯片<strong>Jalapeño</strong>的设计：一项乘法器重新设计方案使综合后的标准单元面积减少约<strong>15%</strong>，同时把运算延迟从两个时钟周期压缩到一个；另一项加法器优化在保持两个时钟周期延迟的前提下同样实现约15%的面积缩减。OpenAI估算，这些修改最终让Jalapeño向量计算单元的标准单元面积减少约<strong>13%</strong>、矩阵计算单元减少约<strong>10%</strong>，且都通过了实际芯片验证。更值得看的是对外合作：在AMD旗舰GPU的关键IP模块上，模型通过重写描述电路的<strong>SystemVerilog RTL代码</strong>重构架构，相较于经过高度优化的基准设计带来最高<strong>14%的PPA</strong>（功耗、性能、面积）综合提升——相当于把原本约一年的设计优化周期压缩到<strong>不足5个月</strong>。AMD已将部分优化成果纳入近期送交制造的芯片设计，其余改进存入产品设计库；AMD下一代旗舰CPU的关键模块也验证得到个位数百分比的PPA增益。下一步，OpenAI宣布将携手EDA工具厂商<strong>新思科技</strong>联合训练GPT-Synopsys专用模型，目标是让AI熟练使用专业EDA工具、完整复刻芯片工程师的设计与验证全流程。这意味着AI正从“帮工程师写代码”进入“改电路、调微架构”的环节。</p>
+                    <p class="column-item-source">来源：快科技 · 环球网 · IT之家 · OpenAI技术报告 · 2026-11-19 <a href="https://finance.sina.com.cn/stock/t/2026-11-19/doc-inizfyuf6246162.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/D0MkZD6zgRI/" alt="DNA双螺旋悬浮发光，周围环绕单细胞网格点阵" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">AlphaGenome 2：能指定“哪种细胞”的基因模型，把一年半的实验压缩到30分钟</h4>
+                    <p class="column-item-summary">Google DeepMind于11月11日发布<strong>AlphaGenome 2</strong>，11月17日配套论文登上bioRxiv预印本。与前代最大的不同是输入结构：模型接收一段<strong>100万碱基</strong>的DNA序列，外加一个指定的生物学条件——组织、细胞类型或细胞状态，这个条件会贯穿模型架构的每一层，让预测指向单一生物学语境。训练数据包括超过<strong>1.07亿个单细胞图谱</strong>，以及覆盖68种组织的人与小鼠bulk数据；读出项在基因表达、组蛋白修饰、染色质可及性之外，新增了<strong>DNA甲基化</strong>预测。效果上，DeepMind称在免疫细胞基准上<strong>因果变异召回率接近翻倍</strong>。为什么这件事重要？前代模型的局限正是“知道有影响、但不知道影响了谁”。2024年，弗朗西斯·克里克研究所的James Lee团队用了一年半的基因编辑实验，才发现炎症性肠病的一个致病机制：一处藏在“基因沙漠”里的DNA变异，让<strong>ETS2</strong>基因在免疫细胞内过度活跃。而AlphaGenome 2只用了<strong>30分钟</strong>就复现了这一发现的部分结果。Lee的评价是：“他们在30分钟内就找到了答案，而我们的实验曾做了一年半”“在我们看来，复现结果令人安心”。两个月前DeepMind还发布了AlphaGenome Atlas，用第一代模型预测了人类基因组全部<strong>90亿种</strong>单碱基变异。目前非商业研究可通过AlphaGenome API免费访问，商业研究走Google Cloud私有预览。对做药物靶点发现的人来说，这个能力改变的是“先做哪个实验”的排序方式。</p>
+                    <p class="column-item-source">来源：腾讯新闻 · Google DeepMind · bioRxiv · 2026-11-17/19 <a href="http://news.qq.com/rain/a/20261119A0FSAT00" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/CYZOWE7rdCg/" alt="医疗冷链箱内细胞培养袋与冻存管，旁边放着社保卡" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">129万的CAR-T降到28.86万进医保：降幅77.6%，企业回应“不存在卖一针亏一针”</h4>
+                    <p class="column-item-summary">2026年版国家基本医保药品目录11月14日发布，今年共新增<strong>107种</strong>药品，其中<strong>51个为1类创新药、再创历史新高</strong>，同时调出34种临床价值有限、已有更好替代方案或说明书信息缺失且无法供应的药品，目录药品总数达<strong>3331种</strong>；新增品种覆盖<strong>31种肿瘤用药、24种慢性病用药、18种罕见病药物</strong>，以及抗感染、精神疾病、辅助生殖等领域，新版目录<strong>2027年1月1日</strong>起执行。最受关注的一单是药明巨诺的<strong>瑞基奥仑赛注射液（倍诺达）</strong>——11月15日晚公司公告，其医保支付标准定为<strong>28.86万元/支</strong>，较进入医保前的<strong>129万元/支下降约77.6%</strong>，2027年1月1日起生效，成为国内首个、也是目前唯一进入国家基本医保目录的CAR-T产品，支付范围覆盖已获批的大B细胞淋巴瘤、滤泡性淋巴瘤和套细胞淋巴瘤三项适应症。据测算，医保报销后患者个人自付费用有望<strong>降至10万元以内</strong>。一支降价上百万元，药明巨诺归因于“成本突破”：慢病毒载体作为CAR-T生产的核心原材料长期依赖高成本进口，是制约生产成本优化与规模化应用的重要因素，公司在这一关键领域取得重要突破。质疑也随之而来——11月16日药明巨诺盘中股价一度下挫超8%，投资者担心“卖一针亏一针”。董事会主席兼行政总裁<strong>田丰</strong>在11月15日晚的投资者交流会上回应：该定价是经过深思熟虑后做出的选择，公司围绕成本进行多方位测算和反复核算、并通过了敏感性测试，决策过程非常审慎，“<strong>我可以明确说明：该医保定价足以支撑公司可持续经营，不存在‘卖一针亏一针’的情况</strong>”。财务背景是，瑞基奥仑赛是药明巨诺唯一一款商业化产品，2026年上半年公司实现收入1.114亿元，其中该产品贡献1.112亿元、同比增长36.9%、占比达99.82%，公司希望借医保准入逐步实现盈利。落地节奏上，企业应于今年12月底前完成新增药品在省级采购平台的挂网，定点医疗机构原则上应于<strong>2027年2月底前召开药事会</strong>调整配备或开通临时采购绿色通道，医院未配药的按规定可通过“双通道”定点药店购买。国家医保局局长章轲11月14日透露，目前医保每年带动谈判药品销售超过<strong>1700亿元、是5年前的4倍</strong>，并重申“新药不集采、集采非新药”。同期检查费用也在降：各地PET/CT全身显像价格平均下降约<strong>26.9%</strong>，上海由7000元降至5000元、河南由6750元降至4400元。</p>
+                    <p class="column-item-source">来源：澎湃新闻 · 红星资本局 · 观察者网 · 第一财经 · 每日经济新闻 · 2026-11-14/17/19 <a href="https://m.thepaper.cn/newsDetail_forward_34500808" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ipnG4F0IRG0/" alt="庄重会议大厅长桌与窗外城市天际线，边缘有老人剪影" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">全国老龄工作会议在京召开：习近平作出重要指示，“市场”被放进协同发力的主体序列</h4>
+                    <p class="column-item-summary">全国老龄工作会议<strong>11月18日至19日</strong>在北京召开。习近平总书记近日对老龄工作作出重要指示，强调深入实施积极应对人口老龄化国家战略，坚持<strong>政府、市场、社会、家庭协同发力</strong>，进一步加强老年人社会保障、养老服务、健康服务、社会参与，<strong>大力发展银发经济</strong>，营造孝老敬老良好环境，建设老年友好社会。中共中央政治局常委、国务院总理李强出席会议并讲话，提出要顺应人口老龄化发展的趋势变化、<strong>分层分类</strong>做好老龄工作——把握老年群体的年龄和健康状况差异，注重<strong>老有所养和老有所为相统筹</strong>；把握经济条件差异，注重<strong>服务保障的梯度供给</strong>；把握养老方式差异，注重<strong>居家社区机构服务贯通协调</strong>；把握城乡区域分布差异，注重政策的均衡性和精准性。任务层面，围绕基本生活需求稳步提高养老保障和服务水平，围绕身心健康需求加强健康促进和精神文化服务，围绕价值实现需求拓展老年人参与经济社会发展的空间，围绕品质化消费需求大力发展银发经济。民政部、国家发展改革委、人力资源社会保障部、国家卫生健康委以及北京市、浙江省、四川省作交流发言。支撑数据也摆在那里：全国基本养老保险参保人数达10.76亿人，享受老年人津补贴人数超5300万人，长期护理保险定点服务机构超1.3万家，医养结合机构建成8000余个；每天有400多万人次老年人吃上老年助餐，向中度以上失能老年人发放的养老服务消费补贴已惠及260余万老年人及其家庭；2025年银发经济新设相关企业6.8万户、开行银发旅游列车2485列、旅居养老超8000万人次，今年以来养老服务消费补贴带动养老服务消费超460亿元。</p>
+                    <p class="column-item-source">来源：中国政府网 · 新华社 · 光明网 · 2026-11-19/20 <a href="https://www.gov.cn/yaowen/liebiao/202611/content_7086661.htm" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/k9DCcilkXcM/" alt="手持手机显示家庭医保账户共济界面，家人头像汇聚" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">医保钱包2.0全部升级上线：共济范围扩到祖孙、支持跨省，首月代缴141万人次5.4亿元</h4>
+                    <p class="column-item-summary">国家医保局11月17日通报，医保钱包2.0版自9月29日试运行、<strong>10月16日</strong>各省（自治区、直辖市）和新疆生产建设兵团<strong>全部完成升级上线</strong>，目前业务运行平稳有序。相比1.0版，这次升级动了三处：一是<strong>共济范围扩大</strong>，从配偶、父母、子女扩展到兄弟姐妹、祖父母、外祖父母、孙子女、外孙子女等近亲属；二是<strong>打破区域限制</strong>，由过去仅限被共济人所在统筹地区使用，扩展到支持跨省使用，使用场景也从就医购药扩展到城乡居民基本医保和长期护理保险的参保缴费；三是<strong>操作与风控升级</strong>，强化身份核验、共济关系绑定、共济额度管控和风险预警。渠道上支持国家医保服务平台App、支付宝小程序与线下经办窗口，方便老年人等特殊群体。数据上，截至11月15日，全国<strong>380个统筹地区</strong>支持使用共济资金缴纳本地参保费，占统筹地区总数的<strong>96.45%</strong>，累计代缴居民医保<strong>141.09万人次、金额5.4亿元</strong>；其中河北、河南、山西、甘肃、湖南五省的居民医保缴费金额占全国总金额的<strong>67.81%</strong>。一个具体场景是河北邯郸市第一医院心内科病房：84岁患者申树岐要做心脏射频消融、费用较高，在北京工作参保的外孙女得知跨省共济落地后，把个人账户额度共济给了老人。国家医保局医保中心主任樊卫东表示，<strong>2026年底前</strong>将全面实现被共济人使用医保钱包2.0版跨省异地就医购药的直接结算，并对老年人、残疾人等特殊群体提供线下办理渠道。这项改革的实质，是把长期“沉睡”在个人账户里的钱变成可跨省调用的家庭健康金。</p>
+                    <p class="column-item-source">来源：央视网 · 新华社 · 国家医保局 · 2026-11-17 <a href="https://news.cctv.com/2026/11/17/ARTIs8TyA8H44lN4T2L6zVod261117.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/G535smRYT-o/" alt="分子结构模型与欧洲地图轮廓、靶向药瓶" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">贝达恩沙替尼获欧盟批准：首个在中美欧三地均上市的国产ALK抑制剂</h4>
+                    <p class="column-item-summary">11月18日，贝达药业宣布其控股子公司Xcovery Holdings申报的<strong>盐酸恩沙替尼胶囊</strong>（商品名GEVALKA）上市许可申请获得<strong>欧盟委员会</strong>批准，用于间变性淋巴瘤激酶（ALK）阳性晚期非小细胞肺癌成人患者的治疗。新闻稿指出，恩沙替尼是<strong>首个在中国、美国及欧盟均获批上市的国产ALK抑制剂</strong>。这款药由贝达药业与控股子公司Xcovery共同开发，是一种新型强效、高选择性的新一代ALK抑制剂，2020年11月首次在国内获批，目前已覆盖二线、一线及术后辅助治疗适应症。欧盟进程走得不算快：2025年2月启动欧盟上市申报，10月通过欧盟质量受权人（QP）上市申请前GMP符合性审计，11月获受理；2026年9月获得欧洲药品管理局人用药品委员会积极意见，最终于11月获批。此次批准基于国际多中心III期临床研究<strong>eXalt3</strong>：接受恩沙替尼治疗的ALK阳性NSCLC患者<strong>中位无进展生存期达25.8个月</strong>，显著优于对照组的12.7个月；2020年WCLC公布的数据中最终mPFS为31.3个月。把这条与上一期依沃西单抗在FDA收到完整回复函放在一起看，国产创新药出海的两条路径已经很清晰——<strong>一条是挤进美国市场的窄门，一条是先拿下欧洲、再图其他</strong>。恩沙替尼走的是后一条，而且走通了。</p>
+                    <p class="column-item-source">来源：市场资讯 · 求实药社 · 贝达药业公告 · 2026-11-18/19 <a href="http://m.toutiao.com/group/7709731388865511946/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">Anthropic首日成交量超8.46亿股，显著高于SpaceX上市首日的5.22亿股</span>
+            <span class="breaking-news-time">11-20</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">资本</span>
+            <span class="breaking-news-text">按发行在外股本计Anthropic收盘市值1.271万亿美元，全球排第12位，介于特斯拉与伯克希尔之间</span>
+            <span class="breaking-news-time">11-20</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">算力</span>
+            <span class="breaking-news-text">微软自研Maia 300计划2027年推出，已与台积电敲定产能、目标超30万颗全部2027年交付</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">芯片</span>
+            <span class="breaking-news-text">英特尔与微软扩大长期合作，微软成首家采用英特尔EMIB先进封装技术的客户，用于Azure自研芯片</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">器械</span>
+            <span class="breaking-news-text">冠状动脉造影微循环阻力指数计算软件获批上市，为11月19日国家药监局公布的创新器械</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">器械</span>
+            <span class="breaking-news-text">赛诺医疗4款冠脉介入产品获印尼药监局批准、1款药物洗脱支架获哥斯达黎加卫生部批准</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">药价</span>
+            <span class="breaking-news-text">各地PET/CT全身显像价格平均下降约26.9%，上海由7000元降至5000元、河南由6750元降至4400元</span>
+            <span class="breaking-news-time">11-16</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">骨科</span>
+            <span class="breaking-news-text">青岛大学附属医院用国产ROPA骨科手术机器人为70岁多基础病患者完成全膝关节置换，亚毫米级定位</span>
+            <span class="breaking-news-time">11-19</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：同一天的两张脸：应用层在涨，基础层在撤</strong></p>
+        <div class="insights-highlight">
+            把11月19日这四条新闻并排看，会发现市场在做一件很具体的事——<strong>给AI的应用层定价，同时给AI的基础层减仓</strong>。Anthropic首日收涨17%、盘中一度破2万亿；同一天道指跌1101点、纳指跌2.25%、VIX逼近29（3月以来最高），英伟达、美光、微软、Meta集体回吐。资金不是离开AI，是在AI内部换仓：从“卖铲子的”换到“挖到金子的”。更关键的是供给端同时发生了三件事：微软高管公开说客户正加速寻找英伟达替代芯片、微软自己的Maia 300锁定30万颗台积电产能、英特尔拿到微软首个EMIB封装订单。<strong>这三件事加起来，等于宣布2027年的算力市场不会是单极</strong>。对采购方的实务含义：现在谈GPU长约，议价窗口比过去两年任何时候都好；对投资方的含义：英伟达的估值锚正在从“唯一供应商”变成“最大供应商”，这两个身份的市盈率不该一样。
+        </div>
+
+        <p><strong>趋势二：129万降到28.86万，企业凭什么说“不亏”</strong></p>
+        <div class="insights-highlight">
+            药明巨诺把倍诺达从129万元/支降到<strong>28.86万元</strong>进医保，降幅约77.6%。这个价格怎么算得过来？公司给的理由是<strong>成本突破</strong>——慢病毒载体作为CAR-T生产的核心原材料长期依赖高成本进口，这一环节的突破直接把硬成本压了下来；田丰的说法是“围绕成本进行多方位测算和反复核算、并通过了敏感性测试”，并明确“<strong>不存在卖一针亏一针</strong>”。从商业逻辑上看，CAR-T是<strong>个体化制备</strong>：每个患者一套载体、试剂耗材、人工和设备，成本结构里固定成本占比高、变动成本占比低。这意味着两件事——一是进医保后不用再一家家医院做准入，<strong>销售费用会大幅下降</strong>；二是用量上升后，制备环节的边际成本随规模下降。<strong>降价让出的那部分，很可能被这两头省回来。</strong>真正的风险不在价格，在<strong>产能与交付</strong>：CAR-T需要采集、制备、回输的完整链条和医生培训，落地速度注定比口服药慢。对同行来说，28.86万这个数字已经成为悬在所有国产CAR-T头顶的一把尺子——接下来拼的不是分子，是<strong>能不能在这个价格上把单例成本做得更低</strong>。
+        </div>
+
+        <p><strong>趋势三：老龄工作从“事业”变成“事业+产业”，这次会议的措辞值得逐字读</strong></p>
+        <div class="insights-highlight">
+            全国老龄工作会议11月18日至19日在京召开，习近平重要指示里有一句过去不常并列出现的组合：“坚持<strong>政府、市场、社会、家庭</strong>协同发力”——市场被放进了主体序列，而不只是“社会力量参与”。李强讲话里的“四个把握”更像一份执行手册：年龄和健康状况差异 → 老有所养与老有所为统筹；经济条件差异 → <strong>服务保障的梯度供给</strong>；养老方式差异 → <strong>居家社区机构服务贯通协调</strong>；城乡区域差异 → 政策均衡精准。翻成业务语言就是：<strong>不再有一个统一的“养老市场”，而是至少四个被切开的细分市场</strong>。配套数据也支撑这个判断：2025年银发经济新设企业6.8万户、银发旅游列车2485列、旅居养老超8000万人次，今年以来养老服务消费补贴带动消费超460亿元。对做老龄健康业务的人来说，“梯度供给”和“贯通协调”是两个明确的政策采购信号——前者指向分层产品线（活力老人／半失能／失能），后者指向居家-社区-机构的服务衔接能力，而不是再建机构、再铺床位。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第214期 · 2026年11月20日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-20.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
