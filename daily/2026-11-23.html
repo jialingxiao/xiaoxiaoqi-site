@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月23日</span>
+        <span>|</span>
+        <span>第217期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/a_ClE0onLtY/" alt="黎曼猜想形式化证明核验" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">Claude参与的黎曼猜想证明通过Lean验证：1700万行代码，24小时核完</h2>
+    <p class="headline-summary">
+        11 月 20 日晚，Anthropic 数学家 <strong>Levent Alpöge</strong> 在个人网站发布声明，称自己与 Claude 合作找到了<strong>黎曼猜想及广义黎曼猜想（GRH）</strong>的证明方法。他没有公开传统论文，而是发布了一份 4 页说明，以及分成 <strong>14 个压缩包、约 1700 万行</strong>的 Lean 形式化证明代码——因为由 Claude 生成的文字版证明超过 <strong>25 万页</strong>，按他自己的说法，「发布一大堆难以理解的垃圾显然是不合适的」。不到 24 小时，Lean 核心研发机构 <strong>Lean FRO</strong> 与 Mathlib 生态协调机构 <strong>Mathlib Initiative</strong> 发布联合声明：<strong>「我们完全相信 Alpöge 对黎曼猜想的证明是正确的。」</strong>
+    </p>
+    <p class="headline-summary">
+        这个速度背后是四重核验。第一关核「题干」：代码库仅直接依赖 Mathlib，所证定理指向 Mathlib 内置的 <strong>RiemannHypothesis</strong> 标准定义——在所有使 ζ 函数为零的复数中，除 -2、-4、-6 等平凡零点外实部均为 1/2，这个定义本身已经过 Lean 与数论专家反复核验。第二关独立复现：代码库涵盖 <strong>175,187 个模块</strong>，单人完整验证约需 100GB 内存与 70GB 硬盘，麻省理工学院数学家 Andrew Sutherland 用 Lean 与 Mathlib v4.33.1 独立完成无错编译，数十人复现后生成了体量达 <strong>61.6GB</strong> 的原始证明导出文件。第三关防「暗箱」：社区另建只导入 Mathlib 的隔离文件，用 comparator 与 con-leche --compare 两套工具比对，确认所证命题与 Mathlib 原定义完全吻合；Sutherland 对主文件 Main.lean 中的五个定理运行 axioms 指令，结果显示它们<strong>仅依赖 Lean 七条标准公理中的三条</strong>——propext、Classical.choice 与 Quot.sound，<strong>不含任何 sorryAx</strong>，全部源自核心库。第四关查验证软件本身：社区跳过源码，直接把 61.6GB 惰性导出文件交给多语言独立内核交叉检验，Rust 编写的第三方内核 <strong>nanoda 耗时 27 分 42 秒</strong>接受完整导出，con-leche 仅用 <strong>3 分 15 秒</strong>审完 146.8 万条声明、无一拒绝。
+    </p>
+    <p class="headline-summary">
+        但机器验证通过不等于数学界已经接受。截至 11 月 21 日 12:55 UTC，Sutherland 在 Lean v4.36.0 上的端到端 comparator 运行虽已完成命题比对与公理检查，<strong>内核阶段仍在继续</strong>；克雷数学研究所官网仍将黎曼猜想列为未解决，要拿那 100 万美元大奖还需至少两年的公开检验。学界反应两极：菲尔兹奖得主丘成桐称「数学进入了一个新纪元」，詹姆斯·梅纳德说自己有 98% 或 99% 的把握认为证明正确，吴宝珠则明确认可，认为 AI 会推动数学进一步繁荣、实现数学民主化；斯坦福数学家布莱恩·康拉德的反驳同样直接——<strong>「发布了一个他自己都没有完全理解的证明，这完全是荒谬的」</strong>。值得注意的是，就在同一天，美国数学会主席 Ravi Vakil 公布了一份由数学家 Alessandro Maria Masullo 耗时 12 年、约 940 页、<strong>完全由人类完成</strong>的广义黎曼猜想候选证明，8 小时后即有多人借助不同 AI 模型发现其中疑点。AI 既在参与证明，也在参与检验。
+    </p>
+    <p class="headline-source">
+        来源：36氪 · 智东西 · Lean FRO 与 Mathlib Initiative 联合声明 · 2026-11-22
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Jbdn6XVInNU/" alt="Gemini 4 Hydrogen 接管搜索" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Gemini 4 Hydrogen接管Google Search：比3.8 Flash快2.5倍，推理token少用52%</h4>
+                    <p class="column-item-summary">11 月 22 日，谷歌把 <strong>Gemini 4 Hydrogen</strong> 推向了全球用户，它接替 9 月上线的 Gemini 3.8 Flash，成为 <strong>Google Search 里 AI 功能的引擎</strong>，同时出现在 Gemini 应用的模型下拉菜单里。Hydrogen 是从前沿模型 Gemini 4 Carbon 适配而来的「快执行」版本——谷歌 DeepMind 高级副总裁 Koray Kavukcuoglu 把分工讲得很清楚：Carbon 和 Argon 负责难问题的深度长时推理，Hydrogen 负责在一系列 agentic 工作流里快速执行，写代码、跑测试、处理日常任务归它，设计系统、修复杂 Bug 仍交给大模型。它默认跑在 high 思考档位，用户可下调到 low 或 medium，也可上调到新增的 <strong>xhigh</strong> 档，四档在输出质量、延迟与成本之间各有取舍。硬指标上：<strong>100 万 Token 上下文，每百万 Token 1.50/7.50 美元，Artificial Analysis 智能指数 51 分，Terminal-Bench 4.1 得 57%，比 Gemini 3.8 Flash 快约 2.5 倍</strong>。ARC Prize 公布的测试结果更细：<strong>ARC-AGI-2 得 92.5%（每任务 1.26 美元）、ARC-AGI-1 得 98.5%（每任务 0.18 美元）</strong>，高推理档位下持平或超过 3.8 Flash，同时<strong>推理 token 用量减少约 52%</strong>；分档看，medium 档 89.2% 对 82.9%、high 档 90.0% 对 89.2% 均领先，但 low 档 65.8% 对 77.5% 反而落后——省算力这件事是有代价的。落到 Search 上，谷歌称 Hydrogen 会给出更多视觉化答案、更广的相关链接组合，也更能理解口语化查询和错别字。安全侧，谷歌说它<strong>绕过权限边界的可能性只有 3.8 Flash 的一半</strong>，但仍承认会幻觉、抗越狱能力仍在改进。</p>
+                    <p class="column-item-source">来源：Mashable · Google DeepMind · ARC Prize · 2026-11-22 <a href="https://jeffkomstory.com/google-launches-gemini-4-hydrogen-a-speed-focused-ai-model-now-powering-search" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/hkAfQ4OHVvA/" alt="蚂蚁百灵开源医疗模型 LingSante" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">蚂蚁百灵开源医疗模型LingSante：560B总参数，HealthBench反超GPT-6 Astra</h4>
+                    <p class="column-item-summary">11 月 22 日，蚂蚁集团 AI 研究团队 inclusionAI 在 Hugging Face 以 <strong>MIT 协议</strong>开源了医疗模型 <strong>LingSante-3.1-flash</strong>。它基于通用模型 Ling-3.1-flash，采用混合线性 MoE 架构：<strong>5600 亿总参数、每 Token 激活 250 亿、100 万 Token 上下文</strong>，63 层 KDA 加 9 层 Gated MLA（7:1），512 个路由专家、1 个共享专家、每 Token 激活 8 个。相比上一代 Ling-3.0-flash-Sante（1240 亿总参数、51 亿激活），规模大了四倍多。厂商自测成绩确实亮眼：<strong>HealthBench Professional 65.72</strong>（GPT-6 Astra 64.18、Claude Opus 5.5 61.19、Gemini 4 Argon 55.91）、<strong>带工具的 HLE 72.22</strong>（63.59 / 63.03 / 61.17）、<strong>EHR-Complex 74.40</strong>（74.20 / 41.80 / 71.00），BrowseComp 94.10、PhysicianBench 57，在开源模型里排在前列。但短板同样明显，而且恰好是「纯医学知识」这块：<strong>MedXpertQA-Text 只有 57.27</strong>，落后于 Astra 的 63.22、Opus 5.5 的 67.14、Argon 的 71.35；<strong>不带工具的 HLE 只有 44.07</strong>（53.94 / 58.11 / 53.29）；<strong>Terminal-Bench 4.0 仅 26.5</strong>（59.1 / 59.6 / 57.1）。换句话说，它的强项是用工具查证、跑长流程，弱项是脱稿答题和写代码。训练上，医学与通用数据贯穿预训练、中训练与监督微调，后训练用强化学习覆盖医学推理、工具使用、搜索与专业行为，再做多教师 on-policy 蒸馏。官方披露医师评审一致性达 <strong>99.62%</strong>，搜索 agent 的新奖励机制让所需搜索步数<strong>减少 20% 以上</strong>。部署门槛不低：FP8 权重在 Hugging Face 上 <strong>574GB</strong>，官方建议 8 张 H200 或 4 张 GB300，另有更压缩的 MXFP4 版本。边界也写得清楚——<strong>它不是医疗器械，仅供研究与评估，不得独立用于诊断、开处方或决定治疗</strong>，且全部分数均为厂商自测，暂无独立评审或技术报告。</p>
+                    <p class="column-item-source">来源：Hugging Face 模型卡 · inclusionAI · 蚂蚁百灵 · 2026-11-22 <a href="https://huggingface.co/inclusionAI/LingSante-3.1-flash" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/TYQHs3yXmDg/" alt="Inkling 2 Mini 笔记本运行" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Thinking Machines开源Inkling 2 Mini：27B参数笔记本跑Agent，比Qwen3.8-27B便宜6倍</h4>
+                    <p class="column-item-summary">11 月 20 日，米拉·穆拉蒂联合创办的 Thinking Machines Lab 发布开源权重模型 <strong>Inkling 2 Mini</strong>，Apache 2.0 协议。它是个 <strong>looped transformer</strong>（循环 Transformer）：<strong>总参数 27B、激活 3.4B</strong>，算上循环带来的重复计算，每个 Token 的权重激活量相当于 5.4B。这套设计的直接结果是体积——权重以混合 NVFP4 与 MXFP8 精度分发，<strong>完整 checkpoint 约 20GB</strong>，32GB 统一内存的 Mac 或单台 DGX Spark 就能跑。团队研究人员真把它带上了飞机，在 MacBook Pro 上开着飞行模式离线运行，几分钟内搭出一个可玩的飞行模拟器。穆拉蒂自己的说法是：「循环机制让模型思考更多、输出更少。在当前这个规模下，它的思考过程仍可监控；但未来未必如此。」成绩上，<strong>DeepSWE v1.1 得 48.2%、Vals Index v2.2 得 46.5%</strong>，在 100B 参数以内的开放权重模型里名列前茅，长时序软件编码智能体与多行业自主 Agent 任务拿到同级别最好成绩，超过 Gemma 4 31B、Muse Glimmer、Qwen3.8-27B 等对比模型；<strong>SWE-bench Verified 79.2%、Artificial Analysis 智能指数 20.1</strong>，ARC-AGI-2 得 49.3%（每任务 0.14 美元）、ARC-AGI-1 得 84.5%（每任务 0.06 美元）。短板在多约束指令跟随与多轮对话：<strong>MultiChallenge 只有 50.0%、ComplexConstraints v1.1 只有 33.4%</strong>，弱于被称作「27B 模型之王」的 Qwen3.8-27B，高难度硬核推理也不及更大规模模型。但价格和速度补回来了——<strong>比 Qwen3.8-27B 便宜约 6 倍、快约 4 倍</strong>。发布首日即支持 vLLM、SGLang、llama.cpp、Unsloth、Ollama、Exo Labs、NVIDIA Dynamo、TokenSpeed 等主流推理路径，团队还同步开源了一个可变循环的研究模型。</p>
+                    <p class="column-item-source">来源：智东西 · Thinking Machines Lab · MindStudio · 2026-11-21 <a href="http://m.toutiao.com/group/7710462205623386662/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/pQ883CUIq6c/" alt="WeMM-Video 视频理解" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">腾讯微信视觉开源WeMM-Video：视频画面与原声联合分析，最大350亿参数</h4>
+                    <p class="column-item-summary">11 月 22 日，腾讯微信视觉团队公开了 <strong>WeMM-Video</strong> 的技术报告、推理示例和模型权重。这是一组面向视频理解的多模态模型：<strong>20 亿、40 亿、90 亿三个稠密模型</strong>，外加一个<strong>总参数 350 亿、激活约 30 亿的混合专家模型</strong>。支持中英文，接收文字、图片、音频和视频输入，输出文本。它最有意思的地方是<strong>画面与原声的联合分析</strong>——处理同一段视频时，既可以只看抽取的画面帧，也能结合原声回答问题，比如同时描述镜头里的动作和概括录音里的讲话。团队提供<strong>直接回答与推理两种模式</strong>，权重目录覆盖 <strong>BF16、FP8、AWQ、GGUF 和 NVFP4</strong> 五种精度，从服务端到端侧都有对应版本。对做视频内容分析、会议记录、医疗教学视频结构化的团队来说，这类「音视频同源理解」的开源权重是过去比较缺的一环。</p>
+                    <p class="column-item-source">来源：腾讯微信视觉 · 德里克文技术简讯 · 2026-11-22 <a href="https://m.weibo.cn/detail/5367978066971257" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/yd1g9hh1wxI/" alt="基层医疗质量三年行动" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">基层医疗质量三年行动启动：到2026年底中心乡镇卫生院健全质控制度</h4>
+                    <p class="column-item-summary">国家卫生健康委会同国家中医药局联合印发《关于开展基层医疗卫生机构医疗质量改善三年行动（2026—2028 年）的通知》，落点是《医疗卫生强基工程实施方案》，目标指向分级诊疗里的「基层首诊」。文件把时间节点写得很具体：<strong>到 2026 年底，全国中心乡镇卫生院（含县域次中心）和实际开放 30 张以上床位的社区卫生服务中心，要健全医疗质量管理制度、常态化开展医疗质量管理工作</strong>。路径是五件事——压实医疗质量管理责任、完善制度、提升管理意识、开展质量控制工作、强化监督管理。对行业更有实操意义的是「促进规范合理用药」这一条：<strong>规范医师和乡村医生处方行为</strong>，按安全、有效、经济、适宜的原则开方；<strong>保障「一老一小」等重点人群用药安全</strong>；<strong>规范慢性病患者长期处方开具标准</strong>；加强麻醉药品和精神药品等特殊药品管理；完善抗菌药物分级管理制度；发挥医联体药师在处方审核、处方点评方面的作用，定期核查用药合理性、对不合理用药及时干预；同时做好药品不良反应监测报告。把这条和此前国家卫健委推动的「非惩罚性」不良事件主动报告机制放在一起看，脉络就清楚了：<strong>二级以上医院先建机制，这轮往基层铺</strong>，而且是从「报不报」转向「报上来之后怎么改」。对做基层市场的外资药械企业来说，长期处方标准、抗菌药物分级、医联体药师审核这三项，直接决定了产品在基层的实际可及路径。</p>
+                    <p class="column-item-source">来源：国家卫生健康委 · 国家中医药局 · 中国非处方药物协会 · 2026-11-22 <a href="https://www.cnma.org.cn/nd.jsp?fromColId=-1&id=4512" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/GYpb4wMGlFo/" alt="蚂蚁阿福接入 UpToDate" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">蚂蚁阿福医生版接入UpToDate：国内首个，全国医护药师限时免费</h4>
+                    <p class="column-item-summary">11 月 22 日至 23 日，2026 蚂蚁阿福医疗健康生态大会在广州举行。会上发布的两件事值得放在一起看：一是<strong>蚂蚁阿福医生版推出 PC 工作台（电脑端）</strong>，形成手机 App 加电脑双端布局；二是<strong>接入威科集团旗下循证医学临床决策支持解决方案 UpToDate，成为国内首个接入该功能的 AI 平台</strong>。即日起，全国医生、护士及药师等卫生专业技术人员都可通过阿福医生版<strong>限时免费试用 UpToDate</strong>。UpToDate 素有「循证医学金标准」之称，内容由全球 <strong>7600 多名临床专家</strong>撰写和审核并持续更新，服务 <strong>180 多个国家和地区</strong>的医学专业人士。用法上，医生遇到疑难病例、需要查治疗建议或用药注意事项时，可以通过文字或语音提问，阿福给出循证参考并附上<strong>可追溯的来源</strong>，医生能进一步查证据质量与推荐强度。这不是双方第一次合作——2026 年 8 月威科旗下国际医学期刊已入驻阿福医生版。此外，阿福医生版还与中国药品监管数据中心、中华医学会、中华营养学会等机构合作，汇集超 <strong>6000 万</strong>医学指南与文献、超 <strong>14 万</strong>药品说明书。PC 端提供智能病历生成、AI 临床决策、医学科研绘图、论文写作助手等 <strong>12 项医学技能</strong>。蚂蚁集团 CEO 韩歆毅在论坛上把边界讲得很克制：<strong>「AI 在临床上的价值，不应该是替医生做决定，而是让医生的每个决定，都建立在更完整的信息和更扎实的证据上。」</strong>他还说，模型能力越强，人的专业价值越凸显，医生要成为可信信息的核验者、复杂取舍的解释者、共同决策的推动者；AI 的建议要经得起追问，让医生「看得懂、查得到、改得了」。落地侧已有样本：四川省人民医院肛肠科医生用平台设置术后随访计划、完成数百例持续随访；宁波大学附属妇女儿童医院医生搭建了十余套随访方案；部分医院正在试点院内版本，探索与医院信息系统、电子病历系统打通。</p>
+                    <p class="column-item-source">来源：澎湃新闻 · 半岛都市报 · 央广网 · 2026-11-22 <a href="http://m.toutiao.com/group/7710911263076844075/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/rrszMAU6u8E/" alt="罕见病药物与医保" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">2026医保目录新增107种药品，18种是罕见病药：中国患者约2000万</h4>
+                    <p class="column-item-summary">2026 年国家医保药品目录和商保创新药目录正式发布，本次<strong>新增 107 种医保药品，其中 18 种为罕见病药物</strong>。把这个数字放到产业背景里看会更有意思。罕见病全球已发现约 <strong>1 万种</strong>，影响超 <strong>4 亿人</strong>；中国约有 <strong>2000 万名患者，每年新增 20 万人</strong>。2018 年以来我国发布两批罕见病目录、共收录 <strong>207 种</strong>；截至 2025 年 9 月，罕见病直报系统覆盖 <strong>11.5 亿人口</strong>、登记病例 <strong>164 万例</strong>，国家罕见病注册系统建成 <strong>253 个研究队列、9 万余个病例</strong>。审批端在加速：2025 年我国批准罕见病用药 <strong>48 个品种</strong>，其中 <strong>12 个（24.5%）通过优先审评审批</strong>程序上市。美国那边的信号更早——FDA 药品评价与研究中心年度报告显示，<strong>罕见病药物首次占到美国新药总量的一半（50%）</strong>，创历史纪录。市场空间被反复测算：全球罕见病药物市场预计从 2020 年的 <strong>1351 亿美元</strong>增长到 2030 年后的 <strong>3833 亿美元</strong>，年复合增长 11.0%；中国从 <strong>13 亿美元</strong>增至 <strong>259 亿美元</strong>，年复合增长 <strong>34.5%</strong>，占全球份额从 1.0% 升到 6.8%。但「有药可医」到「用得上、付得起、用得久」之间还隔着支付。意大利药企的磷酸奥唑司他（成人库欣综合征全球首创口服疗法）2024 年曾在国内短暂上市，年花费高达 20 万元，<strong>全国仅有 29 名患者用药</strong>。阿斯利康中国副总裁、罕见病事业部负责人胡轶清把症结指向支付载体缺失——「最后一公里」的经济因素成了障碍：对患者是用不起，对企业是回报有限、影响前沿管线投入。上海市卫生和健康发展研究中心副主任康琦的判断是，<strong>2026 年我国罕见病产业正处在战略关键节点，研发创新迎来历史性窗口期</strong>。</p>
+                    <p class="column-item-source">来源：新华财经 · 弗若斯特沙利文 · FDA CDER · 2026-11-22 <a href="http://m.toutiao.com/group/7710860233538634282/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/W48YpqrmBFI/" alt="流感中流行水平" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">中疾控：全国流感进入中流行水平，甲型为主，未发现未知病原体</h4>
+                    <p class="column-item-summary">中国疾控中心发布全国急性呼吸道传染病哨点最新监测结果：<strong>11 月 9 日至 15 日，全国大部分地区已进入呼吸道传染病高发季，流感活动整体进入中流行水平，流行毒株以甲型为主</strong>。通报同时给了两条让人稍微安心的信息：监测检出的<strong>均为已知常见病原体，未发现未知病原体及其导致的新发传染病</strong>；当前主要流行的急性呼吸道传染病病原体是<strong>流感病毒和鼻病毒</strong>。对医疗机构来说，这个节点意味着发热门诊量、儿科与呼吸科床位、抗病毒药物储备都要按高峰期预案走；对疫苗端，甲型为主的流行株构成决定了当季流感疫苗匹配度的实际保护效果，值得持续跟踪哨点周报的型别变化。同期的国际侧也有提醒——美国疾控中心 11 月 20 日公布的数据显示，截至 11 月 19 日美国今年累计报告<strong>麻疹确诊病例 5838 例</strong>，其中 <strong>646 人住院（约占 11%）</strong>，约 <strong>96% 的确诊病例未接种过麻疹疫苗或接种情况不明</strong>。两条放在一起，指向同一个老问题：呼吸道传染病的防控效果，最终还是落在接种率和基层识别能力上。</p>
+                    <p class="column-item-source">来源：中国疾控中心 · 健康报 · 新华社 · 2026-11-23 <a href="http://m.toutiao.com/group/7711127494425854515/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国家卫生健康委办公厅发文，开展医疗机构医师附条件注册康复医学专业执业范围有关工作</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国家卫生健康委办公厅发文，加强生育友好医院和儿童友好医院建设与管理</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">药研</span>
+            <span class="breaking-news-text">恒瑞医药1类新药瑞坦宁（注射用磷罗拉匹坦帕洛诺司琼）新增适应证获批，用于预防中度致吐性化疗引起的急性和迟发性恶心呕吐，此前已覆盖高致吐性化疗场景</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">公卫</span>
+            <span class="breaking-news-text">美国CDC数据：截至11月19日，今年累计报告麻疹确诊病例5838例，646人住院（约11%），约96%未接种疫苗或接种情况不明</span>
+            <span class="breaking-news-time">11-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">医疗AI</span>
+            <span class="breaking-news-text">世界数据组织医疗健康专业委员会在京启动，由北京数据集团、北京大学医学部等国内外近百家单位联合组建，已设10个专项工作组，聚焦规则标准研制、「人工智能+」创新应用与发展中国家数字健康能力建设</span>
+            <span class="breaking-news-time">11-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">指南</span>
+            <span class="breaking-news-text">国际高血压学会发布2026版全球高血压实践指南，为时隔6年的重要更新，将130-139/80-89mmHg明确界定为「血压升高」阶段并建议早期干预</span>
+            <span class="breaking-news-time">11-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">OpenAI将GPT-Live-1.1开放给第三方应用，支持边听边说、可把复杂任务转交后端模型；新增待机配置，静默5至60秒后暂停，待机每分钟0.02美元、活跃通话每分钟0.05美元</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">Baseten基于Gemma 4推出开放权重决策模型bison-1与groundhog-1，bison-1在Artificial Analysis Decision Index v2.1得76分，支持128k上下文与图像输入</span>
+            <span class="breaking-news-time">11-20</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：黎曼猜想这一步，真正的分水岭不是AI会不会做数学，而是人类还能不能读懂结论</strong></p>
+        <div class="insights-highlight">
+            Lean 社区用 24 小时核完了 1700 万行代码，四重验证、多语言内核交叉检验、只依赖三条核心公理——机器把「对不对」这个问题解决得比人类同行评审更彻底。但它没解决「为什么」。25 万页的证明没人读得完，Alpöge 自己也承认无法完全理解 Claude 的推导过程。这不是孤例：25 位菲尔兹奖得主此前已联名发布《AI 在数学中的严重错位》，警告大规模高速产出「真/假」陈述可能摧毁数学的肥沃土壤。把这层逻辑平移到医疗 AI 上，映射非常直接——<strong>模型给出结论的能力，正在超过医生理解结论的能力</strong>。临床落地的真瓶颈从来不是准确率不够，而是可解释性和可追责性跟不上。一张 AI 给出的诊断建议，如果医生说不清它为什么这么判断、依据哪条证据、在什么条件下会失效，那它在病历里就没法签字。这也是为什么「可追溯来源」在医疗 AI 产品里比多几个点的 benchmark 更值钱。
+        </div>
+
+        <p><strong>趋势二：开源医疗模型把边界写得越清楚，反而越值得信任</strong></p>
+        <div class="insights-highlight">
+            LingSante-3.1-flash 在 HealthBench Professional 上拿到 65.72 分，反超 GPT-6 Astra 的 64.18；但同一张模型卡上，厂商同时写明了三件不太「好看」的事：<strong>所有分数均为自测、暂无独立评审或技术报告；MedXpertQA 等纯知识题明显落后于闭源模型；它不是医疗器械，不得独立诊断、开处方或决定治疗</strong>。这种自我限定在营销上似乎吃亏，实际却是可信度的来源——因为它把「能干什么」和「不能干什么」同时交给了使用者判断。对照一下就更能看出差别：有厂商拿「大模型通过了中医类别医师资格考试」当卖点，结果国家中医药管理局中医师资格认证中心连夜声明从未与任何大模型企业合作、从未提供历年真题、从未开展过测评。一边是主动划边界，一边是被动被划清，长期看哪一种更容易进医院采购流程，答案不难猜。
+        </div>
+
+        <p><strong>趋势三：蚂蚁阿福接UpToDate：医疗AI的护城河可能不在模型，在内容授权</strong></p>
+        <div class="insights-highlight">
+            阿福医生版这次升级，技术上没有发布新模型，最有分量的一步是<strong>拿到了 UpToDate 的接入授权</strong>——7600 多名临床专家撰写审核、覆盖 180 多个国家、持续跟踪医学进展。这类资产不是靠算力堆出来的，也不是靠爬公开文献能复现的，它需要一份一份的版权协议。这给医疗 AI 的竞争格局提了个醒：模型能力正在快速商品化，开源 560B 的医疗 MoE 已经能下载，真正稀缺的是<strong>被权威机构背书、可追溯、可引用、出了事能担责的知识源</strong>。对后来者的含义很实际——与其从头攒知识库，不如先想清楚能拿到谁的授权、以什么代价拿。对跨国药械企业同样有参考价值：当医院开始用这类工具做临床决策支持，产品信息以什么形式进入这些知识底座，可能会变成和进院、进目录同等重要的一个新渠道。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第217期 · 2026年11月23日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-23.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
