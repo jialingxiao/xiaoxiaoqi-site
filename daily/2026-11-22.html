@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月22日</span>
+        <span>|</span>
+        <span>第216期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/U-FsSuZUevM/" alt="抽象的青蓝色神经网络在循环中自我重构，周围环绕层叠的代码日志条纹" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">谷歌给AI装上「改进记忆」：换模型不再推倒重来，工作区任务从68.41冲到84.75</h2>
+    <p class="headline-summary">
+        11月21日，谷歌与宾夕法尼亚州立大学联合发布的一篇论文在开发者社区传开。论文提出的框架叫<strong>CRSI（Continual Recursive Self-Improvement，持续递归自我改进）</strong>，核心组件是一个叫<strong>SIM（Self-Improvement Memory，自我改进记忆）</strong>的机制。它要解决的是一个被长期忽略、但代价极高的问题：<strong>Agent 的「自我改进」改的到底是什么</strong>。答案是 Harness——那套包在模型外面的外壳，包括提示词、工具调用逻辑、拦截规则、重试策略。模型权重没动，动的是这层壳。壳优化得再好，也是针对某一个特定模型的脾气调出来的。
+    </p>
+    <p class="headline-summary">
+        论文做了一组很直接的对照实验：把在 Claude Opus 上深度优化过的 Harness，原封不动套到 Gemini 上，<strong>得分比 Gemini 原生的初始 Harness 还低</strong>。原因不复杂——过去保存改进成果的方式只留「结果」、不留「原因」，新模型拿到一堆规则，却不知道每条规则当初为什么这么定，于是会乱改，甚至把专门用来修 Bug 的代码删掉。SIM 的做法是把四样东西一起记下来：<strong>修改动机与具体代码（Rationale）、预期效果（Predicted outcomes）、实际效果（Observed outcomes）、评估上下文（Evaluation context）</strong>。有了这四样，经验就能跨模型接力——论文里 Claude Opus 5.5 进化出的 Harness 连同 SIM 一起打包交给 Gemini 3.8 Flash，后者接着往下优化，而不是从零开始。
+    </p>
+    <p class="headline-summary">
+        最直观的案例是「过早完工」这个 Bug。Claude 时期团队加了一条拦截器：没实际执行命令，不准提交完成。换到 Gemini 且不带 SIM 时，它<strong>连续 4 次重写这段代码，其中 2 次是在修自己刚造出来的 Bug</strong>；带上 SIM 之后，它不但保留了拦截器，还把它升级成「不只跑通，还要对比理论最优解，得分达标才准提交」。数字也很干净：<strong>Workspace 任务上，Gemini 的起点是 68.41 分，只传代码（不带 SIM）最终挣扎到 73.42，带 Full SIM 则一路升到 84.75，差了 11.33 分</strong>。Terminal-Bench 上做了 10 次独立运行，有 SIM 的一方<strong>9 次获胜、平均高出 2.36 分、p=0.003</strong>。测试覆盖代码编写、文本分类、工作区任务、工程设计四个领域，基线分四组：Cold Start、Harness Transfer（仅传代码）、Problem-Only Memory（仅传根因）、Full SIM。
+    </p>
+    <p class="headline-source">
+        来源：36氪 · 新智元 · arXiv 2611.18856 · 2026-11-21
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/CaBkMsGMCbQ/" alt="服务器机柜前的存储硬盘与一张成本曲线图" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">腾讯混元Hy4正式开源：7700亿总参数、490亿激活，混元LLM系列全量开放</h4>
+                    <p class="column-item-summary">11月20日，腾讯混元宣布 <strong>Hy4 大模型正式开源</strong>，模型权重已在 GitHub、Hugging Face、ModelScope 和 GitCode 四个平台同步上线，开发者可自行下载部署。至此混元 LLM 系列完成全部开源，覆盖 Hy3 preview、Hy3、Hy4 preview、Hy4 及 Hy4 flash 等版本。Hy4 正式版最早于 11 月 4 日发布，本次开放的是此前预告的权重。架构上，Hy4 采用 <strong>MoE 混合专家架构，语言主干总参数 7700 亿、每 Token 激活约 490 亿，上下文窗口突破 100 万 Token</strong>，支持文本、图像和视频理解。此次开放的版本不止指令模型：除标准指令模型外，还包括 <strong>FP8 量化模型和未做指令微调的预训练基础模型</strong>，形成从直接部署到二次训练的完整梯次。与旗舰版同步开放的还有主打性价比的 <strong>Hy4 flash</strong>：总参数约 2200 亿，其中包含约 635 亿 Engram 参数，每个 Token 仅激活约 120 亿参数，同样支持最高 100 万 Token 上下文和文本、图像输入，API 价格较 Hy4 大幅降低。授权方面，权重可下载自部署，但对<strong>大型模型即服务（MaaS）设有附加条件</strong>——过去连续 12 个月全球总收入超过 5000 万美元，或相关产品单月活跃用户超过 1 亿，需事先另行取得腾讯的书面商业许可。与权重一同发布的还有 <strong>Hy4 模型安全评估卡片（System Card）</strong>，披露网络安全与生物安全等维度的评估结果：训练数据仅纳入 PoC 生成、漏洞修复等防守性网络安全内容，剔除了漏洞利用、逆向工程与渗透等攻击性数据；腾讯玄武与科恩实验室的审计未发现明显的进攻性能力风险。官方另行公布了基础模型的 few-shot 成绩，MMLU 91.6、MMLU-Pro 73.9、C-Eval 95.0、MMMU-Pro 59.6，均为 Hy4 Base 结果。</p>
+                    <p class="column-item-source">来源：IT之家 · 新浪科技 · 腾讯混元 · 2026-11-20 <a href="https://finance.sina.com.cn/tech/digi/2026-11-20/doc-inizkctf5607044.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/2PI2ZhLHrlc/" alt="金属天平左侧放发光芯片、右侧放一叠硬币" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">微软一次放出7款自研模型：MAI Code 2用5%的价格拿到Opus 5.5的96%</h4>
+                    <p class="column-item-summary">在 11 月 17 日至 20 日于旧金山举行的 <strong>Ignite 2026</strong> 上，微软一次性发布 <strong>7 款自研模型</strong>：MAI Code 2、MAI Code 2 Flash、MAI Cyber 2 Flash、MAI Image 2.7、MAI Realtime 1、Dragon Copilot Transcribe（MAI Transcribe 2）和 Decision 1.1，并宣布第二代 AI 加速器 <strong>Maia 200 已投产</strong>，每瓦 Token 产出比上一代高 1.7 倍。旗舰 <strong>MAI Code 2</strong> 是稀疏 MoE 架构，<strong>总参数约 2.8 万亿、每 Token 激活约 770 亿，上下文 1.05M Token</strong>——极小的激活比例正是价格能压下来的原因。微软的口径是：在 DeepSWE 1.1、Terminal Bench 2.1、SWE-Atlas、FrontierCode v1.1 四个基准的平均成绩上，达到 <strong>GPT-6.1 Sol 的 98%、价格为对方的 40%；达到 Claude Opus 5.5 的 96%、价格为对方的 5%</strong>。原始分数也一并公布了：平均 63.2%，对 Sol 的 64.1%、Opus 5.5 的 65.3%。<strong>但「5%」是促销价下的单任务成本</strong>——GitHub Copilot 里 Code 2 的价格是<strong>每百万输入/输出 Token 0.50/2.50 美元，2027 年 5 月 17 日后翻倍到 1/5 美元</strong>，而 Opus 5.5 标价是 4/20 美元，按 Token 单价算其实是 <strong>12.5%</strong>；按标价折算单任务成本则约为 Sol 的 81%，不是 40%。短板也摆在明面上：<strong>SWE-Atlas 上 Code 2 只有 43.1%，Opus 5.5 是 57.5%，差 14 个百分点</strong>——Code 2 在 DeepSWE 和 Terminal-Bench 上其实反超了 Opus 5.5，输就输在代码库问答、测试编写与重构这类长仓库活儿上，也正是微软自己承认「尚未调优」的部分。另一个需要留心的细节：四个基准里有三个是微软自己在内部 MSBench 上跑的，只有 FrontierCode 来自第三方 Artificial Analysis，而截至 11 月 18 日 AA 还没有 MAI Code 2 的模型页。其余几款各有定位：<strong>MAI Cyber 2 Flash</strong> 在 CyberGym-E2E 上质量超过 GPT-6 Astra（对方需要两倍推理预算），单任务成本不到对方的 2%，1M Token 上下文，但仅内嵌于微软安全产品，12 月中起替换 MDASH 中的外部模型；<strong>MAI Image 2.7</strong> 在 Artificial Analysis 图像编辑榜排第一，归一化后约 <strong>34.82 美元/千张</strong>，对比 GPT Image 2.6 Sunburst 的约 210.72 美元/千张便宜约 6 倍（Flash 版约 10.24 美元/千张）；<strong>MAI Realtime 1</strong> 音频每分钟 0.01 美元起，另按每百万推理 Token 收 1/5 美元；<strong>Dragon Copilot Transcribe</strong> 已支撑<strong>每月 1000 万次患者就诊</strong>、错误率减半；<strong>Decision 1.1</strong> 比 GPT-6.1 Sol 快 50 倍、便宜 79 倍，Artificial Analysis Decision Index 为 68（此前 62）。</p>
+                    <p class="column-item-source">来源：NXplace · The Decoder · Microsoft Ignite 2026 · 2026-11-19/20 <a href="https://www.nxplace.com/post/microsoft-launched-7-ai-models-at-ignite-the-96-at-5-of-the-price-claim-fact-checked-795194532693" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/kLfAo7--ryI/" alt="光粒子从混沌噪点中凝聚成清晰有序的立体几何结构" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">英伟达开源连续扩散语言模型Sigma：14个checkpoint，8B自推测解码快3.46倍</h4>
+                    <p class="column-item-summary">11月20日，英伟达发布 <strong>Nemotron-Labs-Sigma</strong>，一组共 <strong>14 个开放 checkpoint</strong>、覆盖 3B 与 8B 两档的连续扩散语言模型。它与 LLaDA、Dream 这类在离散 Token 上做扩散的模型路线不同：<strong>Sigma 在学到的 16 维连续嵌入空间里逐步去噪</strong>，并按块生成、每块 64 个 Token。英伟达的说法是，这让少步蒸馏和轨迹引导在文本上变得可行。版本矩阵相当完整：<strong>base、instruct、少步蒸馏（NFE 2/4/8/16，共 8 个 checkpoint）、以及每个尺寸一个自推测变体</strong>。训练谱系也不常见——先用约 1 万亿 Token 训出的自回归 checkpoint 热启动，再继续做约 0.3 万亿 Token 的扩散训练。成绩上，<strong>Sigma-8B base 在英伟达自建的六任务套件上平均 71.16</strong>，高于 NLD-8B 的 70.22、Dream-7B 的 58.74、LLaDA-8B 的 41.78，也高于自回归的 Qwen3-8B 的 68.91。8B instruct 在 <strong>GSM8K 拿到 91.96</strong>、MATH-500 78.40、HumanEval 82.50，但 <strong>AIME25 只有 17.00</strong>、AIME24 为 23.33，十任务平均 59.14，仍略低于 NLD-8B 的 59.92——竞赛级数学是明显短板。速度是它真正的卖点：<strong>8B 自推测变体在单张 GB200 配 SGLang 的环境下，比自回归解码平均快 3.46 倍、峰值 4.20 倍</strong>（同设置下 NLD-8B 是 3.04 倍），3B 峰值 3.18 倍；base 模型在单张 H100 上约 120 至 140 Token/s。部署门槛也清楚：全部权重以 NVIDIA Nemotron Open Model License 发布、允许商用，需要支持 bfloat16 的 CUDA GPU（Ampere、Lovelace、Hopper、Blackwell），<strong>不支持 CPU 推理</strong>，依赖 PyTorch 2.4+ 与 Transformers 4.55+，英伟达自身不提供 API。基础上下文 4096 Token，8B instruct 版本扩展到 8192。</p>
+                    <p class="column-item-source">来源：Hugging Face · DEV Community · NVIDIA Nemotron Labs · 2026-11-20 <a href="https://dev.to/delimitter/nvidia-releases-nemotron-labs-sigma-an-open-continuous-diffusion-language-model-family-504i" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/qSuWBgSsOKI/" alt="深色背景上一道向上的发光曲线与汇聚的金色光点" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Anthropic指数纳入时间表落定：12月连进三大指数，被动基金「没有选择权」</h4>
+                    <p class="column-item-summary">11 月 20 日，Anthropic 上市后的指数纳入路径已经清晰。<strong>MSCI 已宣布提前将其纳入全球标准指数大盘股类别，自 12 月 1 日起生效</strong>；富时罗素此前公告，若 Anthropic 按计划于 11 月 19 日挂牌并符合提前纳入条件，<strong>预计 12 月 11 日收市后加入罗素 1000</strong>；纳斯达克方面，Anthropic 市值稳居前 40、符合纳斯达克 100 的快速纳入资格，<strong>有可能在 12 月 21 日开市前加入</strong>。三件事的共同前提是：<strong>上市首日的总市值与自由流通调整市值双双达到快速纳入标准</strong>。这个速度放在历史上并不常见——SpaceX 上市后约一周进入罗素 1000、不到一个月进入纳斯达克 100，Anthropic 的等待时间甚至可能更长一些。为什么指数纳入值得单独说？因为<strong>被动指数基金按市值和流动性选成份股，不看估值、不看价格，只按权重买</strong>。对一家上市首日成交额高达 <strong>874 亿美元</strong>、盘中一度涨约 38.7% 的公司来说，这部分买盘是一层托底；但硬币的另一面是，进出都变成规则驱动、可预测的流量，<strong>波动会被指数化资金放大</strong>。文章还提供了一个可见的虹吸样本：11 月 19 日，ARK 基金卖出约 <strong>9058 万美元英伟达</strong>持仓，同时买入约 <strong>8155 万美元 Anthropic</strong>——市场的钱不会因为一次 IPO 变多，配置新标的往往意味着卖出旧持仓。同日 Anthropic 以每股 83 美元定价、募资约 <strong>813 亿美元</strong>，超过 SpaceX 约 750 亿美元的纪录成为史上最大 IPO；叠加约 260 亿美元同步私募配售，整个交易规模约 1073 亿美元，对应估值约 <strong>1.5 万亿美元</strong>。控制权安排也值得记一笔：七位联合创始人通过共同持有的 Founder LLC 掌握一股特殊 F 类股票、握有 <strong>50.1% 的投票权</strong>，二级市场买入 A 类股的投资者只享有经济收益权，对董事会决策没有实质影响力。锁定期采用分级解禁而非统一 180 天，最长仅一年。</p>
+                    <p class="column-item-source">来源：活报告 · 新浪财经 · MSCI · 富时罗素 · 纳斯达克 · 2026-11-20 <a href="http://m.toutiao.com/group/7710177493818278400/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/dqbq31xsyAY/" alt="木桌上的空白试卷、笔与发出冷蓝光的平板电脑" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">大模型宣称「通过中医执业医师考试」，国家中医药管理局认证中心连夜否认</h4>
+                    <p class="column-item-summary">11月21日晚，<strong>国家中医药管理局中医师资格认证中心</strong>就近期部分人工智能大模型产品及其运营、推广主体宣称「大模型经过了中医类别医师资格考试试题测试」一事发布声明，两条核心内容都指向同一个结论：<strong>官方既没给过题，也没参与过测评</strong>。第一条针对试题来源：中心<strong>从未以任何形式向社会公开、发布或出售中医类别医师资格考试历年试题（含真题、原题）、参考答案及相关考试资料</strong>，亦未授权任何单位或个人公开、发布、销售；市场上以「历年真题」「官方真题」「内部题库」「原题还原」等名义提供、销售或用于训练、测评 AI 大模型的内容，<strong>均非中心提供</strong>。第二条针对合作关系：中心<strong>从未与任何人工智能大模型企业、平台或相关机构建立合作关系</strong>；未授权任何主体使用中心名称、简称、标识、考试数据及考试资料用于大模型训练、产品宣传或商业推广；<strong>未对任何大模型产品开展过测评、认证、认可或推荐</strong>。声明要求，任何单位或个人应立即停止不当宣传，删除、下架相关信息与内容，中心保留依法追究其法律责任的一切权利。公开资料显示，该中心 2000 年 12 月 19 日经中央编办批准成立，2007 年增加组织实施中医药行业特有工种职业技能鉴定工作职能并加挂国家中医药管理局职业技能鉴定指导中心牌子，2022 年经中央编办批准进行机构职能和编制调整；主要承担中医药行业相关考试和人才评价，以及考试质量评估、科学研究与交流、信息化建设等工作。</p>
+                    <p class="column-item-source">来源：央视网 · 澎湃新闻 · 北京日报 · 2026-11-21/22 <a href="https://news.cctv.cn/2026/11/22/ARTIQu34TaMWRbDasC2YRF8R261122.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/GZRuyL0hk4M/" alt="办公桌上并排摊开的两份纸质文件与药盒、眼镜" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">商保健康险药品「双清单」落地：58款行业推荐与28种国家目录，只重合10款</h4>
+                    <p class="column-item-summary">11月21日，中国经营报报道了商业健康保险药品保障「双清单」的落地细节。时间线要往前推：<strong>11 月 10 日</strong>，中国保险行业协会发布三份医疗险示范条款（一般商业医疗保险短期、长期，以及城市定制型商业医疗保险），同时发布 <strong>58 款《商业健康保险药品保障推荐清单（第一版）》</strong>；同日，中国精算师协会首次编制发布商业健康保险药品保障成本表，涉及 <strong>117 个药品</strong>（58 款推荐药械加 59 款参考药品），覆盖肿瘤、罕见病、慢性病。<strong>11 月 14 日</strong>，国家医保局公布 2026 年版医保目录与商保创新药目录，商保创新药目录共 <strong>28 种</strong>，覆盖肿瘤、罕见病、基因治疗、细胞治疗、放射性配体治疗等领域。把两份清单逐项比对，<strong>只有 10 款重合</strong>。58 款清单的结构值得细看：<strong>1 类创新药 25 款、2 类改良型新药 2 款，合计接近半数；基本医保目录外的自费药 32 款，接近六成</strong>；适应症覆盖肺癌、肝癌、血液肿瘤，也包括神经母细胞瘤等纳入国家罕见病目录的肿瘤。适用范围需要说清楚：这 58 款适用于<strong>院外特定药械责任</strong>，与短期、长期两款医疗险示范条款配套；住院期间、在医院内发生的合理且必要医疗费用保障不受清单限制。行业协会同时明确，58 款并非院外责任可覆盖的全部药品，保险公司可以在此基础上自主扩展——<strong>58 款是需要纳入的基础范围，不是扩展上限</strong>。险企的初步方案印证了这一点：多数倾向以 58 款为基础再扩展，药品目录总数大多做到 100 余种；某寿险给出两套方案，一是 130 种（58 款整体纳入不删减，另从 59 款中按客户结构与临床需求筛选，现阶段更倾向肿瘤相关品种），二是按精算师协会的 117 种清单设计，<strong>117 种被视为现阶段的实际上限</strong>。存量衔接是真正的难点——部分在售百万医疗险和特药险的药品目录已覆盖 200 多种甚至更多，在原有目录没有造成明显赔付压力的情况下，简单缩减推进会遇到阻力。眺远影响力研究院院长高承远提示：长期医疗险不能借「产品升级」变相重设等待期与除外责任，即便缩窄清单，也应保留等效替代药、院内外衔接和人道主义过渡期（如存量患者按老目录赔到疗程结束）。国家医保局的口径是：商保创新药目录内药品，<strong>医保统筹基金、工伤保险基金不予支付</strong>；支持商保机构据此设计新产品、更新赔付范围、调整赔付方式。</p>
+                    <p class="column-item-source">来源：中国经营报 · 新浪财经 · 中国保险行业协会 · 中国精算师协会 · 2026-11-21 <a href="https://cj.sina.com.cn/articles/view/1650111241/625ab30902001i8ew" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/qmlyim5hPK8/" alt="医院质量控制办公室内发着蓝光的数据看板与文件夹" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">卫健委回应政协提案：二级以上医院建立「非惩罚性」不良事件报告机制</h4>
+                    <p class="column-item-summary">国家卫生健康委近期公布对全国政协十四届四次会议一份提案的答复，以<strong>医疗质量（安全）不良事件管理</strong>为切入点，系统梳理了这套制度的建设脉络。所谓不良事件，指的是<strong>在医疗机构内发生或发现的、除疾病自然过程之外的各种因素所致的不安全隐患或造成负性后果的事件</strong>。答复明确，2016 年《医疗质量管理办法》第三十四条已规定国家建立不良事件报告制度、鼓励医疗机构和医务人员主动上报；国家卫健委每年通过国家医疗质量安全数据抽样调查开展分析，并通过《国家医疗服务与质量安全报告》向行业和社会反馈。力度是逐年在加的：<strong>自 2021 年起，连续 6 年将「提高医疗质量（安全）不良事件报告率」列为国家医疗质量安全改进目标</strong>；2023 年会同国家中医药局部署为期 3 年的「全面提升医疗质量行动」，提出<strong>至 2025 年末，每百出院人次主动报告不良事件年均大于 2.5 例次</strong>；<strong>2024 年印发《关于进一步加强医疗质量（安全）不良事件管理的通知》，要求二级以上医院建立完善「非惩罚性」主动报告机制，保护报告人隐私</strong>，并通过工作会议、宣传栏或信息平台多渠道宣传，鼓励员工自愿、主动报告。管理机制被拆成五个环节：主动报告、科学分类、重点分析、系统反馈、持续改进；对频繁发生或造成严重负面结果的事件，实行台账管理、重点督办。答复还特别提到要<strong>完善不良事件处理情况的常态化反馈机制，尽量将处理情况反馈给报告人，增强报告人的获得感</strong>——这一点常被忽略，但它是「非惩罚性」能不能落地的关键：只报不改、报完没回音，主动上报的意愿很快就会消退。在第四届医疗质量大会（北京）上，国家卫健委医疗应急司副司长胡瑞荣给出的判断是：不良事件主动上报意识持续提升，但<strong>医疗安全风险防控形势依然严峻</strong>。</p>
+                    <p class="column-item-source">来源：国家卫生健康委 · 健康报 · 2026-11-16/21 <a href="http://m.toutiao.com/group/7710576944185721386/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/wY0IKEtfN28/" alt="白色台面上的银灰色脑机接口头环与虚化的神经元网络" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">《脑机接口创新发展研究报告（2026）》发布：全球企业增至1175家，中国三大城市群占77.4%</h4>
+                    <p class="column-item-summary">11月21日上午，2026 脑机接口大会主论坛在北京昌平未来科学城举行，会上正式发布<strong>《脑机接口创新发展研究报告（2026）》</strong>，并集中发布 2026 年脑机接口 <strong>15 项标志性成果</strong>。大会由中国信息通信研究院主办，会期为 11 月 19 日至 22 日。报告给出的产业图景有几个硬数字：<strong>2026 年全球脑机接口企业数量从 800 多家增至 1175 家</strong>，多数企业选择技术门槛较低、产业化落地较快的路线；<strong>中国脑机接口产业集聚于京津冀、长三角、粤港澳三大城市群，共 190 多家企业、占全国的 77.4%</strong>，前五大省市依次为广东、北京、上海、江苏、浙江。报告判断，这一产业的<strong>集中度高于普通制造业，更接近生物医药</strong>，企业选址主要考量注册审查资质、基金投入和供应链完善度。变现路径目前只有两条：<strong>科研和医疗</strong>；大部分医疗领域应用仍处在研发、临床试验和审批过程中，人机交互与电子消费场景还有较大发展空间。报告还参照通信技术的代际划分，把脑机接口分成多代：<strong>一代是开环感知与开环调控的单向设备、读写分离；二代是目前研发中心的同靶点闭环；三代是多模态脑机接口，集成电、光、磁、声的交叉协作闭环生态；四代则指向 AI 原生与碳硅融合</strong>。15 项成果中，「北脑一号」采用微米级厚度高密度柔性颅内皮层电极，实现 128 通道无线全植入，<strong>已完成 40 余例人体植入、累计人体安全工作时长超 17 万小时，注册临床试验完成全部入组，计划 2027 年申报医疗器械注册证</strong>。大会同时宣布脑机接口人才培育和评价公共服务平台、脑机接口高质量数据公共服务平台启动建设，落户昌平未来科学城。报告也点出了短板：<strong>支付与人才体系尚不完善</strong>，仍需战略与资本耐心。</p>
+                    <p class="column-item-source">来源：京报网 · 北京市人民政府 · 中国信息通信研究院 · 2026-11-21/22 <a href="https://news.bjd.com.cn/2026/11/22/12039277.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">备案</span>
+            <span class="breaking-news-text">国家网信办公布9—10月生成式AI备案：新增133款（含3款手机端侧、1款拟人化互动）、1款信息变更，地方新增登记224款，累计1245款完成备案、955款完成登记</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">工具</span>
+            <span class="breaking-news-text">腾讯WorkBuddy公测电脑操控，可识别桌面软件当前页面并执行点击、输入、滚动，适用Windows/macOS客户端5.11.0及以上，需主动开启并授权</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">定价</span>
+            <span class="breaking-news-text">DeepSeek取消模型内置搜索与网页抓取的按次费用（含官方联网工具、Responses API及兼容Anthropic API的网页搜索工具），搜索结果仍按模型词元计费</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">开源</span>
+            <span class="breaking-news-text">苹果公开Depth Pro 2论文与推理代码，单目深度估算、以米为单位输出，支持照片/视频/实时画面，S/B/L/H+四规格，权重授权限于非商业科研学术</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">人才</span>
+            <span class="breaking-news-text">2026年长期照护师职业技能等级认定第四次省际联考完成，2.6万人参加</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">地方</span>
+            <span class="breaking-news-text">武汉灵活就业人员职工医保缴费基数按月7587元执行，比例4.8%加每月7元大额医疗保险费，月合计371.18元；单位参保基数下限4552元、上限22761元</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">药研</span>
+            <span class="breaking-news-text">GSK肺癌药neladalkib获FDA批准，用于既往接受过ALK靶向治疗后仍进展的患者</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">模型</span>
+            <span class="breaking-news-text">谷歌Gemini 4 Hydrogen上线Gemini应用与Search，主打速度与日常任务，ARC Prize同步公布ARC-AGI完整测试结果</span>
+            <span class="breaking-news-time">11-21</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：RSI真正的意义不是「AI自己改自己」，而是「改动的经验可以复利」</strong></p>
+        <div class="insights-highlight">
+            这篇论文最容易被误读的地方，是把它当成「AI 开始自我进化」的又一则新闻。但 CRSI 改的从来不是权重，而是 Harness——提示词、工具链、拦截规则这些模型外面的一层壳。<strong>过去这套壳的优化成果是一次性的</strong>：针对 Claude 调好的规则，换到 Gemini 上不但不管用，还会因为「不知道为什么这么定」而把好规则改坏。SIM 做的事其实很朴素：<strong>把「为什么这么改」和「改完效果如何」一起存下来</strong>，让下一个模型接手时能读懂前因后果。这个动作的价值不在技术复杂度，而在它<strong>把一次性的调优变成了可继承的资产</strong>——11.33 分的差距，本质上就是「有记忆」和「没记忆」的差距。对医疗 AI 的含义很直接：医院里积累的那些提示词模板、结构化抽取规则、异常拦截逻辑，过去每换一次模型就要重做一遍，这也是很多机构不敢换模型、被单一供应商锁定的真实原因。<strong>如果这套「改进记忆」的思路能被工程化，模型换代就不再是推倒重来</strong>，临床场景里沉淀的经验可以跨代迁移。当然要冷静：论文的测试集中在代码、分类、工程这些有明确评分标准的领域，医学场景的「改对没改对」往往没有即时可得的分数，SIM 里的 Observed outcomes 这一栏会难填得多。
+        </div>
+
+        <p><strong>趋势二：中医考试打假，暴露的是AI医疗评测的信任赤字</strong></p>
+        <div class="insights-highlight">
+            认证中心的声明只有两条，但每一条都打在行业的软肋上。<strong>第一条说没给过题</strong>——市场上以「历年真题」「内部题库」「原题还原」名义流通、用来训练和测评大模型的内容，官方一概不认。<strong>第二条说没合作、没测评</strong>——没有授权、没有认证、没有推荐。把这两条放在一起看，含义很清楚：任何声称「通过中医执业医师考试」的宣传，<strong>在官方口径里都是无效背书</strong>。问题不在于某一家厂商夸大，而在于整个行业缺少一套被认可的第三方评测基准。厂商为什么爱用「通过执业医师考试」这句话？因为它是公众唯一听得懂、又自带权威感的指标——但它恰恰是最容易失真的一种：题目来源不明、通过标准不明、有没有官方参与也不明，三个不明叠在一起，就成了营销话术的温床。对比之下，前几天浙江萧山开出的那张病理 AI 医保结算单之所以有分量，<strong>恰恰因为背书方是医保部门，用的是真实结算数据，而不是一场自测</strong>。医疗 AI 要走得远，缺的不是更多榜单，而是<strong>由监管方或支付方主导、过程可追溯、结果可复核的评测机制</strong>。在这套机制建立之前，越是响亮的能力宣称，越需要打一个折扣去看。
+        </div>
+
+        <p><strong>趋势三：两份清单只重合10款，说明「行业推荐」和「国家目录」是两套逻辑</strong></p>
+        <div class="insights-highlight">
+            58 款行业推荐清单，28 种商保创新药目录，逐项比对<strong>只有 10 款重合</strong>。这个数字乍看像配合不畅，其实是两种筛选逻辑的必然结果。国家医保局的商保创新药目录，筛的是<strong>创新程度和支付能力</strong>——创新药、临床急需、价格高到基本医保难以承接的品种，28 种是精挑出来的。行业协会的 58 款清单，筛的是<strong>院外特定药械责任这个具体场景</strong>——所以里面既有 25 款 1 类创新药，也有 32 款基本医保目录外的自费药，还有神经母细胞瘤这类罕见病肿瘤用药，标准是「患者在医院外还得自己买、且负担重」。两个目标函数不同，交集自然小。对药企的实务含义是：<strong>进国家目录不等于进商保清单，进商保清单也不等于进国家目录，两条通道要分别打</strong>，材料和证据链的要求也不一样。更值得注意的是 117 这个数字——精算师协会的成本表覆盖 117 个药品，险企把它当成现阶段的实际上限。这意味着<strong>商保的药品扩容不是无限的，它受制于成本测算</strong>。而那些在售百万医疗险已经覆盖 200 多种药品的存量产品，接下来怎么和 58 款、117 种的新框架衔接，是这一轮真正的硬骨头：缩窄会引发客户投诉，不缩窄则成本失控。高承远那句「不能借产品升级变相重设等待期与除外责任」，说的正是这个缝。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第216期 · 2026年11月22日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-22.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
