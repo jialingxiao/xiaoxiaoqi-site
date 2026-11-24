@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月24日</span>
+        <span>|</span>
+        <span>第218期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/Q6nAbYyr484/" alt="生物类似药集采启动" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">生物类似药集采开闸：7个单抗、340亿市场，今天启动申报</h2>
+    <p class="headline-summary">
+        11 月 21 日，安徽省医药价格和集中采购中心（全国药品联盟集采办公室）发布《全国药品联盟集中带量采购（单克隆抗体类）公告》，<strong>11 月 24 日启动企业信息申报，11 月 27 日截止</strong>。本轮纳入 <strong>7 个单抗品种、15 个规格</strong>——阿达木单抗、贝伐珠单抗、地舒单抗、利妥昔单抗、曲妥珠单抗、托珠单抗、英夫利昔单抗，覆盖肿瘤、自身免疫疾病与骨代谢疾病三大领域，采购范围覆盖全国所有省区市及新疆生产建设兵团。这是继 2021 年胰岛素专项之后，<strong>生物药集采首次扩展到单抗这类大分子抗体药物</strong>。由于工艺复杂、质控门槛高、产能建设周期以年计，业内把这轮称为「史上最难」的一次集采。此前呼声较高的帕妥珠单抗最终未进入名单，业内猜测与其生物类似药上市时间或竞争格局尚未达标有关。
+    </p>
+    <p class="headline-summary">
+        真正值得看的不是降幅，是规则——这轮集采没有照搬化药框架，四条关键设计另立了一套架构。<strong>遴选门槛从 7 家降到 5 家</strong>：化药要求参比制剂与过评企业合计达 7 家，生物药只需 5 家，因为生物类似药研发费用高达 1 亿至 2.5 亿美元，比化学仿制药高出两个数量级，本轮境内生产企业最多的贝伐珠单抗也只有 12 家，而化药里单一个维生素 B6 注射液就有 48 家竞争者。<strong>时间门槛从 2 年延到 3 年</strong>：首个生物类似药上市满三年方可入围，这三年对应再注册、批间一致性与免疫原性的长期观察，以及商业化产能的跑通，多出的一年是为首仿企业留的回报窗口。<strong>专利审查前置到竞价之前</strong>：申报企业须出具知识产权承诺书，无法提交的已挂网产品撤网、未挂网的协议期内不再受理——单抗的工艺、用途、方法专利远多于化药，拿到批文不等于能进集采。<strong>最后一道是产能与质量</strong>：企业须有 2 年以上单抗注射剂生产经验、至少 24 个月放行记录，并通过 GMP 符合性检查。
+    </p>
+    <p class="headline-summary">
+        市场规模给了这轮集采足够的分量：7 个品种 2025 年在公立医疗机构终端的销售额合计<strong>超过 200 亿元</strong>，其中贝伐珠单抗单品超百亿；行业测算这 7 个品种背后是<strong>近 340 亿元</strong>规模的生物类似药市场，涉及约 30 家企业。分品种看，贝伐珠单抗 147 亿元、曲妥珠单抗 86.2 亿元、利妥昔单抗 52.7 亿元、阿达木单抗 19.1 亿元、地舒单抗 15.6 亿元、英夫利昔单抗 13.8 亿元、托珠单抗 6.4 亿元。竞争格局上，贝伐珠单抗国内已有 13 款产品获批，曲妥珠单抗 7 个，利妥昔单抗 5 家，阿达木单抗 8 家。业内推测本轮降幅落在 <strong>35% 至 45%</strong> 区间，重演化药式价格战的可能性不大；协议期延续到 2029 年底，为第一轮接续留出设计时间。但生物药的落地难题比化药更硬：单抗多为注射剂，需静脉输注或皮下注射，用药场景集中在医院，部分品种还要冷链储存与专业输注条件，患者也无法像换化药那样便捷地更换生物制剂——一旦产能与需求错位，断供的后果远重于化药。
+    </p>
+    <p class="headline-source">
+        来源：新京报 · 新快报 · 安徽省医药价格和集中采购中心 · 2026-11-23
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/CnGtNMpnG0Q/" alt="GLM-5.4 循环架构" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">智谱GLM-5.4上线：750B循环架构，用更少token做出2-3T级效果</h4>
+                    <p class="column-item-summary">11 月 23 日中午，智谱 <strong>GLM-5.4</strong> 上线 Coding Plan 订阅体系，同步接入 ZCode、Trae、WorkBuddy、Qoder、CatPaw 等编码平台，V2、V3 及团队版使用额度提升至原来的 1.5 倍。这是智谱<strong>第一代采用 Loop Transformer 架构的旗舰模型</strong>：把 GLM-5 基座中的 <strong>28 层改为共享权重、循环执行两轮</strong>，在不增加参数量的情况下加深计算，基座规模约 <strong>7500 亿参数</strong>，官方称智能水平可对标 <strong>2 万亿至 3 万亿参数级</strong>模型，支持 <strong>100 万 Token 上下文</strong>，并首次加入原生视觉能力。为了让「多想一轮」不额外吃显存，智谱做了三处工程改动：逐 Token 门控渐进写回（按比例把每轮候选变化写回残差流）、KV Cache 跨轮共享加滑窗独立（第二轮只新增一个滑动窗口的缓存，不保留整份）、第二轮直接复用第一轮的稀疏注意力索引。效果数据来自 30B 同参数量对照实验：训练计算量只增加约 10%，<strong>AIME25 从 19.17 升至 30.42、GPQA-Diamond 从 47.58 升至 56.26、MMLU-Pro 从 71.65 升至 75.05</strong>，而<strong>思维链输出长度平均下降 10% 至 14%</strong>——部分推理从 Token 流转移到了循环带来的额外计算深度里。速度上非高峰时段最高约 200 Token/s，高峰时段 70 至 80 Token/s。定位上智谱提的是「泛 Coding」：用代码生成视频动效、构建完整游戏、做 3D 空间重建、驱动 FreeCAD 与 Blender 建模。边界也说清楚：上线时未公布综合基准分数，提到的 200 个真实编程场景评测没给具体分数，目前可查的对比数据来自个人评测者的私有测试、未获独立复现；API 要等安全评估完成后开放，权重计划开源但暂无时间表。</p>
+                    <p class="column-item-source">来源：华尔街见闻 · 智谱官方 · 北京日报 · 2026-11-23 <a href="http://m.toutiao.com/group/7711331291119010339/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/pMO-8wrX5ZI/" alt="GPT-6.2 图像理解" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">GPT-6.2 Sol进入ChatGPT常规聊天：图像理解从47.4%跳到71.7%</h4>
+                    <p class="column-item-summary">11 月 23 日，OpenAI 开始把针对日常对话调优的 <strong>GPT-6.2 Sol</strong> 推送到 ChatGPT 的 Chat 标签，面向全球 Plus、Pro、Business 和 Enterprise 用户逐步开放，企业用户能否使用取决于管理员设置。这次更新只涉及常规聊天，Work 和 Codex 使用的模型不变。从官方公布的内部测试看，提升幅度集中在多模态与指令跟随：<strong>图像理解得分从 GPT-6 的 47.4% 升至 71.7%，复杂指令遵循从 62.5% 升至 78.1%</strong>，内部网页检索评测的最高测试档位从 54.4% 升至 64.5%。官方还举了一个偏「社交智能」的例子——模型更能识别何时适合主动提出后续跟进。对日常使用者来说，这意味着 Chat 入口从「能聊」向「能看懂图、能听明白复杂要求」挪了一大步；对开发者来说，更值得留意的是分层策略：同一个品牌名下，Chat、Work、Codex 三条线开始跑不同模型，选型时要先确认自己在哪个入口。</p>
+                    <p class="column-item-source">来源：OpenAI · AIGC 日报 · 2026-11-23 <a href="https://m.weibo.cn/detail/5368694861731671" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/gZz8Tr7tul8/" alt="LingSante air-VL 影像理解" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">蚂蚁LingSante-3.1-air-VL开源：124B看胸片写报告，笔记本能部署</h4>
+                    <p class="column-item-summary">11 月 23 日，蚂蚁集团百灵医疗健康大模型家族 <strong>LingSante</strong> 集中发布，覆盖医疗专业推理、多模态理解、疾病风险预测、安全防护和实时智能体五个方向，其中 <strong>LingSante-3.1-air-VL</strong> 与 LingSante-3.1-flash 两款核心模型当天同步开源。air-VL 是<strong>原生多模态</strong>模型，<strong>总参数 124B、激活参数 5.5B，支持 25.6 万 Token 上下文</strong>，能同时读文字、图片和视频，结合皮肤照片、饮食图片、体检报告做综合分析，权重以 MIT 协议在 Hugging Face 与 ModelScope 开放。按官方口径，它在<strong>医疗影像报告、皮肤疾病识别、医疗报告解读等细分任务上位居全球第一</strong>，且因为激活参数只有 5.5B，<strong>支持在笔记本电脑等本地设备部署</strong>——这一点对医院很关键：影像数据不必出楼。家族里另外三款也各有指向：<strong>LingSante Pulse</strong> 可对 150 余项疾病做未来六年的风险预测，<strong>LingSante MedGuard</strong> 专门识别医疗场景中的安全、合规与伦理风险，<strong>LingSante Live</strong> 是实时多模态智能体，能边听、边说、边看、边做。命名上「Sante」在法语里意为「健康」，通常用在祝酒时，寓意「为健康干杯」。需要提醒的是，上述「全球第一」均为厂商自测口径，官方对外传播的成绩集中在影像报告类任务，纯文字医学知识题并未作为重点披露；这一点与 flash 在 MedXpertQA 等文字题库上落后于闭源模型的情况一致。模型卡同样写明它是研究模型、不是医疗器械。</p>
+                    <p class="column-item-source">来源：环球网 · 四川观察 · 蚂蚁集团 · 2026-11-23 <a href="http://m.toutiao.com/group/7711243689611362858/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/o7rqDU_zNeA/" alt="AI 安全评估标尺" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">OpenAI首席科学家提议给AI建统一安全标尺：用困惑度衡量，2027年或迎预训练突破</h4>
+                    <p class="column-item-summary">当地时间 11 月 22 日，OpenAI 首席科学家<strong>雅库布·帕乔茨基</strong>发文提出，应把<strong>困惑度（Perplexity）或交叉熵损失</strong>作为衡量 AI 模型预训练进展的统一指标，并推动行业建立共同的安全评估标准和模型开发限制。他的判断链条是：随着模型对数据的预测能力提升，网络安全、数学等领域已经出现突破性能力；<strong>当模型对数困惑度降到 0.68 至 0.7 区间时，还会涌现更多变革性能力</strong>；AI 最早可能在 <strong>2027 年</strong>于预训练算法研究领域带来重大突破。他建议前沿模型开发商在进一步提升能力之前，先建立共享的安全评估、透明度规范及相应技术保障机制。奥特曼随后转发这篇文章，称这是 OpenAI 近期发布的最重要内容之一。值得放在一起看的是同期的另一条消息：<strong>美国加州总检察长罗布·邦塔 11 月 22 日公开批评 OpenAI 未能确保模型安全</strong>，称其「将增长和速度置于安全之上」，在缺乏充分安全措施和监督的情况下开发「一个危险的产品」，并已于 16 日代表加州向旧金山高级法院提起民事诉讼。一边是首席科学家呼吁行业共建标尺，一边是州级司法机构提起诉讼——AI 安全这件事，正在同时从技术规范和法律责任两条线往前推。</p>
+                    <p class="column-item-source">来源：界面新闻 · 新华社 · OpenAI · 2026-11-24 <a href="https://www.jiemian.com/article/15363794.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/RUlyDwGba-o/" alt="双友好医院建设" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">「双友好医院」新规落地：产科加单人间、儿童按1米视角改造</h4>
+                    <p class="column-item-summary">国家卫生健康委办公厅 11 月 23 日印发《关于加强生育友好医院和儿童友好医院建设与管理的通知》（国卫办妇幼函〔2026〕362 号），要求各地指导助产医疗机构和提供儿童医疗保健服务的医疗机构，严格对照《生育友好医院建设指南》《儿童友好医院建设指南》加强内涵建设。具体指向很实：<strong>生育友好医院要以改善分娩体验为核心，重点增加产科病房单人间和双人间数量</strong>，营造温馨舒适的产房环境，提供以产妇为中心的人性化分娩服务，<strong>努力提供「全天候」镇痛分娩服务</strong>；同时着力加强生育力保护，在规范开展早孕关爱服务上作表率，提升孕育和出生缺陷防治能力，强化危重孕产妇和新生儿救治。<strong>儿童友好医院则要立足「儿童 1 米视角」加强适儿化改造</strong>，推广门诊「一站式」服务、预约诊疗、检验检查结果互认、家庭化病房，做好儿童呼吸道疾病季节性就诊高峰的医疗资源调配，并落实儿童青少年体重、视力、心理、骨骼、口腔「五健」促进行动。文件把建设标准归纳为<strong>理念机制友好、空间环境友好、全程服务友好、服务模式友好、诊疗流程友好</strong>五个维度，同时把质量安全拉回硬约束：严格遵守《医疗质量管理办法》和医疗质量安全核心制度，重点强化三级查房、术前讨论、急危重患者抢救，强化儿科、产科领域质量安全风险隐患排查。对做妇儿相关产品与空间设计的企业来说，这份文件几乎是一张采购清单——单人间双人间改造、镇痛分娩设备、适儿化空间、家庭化病房配置，都会落到具体预算里。</p>
+                    <p class="column-item-source">来源：国家卫生健康委妇幼健康司 · 央视新闻 · 2026-11-23 <a href="https://news.qq.com/rain/a/20261124A03FMZ00" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/XPDhZ1nyV2g/" alt="索乐匹尼布获批" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国内首个Syk抑制剂获批：和黄医药索乐匹尼布双适应证同步落地</h4>
+                    <p class="column-item-summary">11 月 23 日，国家药监局通过优先审评审批程序，批准和记黄埔医药（上海）申报的 1 类创新药<strong>醋酸索乐匹尼布片</strong>（商品名赛威珂）上市，<strong>双适应证同步获批</strong>：一是治疗对既往接受过至少一种治疗反应不佳的慢性原发免疫性血小板减少症（ITP）成人患者；二是治疗既往至少对糖皮质激素治疗反应不佳的温抗体型自身免疫性溶血性贫血（wAIHA）成人患者。这是<strong>中国首个获批的脾酪氨酸激酶（Syk）抑制剂</strong>，也是<strong>全球首个获批的口服 wAIHA 靶向疗法</strong>。临床背景是两类病都长期缺好方案：ITP 与 wAIHA 的传统治疗依赖激素、免疫抑制剂、静脉丙种球蛋白，多只能实现短期缓解，复发率高、应答不稳定、长期用药毒副作用大，容易引发感染、代谢紊乱、骨髓抑制，大量复发难治患者陷入「无优药可用」的困境。而 Syk 靶点的研发门槛极高，选择性极难把控，全球多个在研候选药物都因脱靶毒性或疗效不足止步临床。索乐匹尼布的做法是高选择性抑制 Syk 通路，靶向调控 B 细胞与巨噬细胞异常活化，从源头阻断自身抗体生成与血细胞破坏，同时尽量保留正常免疫功能。这次双适应证能同步落地，与审评资源下沉有关——国家药品审评长三角分中心落沪后建立了更畅通的沟通机制，两个适应证均纳入优先审评。同一天披露的还有上海的创新药械家底：今年 1 至 10 月，上海 6 个国产 1 类创新药获批上市、位列全国第 4，占全国 11.8%；20 个境内第三类创新医疗器械获批上市、24 个产品进入国家创新医疗器械特别审查程序，两项均列全国第 1。</p>
+                    <p class="column-item-source">来源：澎湃新闻 · 国家药监局 · 上海市科委 · 2026-11-23 <a href="http://m.toutiao.com/group/7711331275105944074/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/nez0mzbjYRE/" alt="CAR-T 进医保" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">129万元一支的CAR-T进医保，谈判降到28.86万：医保局公开算三本账</h4>
+                    <p class="column-item-summary">2026 年国家医保药品目录公布后，一项变化引发广泛关注：曾定价 <strong>129 万元/支</strong>的 CAR-T 产品瑞基奥仑赛（倍诺达）首次进入国家基本医保目录，<strong>谈判后医保支付标准降至 28.86 万元/支，比原价少了 100 多万元</strong>。国家医保局医药服务管理司司长黄心宇用了一个比喻：<strong>「我们希望这个『骆驼』瘦瘦身、减一减、挤一挤，我们『茶杯』也努努力。」</strong>关键在于，这不是把百万元价格原样装进医保，而是先把价格谈下来，再看基金能不能接、企业能不能供。医保局公开了谈判时算的三本账。<strong>第一本是临床刚需</strong>：该药针对反复复发、其他治疗方案均无效的大 B 细胞淋巴瘤，目标是长期控制，属于临床急需补上的创新药缺口，专家认可其临床价值——「基本医保并不意味着先进疗法不能纳入，只要价格合理、基金可承受」。<strong>第二本是基金承受力</strong>：按药监部门批准的适应证，适用人群并不大，须前几轮治疗均失败才符合说明书条件，且属一次性治疗、一个患者只用一次，因此单价虽高但总量可控。<strong>第三本是企业成本</strong>：CAR-T 不像化药在厂房里一瓶瓶生产，而是「一人一药」——要抽血、把 T 细胞改造培养再回输；其中慢病毒载体占成本的 30% 到 50%，随着工艺优化和国产替代，国内已能自主生产；进医保后放量、人群变大，企业经过测算能够收回成本。据悉，此次申报基本医保并参与谈判的 CAR-T 有两款，最终只有这一款谈成，另一款正是卡在价格与成本上。这条案例的意义在于给出了一个可复用的判断框架：高价创新疗法能否进基本医保，不看绝对价格，看临床刚需程度、适用人群规模、治疗次数与企业成本结构的组合。</p>
+                    <p class="column-item-source">来源：央视新闻 · 国家医保局 · 成都商报 · 2026-11-23 <a href="https://m.weibo.cn/detail/5368428374268312" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/w4AjUoYiSOE/" alt="种植牙第二轮集采" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">种植牙第二轮集采今天开始报量：钛锆合金纳入，进口高端线下场</h4>
+                    <p class="column-item-summary">种植牙集采三年采购周期结束后，被称为「第二轮集采」的接续采购<strong>11 月 23 日起开始报量</strong>。据四川省医保局官网消息，口腔种植体系统全国联盟集中带量采购办公室通知，各医疗机构应在 <strong>2026 年 11 月 23 日 9:00 至 12 月 4 日 17:00</strong> 期间填报历史采购总量（2025 年 11 月 1 日至 2026 年 10 月 31 日）与采购需求量，填报的采购需求量将按一定比例作为带量采购依据。首轮种植牙集采于 2023 年实施，今年完成三年周期：据国家医保局 2026 年 10 月发布会数据，<strong>单颗常规种植牙治疗费用从 15000 元降至 6000 至 7000 元</strong>，全国公立医疗机构三年累计实际采购种植体系统 <strong>347 万套</strong>，种牙手术量从 2022 年 <strong>21 万例</strong>增长到 2025 年 <strong>89 万例</strong>，年均增长 71%。这轮有两个结构性变化。一是<strong>材质范围扩大，钛锆合金首次纳入</strong>——钛锆合金属相对高端的种植体材质，意味着更多原本在集采外的高端产品会被纳入并有望大幅降价。二是<strong>国际巨头主动下放高端线</strong>：诺保科（Nobel Biocare）明确表示「积极响应集采政策」，把原本不在集采范围内的多型高端种植系统以及多型基台纳入申报，包括金致 PCC、金质 RCC、Active 种植体等；行业普遍认为其竞争对手若不跟进，就会失去集采市场。压力最大的是国产阵营：首轮全国协议采购量超 262 万套，<strong>进口超 228 万套占约 87%，国产仅约 34 万套占 13%</strong>；公立医院里士卓曼、诺保科集采前植体约 5000 元、集采后 1800 多元，国产集采后也在 500 至 900 元——两者差价只有千余元，患者反而更倾向进口高端品牌，集采在客观上压缩了国产的生存空间。有国产厂商私下建议限制公立医院国产种植体的最低报量比例，但医生与患者对国产产品的信心仍是更根本的门槛。</p>
+                    <p class="column-item-source">来源：南方+ · 四川省医保局 · 国家医保局 · 2026-11-23 <a href="http://m.toutiao.com/group/7711338115239068169/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国务院办公厅印发《关于完善药品价格形成机制的意见》，提出完善集采价格形成机制、优化不同类别药品集采规则、规范协议到期接续采购，并加强医保支付标准与中选价格的政策协同</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国家卫生健康委印发第六批鼓励研发申报儿童药品清单</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">国家卫生健康委命名第二批全国医养结合示范县（市、区）和示范机构</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">药研</span>
+            <span class="breaking-news-text">礼来以最高7.25亿美元收购英国临床前生物技术公司LoQus23，获得针对三核苷酸重复序列扩增的小分子技术，重点布局亨廷顿病</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">药研</span>
+            <span class="breaking-news-text">CDE公示宜联生物1类新药YL202拟纳入突破性治疗，适应证为含铂化疗和PD-(L)1抑制剂治疗失败的复发或转移性宫颈癌</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">公卫</span>
+            <span class="breaking-news-text">美国加州总检察长邦塔批评OpenAI「将增长和速度置于安全之上」，已于16日代表加州向旧金山高级法院提起民事诉讼</span>
+            <span class="breaking-news-time">11-22</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">商汤开源SenseNova-Loop-9B多模态模型，支持512K上下文，仅存储32层权重、将同一24层中间块执行两次实现56层计算，4-bit权重约4.9GB</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">中国气象局与上海人工智能实验室推出地球科研平台ZHU·GE，汇集约10PB公共科学数据、约200万条文献记录，内置5000余项代码工具</span>
+            <span class="breaking-news-time">11-23</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：集采走向生物药，真正的考题不是降幅，而是制度能不能既压价又不伤产业后劲</strong></p>
+        <div class="insights-highlight">
+            化药那条路的余额已经快用完了。2018 年「4+7」以来国家组织药品集采已开展十二批、覆盖 555 种药品，前八批平均降幅普遍在 50% 以上；截至 2025 年 1 月，累计节省医保基金约 4400 亿元，其中超过 3600 亿元用于支付谈判药——也就是说老药集采省下的钱，约 80% 转给了创新药。这套「腾笼换鸟」要持续，就必须往新品类走，生物药是体量最大、临床刚需最强的方向。但单抗和化药不是同一种生意：研发费用 1 亿至 2.5 亿美元、产能建设以年计、患者不能随意换药、断供后果远重于化药。所以这轮规则全部另立——门槛从 7 家降到 5 家、上市年限从 2 年延到 3 年、知识产权承诺前置、2 年生产经验加 24 个月放行记录。<strong>这套设计的实质，是把「以价换量」改写成「以质量为前提的带量采购」</strong>。对跨国药企的含义很直接：高端产品线进集采不再是「要不要」，而是「以什么节奏进、保多少份额」——种植牙那边诺保科已经用行动给了答案。
+        </div>
+
+        <p><strong>趋势二：医疗AI的断层不在技术，在付费结构：3万亿医保基金对面，是11亿的市场</strong></p>
+        <div class="insights-highlight">
+            2025 年全国基本医保基金总支出首次突破 3 万亿元，而第三方机构测算同年医疗 AI 大模型的市场规模刚过 11 亿元。差了三个数量级，不是因为模型不够好，是因为收费口被堵住了。2024 年 11 月，国家医保局在放射检查类医疗服务价格立项指南中首次纳入「人工智能辅助诊断」，但明确列为<strong>扩展项</strong>——医院用不用 AI 都执行同一套收费标准，不得向患者重复收费，理由是 AI 尚无法替代医师诊断、没有独立的医疗服务产出。此后这一定价原则原样延伸到超声和康复类项目。2018 年前后那批影像 AI 公司设想的「拿三类证、进物价目录、按次向患者收费」，这条路就此关闭。支付端同时在收紧：DRG/DIP 已实现统筹地区、医疗机构、住院病种和基金支出「四个全覆盖」，3.0 版分组方案 2027 年 3 月底前落地。结果很清晰——<strong>院内唯一愿意为 AI 掏钱的买家是医院，而医院的核心诉求是控费降本</strong>，所以住院端最先跑出真实采购需求的是编码入组、病案质控、临床路径预警，是帮医院算准钱，而不是帮医生看得更准。判断一个医疗 AI 产品能不能规模化，先看它站在哪本账上：帮医院省钱的，有预算；帮医生提效的，等绩效改革；帮患者省事的，只能走院外。
+        </div>
+
+        <p><strong>趋势三：大厂把医生AI工具打到免费，争的不是360元订阅费，是那张执业签字权</strong></p>
+        <div class="insights-highlight">
+            蚂蚁阿福医生版接 UpToDate 向全国医护药师限时免费，京东健康「知医」从上线起就免费，阿里健康「氢离子」原本收每年 360 元 VIP 年费——价格战打得热闹，但真正的算盘不在订阅费上。按现行监管规则，<strong>AI 不能独立生成处方，所有处方必须由执业医师审核并电子签名，AI 也不得代为审方</strong>。这意味着从问诊、开药到支付的每一步，平台都需要一名持证医生在场确认。免费送文献库、送工作台、送 UpToDate 版权费，置换的是 30 万普通医生的院外碎片时间，以及他们手里那张平台自己永远拿不到的执业医师证。但这条路的天花板也很清楚：公立医疗占绝对主导，医生的身份、收入、绩效都绑在院内体系里——浙江一位县级三甲医院肿瘤科医生曾透露，DRG 执行后他和同事的工资整体降了约 30%。院外平台能分走多少医生时间，最终取决于监管尺度与公立医院愿意放开多少空间。这也是中美医疗 AI 最底层的分叉：美国医生端 AI 的价格由药企争夺处方注意力的广告预算决定，中国则取决于监管体系和公立医院绩效办怎么给一名医生的一小时定价。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第218期 · 2026年11月24日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-24.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
