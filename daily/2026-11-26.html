@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月26日</span>
+        <span>|</span>
+        <span>第220期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/h5CnN4vk1jM/" alt="药学类价格立项指南全国落地" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">药学服务开始单独收费：4类10项全国落地，药学门诊6-16元一次</h2>
+    <p class="headline-summary">
+        11 月 25 日，国家医保局披露：2026 年 2 月正式印发的《药学类医疗服务价格项目立项指南（试行）》，设立<strong>药学诊查、药品集中配置、药物浓度测定、中药药学服务等 4 类 10 项价格项目</strong>，截至目前<strong>全国各省份已全部完成对接落地</strong>。这件事的背景是药品零加成之后，医院药学部门长期处在一个尴尬位置：审方、调方、用药教育、血药浓度监测都是专业活，但没有对应的收费编码，人力成本只能摊进药事管理费里。指南给药学服务单独开了一本「明白账」，明确相关服务项目的具体内容、计价单元，既让专业价值看得见，也划清医疗服务收费边界、减少收费争议。
+    </p>
+    <p class="headline-summary">
+        价格水平给得很具体。中药配方颗粒调剂费各地普遍在<strong>2-4 元/付</strong>；门诊诊查费（药学门诊）<strong>6-16 元/次</strong>，副主任（中）药师加收 <strong>5-10 元/次</strong>，主任（中）药师加收 <strong>10-15 元/次</strong>；肠内营养液药品配置费各地集中在<strong>35-40 元左右</strong>，危害药品药品配置费各地集中在<strong>30 元左右</strong>。对实际操作确有差异的特殊项目予单独立项，包括「药品集中配置费（危害药品）」「药品集中配置费（肠外营养液）」「放射性药物配置费」。指南还特别关注临床场景从以医院为中心向以患者为中心的变化，<strong>新增「居家药学服务费」等项目</strong>。一条容易被忽略的边界是：普通静脉药物配置作为医院提供注射、输液时的应尽事项，<strong>已纳入相关「注射费」的价格构成，不再单独收费</strong>。
+    </p>
+    <p class="headline-summary">
+        中药侧单独成章。中药临方加工、煎煮是体现中医辨证施治的关键环节，指南规范设立<strong>中药临方加工费、中药代煎服务费</strong>；同时为配套<strong>中药配方颗粒零差率政策</strong>，明确设立中药配方颗粒调剂费，合理体现处方审核、配方调剂等技术劳务价值，实现药品价格与服务价值分开核算、透明收费。定价原则是「平移为主、结构优化」，各省参照立项指南整合规范原有项目、制定全省统一的价格基准，再指导各统筹地区具体定价，并结合经济社会发展、患者负担能力、医院运转状况、医保基金运行等因素确定水平。国家医保局表示，下一步将持续跟踪各地执行效果，更好发挥价格政策的引导与激励作用。
+    </p>
+    <p class="headline-source">
+        来源：国家医保局 · 2026-11-25
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/o33BvijWzxk/" alt="文心5.5 Flash Preview开源" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">文心5.5 Flash Preview开源：2800亿参数只激活140亿，100万上下文</h4>
+                    <p class="column-item-summary">11 月 24 日，百度宣布文心 5.5 Flash Preview（ERNIE 5.5 Flash Preview）正式开源，采用 <strong>Apache 2.0</strong> 协议，模型权重与配套资源上架 Hugging Face 和 ModelScope，支持 vLLM、SGLang 等主流推理框架。参数上采用 MoE 架构，<strong>总参数 2800 亿、每个 Token 激活 140 亿</strong>，支持最长 <strong>100 万 Token</strong> 上下文，官方定位编程、3D 建模、知识工作与内容创作。该模型 11 月 11 日首次发布，基于 11 月 5 日已开源的文心 5.5 Flash Base 做后训练，此次 Preview 权重跟进开放，让这一系列从基座到后训练形成完整开放链条，前后约三周。基准测试是一条不均衡的曲线：偏 Agent 与业务流自动化的 <strong>AutomationBench 得 61.9 分</strong>，高于 Claude Opus 5.5 的 58.0 和 DeepSeek V4.1 Flash 1017 的 57.2；<strong>Terminal-Bench 4.0 得 46.5</strong>，低于 Claude Opus 5.5 的 63.6 与 GPT-6.1 Sol 的 56.1，但高于 DeepSeek V4.1 Flash 的 40.9；<strong>CodeArena WebDev 以 1668 分位列开源模型第二、国产模型第四</strong>，略高于 DeepSeek-V4.1-Flash 的 1664 与 Kimi K3 的 1658，接近 Qwen3.8-Max 的 1670。生成速度官方数据为每秒超 200 Token。值得留意的是协议选择：11 月 5 日开源的 Base 用的是自定义协议，不适用于欧盟、英国和韩国，相关产品或服务年收入超 5000 万美元的企业商用前须获百度书面授权；<strong>此次 Preview 回归了 Apache 2.0</strong>。</p>
+                    <p class="column-item-source">来源：IT之家 · 腾讯新闻 · 量子位 · 2026-11-24 <a href="http://m.toutiao.com/group/7711630096183919131/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/PXOXC79dUto/" alt="Prism ML 三值量化模型" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">5.93GB装下27B模型：三值量化把工具调用精度做到FP16的99.4%</h4>
+                    <p class="column-item-summary">11 月 24 日，Prism ML 以 Apache 2.0 协议开源 <strong>Ternary Bonsai 2.5 27B</strong>，把一个源自 Qwen3.8-27B 的多模态推理模型压进 <strong>5.93 GB、每权重 1.76 bit</strong>。它的定位是本地长程 Agent 工作流，覆盖 macOS（Metal）、Linux 与 Windows（CUDA、Vulkan、ROCm、CPU），Q2_0 权重可在<strong>上游 llama.cpp b11556 及以上版本直接运行</strong>，无需定制分支。效果上，在五个 agentic 工具调用基准上<strong>平均 77.2 分，对照 FP16 基线 77.7 分</strong>；<strong>agentic coding 保留 FP16 的 90%</strong>，上一代 Bonsai 2 只有 63%。能力项从 Bonsai 2 延续：截图与 PDF 视觉输入、OpenAI 兼容的 tool_calls、MCP client 支持、默认 xhigh 推理预算、<strong>262k token 混合注意力上下文</strong>。每个 GGUF 内置<strong>多 Token 预测（MTP）draft head</strong>，在 NVIDIA GPU 上自动启用，带来 <strong>1.5-1.8 倍无损解码加速</strong>。三种权重布局按硬件瓶颈区分：Q2_0 走标准上游链路，PTQ1_0 走 CUDA 最快解码，PQ2_0 多花约 1.3 GB 内存换更快 prompt 预填、是官方 demo 默认下载。这套规格的意义是：接近 FP16 的 27B 函数调用、视觉与 262k 上下文塞进 5.9 GB，让开发者在<strong>常规 8 GB 与 16 GB 消费级笔记本</strong>上跑本地编码与 MCP 工具 Agent。Prism ML 尚未公布托管云 API 价格。</p>
+                    <p class="column-item-source">来源：AI Compass · Hugging Face 模型卡 · 2026-11-25 <a href="https://ashutoshai.com/ai-compass/2026/11/24/prism-ml-ternary-bonsai-2-5-27b-agent/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/09TWhoA1Il0/" alt="IBM多语言语音Agent" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">用印地语问农事，AI去查英文手册：IBM把跨语言语音检索跑通了</h4>
+                    <p class="column-item-summary">11 月 25 日，IBM Research 在 Hugging Face 博客发文，联合 Hugging Face 用开源 <strong>CUGA（ConfigUrable Generalist Agent）agent harness</strong> 做出一个面向印度语言的多语言语音助手原型。它要解决的缺口很具体：印度绝大多数数字化知识以英文存在，而多数人日常用印地语、泰米尔语、泰卢固语、古吉拉特语、马拉地语等交流，此前的数字助手基本只接受英文打字输入。演示场景是农业助手——用户用选定的印度语言<strong>口头发问</strong>，Agent 先把语音转文字，再用本地文档 embedding<strong>检索一本 154 页的英文农业手册</strong>，最后用用户的语言给出<strong>两到四句话的语音回答</strong>。技术上，CUGA 作为嵌入式 SDK 提供模型管理、工具编排与每个会话线程的状态隔离，可在 <strong>watsonx 与 OpenAI 之间切换</strong>；语音层解耦，可选用 Sarvam AI 云 API，也可用本地开源模型（SraVaani 做语音转文字、Svara 做文字转语音）。一个关键发现是：<strong>CUGA 默认的英文 embedding 无法为非英文查询检索到相关英文内容</strong>，团队因此换成 intfloat/multilingual-e5-large 多语言 embedding 模型。工程细节也做了：输出时剥掉 markdown 与引用让语音听起来自然，并加简单 guardrails 快速拦截离题问题。所有答案都基于检索到的、可核查的原文段落。代码与应用已开源，Hugging Face Spaces 可直接试用，另附开发者教程，并给出与 IBM Bharat Core AI 栈的集成路径。</p>
+                    <p class="column-item-source">来源：IBM Research · Hugging Face Blog · BytesWall · 2026-11-25 <a href="https://byteswall.com/news/ibm-hugging-face-multilingual-voice-ai-agent-cuga/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/AvljvWvBrnM/" alt="Claude桌面应用安装" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">Claude把Artifacts装成桌面应用：不打包不签名，能读本地文件</h4>
+                    <p class="column-item-summary">当地时间 11 月 24 日，Anthropic 宣布 Claude 推出<strong>「Install as app」（安装为应用）功能测试版</strong>，允许用户把 AI 生成的 Artifacts 直接安装为 Mac 或 Windows 桌面应用，<strong>无需手动打包、签名，也无需单独申请 API 密钥</strong>。安装后的应用有独立图标和运行窗口，可以像普通桌面软件一样打开，能调用 Claude 模型及用户已连接的外部服务，支持与他人共享，并在底层 Artifacts 内容被修改后<strong>自动更新</strong>。与网页环境下运行的 Artifacts 不同，安装后的应用获得更多系统交互能力：发送系统通知、在菜单栏或系统托盘添加图标、监听全局快捷键、创建置顶窗口；在获得<strong>完整电脑访问权限</strong>后，甚至可以运行程序、读取修改删除本地文件，无需逐次征得同意。Anthropic 展示了内部员工用它开发的多款应用，包括支持多图层操作的图像编辑器、文件管理器、自动整理文件的工具、内置 AI 助手的终端、监控电脑性能的系统工具。安全上设了三级权限：<strong>默认权限、应用权限、完整电脑访问权限</strong>；用户授予的权限仅对当前应用版本有效，每次更新后均需重新授权，即使更新由用户本人完成。Anthropic 同时提醒，公司<strong>不会在应用安装前进行审核</strong>，用户应仅向可信应用授予完整电脑访问权限。该功能正面向全套餐用户逐步开放测试，企业版需手动启用；应用仍需联网并登录 Claude 账号才能打开，调用模型消耗用户现有套餐额度；Claude Docs、Slides、Sheets 等部分 Artifacts 暂不支持安装。</p>
+                    <p class="column-item-source">来源：凤凰网科技 · 环球市场播报 · 2026-11-25 <a href="http://m.toutiao.com/group/7711916242114527795/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/ePLJzhvvjVU/" alt="捷恩泰外籍患者求药" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">外国人飞来中国买药：这款南京原研药补上了胆管癌的后线空白</h4>
+                    <p class="column-item-summary">11 月 4 日，一名外籍患者出现在京东大药房（上海）枫林路店，<strong>一次买了四盒捷恩泰（替恩戈替尼片）</strong>。店长张欣介绍，患者是在海外了解到这款药，专程来中国寻求医疗服务，由医生开具处方后到药店购药。捷恩泰是南京药捷安康研制的<strong>全球首个能解决「胆管癌患者经 FGFR 抑制剂治疗耐药问题」的药物</strong>，此前已获美国 FDA 孤儿药资格及快速通道资格、欧洲 EMA 孤儿药资格认定。缺口在哪，药捷安康准入商务执行总监王熙茜讲得很直白：胆管癌里有一小部分患者带 FGFR 基因变异，一线靶向药用过之后大多会耐药，<strong>耐药之后中美指南里都没有高级别推荐，等于走到了一个没有路的地方</strong>。捷恩泰的突破在于能同时对付多种耐药突变。临床数据：在 50 位晚期胆管癌患者中，<strong>客观缓解率（ORR）28.0%</strong>，其中 14 例达到确认的部分缓解，<strong>82% 的患者病情得到控制，患者平均生存期达 20.7 个月</strong>；相关研究结果已在 2026 年美国临床肿瘤学会（ASCO）年会公布。时间线拉得很长：2016 年创始人吴永谦博士带团队落户南京江北新区，2025 年 6 月在港交所挂牌上市，<strong>2026 年 8 月 6 日获国家药监局批准上市</strong>，2026 年 9 月被纳入《中国临床肿瘤学会（CSCO）胆道恶性肿瘤诊疗指南（2026）》；目前北京、上海、广东、江苏等多个省份已开出首批临床处方。合规边界也交代清楚：处方药不能跨境销售、不能邮寄，真有需要须依法到境内医院就诊，由医生判断是否适用。</p>
+                    <p class="column-item-source">来源：南京广电 · 光明网 · 2026-11-25 <a href="http://difang.gmw.cn/js/2026-11/25/content_39120833.htm" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/z5sJUqVdIms/" alt="百利天恒双抗ADC" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">全球首个：双抗ADC在小细胞肺癌III期同时拿下总生存期与无进展生存期</h4>
+                    <p class="column-item-summary">11 月 25 日，百利天恒公告，公司自主研发的全球首创、新概念、<strong>全球首个且唯一获批上市的 EGFR×HER3 双抗 ADC「伦康依隆妥单抗」（iza-bren）</strong>在小细胞肺癌 III 期临床（研究方案编号 BL-B01D1-304）中，经独立数据监查委员会（iDMC）判断，在预设的期中分析中<strong>同时达到总生存期（OS）的主要终点和基于盲态独立中心评估（BICR）的无进展生存期（PFS）的关键次要终点</strong>。适应症为既往含铂化疗及抗 PD-1/PD-L1 单抗治疗失败的复发性小细胞肺癌。这是伦康依隆妥单抗<strong>第 6 个达到主要终点的 III 期临床研究</strong>，也是<strong>全球首个在小细胞肺癌治疗中达到主要终点的双抗 ADC 药物的 III 期临床研究</strong>；该适应症此前已被国家药监局药审中心纳入突破性治疗品种名单并完成公示。商业化进度给得很实：2026 年是公司创新药商业化元年，6 月获批鼻咽癌后线治疗、7 月获批食管鳞癌，共 2 项适应症已上市；<strong>三阴性乳腺癌、HR+HER2- 乳腺癌、EGFR 突变非小细胞肺癌三项适应症的上市申请已获 CDE 受理</strong>；截至目前已在中国和全球开展超 45 项针对多种肿瘤类型的临床试验，其中 III 期临床研究（含 II/III 期）20 项，9 项适应症被 CDE 纳入突破性治疗品种、3 项纳入优先审评、1 项被 FDA 纳入突破性治疗品种。支付与出海两条线同时在走：11 月中旬被纳入 <strong>2026 年版国家医保药品目录</strong>；与百时美施贵宝（BMS）2023 年达成独家许可与合作，<strong>潜在交易总额最高达 84 亿美元</strong>，11 月 18 日披露收到第二笔 2.5 亿美元里程碑付款，<strong>累计收款达 13 亿美元</strong>，后续开发、注册与销售节点达标后还有机会拿下最高 71 亿美元额外里程碑。</p>
+                    <p class="column-item-source">来源：上海证券报 · 公司公告 · 2026-11-25 <a href="http://m.toutiao.com/group/7712101413249188387/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/lpCVU-tY9dU/" alt="医药经济信息发布会" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">69个创新药、15个首创新药：药监南方所判断行业进入复苏新周期</h4>
+                    <p class="column-item-summary">11 月 24 日，第 37 届医药经济信息发布会在广州南沙举行，由国家药监局南方医药经济研究所主办、《医药经济报》承办。南方所给出的判断很明确：<strong>「医药行业已度过新一轮增速调整、结构转型与动能转换的聚变阶段，开始陆续分领域进入复苏提振的新周期。」</strong>报告把「十五五」定位为产业创新活力的释放期，创新药、高端医疗器械、中医药、数智化、国际化等新动能加快集聚，<strong>控费与创新支持并重的政策取向日益清晰</strong>，我国医药经济长期向好的基本面没有改变。数据上，国家药监局统计显示，<strong>截至 11 月 14 日今年已有 69 个创新药获批上市，其中 15 个是新机制、新靶点的首创新药</strong>，一批具有自主知识产权的重磅产品全球首发；<strong>我国已成为全球新药临床试验的新高地</strong>。政策工具上，与会专家提到国家将对重点品种实行<strong>「提前介入、一企一策、全程指导、研审联动」</strong>，统筹优先审评等加快审评政策，集中资源支持新靶点、新机制及细胞与基因治疗等重点产品研发，政策的持续引领和托举创新有助于企业把医药新科技转化为新质生产力。区域层面，专家认为大湾区医药产业发展战略正向纵深推进，政策东风与产业先发优势双重叠加，正加速从「政策高地」迈向「产业高地」。</p>
+                    <p class="column-item-source">来源：中国新闻网 · 人民网 · 2026-11-26 <a href="http://health.people.com.cn/n1/2026/1126/c14739-40840815.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/UeMZef5rTd0/" alt="基层药品联动中心药房" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">中心药房＋审方中心：基层药品联动把过期损耗压下62%</h4>
+                    <p class="column-item-summary">近日，国家卫健委药具管理中心在海南海口举办 <strong>2026 年紧密型医联体牵头医院院长培训班</strong>，主题是基层药品联动管理。改革背景是紧密型医联体（含紧密型县域医共体和紧密型城市医疗集团）要改革完善基层药品联动管理机制、增加基层药品种类。重庆九龙坡的做法是先搭组织架构：2024 年底启动改革，成立医共体药事管理与药物治疗学委员会，设<strong>医共体总药师</strong>岗位，各分院组建药事管理与药物治疗学组，形成<strong>「委员会—总药师—药学组」三级链条</strong>，再编制统一用药目录、统一采购统一配送、动态优化慢性病用药衔接清单。河北遵化推<strong>「五个一」</strong>：报量一个口子、回款一月一结（依托医保预付资金推动基层货款按月结算）、配送一份名单（择优选定并按季度动态考评）、余缺调配一个统筹（依托医共体中心药房做区域内调剂和应急调拨）、缺药登记一本台账。江西永修把信息系统做成核心：实时抓取各成员单位库存、消耗、效期数据，区分紧缺药、急救药、常规药划定预警阈值，目前医共体内<strong>药品库存盘点准确率、近效期药品预警处置率均达 100%，药品过期损耗同比下降 62%</strong>。海南东方 2025 年建成审方中心，实行<strong>「系统智能初审＋药师人工复核」</strong>双重审核，累计<strong>审核处方 237.86 万张，处方合格率提升至 94%</strong>。药师队伍上，新疆库尔勒用<strong>「市聘乡用、乡聘村用」</strong>柔性引才，遵化建「下派上挂」双向培养机制、牵头医院药师对口承包基层机构，并把基层药学人员纳入家庭医生签约服务团队。九龙坡区人民医院院长夏祖伟的总结被反复引用：<strong>「医通」是基础，「人通」是关键，「药通」是群众感受最直接的一环。</strong></p>
+                    <p class="column-item-source">来源：健康报 · 2026-11-25 <a href="http://news.qq.com/rain/a/20261125A069V900" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">全国医保码激活使用人数突破13亿（截至2026年10月底）；首张医保码2019年11月24日在山东济南签发，目前已覆盖挂号、建档、问诊、检查、结算、取药全流程</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">内蒙古启动2026年《门诊特殊用药目录》调整申报，面向2026年版国谈西药、竞价药及新增适应症品种，11月25日发文、12月2日截止，采取生产企业申报制</span>
+            <span class="breaking-news-time">11-25</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">我国已牵头78项人工智能国际标准（29项基础共性＋49项行业应用），并牵头推动ISO/IEC TS 25568生成式人工智能系统风险应对指南，为全球首个针对生成式AI治理的国际标准提案</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">腾讯混元发布并开源第三代翻译模型Hy MT3，含1.8B、7B、30B-A3B三个尺寸，误译样本比例降43%、漏译增译降74%、指令遵循类错误降40%，支持语种从38种扩至102种</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">蚂蚁OceanBase发布湖库一体AI数据平台OceanLake，并开源核心引擎AI数据库OceanSeek（Apache 2.0）；医疗领域联合易联众睿图发布医学影像多模态数据融合方案</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">Anthropic上线Claude Ship：Code Review、PR Steward、Claude Approvals三个智能体接管GitHub PR从审查、修复到审批全流程，仅限Team与Enterprise计划</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">河北2024年以来已落地39批国家医疗服务价格立项指南，上调3494个手术治疗类项目；市级CT平扫从308元降至165元、降幅46%，技术劳务与检查检验收入比从0.98:1优化至1.33:1</span>
+            <span class="breaking-news-time">11-24</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">2026全国智慧医保大赛颁奖仪式在京举行，237支队伍进入决赛，决出72个一等奖、80个二等奖、85个三等奖</span>
+            <span class="breaking-news-time">11-25</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：药学服务单独收费落地：医院药学部门从成本中心变成收入项</strong></p>
+        <div class="insights-highlight">
+            药品零加成之后，医院药学部长期处在一个尴尬位置：审方、调方、用药教育、血药浓度监测都是专业活，但没有对应的收费编码，人力成本只能摊进药事管理费里，<strong>越是认真做药学服务，科室越像纯支出</strong>。这次 4 类 10 项落地，等于给药学服务单独开了一本账。真正的意义不在于钱多钱少——药学门诊 6-16 元一次，比挂个专家号还便宜——而在于把「药师做了什么」变成<strong>可计价、可考核、可结算的项目</strong>。一旦有了价格编码，医院才有动力配药师、开药学门诊、建审方中心；医保才有依据把这些服务纳入支付；药师这个职业也才从「发药的」变成「提供服务的」。这是价格政策最典型的杠杆作用：先给一个名分，再谈给多少钱。
+        </div>
+
+        <p><strong>趋势二：6-16元的门诊费是引流价，真正的收入在配置费和中药服务</strong></p>
+        <div class="insights-highlight">
+            把价格表横着看会发现一个结构：药学门诊诊查费 6-16 元一次，副主任药师加收 5-10 元、主任药师加收 10-15 元，这个水平明显低于医生门诊，<strong>定位是低门槛铺量、先把患者引进来</strong>；而药品集中配置费（危害药品）30 元左右、肠外营养液配置费 35-40 元、放射性药物配置费单独立项，这些是按次计价的「操作型」项目，单价高、频次稳定、有明确临床必需性。中药侧更明显：中药配方颗粒调剂费 2-4 元/付，看起来单价低，但一付药一个计价单元，长期处方的复购频率极高；中药代煎、临方加工同样按付或按剂计。所以对医院来说，<strong>药学服务真正的收入盘子在配置类和中药类</strong>，门诊诊查更多是建立入口和认知。这也解释了为什么指南要专门配套中药配方颗粒零差率政策——零差率把药品加成砍掉了，调剂费是给中药房留的一条活路。
+        </div>
+
+        <p><strong>趋势三：普通静脉配置不再单收：这条边界比新增项目更值得读</strong></p>
+        <div class="insights-highlight">
+            指南里有一句容易被忽略的说明：普通静脉药物配置作为医院提供注射、输液时的应尽事项，已纳入相关「注射费」的价格构成，不再单独收费。这句话的分量不亚于新增的十个项目。它划出的是一条<strong>「什么是服务、什么是本分」</strong>的界线：配置普通输液是护理工作的组成部分，不能拆出来再收一遍钱；而配置危害药品（细胞毒性药物）需要生物安全柜、防护装备、专门废物处理，肠外营养液需要无菌配制和配比核算，这些超出常规操作的额外投入才配得上独立价格。这条边界对企业的含义很直接：任何想靠「拆分服务项」做增量的产品设计，都会撞上这条线。反过来，凡是能证明「这确实是超出常规的额外工作量」的场景——比如放射性药物、危害药品、居家上门——才是政策留出的空间。<strong>定价政策的本质从来不是给钱，而是定义什么算活儿。</strong>
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第220期 · 2026年11月26日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-26.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
