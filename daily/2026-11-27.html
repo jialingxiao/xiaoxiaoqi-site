@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月27日</span>
+        <span>|</span>
+        <span>第221期</span>
+        <span>|</span>
+        <span>阅读约12分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/PkJjNqr3Fbw/" alt="贝普若韦生钠注射液在华获批" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">全球首个乙肝功能性治愈新药在华获批：6个月疗程，治愈率19%</h2>
+    <p class="headline-summary">
+        11 月 26 日，国家药品监督管理局通过优先审评审批程序，批准葛兰素史克（GSK）申报的 1 类创新药贝普若韦生钠注射液（商品名：贺舒可）上市，联合核苷（酸）类似物（NAs）用于慢性乙型肝炎病毒感染的功能性治愈。适用人群划得很清楚：<strong>已接受 NAs 治疗至少 6 个月、HBV DNA&lt;90 IU/mL、HBsAg≤3000 IU/mL、无肝硬化的成人患者</strong>。贝普若韦生是一款首创的反义寡核苷酸（ASO）疗法，机制不是抑制病毒复制，而是识别并抑制引发慢性感染的乙肝病毒遗传成分（RNA）的产生，减少病毒 RNA 和病毒蛋白、降低血液中乙肝表面抗原（HBsAg）水平，从而可能让人体免疫系统重新获得控制能力。此前它已通过突破性治疗药物和优先审评审批程序两条通道。
+    </p>
+    <p class="headline-summary">
+        数据来自 B-Well 1 与 B-Well 2 两项全球多中心、随机双盲对照 III 期试验，覆盖全球 29 个国家或地区，合并结果支撑了本次获批。在 HBsAg≤3000 IU/mL 的成人受试者中，6 个月贝普若韦生治疗达到 <strong>19% 的功能性治愈率</strong>（治疗组 1220 例中 233 例，安慰剂组 614 例中 0 例）；关键次要终点显示，HBsAg≤1000 IU/mL 的受试者<strong>功能性治愈率达 26%</strong>（治疗组 768 例中 200 例，安慰剂组 393 例中 0 例），该人群约占全球已确诊慢性乙肝病例的 45%。对照的是现有标准治疗：单用 NAs 一般一年治疗后功能性治愈率<strong>不足 1%</strong>。功能性治愈的定义值得说清楚——停止所有治疗后至少 24 周内，乙肝病毒 DNA 和 HBsAg 在血液中持续无法检出。探索性分析显示，49% 的受试者（1220 例中 598 例）在第 72 周回访时 HBsAg 降至≤100 IU/mL，在≤1000 亚组中这一比例为 62%（768 例中 476 例）。安全性方面，三类常见不良反应为注射部位红斑、局部疼痛以及肝酶暂时升高。
+    </p>
+    <p class="headline-summary">
+        中国是这笔账最大的分母。据估计，中国约有 <strong>7500 万慢性乙肝病毒感染者</strong>，近 <strong>85% 的肝癌由慢性乙型肝炎导致</strong>，2023 年中国乙肝病毒感染相关死亡超 <strong>45 万例</strong>。政策端，《中国防治病毒性肝炎行动计划（2025—2030年）》明确提出，到 2030 年慢性乙肝患者诊断率及新报告患者抗病毒治疗率达 80% 及以上。GSK 首席科学官 Tony Wood 的说法是，许多患者在当前标准治疗下仍需终身用药，且持续面临长期肝脏并发症风险，而符合条件的患者有望通过<strong>为期六个月的有限疗程</strong>实现功能性治愈。商业化路径已经铺好：GSK 正与中国生物制药旗下正大天晴合作加速上市与准入，后者在中国乙肝领域建立了覆盖逾 <strong>5000 家</strong>各级医疗机构的商业网络。贺舒可已在中国、日本和美国获批；监管层面获得美国 FDA 快速通道、优先审评和突破性疗法认证，被 CDE 纳入突破性治疗药物和优先审评审批程序，并获日本 SENKU（先驱）认定。广东省肝脏疾病研究所所长、南方医科大学南方医院感染内科主任侯金林教授的评价是，对符合条件的患者而言功能性治愈是关键治疗目标，此次获批提供了在现有 NAs 治疗基础上加用 6 个月疗程的新路径。相关 III 期结果已发表于《新英格兰医学杂志》。
+    </p>
+    <p class="headline-source">
+        来源：葛兰素史克 · 国家药监局 · 2026-11-26
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/omsmNBDJd5Q/" alt="MiniMax H3 Family 开源生态" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">MiniMax开源100天：H3衍生出1472个模型，下载1.48亿次</h4>
+                    <p class="column-item-summary">11 月 26 日 MiniMax 发布 H3 Family，把开源 100 天的成果和新的产品矩阵一起摊开：一个 H3 被开发者改成了 <strong>1472 个衍生模型</strong>，累计下载 <strong>1.487 亿次</strong>，平均每秒超过 17 次。生态名单里有英伟达、腾讯、阿里各自训练的自有版本，也有 fal、Suno、HeyGen、Pika、Creatify 等应用与平台方，以及 MIT、新加坡国立大学、香港理工大学的研究团队；全球已有 10 家以上领先公司与 MiniMax 建立授权合作，把 H3 用在电商、游戏、影视、动漫、短剧、工业设计等生产流程里。产品线按价格与场景分层：旗舰 H3 支持 2K 或 768P 输出，<strong>每秒 0.08 美元起</strong>。H3-Highspeed 走日常商业量与大批量生产，768P/480P、<strong>每秒 0.04 美元起</strong>。H3-Lite 是最便宜的一档，<strong>每秒 0.025 美元起</strong>，某些硬件上 5 秒 768P 片段约 8 秒出、成本约 0.2 美元。图像侧 H3-Image 输出<strong>每百万 token 3.8 美元</strong>，官方给的性价比是主流模型 150%-200% 的速度、50%-70% 的价格；Highspeed 模式<strong>每百万 token 7.6 美元</strong>，最快 10 秒内出 4K 图。第三方扩展模型也一并列出：fal 的 H3 Max 生成 5 秒 768P 片段不到 3 秒，H3-Max Turbo 再快一倍；Nunchux AI 与硬件厂商联合优化后，15 秒 768P 片段约 6.5 秒出；HeyGen 的 Video 1 一次生成带画面、对白、音效的完整 30 秒视频；Pika 的 H3 Flex 六步出片、带五条独立音轨；Suno 的 H3 Move 让画面跟着歌曲结构和歌词走并做唇形同步；LightX2V 与 ModelTC 的 Turbo 版把生成压到 4 步或 8 步、支持本地部署。</p>
+                    <p class="column-item-source">来源：MiniMax · 2026-11-26 <a href="https://www.minimax.io/blog/minimax-h3-family" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/8zoHcg592R0/" alt="Ming-Image-0.2-Design 开源登顶" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">1095分登顶开源文生图：蚂蚁Ming-Image-0.2-Design开源</h4>
+                    <p class="column-item-summary">11 月 26 日蚂蚁集团 inclusionAI 开源 Ming-Image-0.2-Design，采用 <strong>MIT 协议</strong>，在 Artificial Analysis 的文生图总榜（AA-Image-T2I v2.1，截至 11 月 25 日）上<strong>位列开源权重模型第一</strong>，官方发布帖给出的分数是 <strong>1095 Elo</strong>。这一代的定位不是通用出图，而是设计工作流：上一代 Ming-Image-0.1-Design-Layer 已经能把设计图拆成可独立编辑的透明图层，这次把拆解粒度进一步细化到角色部件，为下游编辑和动画提供素材；网页设计场景则与 Ling-3.2-flash 配合，把设计稿转成可交互页面；复杂构图、光影与文字渲染也做了改进，官方点名的场景是电商主图、UI 设计稿和空间渲染图。跑起来的门槛不算低：官方验证配置是单张 80 GiB 显存的 CUDA GPU，默认分辨率 2048×2048，12 步采样、CFG 1.0、BF16 精度，推荐用 vLLM-Omni 部署，权重已在 Hugging Face 和 ModelScope 放出、GitHub 上另有配套 Design Skill。需要说明的是，这个第一目前还是初评结果（11 月 23 日评测），来自单一第三方榜单，且模型页只给排名未给分数，1095 这个数字出自官方发布帖；截至目前也还没有推理服务商上架该模型，想用得自己部署。官方表示下周将开源分层版本 Ming-Image-0.2-Design-Layer。</p>
+                    <p class="column-item-source">来源：inclusionAI · tpsreport · 2026-11-26 <a href="https://tpsreport.news/news/ming-image-0-2-design-open-weight-mit-license" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/AU8ADQVrDf4/" alt="腾讯混元 DFly2 加速组件" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">腾讯混元开源DFly2：不改主模型，长上下文生成最高提速4.2倍</h4>
+                    <p class="column-item-summary">11 月 26 日腾讯混元开源新一代投机采样草稿模型 DFly2，定位是 Hy4 flash 的旁路加速组件——不改主模型权重、不改变输出结果，只压缩逐个生成 token 的计算次数。思路是经典的投机采样：小模型先预生成一批候选 token，大模型集中验证，通过的直接采纳，没通过的重新生成。DFly2 的特殊之处在于它<strong>直接复用主模型的 KV 缓存与稀疏索引</strong>（KV Share 与 Index Share）：Hy4 flash A12B 处理每个 token 时只关注索引器从上下文里选出的<strong>至多 2048 个关键位置</strong>，DFly2 共享这套索引，不需要自己维护一份缓存，注意力计算量也不随上下文长度增长。官方数据：在 19 个公开评测集上接收长度与加速比整体超过 DFlash 与 DSpark；Agentic 任务评测 AgentLongBench 上 Hy4 flash A12B <strong>加速可达 4.2 倍</strong>，四类 Agent 任务平均约 3.2 倍，接收长度较 DSpark 最高提升 68.5%；128K 长上下文场景相对 DSpark 接收长度提升约 18%，仍维持约 3.2 倍加速；WorkBuddy 等真实业务任务上接收长度领先 10.4%。训练侧依托 AngelSpec 框架，新增在线离线混合训练，并推出免 rollout 的轻量在线蒸馏方案 DFly-OPD，支持 256K 超长上下文大规模训练。需要留意的是，上述数据源文均表述为「腾讯混元公布的测试结果显示」，属于厂商自测，尚未见到第三方独立复现。</p>
+                    <p class="column-item-source">来源：腾讯混元 · 凤凰网科技 · 2026-11-26 <a href="https://original.ifeng.com/c/8yMqfz0nvz8" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/rSm8Q-AiY_s/" alt="壁仞 BR20X 送测达 H200 水平" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">壁仞BR20X已向头部客户送测：开箱性能达H200水平</h4>
+                    <p class="column-item-summary">11 月 25 日至 26 日，壁仞科技（06082.HK）新一代旗舰产品 BR20X 的进展被披露：公司相关人士向《科创板日报》表示，BR20X <strong>已向头部客户送测，开箱性能达到英伟达 H200 水平</strong>，多个大模型实测效果突出、得到客户认可，商业化进度超预期。按国投证券研报的路线图，公司 2026 年计划上线 BR20X 及超节点方案，2028 年预计实现 BR30X（云端训练和推理）与 BR31X（边缘推理）商业化，随主力产品迈向更高性能 AI 芯片、CSP 客户收入占比提升，收入端有望率先放量。市场反应值得留意：11 月 26 日早盘壁仞股价<strong>一度涨近 6%</strong>，发稿时涨 2.45%、报 13.36 港元，成交额 1.13 亿港元。一个已经能对标 H200 的送测结果，换来的是个位数的涨幅——国产算力现在正处在这样的位置：技术指标可以拿出来和国际旗舰比了，但资本市场还没找到给它定价的方法。</p>
+                    <p class="column-item-source">来源：科创板日报 · 新浪财经 · 2026-11-26 <a href="https://finance.sina.com.cn/stock/hkstock/marketalerts/2026-11-26/doc-inizzmzi9031937.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/Pllr1IAYSbI/" alt="北京手术机器人注册证居全国首位" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">北京45个手术机器人注册证居全国首位，机器人还能租着用</h4>
+                    <p class="column-item-summary">11 月 26 日北京市「首都开局起步'十五五'」系列主题新闻发布会上，市卫健委副主任陈航给出一组数字：北京已累计获批 <strong>45 个医用手术机器人注册证，数量居全国首位</strong>，覆盖骨科、神经外科、口腔、腹腔镜、介入等临床领域，并加快向眼科、心血管、放疗、儿科等专科拓展。推广端的解法是全国首创的<strong>手术机器人融资租赁平台</strong>——这类设备动辄数百万元乃至上千万元，一次性采购对医院压力不小，融资租赁把一次性投入摊成可预期的分期支出。目前积水潭、世纪坛、友谊、安贞等 <strong>10 家医疗机构已完成 16 台租赁入院</strong>，另有 13 台正有序推进。同时，北京还在安贞医院开展「机器人+医疗」<strong>29 个全场景试点</strong>。用量数据：今年前三季度市属医院已投入手术机器人 61 台，2024 年以来完成辅助操作 3.4 万余人次，其中 2026 年前三季度 1.37 万余人次、<strong>同比增长 49%</strong>。产业端，北京生产的骨科手术机器人已覆盖全国 31 个省份 200 余家三甲医院、累计手术超 15 万例；单孔腔镜手术机器人实现国产突破并进入欧美市场。同场发布会上，市医保局副局长颜冰补充了支付侧：北京按<strong>导航、参与执行、精准执行 3 档分层设置收费项目，全部同步纳入医保报销</strong>，其中导航类、参与执行类为全国首次纳入，精准执行类覆盖胰十二指肠切除、甲状腺全切除等 9 类高难度手术适应症。北京还将在全国率先开展创新医疗技术价格预立项试点，让技术获批与价格立项无缝对接。市药监局局长曹巍则介绍了《北京市「十五五」时期药品安全及高质量发展规划》的目标：未来五年累计新增创新药械 <strong>85 个以上</strong>、新增注册和备案化妆品新原料 25 个以上，支持细胞与基因治疗、脑机接口、医用机器人等前沿领域；第二类医疗器械首次注册审评平均用时压缩至 <strong>30 个工作日以内</strong>；零售药店连锁化率提高到 <strong>90%</strong>；新增 25 个医疗器械警戒哨点，实现「两品一械」警戒（监测）哨点区级全覆盖。</p>
+                    <p class="column-item-source">来源：北京日报 · 中新网 · 2026-11-26 <a href="https://xinwen.bjd.com.cn/content/s6b082369e4b039a8e2f41454.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/sWmJQrIBzQo/" alt="健康体检服务优化通知" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">体检机构不得强制加项：异常结果要明确标注和解释</h4>
+                    <p class="column-item-summary">11 月 26 日，国家卫健委发布《国家卫生健康委办公厅关于进一步优化健康体检服务的通知》，对健康体检机构（含医疗机构内设体检单位和独立设置的健康体检中心）划了几条硬线：要根据受检者年龄、性别和检前咨询评估情况推荐适宜项目，严格遵循<strong>知情同意和自愿原则，不得提供明确禁止或无明确意义的检查检验项目，不得强制受检者接受体检项目</strong>。同时要优化体检场地布局和服务流程、提高体检服务效率，积极推进「互联网+健康体检」；报告环节要求规范出具并及时反馈，<strong>对体检异常结果进行明确标注和解释说明</strong>，并探索实施体检结果风险程度分级管理制度，提出通俗易懂、有针对性的意见建议。服务延伸上，鼓励有条件的医疗机构设置<strong>健康体检咨询门诊</strong>，提供报告解读、健康教育、就医指导等延续性服务，加强与临床诊疗衔接、为有需求的受检者提供专科门诊预约。分级诊疗也接上了：对发现的高血压、2 型糖尿病、慢阻肺病患者，要引导到常住地的乡镇卫生院、村卫生室、社区卫生服务中心（站），通过基本公共卫生服务接受慢病患者健康管理。监管侧明确要严肃查处<strong>违规开展健康体检、超范围执业、伪造健康体检报告</strong>等行为。通知同时界定了适用范围：不包括职业健康检查、从业人员健康体检、入学入伍结婚登记等专项体检、基本公卫提供的体检、孕前优生健康检查及专项疾病筛查普查。</p>
+                    <p class="column-item-source">来源：国家卫健委 · 新华社 · 2026-11-26 <a href="http://www.xinhuanet.com/politics/20261126/c3f64f2062e8480fb70ddfef425fc068/c.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/OfmL7gD8b8c/" alt="心理健康和精神卫生十五五规划" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">23部门印发心理健康十五五规划：每个省都要建精神专科医院</h4>
+                    <p class="column-item-summary">11 月 26 日，中国政府网公布《全国心理健康和精神卫生「十五五」规划》全文。这份规划由国家卫健委等 <strong>23 个部门联合印发</strong>（国卫医政发〔2026〕26 号，11 月 20 日），目标定在 2030 年：基本建成布局合理、分工明确、协作密切、覆盖广泛的心理健康和精神卫生服务体系，让群众享有公平可及、系统连续、优质高效的心理精神服务。落地抓手是<strong>五级服务网络</strong>：健全国家、省、市、县（区）、乡镇（社区）五级体系，原则上每个省按要求建成精神专科医院（院区），地级市及人口规模 50 万以上的县按要求建成精神卫生服务机构（院区），各县按要求在县级公立医院设置精神科病房或精神心理门诊，每个省至少确定一家公立医疗机构提供自愿戒毒治疗服务，并加强县级中医医院神志病科建设。人才与专科建设同步：壮大精神卫生专业医师队伍，加强精神科护士、心理治疗技师、心理咨询人员和各级精防人员配备，国家临床重点专科建设向精神专科倾斜。社会心理服务侧，要规范设置基层、教育系统、机关企事业单位的心理服务场所，探索焦虑症、抑郁症、孤独症等常见精神障碍防治，开展心理健康中医药特色防治试点，并<strong>完善 12356 心理援助热线制度、推动建立省级信息化平台</strong>。重点人群单列：「一老一小」心理健康促进行动、学生心理健康监测与预警干预、职业人群与新就业形态劳动者心理关爱。据新华社报道，规划提出 8 方面重点举措及 6 个专栏任务，专栏任务提出的 5 个重点工程行动包括：精神卫生服务能力提升工程、人才队伍建设行动、「一老一小」心理健康促进行动、精神障碍综合服务管理项目、科普宣传「百千万」工程；同时明确的主要指标包括：到 2030 年全国精神卫生专业医师数达到 <strong>11 万名</strong>、每 10 万人口达到 8 名，精神障碍社区康复服务区县覆盖率达到 <strong>95%</strong>。</p>
+                    <p class="column-item-source">来源：中国政府网 · 国家卫健委 · 新华社 · 2026-11-26 <a href="https://www.gov.cn/zhengce/zhengceku/202611/content_7087390.htm" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/BJOPj0TDwnc/" alt="无创胚胎植入前遗传检测" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">不用活检了：谢晓亮团队从胚胎培养液里查遗传病</h4>
+                    <p class="column-item-summary">据新华社消息，北京昌平实验室、北京大学<strong>谢晓亮院士团队</strong>研发出高准确率<strong>无创胚胎植入前遗传检测技术</strong>，为重大遗传性疾病患者辅助生殖的胚胎检测提供了新路径。胚胎植入前遗传检测是辅助生殖中降低遗传病风险的重要技术，传统方法需要<strong>对细胞进行活检</strong>，属于侵入式操作、有一定风险。新技术的思路是把取样环节从细胞挪到培养液：从胚胎培养液中取样，依托胚胎体外培养时释放的<strong>游离 DNA</strong> 进行检测。相关研究成果近日发表于《自然·生物医学工程》。这条技术的意义在于，它在不触碰胚胎本身的前提下拿到了可判读的遗传信息——对胚胎而言侵入性更低、风险更小，为重大遗传性疾病患者的辅助生殖提供了一条新的检测路径。</p>
+                    <p class="column-item-source">来源：新华社 · 健康报 · 2026-11-26 <a href="http://m.toutiao.com/group/7712627269780374025/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">国家医保局上线「连续用药管理」功能，依托全国统一医保信息平台，覆盖全国所有定点医疗机构和定点零售药店，可按年度、购药机构、购药渠道筛选，就医时可授权接诊大夫查看既往用药；入口为国家医保局微信公众号、国家医保服务平台 App 及支付宝/微信小程序</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">政策</span>
+            <span class="breaking-news-text">商务部等 8 部门印发《服务贸易发展「十五五」规划》，鼓励中医药特色诊疗、健康管理、运动康复、太极拳康养等服务国际化，提升国家中医药服务出口基地和中医药海外中心建设水平</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">地方</span>
+            <span class="breaking-news-text">吉林印发《吉林省中医药发展「十五五」规划》：建设不少于 3 个国家中医优势专科中心、34 个国家级和 121 个省级中医优势（重点）专科，二级及以上公立中医医院全部设置老年病科、全部提供儿科服务，支持 8-10 个县级中医医院牵头建紧密型县域医共体</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">地方</span>
+            <span class="breaking-news-text">青海发布《高原旅游健康防护指南》地方标准，12 月 21 日起实施，含 4 项总体原则、7 项事前准备、7 项主动防护、4 项应急救援，推动高原旅游健康服务从被动救治转向主动预防</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">科研</span>
+            <span class="breaking-news-text">佐治亚州立大学等机构开发出新型双特异性纳米抗体，可同时中和 SARS、新冠、MERS 三种高致病性人类冠状病毒并在小鼠模型中提供显著保护，论文发表于 ACS Nano</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">行业</span>
+            <span class="breaking-news-text">第 29 届全国卫生健康人才招聘会在华中科技大学同济医学院、武汉大学医学部举办，近百家医疗机构与医药院校提供岗位 1 万余个，线上线下吸引近 2.3 万名求职者</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">行业</span>
+            <span class="breaking-news-text">健康城市蓝皮书发布，分《中国健康城市建设研究报告》《北京健康城市建设研究报告》两大系列，从健康环境、社会、服务、文化、产业、人群 6 方面构建分析框架，已连续出版 11 年、累计 23 部</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">11 月 26 日国家药监局同日批准 4 款新药：利奈昔巴特片、氘玛巴洛沙韦片、注射用乙磷康替唑胺钠、贝普若韦生钠注射液</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：19% 的治愈率，为什么在乙肝领域算突破</strong></p>
+        <div class="insights-highlight">
+            把 19% 这个数字单独拎出来看，很难兴奋——治愈率不到两成。但对照物是现有标准治疗：单用核苷（酸）类似物一年，功能性治愈率<strong>不足 1%</strong>。19% 对不足 1%，是接近二十倍的相对提升，而且是在 1220 例治疗组、614 例安慰剂组、29 个国家的大样本 III 期里做出来的，安慰剂组 0 例。更关键的是这个 19% 落在谁身上：HBsAg≤1000 IU/mL 的人群治愈率 26%，而这一人群约占全球已确诊慢性乙肝病例的 45%。换句话说，这不是一个只对极少数幸运者有效的疗法，它覆盖的是近一半的确诊人群。当然边界也要说清楚：适用条件是已接受 NAs 治疗至少 6 个月、HBV DNA&lt;90 IU/mL、HBsAg≤3000 IU/mL、无肝硬化，属于在现有治疗基础上加用的联合方案，不是替代，也不是所有感染者都能用。功能性治愈也不等于病毒彻底清除——定义是停药后至少 24 周内 HBV DNA 和 HBsAg 持续检测不到，肝细胞里可能仍有病毒残留。医学上的诚实，恰恰是这个消息最可信的部分。
+        </div>
+
+        <p><strong>趋势二：六个月有限疗程，比治愈率更能改变用药逻辑</strong></p>
+        <div class="insights-highlight">
+            慢性乙肝的治疗困局从来不只是「治不好」，还有「停不下来」。现有 NAs 方案下，多数患者需要<strong>终身服药</strong>抑制病毒，一旦停药就可能反弹；长期用药又意味着长期成本、长期依从性管理，以及持续存在的肝脏并发症风险。贝普若韦生把疗程压缩到<strong>六个月</strong>，这个变化的分量可能比 19% 的治愈率更重。对患者，它是「可以看见终点」的治疗，而不是一张无限期的处方；对支付方，它把一笔终身支出换成一次性支出，药物经济学模型完全不同——这也是为什么 NAs 联合方案的定价和医保准入会是接下来的关键变量。GSK 已经提前布好了这一手：与中国生物制药旗下正大天晴合作，后者在中国乙肝领域有覆盖逾 5000 家各级医疗机构的商业网络。产品获批只是起点，能不能进医保、定什么价、覆盖到多少患者，才决定这六个月疗程最终能改变多少个家庭的账本。
+        </div>
+
+        <p><strong>趋势三：从送测达标到规模营收，中间隔着四道关</strong></p>
+        <div class="insights-highlight">
+            壁仞 BR20X 这条消息里最值得琢磨的不是「开箱性能达 H200 水平」，而是市场的反应：一个已经能对标国际旗舰的送测结果，11 月 26 日早盘只换来不到 6% 的涨幅，发稿时回落到 2.45%。这说明国产算力现在处在这样一个阶段——技术指标可以拿出来比了，但资本市场还没找到给它定价的方法。原因不难理解：送测达标、客户认可、商业化超预期都是定性描述，缺少可验证的出货量、收入确认和毛利结构；而这类公司的估值又高度依赖对未来的贴现，任何一点预期差都会被放大成两位数的波动。对产业观察者，这意味着接下来真正要看的指标会从「性能对标」转向「批量交付」和「CSP 客户收入占比」——研报里把 2028 年的 BR30X/BR31X 排上了日程，但从送测到规模营收之间，隔着量产、良率、软件栈和客户验证四道关。谁先把这四道关走完，谁才真正拿到国产替代的订单。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第221期 · 2026年11月27日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-27.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
