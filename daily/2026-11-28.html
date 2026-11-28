@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吐司日报 DAILY · BRIEFING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #fff;
+            color: #333333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a2e;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        
+        .header-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .header-categories {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .header-categories span::before {
+            content: "·";
+            margin-right: 6px;
+            color: #ff6b35;
+        }
+        
+        .header-categories span:first-child::before {
+            content: "";
+        }
+        
+        .headline {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .headline-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .headline-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .headline-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .headline-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .headline-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .headline-summary {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .headline-source {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .headline-source a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .column {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .column-title::before {
+            content: "◆";
+            color: #ff6b35;
+            font-size: 9px;
+        }
+        
+        .column-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .column-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .column-item-inner {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column-item-image {
+            width: 70px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .column-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        
+        .column-item-title a:hover {
+            color: #ff6b35;
+        }
+        
+        .column-item-summary {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .column-item-source {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .breaking-news {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .breaking-news-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .breaking-news-title::before {
+            content: "⚡";
+        }
+        
+        .breaking-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+        
+        .breaking-news-item {
+            font-size: 11px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.6;
+        }
+        
+        .breaking-news-item:nth-child(odd) {
+            border-right: 1px dotted #e0e0e0;
+            padding-right: 16px;
+        }
+        
+        .breaking-news-num {
+            color: #ff6b35;
+            font-weight: bold;
+            min-width: 18px;
+        }
+        
+        .breaking-news-cat {
+            color: #1a1a2e;
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .breaking-news-text {
+            flex: 1;
+            color: #444;
+        }
+        
+        .breaking-news-text a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breaking-news-text a:hover {
+            color: #ff6b35;
+        }
+        
+        .breaking-news-time {
+            color: #999;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .insights-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .insights-title::before {
+            content: "🔗";
+        }
+        
+        .insights-content {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+        
+        .insights-content strong {
+            color: #fff;
+        }
+        
+        .insights-content p {
+            margin-bottom: 8px;
+        }
+        
+        .insights-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insights-highlight {
+            background: rgba(255,107,53,0.15);
+            border-left: 3px solid #ff6b35;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .breaking-news-item:nth-child(odd) {
+                border-right: none;
+                padding-right: 0;
+            }
+            
+            .header-title {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            
+            .headline-title {
+                font-size: 18px;
+            }
+        }
+    .column-item-source a{color:#ff6b35;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+
+<!-- 报纸头部 -->
+<header class="header">
+    <h1 class="header-title">吐 司 日 报</h1>
+    <div class="header-meta">
+        <span>DAILY · BRIEFING</span>
+        <span>|</span>
+        <span>2026年11月28日</span>
+        <span>|</span>
+        <span>第222期</span>
+        <span>|</span>
+        <span>阅读约13分钟</span>
+    </div>
+    <div class="header-categories">
+        <span>AI科技</span>
+        <span>医疗健康</span>
+        <span>商业财经</span>
+    </div>
+</header>
+
+<!-- 头条区域 -->
+<section class="headline">
+    <span class="headline-badge">★ 今日头条</span>
+    <img src="https://s.coze.cn/image/db7IUqjzyq0/" alt="中药注射剂上市后研究和评价公告发布" class="headline-image" style="aspect-ratio: 16/9;">
+    <h2 class="headline-title">中药注射剂最强监管落地：风险大于获益，必须停产停售</h2>
+    <p class="headline-summary">
+        11 月 27 日，国家药监局、国家卫健委、国家中医药局联合发布 2026 年第 112 号公告，推进药品上市许可持有人深入开展中药注射剂上市后研究和评价工作（成文日期 11 月 20 日）。适用范围划得很明确：<strong>《药品管理法》（2019 年修订）实施前已上市的中药注射剂</strong>。核心要求是持有人严格履行质量安全主体责任，加强对已上市产品的持续管理，制定上市后研究和评价工作计划，依法主动开展研究，研究已上市产品的物质基础以及与临床疗效相关的作用机制，获得充分数据，进一步确证安全性和有效性、提高质量可控性，并围绕临床价值综合评价产品的获益/风险。两条硬线：<strong>对风险大于获益的品种，持有人应当停止生产、销售</strong>；<strong>优先对《国家基本药物目录》《国家基本医疗保险、工伤保险和生育保险药品目录》内品种开展</strong>。
+    </p>
+    <p class="headline-summary">
+        执行路径分三层。第一步是以临床价值为导向做预判：评估相关品种是否达到预期的临床安全性和有效性——达到的，在已有临床实践证据或研究数据基础上，按中药注射剂上市后研究和评价技术要求开展研究，数据须真实、准确、完整和可追溯；<strong>未达到的，持有人主动提出注销药品注册证书的申请</strong>。第二步是方案与审评：结合批准上市时的临床试验数据、上市后积累的有效性和安全性证据以及前期安全性再评价、药品再评价工作基础制定方案，临床研究原则上围绕已有的功能主治或适应症范围开展，必要时可在该范围内开展临床试验；就评估结论、既往数据能否用于评价、研究方案等事项与药审中心沟通交流，完成后填写境内生产药品注册（补充）申请表，申请事项分类选「其他（基于中药注射剂上市后研究和评价需要）」，提交资料。第三步是分工：药审中心结合申报资料、核查结果、检验结果和评价中心提供的中药注射剂品种上市后安全性评价报告开展审评，综合评价获益/风险；核查中心负责研制、生产现场核查；省级药品检验机构承担注册检验。
+    </p>
+    <p class="headline-summary">
+        结果和后果都写得很实。经审评获益大于风险的品种，可相应修订说明书、药品质量标准；需要进一步研究获益/风险的，明确按规定时限继续研究的内容；<strong>获益大于风险的品种在国家药监局网站药品查询专栏中标注「已完成上市后研究和评价」</strong>。审评通道上设单独序列，加快沟通交流和审评审批，核准的药品注册标准优先转化为国家药品标准，并加大国家科技计划、中医药科技项目及地方科研专项支持力度。约束侧同样具体：对需要进一步研究和未开展工作的品种，省级药监部门列入重点监管对象；<strong>未按审评意见完成的，依法不予再注册、注销药品注册证书</strong>；再注册为长期未生产的品种，须完成研究和评价且审评结论为获益大于风险方可上市销售；未按规定取得再注册批准证明文件的依法注销。对有证据表明有安全风险、现有标准难以保证产品质量稳定可控的品种，国家药监局可依法采取暂停生产、责令开展研究等措施。协同处置也接上了：国家药监局将审评获益大于风险、责令开展研究以及注销注册证书的品种名单<strong>通报国家卫健委、国家医保局、国家中医药局</strong>，相关部门在<strong>药品挂网、采购、临床使用</strong>等环节协同处置；各级卫生行政部门加强对医疗机构中药注射剂用药安全的监管。公告自发布之日起实施。
+    </p>
+    <p class="headline-source">
+        来源：国家药监局 · 国家卫健委 · 国家中医药局 · 2026-11-27
+    </p>
+</section>
+
+<!-- 分栏内容 -->
+<div class="columns">
+
+    <section class="column">
+        <h3 class="column-title">🚀 AI大模型前沿</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/z8ZwaCTfYfA/" alt="腾讯混元Hy3D 3.6发布" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">腾讯混元Hy3D 3.6：原生3D模型开始进专业生产管线</h4>
+                    <p class="column-item-summary">11 月 27 日腾讯混元发布新一代 3D 大模型 Hy3D 3.6，面向专业 3D 创作，重点优化高模和 PBR 材质贴图的生成能力。目前已上线腾讯云 Token Hub 提供 API 服务，腾讯 AI 创意智能体 Miora、腾讯游戏旗下专业资产生成平台 LAP、专业影视 AI 平台 WorkRally 等已接入。腾讯内部组织数百位专业 3D 美术与建模师做盲测，官方称几何整体质量、纹理整体质量和可用性显著优于业界同类模型：几何的大形结构还原度和清晰度更高、形体表达更合理、表面更平整；纹理的色彩和细节更贴近原画、贴图更整洁、与模型形体匹配度更高。和通用语言模型靠写代码、组合基础图元生成 3D 不同，Hy3D 3.6 是原生 3D 生成模型，训练阶段直接学习 3D 资产中几何、纹理与材质的分布——语言模型适合规则硬表面、参数化零件和场景布局、尺寸可精确修改，Hy3D 3.6 更擅长角色、生物、服装和复杂道具，能还原原画的剪影与细腻曲面并生成 PBR 贴图。技术改动有三处：数据层面建「敏捷评测—数据引擎—算法实验」迭代流程；原生几何纹理表征上通过 VAE 把几何和纹理压缩为统一的稀疏潜在表示，再由 DiT 生成与参考图相符的几何和纹理；后训练阶段用多专家生产多样化偏好候选，结合优胜样本 SFT 与偏好数据 DPO。混元 3D 负责人表示，3D 生成的竞争重点正在从「能看」转向「能用」，拓扑、分件、UV 和 PBR 材质等生产可用性越来越关键，未来 3D 内容生产还会与 Agent 进一步结合——语言模型负责理解与调度，原生 3D 模型负责造型与材质。自 2024 年 11 月发布并开源首代模型以来，混元 3D 系列社区下载量已超过 653 万。</p>
+                    <p class="column-item-source">来源：腾讯混元 · 央广网 · 2026-11-27 <a href="http://tech.cnr.cn/techgd/20261127/t20261127_527885591.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/wRTrrgJ5VGs/" alt="微信开源WeMM-Ecom多模态模型家族" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">微信开源电商多模态家族：35B-A3B在28项电商基准拿74.4分</h4>
+                    <p class="column-item-summary">11 月 27 日腾讯微信视觉团队开源 WeMM-Ecom，一套兼顾电商理解与通用能力的多模态基础模型家族：0.8B、2B、4B、9B 四款稠密模型加一个 35B-A3B 混合专家模型（总参 350 亿、每次推理激活 30 亿）。全系原生支持「快速直答」与「深度思考」双模式，一套权重同时撑两种模式；开放 BF16、FP8、GPTQ、GGUF 四种格式共 20 份权重，主流推理框架可直接跑，小尺寸在普通本地电脑上也能试。架构沿用上游 Qwen3.5 标准结构、推理代码不用改，代码 Apache-2.0。团队自建 28 项电商基准覆盖 8 大场景，其中 23 项内部构造、5 项来自开源，WeMM-Ecom-35B-A3B 平均 74.35 分，领先 Qwen3.8-Flash-Next 的 73.15、HY4 的 72.13、Qwen3.5-397B-A17B 的 72.01。通用侧 64 项公开基准分 8 组，全系在思考和直答两种模式下都优于同尺寸 Qwen3.5：35B-A3B 思考模式 76.37，9B 为 74.18/69.69，4B 为 70.49/66.59，2B 为 63.50/60.44，0.8B 为 52.31/48.04，2B 在轻量级同档排第一。训练用微信自研 WeChat-YATT 框架，两阶段继续预训练约 4470 亿 token（第一步电商与通用数据约 45.8% 对 54.2%，第二步电商占比提到 61.1%、单次可读长度从 16K 翻到 32K），用自研 WeMM-Embedding 对图片聚类去重、用 OCR 补全图里小字，还专门造了「图里找不到目标」的题教模型没看见就直说。后训练用在线策略蒸馏：小模型先自己答，再由更大的模型顺着它每一步思路逐词纠偏，教师分层——9B 带 0.8B/2B/4B，另一个 122B-A10B 教师带 9B 和 35B-A3B，精选约 50 万道题；学完每个尺寸还要跟同尺寸通用基座做一次参数融合，再用 GRPO 挑约 3.1 万道难题强化学习，裁判直接用业务标准。落点是四个环节：商家传图自动填商品档案（品牌、材质、净含量、类目，并标出信息出自哪张图）、跨店找同款并分辨细碎规格（500g 单袋与 250g×2 组合装不是同一个 SKU）、上架前合规初筛（违禁品、缺资质、图文不符、短标题规范）、直播画面实时框选主播正在展示的商品。目前已在微信电商数百个业务流程中大规模落地，日均调用量十亿量级。</p>
+                    <p class="column-item-source">来源：OSCHINA · 腾讯微信视觉团队 · 2026-11-27 <a href="https://www.oschina.net/news/503871" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/oAzL1sMXXPI/" alt="小米汽车世界模型2.0" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">小米汽车世界模型2.0：1260万段视频，闭环仿真碰撞率降到0.4%</h4>
+                    <p class="column-item-summary">11 月 27 日小米汽车发布 Xiaomi Auto World Model 2.0，把多视角视频生成、物理交互建模、三维场景重建与动作建模连接起来，官方称这是为辅助驾驶和具身智能统一因果世界模型的新范式。模型支持 1—7 路摄像头视角，训练语料规模 1260 万段视频片段。在 PAI-Bench-G 评测中，驾驶视频生成质量评分 78.0、机器人视频生成质量 77.1，均为项目主页所列对比方法中的最高分。感知理解任务上，相比前 SOTA 方法 VGGT-World，世界模型 2.0 在不同数据序列上均取得最优结果，说明它不只对特定序列表现好、泛化能力也强。闭环训练里，用世界模型 2.0 作为策略模型的世界模型仿真器，通过对策略模型预测的动作序列做实际推演与奖励反馈：1000 个闭环仿真场景中，E2E-WM-RL 方案碰撞率 0.4%，对比 ST-JEPA-E2E 的 1.2%；场景完成率 96.3%，高于对比方案的 95.2%。在 NAVSIM v1.1 navtest 实验中，引入因果世界模型条件后驾驶策略 PDMS 由 Base 的 94.9 提升至 95.3。LIBERO Plus 机器人策略评测中加权平均成功率 75.0%，其中机器人相关任务 74.7%、语言相关任务 95.3%、光照相关任务 97.5%。WorldRec 2.0 在公开 Waymo 数据集上全面领先此前 SOTA 的 WorldRec 1.0 与 DGGT，PSNR 达到 25.81。技术路径是大规模多源数据学习视觉与物理动态先验、多视角与时间建模理解场景演化、WorldRec 2.0 建立持久三维场景上下文、流式生成和蒸馏提升长时序推理效率。落地层面，已交付超过 20 万 clips 高质量合成数据直接用于感知模型/感知基模训练，提升车辆在危险场景下的识别能力；同时构建闭环仿真环境，可在仿真中复现真实事故并进行定向优化。</p>
+                    <p class="column-item-source">来源：小米汽车 · IT之家 · 2026-11-27 <a href="https://finance.sina.com.cn/tech/digi/2026-11-27/doc-inkaencz1060758.shtml" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/zu7iLv7PqPM/" alt="蚂蚁灵波LingBot-Map 2.0与LingBot-Navi" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">机器人边走边建图：5.2公里路线误差从31米降到4.7米</h4>
+                    <p class="column-item-summary">11 月 27 日，蚂蚁灵波科技发布流式三维重建模型 LingBot-Map 2.0，并开源带空间记忆的导航模型 LingBot-Navi。LingBot-Map 2.0 负责从单目 RGB 连续画面中实时重建三维空间，并在模型内部随时修正积累的漂移误差。它要解决的是行业里一个具体痛点：长距离流式建图容易累积误差，一旦空间记忆错位，后续规划就跟着出错；过去通常靠外接优化后端纠偏，但外接后端只能校正输出轨迹、不会修正模型内部的空间记忆，机器人继续走时依旧基于已产生偏差的记忆做判断。2.0 版的校正由模型推理原生完成，无需外接地点检索模块或位姿图优化后端，改写的是内部记忆而不只是输出轨迹，每次校正既对齐已走过的路线、也让后续规划建立在更准确的记忆上。数据：在 7 个公开数据集、9 项评测设定中，在线模式几乎在所有指标上优于现有流式方法，单张 RTX 5090 推理速度达 27.51 帧/秒；在最长 5.2 公里、近 1.9 万帧的 VBR 城市长轨迹测试中，平均轨迹误差从 1.0 版的 31.12 米降至 4.72 米，降幅近 85%，比表现最佳的外部回环方案（9.98 米）还少一半以上；Oxford Spires 和 KITTI 上误差分别降至 3.92 米和 9.42 米，CroCoDL、EuRoC、Oxford 三大稠密三维重建基准均列第一。基于它的 LingBot-Navi 会保留此前记录的物体和位置，接到自然语言任务时能调用已有空间信息查找目标、规划路线并导航至目标附近的停靠点，不必每次从零探索。团队同步公开技术报告、代码、Map 2.0 的纯流式版本权重、导航模型权重，以及涵盖 511 个实拍场景的数据集。</p>
+                    <p class="column-item-source">来源：蚂蚁灵波 · 机器之心 · 2026-11-27 <a href="https://www.jiqizhixin.com/articles/2026-11-27-9" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="column">
+        <h3 class="column-title">💊 医疗健康与政策</h3>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/L8I6dAW1w-0/" alt="国内首个纳武利尤单抗生物类似药申报上市" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">国内首个纳武利尤单抗生物类似药申报上市，PD-1进入类似药时代</h4>
+                    <p class="column-item-summary">11 月 26 日盘后，港股博安生物公告其纳武利尤单抗生物类似药 BA1104 的上市申请已获国家药监局受理，拟用于治疗非小细胞肺癌、结直肠癌、胃癌等多种肿瘤，公司称这是国内首个递交上市申请的纳武利尤单抗生物类似药。纳武利尤单抗俗称 O 药，原研百时美施贵宝，2025 年全球销售额 100.49 亿美元、同比增长 8%；对标帕博利珠单抗（K 药，原研默沙东）年销售额超 300 亿美元。两者均 2014 年在美获批、2018 年在中国获批，2024 年再鼎医药拿下 O 药国内部分销售权。国内已获批的 PD-(L)1 单抗约 20 款，原研专利即将到期，生物类似药已开启全国集采——11 月 21 日安徽省医药价格和集中采购中心发布《全国药品联盟集中带量采购（单克隆抗体类）公告（第 1 号）》。竞品进度上，复宏汉霖、齐鲁制药的 K 药生物类似药均处于临床 III 期。监管门槛也在降：FDA 与 EMA 审批生物类似物时疗效比对研究的必要性已大幅下降，博安生物称 FDA 同意 BA1104 采用简化临床开发策略，仅需开展一项 PK 相似性试验（I 期）即可提交生物制品许可申请、无需 III 期临床试验；同样做生物类似药的百奥泰此前公告终止其 K 药生物类似药 BAT3306 的 I/III 期临床，原因即该研究对欧美上市审评已无必要。出海方面，Orion 将在欧洲商业化齐鲁制药的 K 药生物类似药，正大天晴则将在欧盟、瑞士、英国及独立国家联合体商业化其 K 药生物类似药的独家许可授予 STADA。博安生物目前 5 款商业化产品均为生物类似药（贝伐珠单抗、地舒单抗实体瘤骨转移与骨质疏松两项适应症、度拉糖肽、阿柏西普），2025 年营收 7.848 亿元（同比增 8.06%）、2026 年上半年 2.330 亿元（同比下降 40.77%，公司称因即将实施的集采政策预期），研发开支同比增长 57.09% 至 9200.80 万元，同期归母净利润由盈转亏、亏损 8301 万元；截至 2026 年上半年末现金及现金等价物 11.06 亿元。11 月 27 日收盘报 3.080 港元/股、涨 0.49%，市值 18.90 亿港元。</p>
+                    <p class="column-item-source">来源：界面新闻 · 博安生物公告 · 2026-11-27 <a href="http://m.toutiao.com/group/7712789991578976804/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/YJsTyf-wkZo/" alt="礼来LY900043在中国启动III期临床" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">礼来三重机制减重药启动中国III期：每周一针，用药100周</h4>
+                    <p class="column-item-summary">11 月 27 日，药物临床试验登记与信息公示平台显示，礼来一项在合并 2 型糖尿病的肥胖或超重成人中评价 LY900043 有效性和安全性的 III 期研究（AMPLIFY-2）已启动，登记号 CTR20264320，首次公示日期为 2026 年 11 月 27 日。申办方为 Eli Lilly and Company、礼来（北京）医学技术创新有限公司、Patheon Italia S.P.A，剂型为注射液、皮下给药、每周一次，用药时程 100 周；主要终点是体重较基线的百分比变化，次要终点包括腰围、糖化血红蛋白、收缩压、高敏 C 反应蛋白、全身脂肪量、BMI、空腹血糖较基线的变化，以及达到「体重降低 ≥15% 且 HbA1c 达标」的受试者比例；目标入组国内 120 人、国际 1000 人，目前状态为进行中（尚未招募）。LY900043 是礼来自主研发的每周一次皮下注射复方制剂，由长效高选择性胰淀素受体激动剂 Eloralintide 与已获批的 GIP/GLP-1 双受体激动剂替尔泊肽组成，同时激活 GIP、GLP-1 和胰淀素三条互补通路，有望实现比替尔泊肽单药更强的减重和降糖效果；此前 2b 期研究显示，治疗 48 周后所有剂量组均显著降低体重和糖化血红蛋白，其中 Eloralintide 单药组最高减重达 12.3%。适应症人群定义为 BMI≥27 且同时确诊 2 型糖尿病，常伴随糖脂代谢紊乱、心血管疾病风险升高，临床需同步管理体重与血糖。</p>
+                    <p class="column-item-source">来源：药物临床试验登记与信息公示平台 · Insight 数据库 · 2026-11-27 <a href="https://m.toutiao.com/group/7712713655762125327/" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/otKt_831ViM/" alt="北京昌平脑机接口产业集聚区行动方案" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">北京昌平要建脑机接口产业集聚区：从上游芯片电极到下游应用全布局</h4>
+                    <p class="column-item-summary">11 月 26 日，北京市昌平区经济和信息化局就《北京市昌平区未来产业培育行动方案（2026-2028 年）（征求意见稿）》公开征集意见，征集期至 12 月 25 日，脑机接口是其中单列的一块。方案提出：高质量开展科研攻关和临床试验，支持北京高博研究型医院开展脑机接口极早期探索性临床研究；大力推出一批标志性产品，开展基于脑机接口的多种适应症的精准医疗产品研发，推进相关管线临床试验和注册申报；培育孵化一批脑机接口领域龙头企业和「专精特新」中小企业，服务央企脑机接口相关业务在昌落地。空间布局上明确加快建设脑机接口产业集聚区，做好产业链上下游布局规划——在集聚区做好上游芯片、电极等核心零部件，中游脑机接口整机开发，下游应用场景等功能布局。</p>
+                    <p class="column-item-source">来源：北京市昌平区 · 36氪 · 2026-11-27 <a href="https://36kr.com/newsflashes/4087630168652420" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+
+        <article class="column-item">
+            <div class="column-item-inner">
+                <img src="https://s.coze.cn/image/jZBfbADMmsA/" alt="丽珠枸橼酸泽普拉生片获批上市" class="column-item-image">
+                <div class="column-item-content">
+                    <h4 class="column-item-title">丽珠P-CAB新药获批：8周食管黏膜愈合率95.5%，同类市场增速64.6%</h4>
+                    <p class="column-item-summary">11 月 27 日丽珠医药公告收到国家药监局《药品注册证书》（证书编号 2026S04249），枸橼酸泽普拉生片获批，规格 20mg，按化学药品 3 类路径申报，适应症为反流性食管炎，药品批准文号国药准字 H20266672，有效期至 2031 年 11 月 24 日。该药是新型钾离子竞争性酸阻滞剂（P-CAB），具有无需酸活化、首剂即可发挥充分抑酸作用、夜间抑酸效果较好、受 CYP2C19 基因多态性影响较小等特点。I 期临床显示，给药后 0.5—1.5 小时快速达峰，胃内 pH 首次达到并稳定维持在 4 以上仅需约 1 小时，消除半衰期 9—12 小时。III 期临床显示，20mg 每日一次连续治疗 8 周，患者食管黏膜愈合率达 95.5%，治疗 4 周愈合率为 85.3%。权益方面，丽珠医药通过项目合作协议获得该药在大中华地区（含港澳台）所有适应症及剂型的开发和商业化权益，海外权益归韩国 Onconic Therapeutics 所有；截至公告披露日，累计直接投入研发费用约 2.54 亿元。市场端，据 IQVIA 抽样统计估测，2025 年度国内 P-CAB 类药物终端销售金额约 20.55 亿元、同比增长 64.63%；2026 年前三季度约 21.22 亿元、同比增长 46.00%。公司表示该药将进一步丰富消化道领域产品管线。</p>
+                    <p class="column-item-source">来源：丽珠医药公告 · 2026-11-27 <a href="https://static.cninfo.com.cn/finalpage/2026-11-28/1225691794.PDF" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></p>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+
+<!-- 快讯区域 -->
+<section class="breaking-news">
+    <h3 class="breaking-news-title">商业雷达 · 快讯</h3>
+    <div class="breaking-news-list">
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">1</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">国家医保局发布第二十三批智能监管「两库」规则和知识点，公开「诊断与患者性别不符」规则有关「妊娠、分娩和产褥期」章「流产结局的妊娠」等 3 节知识点明细，要求各省级医保部门及时对省级医保信息平台智能监管子系统「两库」动态更新，定点医药机构可对接事前提醒模块自查自纠</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">2</span>
+            <span class="breaking-news-cat">医保</span>
+            <span class="breaking-news-text">湖北健全 DRG/DIP 医保智能监管体系：截至 8 月底全省定点医药机构事前提醒接入率达 99%，通过事前拦截避免基金损失 2.84 亿元；新增 8 大类智能监管规则，智能审核拒付违规费用 1.4 亿元；构建虚假住院、超量开药等 36 类大数据监管模型，累计下发疑点线索 28760 条</span>
+            <span class="breaking-news-time">11-26</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">3</span>
+            <span class="breaking-news-cat">监管</span>
+            <span class="breaking-news-text">山东省食药检院放射性药品检验实验室在烟台投用，核药检验周期由过去的 4 个月压缩至 30 天以内；烟台目前有 12 款 1 类核药处于临床或上市申报阶段</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">4</span>
+            <span class="breaking-news-cat">行业</span>
+            <span class="breaking-news-text">翰森制药与拜耳就自研 EGFR/c-MET 双特异性抗体 ADC HS-20122 达成独家许可，获 1.5 亿美元首付款、最高 31 亿美元里程碑付款，交易总额最高 32.5 亿美元</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">5</span>
+            <span class="breaking-news-cat">行业</span>
+            <span class="breaking-news-text">华海药业西格列汀片的新药简略申请获美国 FDA 正式批准，该药主要用于治疗 2 型糖尿病，进一步丰富其美国市场糖尿病产品线</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">6</span>
+            <span class="breaking-news-cat">地方</span>
+            <span class="breaking-news-text">重庆明确 2027 年灵活就业人员职工医保新规（渝医保发〔2026〕34 号，2027 年 1 月 1 日起实施）：可自选按年或按月缴费，档次变更每年 12 月办理一次；断缴次月停止享受待遇，断缴 3 个月内补齐可追溯，超期补缴或断缴超 3 个月将设 6 个月等待期</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">7</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">月之暗面开放首期 Kimi 科研支持计划申请，面向自然科学、工程学及相关交叉学科科研人员，入选者可获 Kimi API 额度、团队技术协助及优先体验新模型等支持</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+        <div class="breaking-news-item">
+            <span class="breaking-news-num">8</span>
+            <span class="breaking-news-cat">AI</span>
+            <span class="breaking-news-text">智元宣布精灵 G2 机器人在龙旗科技产线正式承担喇叭 BOX 安装任务并实现并线生产</span>
+            <span class="breaking-news-time">11-27</span>
+        </div>
+    </div>
+</section>
+
+<!-- 洞察 -->
+<section class="insights">
+    <h3 class="insights-title">关联洞察</h3>
+    <div class="insights-content">
+        <p><strong>趋势一：中药注射剂的账，要按临床价值重算一遍</strong></p>
+        <div class="insights-highlight">
+            这份公告真正的分量不在措辞严厉，而在它把中药注射剂的存续条件从「历史上批过」改成了「现在能证明」。过去这类产品的监管逻辑偏事后——出了安全性事件再处理；这次是让持有人自己先做获益/风险评价，评价不过关的主动注销，评价结论要在国家药监局网站专栏里公开标注。<strong>存量出清机制第一次被写完整</strong>：不予再注册、注销注册证书、长期未生产品种须先完成评价且结论为获益大于风险才能上市销售，三条路径把退出的口子都堵严了。更值得留意的是部门联动那一句——名单通报卫健委、医保局、中医药局，相关部门在<strong>药品挂网、采购、临床使用</strong>环节协同处置。这意味着评价结论不只影响注册证，还直接影响能不能挂网、能不能进医院、能不能报销，等于把监管结论直接接到市场准入上。对企业的现实问题因此变得很具体：做研究还是主动注销，取决于品种在基药目录、医保目录里的位置和销售规模——年销售额几千万的小品种，做完一套上市后研究和评价的投入可能超过剩余生命周期收益，主动退出反而是理性选择。真正会被认真做研究的，是那些还在目录内、有稳定处方的品种。这一轮之后，中药注射剂的品种数量大概率会明显收缩，但留下来的每一个都得拿出数据。
+        </div>
+
+        <p><strong>趋势二：垂域模型不必牺牲通用能力，这个结论比分数更重要</strong></p>
+        <div class="insights-highlight">
+            行业里有一条被反复验证的常识：拿垂域数据把模型微调深了，通用能力通常要掉。WeMM-Ecom 这次给出的反例值得单独拎出来——全系在 64 项公开通用基准上、思考和直答两种模式下都优于同尺寸的 Qwen3.5，2B 还在轻量级同档排第一。微信团队自己的解释是，读小字、对规格、找位置这类细活本身就在练底层的看图能力，做深电商反而让通用变强。这个说法有道理，但也要看清两点：28 项电商基准是团队自建、其中 23 项内部构造，属于自己出题自己考，参考价值要打折；通用侧用的是公开基准，这部分更可信。<strong>真正有产业意义的是尺寸策略</strong>：0.8B 和 2B 能在普通本地电脑上跑，意味着大量电商、零售、内容审核场景不必再为每一张图调用大模型 API。过去垂域模型的困境是「小尺寸不够准、大尺寸成本高」，这套从 0.8B 铺到 35B-A3B 的家族，加上四种量化格式，把选择权交回给了部署方。日均十亿级调用量说明它不是实验室产物——一个模型家族能在真实业务里跑到这个量级，比榜单上多几分更能说明问题。
+        </div>
+
+        <p><strong>趋势三：PD-1的第二次生命，可能在生物类似药里</strong></p>
+        <div class="insights-highlight">
+            PD-1 曾是中国创新药最拥挤的赛道，业内一度戏称「无 PD-1 不投」，如今国内已获批的 PD-(L)1 单抗约 20 款。拥挤的另一面是，原研专利到期后这块市场会迅速切换成类似药逻辑：O 药 2025 年全球销售额 100.49 亿美元，K 药超 300 亿美元，两个大单品的类似药空间足够养活一批企业。11 月 21 日安徽发布单克隆抗体类全国联盟集采第 1 号公告，等于提前把价格战的门推开了。<strong>更关键的变化在监管侧</strong>：FDA 与 EMA 审批生物类似物时，疗效比对研究的必要性已大幅下降，博安生物称 FDA 同意 BA1104 仅需一项 PK 相似性试验即可提交 BLA、无需 III 期；百奥泰干脆终止了 K 药类似药的 I/III 期临床，理由是对欧美审评已无必要。开发成本和周期被大幅压缩，竞争焦点会迅速从「谁能做出来」转向产能、渠道和价格。对国内企业而言，真正的机会可能不在国内——Orion 将在欧洲商业化齐鲁的 K 药类似药，正大天晴把欧盟、瑞士、英国及独联体的独家许可给了 STADA，出海授权正在成为类似药的另一条变现路径。这条路和当年贝伐珠单抗、曲妥珠单抗类似药走过的路很像，只是这一次，门槛更低、玩家更多、窗口更短。
+        </div>
+
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>吐司日报 · DAILY BRIEFING · 第222期 · 2026年11月28日</p>
+    <p>官网：<a href="https://xiaoxiaoqi-site.vercel.app/daily/2026-11-28.html">xiaoxiaoqi-site.vercel.app</a> · 信息仅供参考，不构成投资建议</p>
+</footer>
+
+</body>
+</html>
